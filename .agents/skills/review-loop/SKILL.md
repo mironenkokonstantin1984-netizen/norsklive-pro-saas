@@ -8,6 +8,9 @@ description: What to do after your PR is marked "Ready for review" or after you 
 The reviewer (Claude Code) answers on the PR, not in the IDE chat. Do not wait for the owner to
 relay anything — poll the PR yourself.
 
+While the PR is still a draft, read the PR comments after every push as well. The reviewer may
+post a CI hint (starting with `@antigravity`) before you mark it Ready; fix it before the next task.
+
 ## Loop
 Repeat until one of the exit conditions below:
 

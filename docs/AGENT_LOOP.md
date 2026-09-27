@@ -49,10 +49,16 @@ Claude Code (события PR приходят автоматически): п�
 3. По желанию: **Context7** и **Playwright MCP**. Всего не больше ~50 инструментов MCP.
 
 ## Команда запуска (одна на задачу)
+Короткая (workflow `.agents/workflows/implement-issue.md`):
+```
+/implement-issue <N>
+```
+Если Antigravity не показывает `/implement-issue` в списке команд, используйте длинную:
 ```
 /goal Implement issue #<N> in mironenkokonstantin1984-netizen/norsklive-pro-saas exactly as written, following AGENTS.md (Autonomy section): never ask me for confirmation. Draft PR after the first commit; questions only as "❓ Question for reviewer:" comments on the PR. When done and CI is green, mark Ready for review and follow the review-loop skill until the reviewer posts ✅ accepted.
 ```
-Перед этим: `git checkout master && git pull`.
+Перед этим: `git checkout master && git pull`. **Каждую задачу — в новом разговоре Antigravity**: старый контекст
+тратит лимит и сбивает модель.
 
 ## Правила и инструменты агента
 - `AGENTS.md` — всегда активные правила, включая раздел *Autonomy*.

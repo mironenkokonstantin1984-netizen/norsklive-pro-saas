@@ -5,8 +5,29 @@ These rules are always active. They apply to every agent (Antigravity, Claude Co
 ## Product
 NorskLive Pro — AI trainer for the Norwegian oral exam "Norskprøve muntlig" (HK-dir), levels A2/B1,
 explanations in the learner's L1 (ru/uk/en). Business context: `docs/GO_TO_MARKET_PLAN.md`.
-Full technical roadmap: `docs/AGENT_TASK_SPEC.md`. How the task loop works: `docs/AGENT_LOOP.md`.
-UI work follows `docs/DESIGN_SYSTEM.md` via the `design-system` skill.
+
+## Where to look (load only what the task needs)
+| When you… | Open |
+|---|---|
+| start any task | the issue, then this file |
+| change UI, CSS or anything under `src/app`, `src/components` | `design-system` skill → `docs/DESIGN_SYSTEM.md` |
+| touch Supabase, migrations, auth or RLS | `docs/SUPABASE_LOCAL.md` |
+| need the bigger picture or later milestones | `docs/AGENT_TASK_SPEC.md` |
+| finish a change, before any push | `verify-before-pr` skill |
+| write or update the PR description | `pr-report` skill |
+| see a comment starting with `@antigravity` | `address-review` skill |
+| have marked the PR Ready for review | `review-loop` skill |
+
+## Definition of done
+A task is done only when **all** of these are true, in this order:
+1. Every numbered task and every acceptance criterion in the issue is met.
+2. `verify.sh` prints `RESULT: PASS` locally on the final commit.
+3. The push landed (`git ls-remote` SHA = `git rev-parse HEAD`), and CI is green on **that** commit.
+4. The PR description follows the `pr-report` skill, including "Decisions made".
+5. Every reviewer comment on the PR (including hints posted while it was a draft) is addressed.
+
+Only then mark the PR Ready for review. A red CI, an unanswered comment or a missing report
+means not done: keep working, do not stop or wait.
 
 ## How you receive work
 - Each task is a GitHub issue labelled `agent-task`, or a PR comment starting with `@antigravity`.
@@ -25,11 +46,7 @@ UI work follows `docs/DESIGN_SYSTEM.md` via the `design-system` skill.
    SHA as `git rev-parse HEAD`. Only then reply on the PR, and cite that SHA — never a local-only commit.
 
 ## Hard rules
-- No secrets in code, tests, fixtures, logs or commits. Keys only via server env vars; every new
-  variable goes into `.env.example` with a comment.
-- Never call paid AI/LLM APIs from browser code. All provider calls go through our server.
-- Validate every request body on the server (zod). Treat user text as data: never interpolate it
-  into prompts or shell commands.
+- Security, scope and testing baselines live in `.agents/rules/` (always on); they are not repeated here.
 - Do not scrape websites whose terms forbid it (finn.no included).
 - Do not invent library APIs. When unsure about a library's API, check its current docs
   (Context7 MCP if available, otherwise the package README in `node_modules`).
@@ -51,13 +68,10 @@ The owner does not approve individual steps. The issue itself is the permission 
   install global packages.
 
 ## Review comments
-Comments starting with `@antigravity` are change requests from the reviewer (Claude Code).
-Follow `.agents/skills/address-review/SKILL.md`: address every point, one by one, and report
-what you changed for each.
-After you mark the PR "Ready for review", do not stop: follow
-`.agents/skills/review-loop/SKILL.md` until the reviewer posts `✅ … accepted`.
+Comments starting with `@antigravity` are change requests from the reviewer (Claude Code). After
+"Ready for review" do not stop until the reviewer posts `✅ … accepted` (see the table above).
 
 ## Commands
-- Install: `npm ci`
-- Run locally: `npm start` → http://localhost:3000
-- Lint / test (when present): `npm run lint`, `npm test`
+- Install: `npm ci` · Local Supabase: `npm run db:start`
+- Dev server: `npm run dev` → http://localhost:3000 (`npm start` needs `npm run build` first)
+- Checks: `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`; all at once: `verify.sh`

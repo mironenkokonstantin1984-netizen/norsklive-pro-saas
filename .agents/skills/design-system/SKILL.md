@@ -1,6 +1,6 @@
 ---
 name: design-system
-description: Apply the NorskLive design system when building or changing any UI (pages, components, styles, copy). Use for every M1c redesign task and whenever you touch files under src/app or src/components.
+description: When you change files under src/app, src/components or any .css file, apply the NorskLive design system (tokens, type, components, states). Also for every M1c redesign task and for UI copy.
 ---
 
 # Design system

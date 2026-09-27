@@ -47,6 +47,7 @@ export interface ModelTranscriptionResult {
   latencyMs: number;
   inputTokens?: number;
   outputTokens?: number;
+  error?: string;
 }
 
 export interface TranscribeHandlerDeps {
@@ -125,71 +126,90 @@ export function createTranscribeHandler(deps: TranscribeHandlerDeps = {}) {
         model
       )}:generateContent`;
 
-      const response = await fetchFn(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': apiKey
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              role: 'user',
-              parts: [
-                { text: VERBATIM_TRANSCRIBE_PROMPT },
-                {
-                  inline_data: {
-                    mime_type: baseMimeType,
-                    data: base64Audio
+      try {
+        const response = await fetchFn(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': apiKey
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: 'user',
+                parts: [
+                  { text: VERBATIM_TRANSCRIBE_PROMPT },
+                  {
+                    inline_data: {
+                      mime_type: baseMimeType,
+                      data: base64Audio
+                    }
                   }
-                }
-              ]
-            }
-          ]
-        })
-      });
+                ]
+              }
+            ]
+          }),
+          signal: AbortSignal.timeout(60000)
+        });
 
-      const latencyMs = Math.max(1, Date.now() - startTime);
+        const latencyMs = Math.max(1, Date.now() - startTime);
 
-      if (!response.ok) {
-        return Response.json(
-          { error: `Upstream Gemini error (${response.status}) for model ${model}` },
-          { status: 502 }
-        );
-      }
+        if (!response.ok) {
+          results.push({
+            model,
+            transcript: '',
+            latencyMs,
+            error: `HTTP ${response.status}`
+          });
+          continue;
+        }
 
-      const data = (await response.json()) as {
-        candidates?: Array<{
-          content?: {
-            parts?: Array<{ text?: string }>;
+        const data = (await response.json()) as {
+          candidates?: Array<{
+            content?: {
+              parts?: Array<{ text?: string }>;
+            };
+          }>;
+          usageMetadata?: {
+            promptTokenCount?: number;
+            candidatesTokenCount?: number;
           };
-        }>;
-        usageMetadata?: {
-          promptTokenCount?: number;
-          candidatesTokenCount?: number;
         };
-      };
 
-      const transcript = (
-        data?.candidates?.[0]?.content?.parts
-          ?.map((part) => part.text ?? '')
-          .join('') ?? ''
-      ).trim();
+        const transcript = (
+          data?.candidates?.[0]?.content?.parts
+            ?.map((part) => part.text ?? '')
+            .join('') ?? ''
+        ).trim();
 
-      const item: ModelTranscriptionResult = {
-        model,
-        transcript,
-        latencyMs
-      };
+        const item: ModelTranscriptionResult = {
+          model,
+          transcript,
+          latencyMs
+        };
 
-      if (typeof data?.usageMetadata?.promptTokenCount === 'number') {
-        item.inputTokens = data.usageMetadata.promptTokenCount;
+        if (typeof data?.usageMetadata?.promptTokenCount === 'number') {
+          item.inputTokens = data.usageMetadata.promptTokenCount;
+        }
+        if (typeof data?.usageMetadata?.candidatesTokenCount === 'number') {
+          item.outputTokens = data.usageMetadata.candidatesTokenCount;
+        }
+
+        results.push(item);
+      } catch (err) {
+        const latencyMs = Math.max(1, Date.now() - startTime);
+        const isTimeout =
+          err instanceof Error &&
+          (err.name === 'TimeoutError' ||
+            err.name === 'AbortError' ||
+            /timeout|aborted/i.test(err.message));
+        results.push({
+          model,
+          transcript: '',
+          latencyMs,
+          error: isTimeout ? 'timeout' : 'request_failed'
+        });
       }
-      if (typeof data?.usageMetadata?.candidatesTokenCount === 'number') {
-        item.outputTokens = data.usageMetadata.candidatesTokenCount;
-      }
-
-      results.push(item);
     }
 
     return Response.json(results, { status: 200 });

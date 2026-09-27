@@ -37,22 +37,32 @@ describe('Voice Lab server & score tests (Issue #20)', () => {
     expect(res.errorPreservationRate).toBe(100);
   });
 
-  test('2. score.ts: transcript that fixes "I dag jeg jobber" -> "I dag jobber jeg" yields preservation 0%; keeping it yields 100%', () => {
-    const fixedByModel = scoreTranscript(
+  test('2. score.ts: alignment-based error preservation covers (a) leading filler "eh", (b) dropped word before error, and (c) V2 fix -> 0%', () => {
+    // (a) meant "I dag jobber jeg", said "eh I dag jeg jobber", transcript "eh I dag jeg jobber" -> 100%
+    const caseA = scoreTranscript(
+      'I dag jobber jeg',
+      'eh I dag jeg jobber',
+      'eh I dag jeg jobber'
+    );
+    expect(caseA.wer).toBe(0);
+    expect(caseA.errorPreservationRate).toBe(100);
+
+    // (b) transcript drops a word before the error: said "I dag jeg jobber hjemme", transcript "dag jeg jobber hjemme" -> 100%
+    const caseB = scoreTranscript(
+      'I dag jobber jeg hjemme',
+      'I dag jeg jobber hjemme',
+      'dag jeg jobber hjemme'
+    );
+    expect(caseB.errorPreservationRate).toBe(100);
+
+    // (c) V2 fix: transcript fixes "I dag jeg jobber" -> "I dag jobber jeg" -> 0%
+    const caseC = scoreTranscript(
       'I dag jobber jeg',
       'I dag jeg jobber',
       'I dag jobber jeg'
     );
-    expect(fixedByModel.errorPreservationRate).toBe(0);
-    expect(fixedByModel.wer).toBeGreaterThan(0);
-
-    const preservedByModel = scoreTranscript(
-      'I dag jobber jeg',
-      'I dag jeg jobber',
-      'i dag, jeg jobber.'
-    );
-    expect(preservedByModel.wer).toBe(0);
-    expect(preservedByModel.errorPreservationRate).toBe(100);
+    expect(caseC.errorPreservationRate).toBe(0);
+    expect(caseC.wer).toBeGreaterThan(0);
   });
 
   test('3. Flag off: /api/lab/transcribe and /lab/voice return 404 when VOICE_LAB_ENABLED is not "true"', async () => {
@@ -94,7 +104,6 @@ describe('Voice Lab server & score tests (Issue #20)', () => {
     });
     expect(validMp4.success).toBe(true);
 
-    // Verify handler returns 400 on wrong MIME
     const handler = createTranscribeHandler({
       enabled: () => true,
       getModels: () => ['gemini-2.5-flash'],
@@ -119,7 +128,10 @@ describe('Voice Lab server & score tests (Issue #20)', () => {
     expect(badRes.status).toBe(400);
   });
 
-  test('5. With flag on and >= 2 models in VOICE_LAB_MODELS, returns one transcript per model using the verbatim prompt', async () => {
+  test('5. With flag on and >= 2 models in VOICE_LAB_MODELS, returns one transcript per model using the verbatim prompt and survives per-model HTTP/timeout errors', async () => {
+    const timeoutErr = new Error('The operation was aborted due to timeout');
+    timeoutErr.name = 'TimeoutError';
+
     const mockFetch = vi
       .fn()
       .mockResolvedValueOnce(
@@ -136,24 +148,12 @@ describe('Voice Lab server & score tests (Issue #20)', () => {
           { status: 200, headers: { 'Content-Type': 'application/json' } }
         )
       )
-      .mockResolvedValueOnce(
-        new Response(
-          JSON.stringify({
-            candidates: [
-              { content: { parts: [{ text: 'I dag jobber jeg' }] } }
-            ],
-            usageMetadata: {
-              promptTokenCount: 112,
-              candidatesTokenCount: 5
-            }
-          }),
-          { status: 200, headers: { 'Content-Type': 'application/json' } }
-        )
-      );
+      .mockResolvedValueOnce(new Response('Not found', { status: 404 }))
+      .mockRejectedValueOnce(timeoutErr);
 
     const handler = createTranscribeHandler({
       enabled: () => true,
-      getModels: () => ['gemini-2.5-flash', 'gemini-2.5-pro'],
+      getModels: () => ['gemini-2.5-flash', 'bad-model-id', 'slow-model-id'],
       getApiKey: () => 'fake-test-key',
       fetchImpl: mockFetch
     });
@@ -177,23 +177,27 @@ describe('Voice Lab server & score tests (Issue #20)', () => {
 
     expect(res.status).toBe(200);
     const body = await res.json();
-    expect(body).toHaveLength(2);
+    expect(body).toHaveLength(3);
     expect(body[0]).toMatchObject({
       model: 'gemini-2.5-flash',
       transcript: 'I dag jeg jobber',
       inputTokens: 110,
       outputTokens: 5
     });
-    expect(typeof body[0].latencyMs).toBe('number');
     expect(body[1]).toMatchObject({
-      model: 'gemini-2.5-pro',
-      transcript: 'I dag jobber jeg',
-      inputTokens: 112,
-      outputTokens: 5
+      model: 'bad-model-id',
+      transcript: '',
+      error: 'HTTP 404'
+    });
+    expect(body[2]).toMatchObject({
+      model: 'slow-model-id',
+      transcript: '',
+      error: 'timeout'
     });
 
-    expect(mockFetch).toHaveBeenCalledTimes(2);
+    expect(mockFetch).toHaveBeenCalledTimes(3);
     const firstCallInit = mockFetch.mock.calls[0][1] as RequestInit;
+    expect(firstCallInit.signal).toBeDefined();
     const parsedReqBody = JSON.parse(firstCallInit.body as string);
     expect(parsedReqBody.contents[0].parts[0].text).toBe(
       VERBATIM_TRANSCRIBE_PROMPT

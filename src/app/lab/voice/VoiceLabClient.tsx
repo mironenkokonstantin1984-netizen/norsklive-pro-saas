@@ -240,6 +240,14 @@ export default function VoiceLabClient({
         meantToSay: clip.meantToSay,
         actuallySaid: clip.actuallySaid,
         results: clip.results.map((r) => {
+          if (r.error) {
+            return {
+              model: r.model,
+              transcript: r.transcript,
+              latencyMs: r.latencyMs,
+              error: r.error
+            };
+          }
           const score = scoreTranscript(
             clip.meantToSay,
             clip.actuallySaid,
@@ -408,6 +416,21 @@ export default function VoiceLabClient({
                     </thead>
                     <tbody>
                       {clip.results.map((row) => {
+                        if (row.error) {
+                          return (
+                            <tr key={row.model}>
+                              <td className={styles.monoCell}>{row.model}</td>
+                              <td className={styles.rowError}>
+                                Error: {row.error}
+                              </td>
+                              <td className={styles.monoCell}>—</td>
+                              <td className={styles.monoCell}>—</td>
+                              <td className={styles.monoCell}>
+                                {row.latencyMs} ms
+                              </td>
+                            </tr>
+                          );
+                        }
                         const score = scoreTranscript(
                           clip.meantToSay,
                           clip.actuallySaid,

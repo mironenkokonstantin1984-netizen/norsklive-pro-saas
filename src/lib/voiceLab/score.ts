@@ -20,9 +20,9 @@ export function normalizeWords(text: string): string[] {
 }
 
 /**
- * Computes Levenshtein edit distance between two word arrays.
+ * Builds the word-level Levenshtein DP table between `ref` (length m) and `hyp` (length n).
  */
-export function wordEditDistance(ref: string[], hyp: string[]): number {
+export function buildWordEditDp(ref: string[], hyp: string[]): number[][] {
   const m = ref.length;
   const n = hyp.length;
   const dp: number[][] = Array.from({ length: m + 1 }, () =>
@@ -43,19 +43,70 @@ export function wordEditDistance(ref: string[], hyp: string[]): number {
     }
   }
 
-  return dp[m][n];
+  return dp;
+}
+
+/**
+ * Computes Levenshtein edit distance between two word arrays.
+ */
+export function wordEditDistance(ref: string[], hyp: string[]): number {
+  const dp = buildWordEditDp(ref, hyp);
+  return dp[ref.length][hyp.length];
+}
+
+/**
+ * Backtraces the Levenshtein DP table to determine which indices in `ref`
+ * are aligned to an equal word in `hyp`.
+ * Returns a boolean array of length `ref.length` where `true` means `ref[i]`
+ * is matched to an identical word in `hyp`.
+ */
+export function backtraceMatchedRefIndices(
+  ref: string[],
+  hyp: string[],
+  dp: number[][] = buildWordEditDp(ref, hyp)
+): boolean[] {
+  const matched = new Array<boolean>(ref.length).fill(false);
+  let i = ref.length;
+  let j = hyp.length;
+
+  while (i > 0 || j > 0) {
+    if (
+      i > 0 &&
+      j > 0 &&
+      ref[i - 1] === hyp[j - 1] &&
+      dp[i][j] === dp[i - 1][j - 1]
+    ) {
+      matched[i - 1] = true;
+      i--;
+      j--;
+    } else if (
+      i > 0 &&
+      j > 0 &&
+      ref[i - 1] !== hyp[j - 1] &&
+      dp[i][j] === dp[i - 1][j - 1] + 1
+    ) {
+      matched[i - 1] = false;
+      i--;
+      j--;
+    } else if (i > 0 && dp[i][j] === dp[i - 1][j] + 1) {
+      matched[i - 1] = false;
+      i--;
+    } else {
+      j--;
+    }
+  }
+
+  return matched;
 }
 
 /**
  * Calculates Word Error Rate (WER) of `transcript` vs `actuallySaid` (0 to 1, e.g. 0 = 0%)
- * and error-preservation rate (0 to 100%, e.g. 100 = 100% of spoken errors kept as spoken).
+ * and alignment-based error-preservation rate (0 to 100%).
  *
- * - `wer`: word edit distance(actuallySaid, transcript) / wordCount(actuallySaid)
- * - `errorPreservationRate` (0..100):
- *   Of the word positions where `actuallySaid` differs from `meantToSay`,
- *   the percentage (0..100) that `transcript` kept as spoken (`actuallySaid`).
- *   When `actuallySaid` and `meantToSay` have no differing words, returns 100 if `wer === 0`,
- *   otherwise `Math.max(0, Math.round((1 - wer) * 100))`.
+ * - Aligns `actuallySaid` <-> `meantToSay` via Levenshtein backtrace; error positions are
+ *   the `actuallySaid` word indices not matched to an equal word in `meantToSay`.
+ * - Aligns `actuallySaid` <-> `transcript` the same way; an error is preserved when its
+ *   `actuallySaid` word index is matched to an equal word in `transcript`.
  */
 export function scoreTranscript(
   meantToSay: string,
@@ -66,7 +117,8 @@ export function scoreTranscript(
   const actualWords = normalizeWords(actuallySaid);
   const transcriptWords = normalizeWords(transcript);
 
-  const dist = wordEditDistance(actualWords, transcriptWords);
+  const dpActualTranscript = buildWordEditDp(actualWords, transcriptWords);
+  const dist = dpActualTranscript[actualWords.length][transcriptWords.length];
   const wer =
     actualWords.length === 0
       ? transcriptWords.length === 0
@@ -75,17 +127,23 @@ export function scoreTranscript(
       : Number((dist / actualWords.length).toFixed(4));
   const werPercent = Math.round(wer * 100);
 
-  const maxLen = Math.max(actualWords.length, meantWords.length);
+  const matchedAgainstMeant = backtraceMatchedRefIndices(
+    actualWords,
+    meantWords
+  );
+  const matchedAgainstTranscript = backtraceMatchedRefIndices(
+    actualWords,
+    transcriptWords,
+    dpActualTranscript
+  );
+
   let errorWordsCount = 0;
   let preservedErrorsCount = 0;
 
-  for (let i = 0; i < maxLen; i++) {
-    const actualWord = actualWords[i];
-    const meantWord = meantWords[i];
-    if (actualWord !== meantWord) {
+  for (let i = 0; i < actualWords.length; i++) {
+    if (!matchedAgainstMeant[i]) {
       errorWordsCount++;
-      const transcriptWord = transcriptWords[i];
-      if (transcriptWord === actualWord) {
+      if (matchedAgainstTranscript[i]) {
         preservedErrorsCount++;
       }
     }

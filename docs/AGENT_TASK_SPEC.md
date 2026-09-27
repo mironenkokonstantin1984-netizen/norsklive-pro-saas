@@ -121,6 +121,37 @@ Before launch (not an agent task): create the cloud Supabase project in the EU, 
 migrations there, and switch Gemini to Vertex AI in an EU region (europe-north1 or
 europe-west4) with data-processing terms documented in docs/PRIVACY_TECH.md.
 
+Testing levels (owner-facing):
+  1. Prototype on Vercel (now): conversation and feedback, no accounts.
+  2. Full cycle locally after M1b-2b: signup → practice → reload → history → 402; Playwright e2e
+     in CI on every PR.
+  3. Cloud staging after M1c: EU Supabase project + EU Gemini + Vercel env (`AUTH_ENABLED=true`),
+     Sentry for errors, manual checklist `docs/TEST_CHECKLIST.md` (created in M1c).
+  4. Closed beta after M2 (server-side speech recognition, Safari/iPhone).
+
+────────────────────────────────────────────
+M1d — "Mine tekster": learn Norwegian from the learner's own texts (after M1c)
+────────────────────────────────────────────
+Extends the existing `pensum` custom-text loader (`ScenarioPanel.tsx` → `customScenario.sourceText`,
+4000-char limit in `schemas.ts`) into a saved, AI-prepared study text.
+M1d-1 Upload and prepare
+  - Input: paste text, .txt, .pdf with a text layer, .docx. Max 5 MB and ~20 000 characters;
+    longer → the learner picks a section. No OCR, no URL fetching (copyright and site terms).
+  - Server Route Handler (Node runtime) extracts text; pick libraries by their README
+    (e.g. pdf-parse, mammoth). zod validation, size limits, usage counted in `usage`.
+  - New table `documents(id, user_id, title, text, level, summary_json, created_at)` with RLS
+    (owner only), delete button. Store extracted text only, never the file.
+  - AI prepares: level-adapted summary (A2/B1/B2), 8–15 key words with L1 translation,
+    5 discussion questions. The document text goes to the model as a delimited data block,
+    never as instructions (prompt-injection guard); test with a text containing
+    "ignore previous instructions".
+M1d-2 Talk about the text
+  - Voice conversation about the chosen document with the existing coach engine and
+    corrections; key words go into the personal word deck; free plan: 1 document.
+ACCEPTANCE M1d: upload a PDF article → summary, words and questions appear in the learner's
+level → a 5-turn conversation stays on the topic → another user cannot read the document
+(RLS test) → injection test passes → delete removes the row.
+
 ────────────────────────────────────────────
 M2 — Exam simulator that matches the real HK-dir oral test (core product)
 ────────────────────────────────────────────

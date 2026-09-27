@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  AlertCircle,
+  Award,
+  Bookmark,
+  CheckCircle2,
+  Lightbulb,
+  Sparkles,
+  TrendingUp,
+  Users,
+  Volume2
+} from 'lucide-react';
 import type { Correction } from '../../server/schemas';
 import type { HkdirScores, L1Language } from './useStudioState';
 
@@ -29,77 +40,84 @@ export function CoachingPanel({
     <>
       {/* HK-dir Official 4-Criteria Live Estimator */}
       <div className="hkdir-box">
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '10px'
-          }}
-        >
-          <span style={{ fontSize: '0.83rem', fontWeight: 700, color: '#c7d2fe' }}>
-            🏛️ 4 Критерия HK-dir (Официальная шкала)
+        <div className="hkdir-box-header">
+          <span className="panel-title t-caption">
+            <Award size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+            <span>4 Критерия HK-dir (Официальная шкала)</span>
           </span>
-          <span className="hkdir-pill" id="overallCefrBadge">
+          <span className="hkdir-pill t-caption" id="overallCefrBadge">
             {`Уровень: ${hkdirScores.cefr}`}
           </span>
         </div>
-        <div className="hkdir-score-row">
+        <div className="hkdir-score-row t-caption">
           <span>1. Uttale &amp; Tonelag (L2 Акцент)</span>
-          <strong id="scoreFlyt" style={{ color: '#38bdf8' }}>
-            B1+ (Tydelig)
-          </strong>
+          <strong id="scoreFlyt">B1+ (Tydelig)</strong>
         </div>
-        <div className="hkdir-score-row">
+        <div className="hkdir-score-row t-caption">
           <span>2. Ordforråd (Активный словарь)</span>
-          <strong id="scoreOrd" style={{ color: '#34d399' }}>
+          <strong id="scoreOrd">
             {`${usedWordsCount} av ${totalTargetWords} målord (${pct}%)`}
           </strong>
         </div>
-        <div className="hkdir-score-row">
+        <div className="hkdir-score-row t-caption">
           <span>3. Grammatikk (V2-инверсия)</span>
-          <strong id="scoreGram" style={{ color: '#fbbf24' }}>
-            {hkdirScores.gram}
-          </strong>
+          <strong id="scoreGram">{hkdirScores.gram}</strong>
         </div>
-        <div className="hkdir-score-row" style={{ marginBottom: 0 }}>
+        <div className="hkdir-score-row t-caption">
           <span>4. Samhandling &amp; Norsk Kultur</span>
-          <strong id="scoreArg" style={{ color: '#a5b4fc' }}>
-            {hkdirScores.arg}
-          </strong>
+          <strong id="scoreArg">{hkdirScores.arg}</strong>
         </div>
       </div>
 
       {/* Latest Live Correction Cards (A2 -> B2 + L1 Explanation + Cultural Fit) */}
-      <div>
-        <div
-          style={{
-            fontSize: '0.8rem',
-            fontWeight: 700,
-            marginBottom: '8px',
-            color: '#94a3b8'
-          }}
-        >
-          ⚡ Трансформация фраз (A2 → B2) + L1 Разбор + Cultural Fit
+      <div className="coaching-section">
+        <div className="coaching-section-title t-caption">
+          <Sparkles size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          <span>Трансформация фраз (A2 → B2) + L1 Разбор + Cultural Fit</span>
         </div>
-        <div
-          id="coachingCardsList"
-          style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
-        >
+        <div id="coachingCardsList" className="coaching-cards-list">
           {coachingHistory.length === 0 ? (
             <div className="coaching-card">
               <div className="coaching-row">
-                <span className="coaching-tag tag-better">
+                <span className="coaching-tag tag-better t-caption">
                   Пример трансформации (A2 → B2 Løft)
                 </span>
-                <div style={{ marginTop: '4px', color: '#cbd5e1', fontSize: '0.79rem' }}>
-                  🔴 <strong>A2:</strong> «Jeg tenker at miljø er viktig»
-                  <br />
-                  🟢 <strong>B2:</strong> «Det er avgjørende å ta hensyn til miljøet for å
-                  sikre en bærekraftig velferdsstat.»
-                  <br />
-                  🤝 <strong>Samhandling / Janteloven:</strong> Вместо «Я сделал всё сам» →
-                  «Vi oppnådde dette gjennom tett samarbeid og medvirkning i teamet».
+                <div className="coaching-example-body t-caption">
+                  <div className="coaching-example-line">
+                    <AlertCircle
+                      size={20}
+                      strokeWidth={1.75}
+                      color="currentColor"
+                      aria-hidden="true"
+                    />
+                    <span>
+                      <strong>A2:</strong> «Jeg tenker at miljø er viktig»
+                    </span>
+                  </div>
+                  <div className="coaching-example-line">
+                    <CheckCircle2
+                      size={20}
+                      strokeWidth={1.75}
+                      color="currentColor"
+                      aria-hidden="true"
+                    />
+                    <span>
+                      <strong>B2:</strong> «Det er avgjørende å ta hensyn til miljøet for å sikre
+                      en bærekraftig velferdsstat.»
+                    </span>
+                  </div>
+                  <div className="coaching-example-line">
+                    <Users
+                      size={20}
+                      strokeWidth={1.75}
+                      color="currentColor"
+                      aria-hidden="true"
+                    />
+                    <span>
+                      <strong>Samhandling / Janteloven:</strong> Вместо «Я сделал всё сам» → «Vi
+                      oppnådde dette gjennom tett samarbeid og medvirkning i teamet».
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -107,40 +125,66 @@ export function CoachingPanel({
             coachingHistory.map((corr, idx) => (
               <div key={`${idx}-${corr.original}`} className="coaching-card">
                 <div className="coaching-row">
-                  <span className="coaching-tag tag-said">
-                    {`🔴 Hva du sa (${corr.cefr_estimate || 'B1'})`}
+                  <span className="coaching-tag tag-said t-caption">
+                    <AlertCircle
+                      size={20}
+                      strokeWidth={1.75}
+                      color="currentColor"
+                      aria-hidden="true"
+                    />
+                    <span>{`Hva du sa (${corr.cefr_estimate || 'B1'})`}</span>
                   </span>
-                  <div style={{ color: '#fda4af' }}>{`«${corr.original}»`}</div>
+                  <div className="coaching-text-said">{`«${corr.original}»`}</div>
                 </div>
                 <div className="coaching-row">
-                  <span className="coaching-tag tag-better">🟢 Naturlig Bokmål</span>
-                  <div style={{ color: '#6ee7b7', fontWeight: 600 }}>
-                    {`«${corr.natural_bokmal}»`}
-                  </div>
+                  <span className="coaching-tag tag-better t-caption">
+                    <CheckCircle2
+                      size={20}
+                      strokeWidth={1.75}
+                      color="currentColor"
+                      aria-hidden="true"
+                    />
+                    <span>Naturlig Bokmål</span>
+                  </span>
+                  <div className="coaching-text-better">{`«${corr.natural_bokmal}»`}</div>
                 </div>
                 <div className="coaching-row">
-                  <span className="coaching-tag tag-b2">
-                    🚀 B2-Oppgradering (HK-dir / Business Løft)
+                  <span className="coaching-tag tag-b2 t-caption">
+                    <TrendingUp
+                      size={20}
+                      strokeWidth={1.75}
+                      color="currentColor"
+                      aria-hidden="true"
+                    />
+                    <span>B2-Oppgradering (HK-dir / Business Løft)</span>
                   </span>
-                  <div style={{ color: '#c7d2fe', fontWeight: 600 }}>
-                    {`«${corr.b2_upgrade}»`}
-                  </div>
+                  <div className="coaching-text-b2">{`«${corr.b2_upgrade}»`}</div>
                 </div>
                 <div className="coaching-row">
-                  <span className="coaching-tag tag-rule">
-                    {`💡 L1 Микро-коррекция (${l1Lang.toUpperCase()}) & Samhandling`}
+                  <span className="coaching-tag tag-rule t-caption">
+                    <Lightbulb
+                      size={20}
+                      strokeWidth={1.75}
+                      color="currentColor"
+                      aria-hidden="true"
+                    />
+                    <span>{`L1 Микро-коррекция (${l1Lang.toUpperCase()}) & Samhandling`}</span>
                   </span>
-                  <div style={{ color: '#fde68a', fontSize: '0.78rem' }}>
-                    {corr.grammar_rule_l1}
-                  </div>
+                  <div className="coaching-text-rule t-caption">{corr.grammar_rule_l1}</div>
                 </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div className="coaching-card-actions">
                   <button
                     type="button"
                     className="mini-action-btn btn-listen-b2"
                     onClick={() => onSpeak(corr.b2_upgrade)}
                   >
-                    🔊 Прослушать B2-фразу
+                    <Volume2
+                      size={20}
+                      strokeWidth={1.75}
+                      color="currentColor"
+                      aria-hidden="true"
+                    />
+                    <span>Прослушать B2-фразу</span>
                   </button>
                   <button
                     type="button"
@@ -153,7 +197,13 @@ export function CoachingPanel({
                       )
                     }
                   >
-                    📌 В словарь
+                    <Bookmark
+                      size={20}
+                      strokeWidth={1.75}
+                      color="currentColor"
+                      aria-hidden="true"
+                    />
+                    <span>В словарь</span>
                   </button>
                 </div>
               </div>

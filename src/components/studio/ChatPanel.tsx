@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { Bookmark, Bot, Volume2 } from 'lucide-react';
 import type { ChatMessage, L1Language } from './useStudioState';
 
 export interface ChatPanelProps {
@@ -9,7 +10,7 @@ export interface ChatPanelProps {
   l1Lang: L1Language;
   blurMode: boolean;
   onSpeak: (text: string) => void;
-  onSaveToGlossary: (word: string, translation: string, example?: string) => void;
+  onSaveToGlossary: (word: string, translation: string) => void;
 }
 
 export function ChatPanel({
@@ -26,55 +27,54 @@ export function ChatPanel({
     if (streamRef.current) {
       streamRef.current.scrollTop = streamRef.current.scrollHeight;
     }
-  }, [chatHistory.length]);
-
-  const flagIcon = l1Lang === 'ua' ? '🇺🇦' : l1Lang === 'en' ? '🇬🇧' : '🇷🇺';
+  }, [chatHistory]);
 
   return (
     <div className="chat-stream" id="chatStream" ref={streamRef}>
       {chatHistory.map((msg, index) => {
-        const isAi = msg.sender === 'ai';
-        const speakerLabel = isAi ? `🇳🇴 ${partnerName}` : '🎙️ Du (Кандидат)';
-        const bubbleClass = [
-          'msg-bubble',
-          isAi ? 'msg-ai' : 'msg-user',
-          blurMode && isAi ? 'blur-text' : ''
-        ]
-          .filter(Boolean)
-          .join(' ');
+        const key = `${index}-${msg.sender}-${msg.time || ''}`;
+        if (msg.sender === 'ai') {
+          const l1Translation = msg.l1 || '';
+
+          return (
+            <div
+              key={key}
+              className={`msg msg-ai ${blurMode ? 'blurred' : ''}`}
+            >
+              <div className="msg-speaker t-caption">
+                <Bot size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+                <span>{partnerName}</span>
+              </div>
+              <div className="msg-norsk t-speech">{msg.norsk}</div>
+              {l1Translation ? (
+                <div className="msg-ru t-caption">{`${l1Lang.toUpperCase()}: ${l1Translation}`}</div>
+              ) : null}
+              <div className="msg-actions">
+                <button
+                  type="button"
+                  className="mini-action-btn btn-speak"
+                  onClick={() => onSpeak(msg.norsk)}
+                >
+                  <Volume2 size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+                  <span>Прослушать</span>
+                </button>
+                <button
+                  type="button"
+                  className="mini-action-btn btn-save-phrase"
+                  onClick={() => onSaveToGlossary(msg.norsk, l1Translation)}
+                >
+                  <Bookmark size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+                  <span>В словарь</span>
+                </button>
+              </div>
+            </div>
+          );
+        }
 
         return (
-          <div key={`${index}-${msg.sender}`} className={bubbleClass}>
-            <div className="msg-meta">
-              <span>{speakerLabel}</span>
-              <span>{msg.time || '12:00'}</span>
-            </div>
-            <div className="msg-norsk">{msg.norsk}</div>
-            {msg.l1 ? (
-              <div className="msg-translation">{`${flagIcon} ${msg.l1}`}</div>
-            ) : null}
-            <div className="msg-actions">
-              <button
-                type="button"
-                className="mini-action-btn btn-replay"
-                onClick={() => onSpeak(msg.norsk)}
-              >
-                🔊 Озвучить
-              </button>
-              <button
-                type="button"
-                className="mini-action-btn btn-save-phrase"
-                onClick={() =>
-                  onSaveToGlossary(
-                    msg.norsk.slice(0, 65),
-                    msg.l1 || 'Lagret fra samtale',
-                    msg.norsk
-                  )
-                }
-              >
-                📌 В словарь
-              </button>
-            </div>
+          <div key={key} className="msg msg-user">
+            <div className="msg-speaker t-caption">Du (Кандидат)</div>
+            <div className="msg-user-text t-speech">{msg.norsk}</div>
           </div>
         );
       })}

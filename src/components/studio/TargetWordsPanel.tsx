@@ -1,7 +1,7 @@
 'use client';
 
+import { CheckCircle2, Circle, Target } from 'lucide-react';
 import type { TargetWord } from '../../content/scenarios';
-import { speakNorwegian } from '../../lib/speech';
 import { getL1Text, type L1Language } from './useStudioState';
 
 export interface TargetWordsPanelProps {
@@ -17,45 +17,63 @@ export function TargetWordsPanel({
   l1Lang,
   onSaveToGlossary
 }: TargetWordsPanelProps) {
-  const usedSet = new Set((usedWords || []).map((w) => w.toLowerCase()));
-  const usedCount = usedSet.size;
-  const total = targetWords.length;
-  const pct = total > 0 ? Math.round((usedCount / total) * 100) : 0;
+  const total = targetWords.length || 1;
+  const pct = Math.round((usedWords.length / total) * 100);
 
   return (
-    <div>
-      <div className="vocab-progress-head">
-        <span>🎯 Активный вывод в речь (Bingo)</span>
-        <span id="vocabProgressText" style={{ color: '#34d399' }}>
-          {`${usedCount} / ${total} brukt (${pct}%)`}
+    <div className="vocab-bingo-section">
+      <div className="vocab-bingo-header">
+        <span className="panel-title">
+          <Target size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          <span>Активный словарь (Bingo 10 слов)</span>
+        </span>
+        <span className="scenario-badge t-caption" id="vocabProgressText">
+          {`${usedWords.length} / ${targetWords.length} brukt (${pct}%)`}
         </span>
       </div>
-      <div className="vocab-bar-bg">
+      <div className="vocab-progress-bar">
         <div
-          className="vocab-bar-fill"
-          id="vocabProgressBar"
+          className="vocab-progress-fill"
+          id="vocabProgressFill"
           style={{ width: `${pct}%` }}
-        ></div>
+        />
       </div>
-      <div className="vocab-grid" id="vocabBingoList">
+      <div className="vocab-helper-note t-caption">
+        Произнеси слово в микрофон — оно загорится автоматически:
+      </div>
+      <div className="vocab-bingo-grid" id="vocabBingoList">
         {targetWords.map((item) => {
-          const isUsed = usedSet.has(item.word.toLowerCase());
-          const l1Meaning = getL1Text(item, l1Lang, 'translation');
+          const isUsed = usedWords.includes(item.word.toLowerCase());
+          const translation = getL1Text(item, l1Lang, 'ru');
+
           return (
             <div
               key={item.word}
               className={`vocab-chip ${isUsed ? 'used' : ''}`}
-              onClick={() => {
-                speakNorwegian(item.example || item.word);
-                onSaveToGlossary(item.word, l1Meaning, item.example);
-              }}
+              title={`Пример: ${item.example}`}
+              onClick={() => onSaveToGlossary(item.word, translation, item.example)}
             >
-              <div className="vocab-chip-top">
-                <span className="vocab-word">{`🔊 ${item.word}`}</span>
-                <span className="vocab-status">{isUsed ? '✓ BRUKT I TALE' : 'ЦЕЛЬ'}</span>
-              </div>
-              <div className="vocab-ru">{l1Meaning}</div>
-              <div className="vocab-ex">{`«${item.example}»`}</div>
+              <span className="vocab-word">
+                {isUsed ? (
+                  <CheckCircle2
+                    size={20}
+                    strokeWidth={1.75}
+                    color="currentColor"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <Circle
+                    size={20}
+                    strokeWidth={1.75}
+                    color="currentColor"
+                    aria-hidden="true"
+                  />
+                )}
+                <span>{item.word}</span>
+              </span>
+              <span className="vocab-ru t-caption">
+                {isUsed ? '✓ BRUKT I TALE' : translation}
+              </span>
             </div>
           );
         })}

@@ -1,38 +1,12 @@
 'use client';
 
+import { Clock } from 'lucide-react';
 import type { ModuleKey, Scenario } from '../../content/scenarios';
 
 export interface ExamStageProps {
   currentModule: ModuleKey;
   currentScenario: Scenario;
   examPart: number;
-  onAdvanceExamPart?: () => void;
-}
-
-export function getExamStageMeta(currentScenario: Scenario, examPart: number) {
-  const structure = currentScenario.examStructure;
-  if (!structure) {
-    return null;
-  }
-  if (examPart === 1) {
-    return {
-      stageLabel: '🎓 ЭТАП 1 (Individuell presentasjon — 2–3 мин): ',
-      promptText: structure.part1Prompt,
-      btnText: '⏭️ К Этапу 2 (Дебаты с Medkandidat)'
-    };
-  }
-  if (examPart === 2) {
-    return {
-      stageLabel: '🗣️ ЭТАП 2 (Samhandling — Диалог с напарником 5–7 мин): ',
-      promptText: structure.part2Prompt,
-      btnText: '⏭️ К Этапу 3 (Вопросы Sensor HK-dir)'
-    };
-  }
-  return {
-    stageLabel: '🏛️ ЭТАП 3 (Каверзные вопросы экзаменатора HK-dir): ',
-    promptText: structure.part3Prompt,
-    btnText: '✅ Завершить и скачать вердикт HK-dir'
-  };
 }
 
 export function ExamStage({
@@ -41,26 +15,34 @@ export function ExamStage({
   examPart
 }: ExamStageProps) {
   if (currentModule !== 'norskprove' || !currentScenario.examStructure) {
-    return null;
+    return (
+      <div
+        className="exam-stage-banner"
+        id="examStageBanner"
+        style={{ display: 'none' }}
+      />
+    );
   }
 
-  const meta = getExamStageMeta(currentScenario, examPart);
-  if (!meta) return null;
+  let stageLabel = 'ЭТАП 1: Монолог (Presentasjon · 2–3 мин)';
+  let promptText = currentScenario.examStructure.part1Prompt;
+  if (examPart === 2) {
+    stageLabel = 'ЭТАП 2: Дискуссия (Samtale · 5–6 мин)';
+    promptText = currentScenario.examStructure.part2Prompt;
+  } else if (examPart === 3) {
+    stageLabel = 'ЭТАП 3: Углублённые вопросы (Oppfølging)';
+    promptText = currentScenario.examStructure.part3Prompt;
+  }
 
   return (
-    <div
-      id="examBanner"
-      style={{
-        background: 'rgba(99,102,241,0.14)',
-        borderBottom: '1px solid rgba(99,102,241,0.35)',
-        padding: '10px 18px',
-        fontSize: '0.81rem'
-      }}
-    >
-      <strong style={{ color: '#a5b4fc' }} id="examStageLabel">
-        {meta.stageLabel}
-      </strong>
-      <span id="examPromptText">{meta.promptText}</span>
+    <div className="exam-stage-banner" id="examStageBanner">
+      <div className="exam-stage-title t-caption" id="examStageLabel">
+        <Clock size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+        <span>{stageLabel}</span>
+      </div>
+      <div className="exam-prompt-text t-speech" id="examPromptText">
+        {promptText}
+      </div>
     </div>
   );
 }

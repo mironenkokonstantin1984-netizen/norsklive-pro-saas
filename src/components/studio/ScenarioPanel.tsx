@@ -1,6 +1,16 @@
 'use client';
 
 import { useState, type ChangeEvent, type ReactNode } from 'react';
+import {
+  BookOpen,
+  Briefcase,
+  FileText,
+  GraduationCap,
+  Info,
+  PlusCircle,
+  Sparkles,
+  User
+} from 'lucide-react';
 import type { ModuleKey, Scenario } from '../../content/scenarios';
 
 export interface ScenarioPanelProps {
@@ -24,17 +34,17 @@ export function ScenarioPanel({
 
   const leftPanelTitle =
     currentModule === 'norskprove'
-      ? '🎓 1. Norskprøve Muntlig (HK-dir)'
+      ? '1. Norskprøve Muntlig (HK-dir)'
       : currentModule === 'jobbintervju'
-        ? '💼 2. Jobbintervju på norsk'
-        : '🛡️ 3. CEFR Teleprompter';
+        ? '2. Jobbintervju på norsk'
+        : '3. CEFR Teleprompter';
 
   const customLoaderTitle =
     currentModule === 'norskprove'
-      ? '➕ Своя экзаменационная тема / список слов'
+      ? 'Своя экзаменационная тема / список слов'
       : currentModule === 'jobbintervju'
-        ? '➕ Вставьте текст вакансии и вашего CV'
-        : '➕ Введите 10 своих слов для вывода в речь';
+        ? 'Вставьте текст вакансии и вашего CV'
+        : 'Введите 10 своих слов для вывода в речь';
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -60,47 +70,43 @@ export function ScenarioPanel({
     <section className="panel">
       <div className="panel-header">
         <div className="panel-title" id="leftPanelTitle">
-          {leftPanelTitle}
+          {currentModule === 'norskprove' ? (
+            <GraduationCap size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          ) : currentModule === 'jobbintervju' ? (
+            <Briefcase size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          ) : (
+            <BookOpen size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          )}
+          <span>{leftPanelTitle}</span>
         </div>
-        <span className="scenario-badge" id="scenarioCountBadge">
+        <span className="scenario-badge t-caption" id="scenarioCountBadge">
           {`${scenarios.length} сценария`}
         </span>
       </div>
 
       <div className="panel-body">
-        {/* Legal Compliance / UDI Context Banner */}
-        <div
-          id="complianceNotice"
-          style={{
-            background: 'rgba(16,185,129,0.1)',
-            border: '1px solid rgba(16,185,129,0.3)',
-            borderRadius: '9px',
-            padding: '8px 10px',
-            fontSize: '0.73rem',
-            color: '#6ee7b7'
-          }}
-        >
+        {/* Legal Compliance / UDI Context Banner — single line of .t-caption */}
+        <p className="compliance-notice t-caption" id="complianceNotice">
+          <Info size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
           {currentModule === 'norskprove' && (
-            <>
-              🏛️ <strong>Закон UDI (с 01.09.2025):</strong> Для получения ПМЖ обязательна сдача
-              устного экзамена Norskprøve (A2/B1). Мультиагентная симуляция (Sensor +
-              Medkandidat).
-            </>
+            <span>
+              <strong>UDI (01.09.2025):</strong> Устный Norskprøve (A2/B1) — симуляция Sensor +
+              Medkandidat.
+            </span>
           )}
           {currentModule === 'jobbintervju' && (
-            <>
-              👔 <strong>CV + Вакансия &amp; Cultural Fit:</strong> Анализ разрыва между твоим CV
-              и вакансией + адаптация ответов под норвежский командный стиль (lagspiller &amp;
-              lunsjprat).
-            </>
+            <span>
+              <strong>CV + Вакансия &amp; Cultural Fit:</strong> Спарринг под норвежский командный
+              стиль (lagspiller &amp; lunsjprat).
+            </span>
           )}
           {currentModule === 'pensum' && (
-            <>
-              🛡️ <strong>Åndsverkloven &amp; Kopinor 2026–2027 Safe:</strong> 100% проприетарные
-              модули CEFR + телесуфлёр на 10 твоих слов.
-            </>
+            <span>
+              <strong>Åndsverkloven &amp; Kopinor Safe:</strong> Авторские модули CEFR и
+              телесуфлёр на 10 слов.
+            </span>
           )}
-        </div>
+        </p>
 
         {/* Scenarios list */}
         <div className="scenario-list" id="scenarioList">
@@ -111,13 +117,14 @@ export function ScenarioPanel({
               onClick={() => onSelectScenario(sc)}
             >
               <div className="scenario-top">
-                <span className="scenario-badge">{sc.badge}</span>
-                <span style={{ fontSize: '0.75rem', color: '#38bdf8', fontWeight: 700 }}>
-                  {sc.level}
-                </span>
+                <span className="scenario-badge t-caption">{sc.badge}</span>
+                <span className="scenario-level t-caption">{sc.level}</span>
               </div>
-              <div className="scenario-name">{`${sc.avatar} ${sc.title}`}</div>
-              <div className="scenario-desc">{sc.description}</div>
+              <div className="scenario-name">
+                <User size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+                <span>{sc.title}</span>
+              </div>
+              <div className="scenario-desc t-caption">{sc.description}</div>
             </div>
           ))}
         </div>
@@ -125,21 +132,18 @@ export function ScenarioPanel({
         {/* Custom 10-Word Generator / Paste Job Ad & CV Input */}
         <div className="custom-loader-box">
           <div className="custom-loader-title">
-            <span id="customLoaderTitle">{customLoaderTitle}</span>
-            <label
-              style={{
-                cursor: 'pointer',
-                fontSize: '0.72rem',
-                color: '#93c5fd',
-                textDecoration: 'underline'
-              }}
-            >
-              📄 Загрузить .txt/.md
+            <span className="custom-loader-heading t-caption" id="customLoaderTitle">
+              <PlusCircle size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+              <span>{customLoaderTitle}</span>
+            </span>
+            <label className="file-upload-label t-caption">
+              <FileText size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+              <span>Загрузить .txt/.md</span>
               <input
                 type="file"
                 id="fileUploadInput"
                 accept=".txt,.md,.csv"
-                style={{ display: 'none' }}
+                className="sr-only-input"
                 onChange={handleFileChange}
               />
             </label>
@@ -154,10 +158,11 @@ export function ScenarioPanel({
           <button
             type="button"
             id="applyCustomSourceBtn"
-            className="btn-primary-sm"
+            className="btn-outline btn-block"
             onClick={handleApplyClick}
           >
-            🚀 Сгенерировать ролевой спарринг и телесуфлёр
+            <Sparkles size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+            <span>Сгенерировать ролевой спарринг и телесуфлёр</span>
           </button>
         </div>
 

@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  BookOpen,
+  Briefcase,
+  CheckCircle2,
+  Clock,
+  EyeOff,
+  Globe,
+  GraduationCap,
+  RotateCcw,
+  SkipForward,
+  SlidersHorizontal,
+  User
+} from 'lucide-react';
 import type { ModuleKey, Scenario } from '../../content/scenarios';
 import type { AgentPersona, CefrLevel, L1Language } from './useStudioState';
 
@@ -9,6 +22,8 @@ export interface TopBarProps {
   userLevel: CefrLevel;
   authEnabled?: boolean;
   userEmail?: string | null;
+  materialsOpen?: boolean;
+  onToggleMaterials?: () => void;
   onSwitchModule: (module: ModuleKey) => void;
   onChangeL1Lang: (l1: L1Language) => void;
   onChangeUserLevel: (level: CefrLevel) => void;
@@ -20,6 +35,8 @@ export function TopBar({
   userLevel,
   authEnabled = false,
   userEmail = null,
+  materialsOpen = false,
+  onToggleMaterials,
   onSwitchModule,
   onChangeL1Lang,
   onChangeUserLevel
@@ -27,47 +44,82 @@ export function TopBar({
   return (
     <header className="topbar">
       <div className="brand">
-        <div className="brand-flag">🇳🇴</div>
+        <div className="brand-flag" aria-hidden="true">
+          <Globe size={20} strokeWidth={1.75} color="currentColor" />
+        </div>
         <div>
           <div className="brand-title">
             NorskLive Pro
-            <span className="brand-badge">Muntlig AI Språkpartner</span>
+            <span className="brand-badge t-caption">Muntlig AI Språkpartner</span>
           </div>
-          <div className="brand-sub">
+          <div className="brand-sub t-caption">
             HK-dir Multi-Agent · Jobbintervju · Kopinor-Safe CEFR · L2 ASR
           </div>
         </div>
       </div>
 
-      {/* 3 Core Training Modules */}
-      <nav className="module-tabs" id="moduleTabs">
+      {/* 3 Core Training Modules — Segmented Control */}
+      <nav
+        className="module-tabs segmented-control"
+        id="moduleTabs"
+        role="tablist"
+        aria-label="Модули тренажёра"
+      >
         <button
           type="button"
+          role="tab"
+          aria-selected={currentModule === 'norskprove'}
           className={`module-tab ${currentModule === 'norskprove' ? 'active' : ''}`}
           data-module="norskprove"
           onClick={() => onSwitchModule('norskprove')}
         >
-          🎓 1. Norskprøve Muntlig (HK-dir)
+          <GraduationCap size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          <span>1. Norskprøve Muntlig (HK-dir)</span>
         </button>
         <button
           type="button"
+          role="tab"
+          aria-selected={currentModule === 'jobbintervju'}
           className={`module-tab ${currentModule === 'jobbintervju' ? 'active' : ''}`}
           data-module="jobbintervju"
           onClick={() => onSwitchModule('jobbintervju')}
         >
-          💼 2. Jobbintervju på norsk
+          <Briefcase size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          <span>2. Jobbintervju på norsk</span>
         </button>
         <button
           type="button"
+          role="tab"
+          aria-selected={currentModule === 'pensum'}
           className={`module-tab ${currentModule === 'pensum' ? 'active' : ''}`}
           data-module="pensum"
           onClick={() => onSwitchModule('pensum')}
         >
-          🛡️ 3. CEFR Teleprompter
+          <BookOpen size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          <span>3. CEFR Teleprompter</span>
         </button>
       </nav>
 
       <div className="top-controls">
+        {onToggleMaterials && (
+          <button
+            type="button"
+            id="materialsToggleBtn"
+            className={`pill-btn materials-toggle-btn ${materialsOpen ? 'active' : ''}`}
+            aria-expanded={materialsOpen}
+            aria-controls="materialsDrawer"
+            onClick={onToggleMaterials}
+          >
+            <SlidersHorizontal
+              size={20}
+              strokeWidth={1.75}
+              color="currentColor"
+              aria-hidden="true"
+            />
+            <span>Материалы</span>
+          </button>
+        )}
+
         {/* L1 Native Micro-Correction Language Selector */}
         <select
           id="l1LangSelect"
@@ -76,9 +128,9 @@ export function TopBar({
           value={l1Lang}
           onChange={(e) => onChangeL1Lang(e.target.value as L1Language)}
         >
-          <option value="ru">🇷🇺 L1: Русский (Коррекции)</option>
-          <option value="ua">🇺🇦 L1: Українська</option>
-          <option value="en">🇬🇧 L1: English</option>
+          <option value="ru">L1: Русский (Коррекции)</option>
+          <option value="ua">L1: Українська</option>
+          <option value="en">L1: English</option>
         </select>
 
         <select
@@ -96,7 +148,7 @@ export function TopBar({
         {authEnabled ? (
           <>
             {userEmail ? (
-              <span className="brand-badge" id="userEmailBadge">
+              <span className="brand-badge t-caption" id="userEmailBadge">
                 {userEmail}
               </span>
             ) : null}
@@ -148,10 +200,10 @@ export function CallHero({
 
   const examBtnLabel =
     examPart === 1
-      ? '⏭️ К Этапу 2 (Дебаты с Medkandidat)'
+      ? 'К Этапу 2 (Дебаты с Medkandidat)'
       : examPart === 2
-        ? '⏭️ К Этапу 3 (Вопросы Sensor HK-dir)'
-        : '✅ Завершить и скачать вердикт HK-dir';
+        ? 'К Этапу 3 (Вопросы Sensor HK-dir)'
+        : 'Завершить и скачать вердикт HK-dir';
 
   const orbClasses = [
     'voice-orb-wrap',
@@ -166,13 +218,17 @@ export function CallHero({
       <div className="partner-profile">
         <div className={orbClasses} id="voiceOrb">
           <div className="voice-orb-ring"></div>
-          <div className="partner-avatar" id="partnerAvatar">
-            {currentScenario.avatar || '🇳🇴'}
+          <div className="partner-avatar" id="partnerAvatar" aria-hidden="true">
+            <User size={24} strokeWidth={1.75} color="currentColor" />
           </div>
         </div>
         <div className="partner-info">
-          <h2 id="partnerName">{currentScenario.partnerName}</h2>
-          <p id="partnerRole">{`${currentScenario.badge} · ${currentScenario.partnerRole}`}</p>
+          <h2 className="t-h2" id="partnerName">
+            {currentScenario.partnerName}
+          </h2>
+          <p className="t-caption" id="partnerRole">
+            {`${currentScenario.badge} · ${currentScenario.partnerRole}`}
+          </p>
         </div>
       </div>
 
@@ -184,9 +240,9 @@ export function CallHero({
           value={agentPersona}
           onChange={(e) => onChangeAgentPersona(e.target.value as AgentPersona)}
         >
-          <option value="standard">🤝 Агент: Стандартный экзамен / HR</option>
-          <option value="interrupting">⚡ Medkandidat: Спорящий и перебивающий</option>
-          <option value="passive">😳 Medkandidat: Пассивный (разговори его!)</option>
+          <option value="standard">Агент: Стандартный экзамен / HR</option>
+          <option value="interrupting">Medkandidat: Спорящий и перебивающий</option>
+          <option value="passive">Medkandidat: Пассивный (разговори его!)</option>
         </select>
 
         <button
@@ -196,7 +252,8 @@ export function CallHero({
           title="Скрыть текст для тренировки чистого аудирования"
           onClick={onToggleBlur}
         >
-          👁️ Blur (Аудирование)
+          <EyeOff size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          <span>Blur (Аудирование)</span>
         </button>
 
         {showExamControls && (
@@ -206,12 +263,18 @@ export function CallHero({
             id="examPartBtn"
             onClick={onAdvanceExamPart}
           >
-            {examBtnLabel}
+            {examPart < 3 ? (
+              <SkipForward size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+            ) : (
+              <CheckCircle2 size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+            )}
+            <span>{examBtnLabel}</span>
           </button>
         )}
 
-        <div className="exam-timer-badge" id="sessionTimerBadge">
-          {`⏱️ ${mins}:${secs}`}
+        <div className="exam-timer-badge t-caption" id="sessionTimerBadge">
+          <Clock size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          <span>{`${mins}:${secs}`}</span>
         </div>
 
         <button
@@ -221,7 +284,8 @@ export function CallHero({
           title="Перезапустить сессию"
           onClick={onRestartSession}
         >
-          🔄 Сброс
+          <RotateCcw size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          <span>Сброс</span>
         </button>
       </div>
     </div>

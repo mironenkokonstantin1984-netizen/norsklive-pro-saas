@@ -1,5 +1,6 @@
 'use client';
 
+import { Bookmark, Download, FileText, GraduationCap } from 'lucide-react';
 import type { Correction } from '../../server/schemas';
 import { CoachingPanel } from './CoachingPanel';
 import {
@@ -35,19 +36,18 @@ export function GlossaryPanel({
   return (
     <section className="panel right-panel">
       <div className="panel-header">
-        <div className="panel-title">🧠 HK-dir Матрица &amp; L1 Микро-коррекция</div>
+        <div className="panel-title">
+          <GraduationCap size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          <span>HK-dir Матрица &amp; L1 Микро-коррекция</span>
+        </div>
         <button
           type="button"
           id="generateReportBtn"
           className="mini-action-btn"
-          style={{
-            background: 'rgba(16,185,129,0.2)',
-            color: '#34d399',
-            fontWeight: 700
-          }}
           onClick={onExportReport}
         >
-          📊 Отчёт HK-dir / Notion
+          <FileText size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          <span>Отчёт HK-dir / Notion</span>
         </button>
       </div>
 
@@ -63,23 +63,13 @@ export function GlossaryPanel({
         />
 
         {/* Saved Personal Glossary (Min Ordbok) + Export */}
-        <div
-          style={{
-            marginTop: 'auto',
-            borderTop: '1px solid var(--border-subtle)',
-            paddingTop: '12px'
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '8px'
-            }}
-          >
-            <span style={{ fontSize: '0.8rem', fontWeight: 700 }}>
-              📌 Min Ordbok (<span id="savedWordsCount">{savedGlossary.length}</span>)
+        <div className="glossary-footer">
+          <div className="glossary-footer-header">
+            <span className="panel-title t-caption">
+              <Bookmark size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+              <span>
+                Min Ordbok (<span id="savedWordsCount">{savedGlossary.length}</span>)
+              </span>
             </span>
             <button
               type="button"
@@ -87,28 +77,21 @@ export function GlossaryPanel({
               className="mini-action-btn"
               onClick={onExportReport}
             >
-              ⬇️ Скачать отчёт (.md)
+              <Download size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+              <span>Скачать отчёт (.md)</span>
             </button>
           </div>
-          <div
-            id="savedGlossaryList"
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '6px',
-              maxHeight: '95px',
-              overflowY: 'auto'
-            }}
-          >
+          <div id="savedGlossaryList" className="saved-glossary-list">
             {savedGlossary.map((item) => (
-              <span
+              <button
+                type="button"
                 key={item.word}
-                className="scenario-badge"
-                style={{ cursor: 'pointer' }}
+                className="scenario-badge saved-glossary-chip t-caption"
                 onClick={() => onSpeak(item.example || item.word)}
               >
-                {`📌 ${item.word}`}
-              </span>
+                <Bookmark size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+                <span>{item.word}</span>
+              </button>
             ))}
           </div>
         </div>

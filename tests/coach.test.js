@@ -146,7 +146,7 @@ test('buildGeminiCoachPayload passes userText as a separate content part (prompt
   assert.equal(parts[1].text, secretInjection);
 });
 
-test('Rate limiter returns 429 when limit is exceeded on POST /api/coach', async () => {
+test('Rate limiter keys by X-Forwarded-For behind proxy: 31 distinct IPs succeed (200), repeated same IP gets 429', async () => {
   const app = createApp({ rateLimitMax: 3, rateLimitWindowMs: 60000 });
   const validBody = {
     module: 'norskprove',
@@ -157,11 +157,152 @@ test('Rate limiter returns 429 when limit is exceeded on POST /api/coach', async
     userText: 'Jeg tenker at miljø er viktig'
   };
 
-  for (let i = 0; i < 3; i++) {
-    const okRes = await request(app).post('/api/coach').send(validBody);
+  // 31 requests with distinct X-Forwarded-For headers -> all 200
+  for (let i = 1; i <= 31; i++) {
+    const okRes = await request(app)
+      .post('/api/coach')
+      .set('X-Forwarded-For', `203.0.113.${i}`)
+      .send(validBody);
     assert.equal(okRes.status, 200);
   }
 
-  const limitedRes = await request(app).post('/api/coach').send(validBody);
+  // Repeat the same X-Forwarded-For beyond rateLimitMax (3) -> 429
+  const repeatedIp = '198.51.100.42';
+  for (let i = 0; i < 3; i++) {
+    const okRes = await request(app)
+      .post('/api/coach')
+      .set('X-Forwarded-For', repeatedIp)
+      .send(validBody);
+    assert.equal(okRes.status, 200);
+  }
+
+  const limitedRes = await request(app)
+    .post('/api/coach')
+    .set('X-Forwarded-For', repeatedIp)
+    .send(validBody);
   assert.equal(limitedRes.status, 429);
 });
+
+test('POST /api/coach returns 500 { error: "Internal error" } if fallback throws unexpectedly', async () => {
+  const prevKey = process.env.GEMINI_API_KEY;
+  delete process.env.GEMINI_API_KEY;
+
+  try {
+    const app = createApp({
+      fallbackImpl: () => {
+        throw new Error('Unexpected internal explosion');
+      }
+    });
+
+    const res = await request(app).post('/api/coach').send({
+      module: 'norskprove',
+      scenarioId: 'np-b1b2-velferd-hjemmekontor',
+      level: 'B1',
+      l1: 'ru',
+      persona: 'standard',
+      userText: 'Hei!'
+    });
+
+    assert.equal(res.status, 500);
+    assert.deepEqual(res.body, { error: 'Internal error' });
+  } finally {
+    if (prevKey !== undefined) process.env.GEMINI_API_KEY = prevKey;
+  }
+});
+
+test('POST /api/coach Gemini path: returns model output on valid JSON, and falls back on invalid schema or network rejection', async () => {
+  const prevKey = process.env.GEMINI_API_KEY;
+  process.env.GEMINI_API_KEY = 'test';
+
+  const validBody = {
+    module: 'norskprove',
+    scenarioId: 'np-b1b2-velferd-hjemmekontor',
+    level: 'B1',
+    l1: 'ru',
+    persona: 'standard',
+    userText: 'I dag jeg liker kaffe'
+  };
+
+  const mockModelOutput = {
+    reply_norsk: 'Interessant poeng! Hvordan påvirker dette bærekraft i arbeidslivet?',
+    reply_l1: 'Интересная мысль! Как это влияет на устойчивость в рабочей среде?',
+    correction: {
+      original: 'I dag jeg liker kaffe',
+      natural_bokmal: 'I dag liker jeg kaffe veldig godt.',
+      b2_upgrade: 'I arbeidshverdagen setter jeg stor pris på en god kopp kaffe.',
+      grammar_rule_l1: 'После обстоятельства «I dag» глагол стоит на 2-м месте (V2).',
+      cefr_estimate: 'B1',
+      v2_status: '✓ V2-inversjon OK',
+      samhandling_status: '✓ Samhandling OK'
+    },
+    next_hints: [
+      {
+        label: 'B2-ответ',
+        norsk: 'Jeg mener at hjemmekontor gir bedre fleksibilitet.',
+        ru: 'Я считаю, что удалённая работа даёт больше гибкости.'
+      }
+    ]
+  };
+
+  try {
+    // 1. Valid model JSON -> 200 and body equals model output
+    const appValid = createApp({
+      fetchImpl: async () => ({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: JSON.stringify(mockModelOutput) }]
+              }
+            }
+          ]
+        })
+      })
+    });
+
+    const validRes = await request(appValid).post('/api/coach').send(validBody);
+    assert.equal(validRes.status, 200);
+    assert.deepEqual(validRes.body, mockModelOutput);
+
+    // 2. Model returns JSON that fails CoachResponseSchema -> 200 with fallback result
+    const appInvalidSchema = createApp({
+      fetchImpl: async () => ({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          candidates: [
+            {
+              content: {
+                parts: [{ text: JSON.stringify({ unexpected: 'wrong_schema' }) }]
+              }
+            }
+          ]
+        })
+      })
+    });
+
+    const invalidSchemaRes = await request(appInvalidSchema).post('/api/coach').send(validBody);
+    assert.equal(invalidSchemaRes.status, 200);
+    assert.equal(invalidSchemaRes.body.correction.natural_bokmal, 'I dag liker jeg kaffe');
+
+    // 3. fetchImpl rejects (timeout/network) -> 200 with fallback result
+    const appNetworkFail = createApp({
+      fetchImpl: async () => {
+        throw new Error('AbortError: The operation was aborted');
+      }
+    });
+
+    const networkFailRes = await request(appNetworkFail).post('/api/coach').send(validBody);
+    assert.equal(networkFailRes.status, 200);
+    assert.equal(networkFailRes.body.correction.natural_bokmal, 'I dag liker jeg kaffe');
+  } finally {
+    if (prevKey !== undefined) {
+      process.env.GEMINI_API_KEY = prevKey;
+    } else {
+      delete process.env.GEMINI_API_KEY;
+    }
+  }
+});
+

@@ -9,6 +9,8 @@ const { generateStrategicRAndDFallback, findScenario } = require('./fallback');
 function createApp(options = {}) {
   const app = express();
 
+  app.set('trust proxy', options.trustProxy ?? 1);
+
   // Security headers & 16kb body limit
   app.use(helmet({ contentSecurityPolicy: false }));
   app.use(express.json({ limit: '16kb' }));
@@ -28,74 +30,88 @@ function createApp(options = {}) {
   });
 
   app.post('/api/coach', coachRateLimiter, async (req, res) => {
-    const parsed = CoachRequestSchema.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({
-        error: 'Invalid request payload',
-        issues: parsed.error.issues
-      });
-    }
-
-    const { module, scenarioId, level, l1, persona, userText, history, usedWords, customScenario } =
-      parsed.data;
-
-    const scenario = findScenario(module, scenarioId, customScenario);
-    const apiKey = process.env.GEMINI_API_KEY;
-    const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
-
-    if (apiKey && apiKey.trim().length > 0) {
-      try {
-        const payload = buildGeminiCoachPayload({
-          scenario,
-          level,
-          l1,
-          persona,
-          userText,
-          history,
-          usedWords
+    try {
+      const parsed = CoachRequestSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({
+          error: 'Invalid request payload',
+          issues: parsed.error.issues
         });
-
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
-          modelName
-        )}:generateContent?key=${encodeURIComponent(apiKey.trim())}`;
-
-        const fetchFn = options.fetchImpl || globalThis.fetch;
-        const response = await fetchFn(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          signal: AbortSignal.timeout(20000)
-        });
-
-        if (!response.ok) {
-          throw new Error(`Gemini HTTP ${response.status}`);
-        }
-
-        const data = await response.json();
-        const rawJson = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!rawJson) {
-          throw new Error('Empty Gemini response');
-        }
-
-        const parsedOutput = JSON.parse(rawJson);
-        const validated = CoachResponseSchema.parse(parsedOutput);
-        return res.status(200).json(validated);
-      } catch (_err) {
-        // Fall through to deterministic rule-based fallback on any Gemini error/timeout
       }
-    }
 
-    const fallbackResult = generateStrategicRAndDFallback({
-      userText,
-      module,
-      scenarioId,
-      l1,
-      persona,
-      usedWords,
-      customScenario
-    });
-    const validatedFallback = CoachResponseSchema.parse(fallbackResult);
-    return res.status(200).json(validatedFallback);
+      const {
+        module,
+        scenarioId,
+        level,
+        l1,
+        persona,
+        userText,
+        history,
+        usedWords,
+        customScenario
+      } = parsed.data;
+
+      const scenario = findScenario(module, scenarioId, customScenario);
+      const apiKey = process.env.GEMINI_API_KEY;
+      const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+
+      if (apiKey && apiKey.trim().length > 0) {
+        try {
+          const payload = buildGeminiCoachPayload({
+            scenario,
+            level,
+            l1,
+            persona,
+            userText,
+            history,
+            usedWords
+          });
+
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
+            modelName
+          )}:generateContent?key=${encodeURIComponent(apiKey.trim())}`;
+
+          const fetchFn = options.fetchImpl || globalThis.fetch;
+          const response = await fetchFn(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            signal: AbortSignal.timeout(20000)
+          });
+
+          if (!response.ok) {
+            throw new Error(`Gemini HTTP ${response.status}`);
+          }
+
+          const data = await response.json();
+          const rawJson = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!rawJson) {
+            throw new Error('Empty Gemini response');
+          }
+
+          const parsedOutput = JSON.parse(rawJson);
+          const validated = CoachResponseSchema.parse(parsedOutput);
+          return res.status(200).json(validated);
+        } catch (_err) {
+          // Fall through to deterministic rule-based fallback on any Gemini error/timeout
+        }
+      }
+
+      const fallbackFn = options.fallbackImpl || generateStrategicRAndDFallback;
+      const fallbackResult = fallbackFn({
+        userText,
+        module,
+        scenarioId,
+        l1,
+        persona,
+        usedWords,
+        customScenario
+      });
+      const validatedFallback = CoachResponseSchema.parse(fallbackResult);
+      return res.status(200).json(validatedFallback);
+    } catch (_err) {
+      return res.status(500).json({ error: 'Internal error' });
+    }
   });
 
   // Explicit 404 for any other /api/* route (including removed /api/scrape-finn)

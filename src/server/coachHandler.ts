@@ -10,6 +10,7 @@ import {
   type RateLimitCheckFn,
   type RateLimitOptions
 } from './rateLimit';
+import { getSessionUser, isAuthEnabled } from './auth';
 
 const MAX_BODY_BYTES = 16 * 1024;
 
@@ -17,6 +18,8 @@ export interface CoachHandlerDeps {
   fetchImpl?: typeof globalThis.fetch;
   fallbackImpl?: (input: FallbackInput) => CoachResponse;
   rateLimit?: RateLimitCheckFn | RateLimitOptions;
+  getUser?: () => Promise<{ id: string } | null>;
+  authEnabled?: () => boolean;
 }
 
 export function createCoachHandler(
@@ -27,8 +30,20 @@ export function createCoachHandler(
       ? deps.rateLimit
       : createRateLimiter(deps.rateLimit);
 
+  const checkAuthEnabled: () => boolean = deps.authEnabled ?? isAuthEnabled;
+
+  const resolveUser: () => Promise<{ id: string } | null> =
+    deps.getUser ?? getSessionUser;
+
   return async (req: Request): Promise<Response> => {
     try {
+      if (checkAuthEnabled()) {
+        const user = await resolveUser();
+        if (!user) {
+          return Response.json({ error: 'auth_required' }, { status: 401 });
+        }
+      }
+
       if (!checkRateLimit(req)) {
         return Response.json(
           { error: 'Too many requests, please try again later.' },

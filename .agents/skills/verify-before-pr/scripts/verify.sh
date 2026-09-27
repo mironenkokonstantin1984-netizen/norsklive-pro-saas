@@ -29,7 +29,7 @@ if [ -f package-lock.json ]; then npm ci --no-audit --no-fund || fail "npm ci"
 else npm install --no-audit --no-fund || fail "npm install"; fi
 record "OK    install"
 
-for s in lint typecheck test; do
+for s in lint typecheck test build; do
   step "$s"
   if has_script "$s"; then
     npm run "$s" || fail "npm run $s"

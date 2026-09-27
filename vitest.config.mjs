@@ -5,5 +5,10 @@ export default defineConfig({
     jsx: {
       runtime: 'automatic'
     }
+  },
+  test: {
+    env: {
+      AUTH_ENABLED: 'false'
+    }
   }
 });

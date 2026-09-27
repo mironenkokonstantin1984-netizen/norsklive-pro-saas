@@ -2,7 +2,9 @@
 // 100% Åndsverkloven & Kopinor-KS (2026-2027) Compliant Proprietary CEFR Content
 // Supports L1 Micro-Corrections in Ukrainian (UA - 64% Voksenopplæring share), Russian (RU), and English (EN)
 
-window.NORSK_SCENARIOS = {
+const _root = typeof window !== 'undefined' ? window : globalThis;
+
+_root.NORSK_SCENARIOS = {
   // ============================================================================
   // CONCEPT #1: NORSKPRØVE MUNTLIG SIMULATOR (HK-dir Multi-Agent Architecture)
   // Driven by UDI Sept 1, 2025 Permanent Residency Oral Exam Mandate (A2/B1/B2)
@@ -148,14 +150,14 @@ window.NORSK_SCENARIOS = {
   ],
 
   // ============================================================================
-  // CONCEPT #2: JOBBINTERVJU PÅ NORSK (Finn.no Scraper + CV Gap + Lunsjprat)
+  // CONCEPT #2: JOBBINTERVJU PÅ NORSK (Job Ad + CV Gap + Lunsjprat)
   // ============================================================================
   jobbintervju: [
     {
       id: 'jobb-b2b-logistikk-ai',
-      title: 'Finn.no Case: Key Account Manager / Logistikk & AI-automasjon',
+      title: 'Intervju Case: Key Account Manager / Logistikk & AI-automasjon',
       level: 'B1–B2',
-      badge: 'Finn.no + CV Gap-analyse',
+      badge: 'Stillingsannonse + CV Gap-analyse',
       avatar: '👔',
       partnerName: 'Anders Lindqvist (Kommersiell Direktør)',
       partnerRole: 'Norsk HR & Fagleder (Sjekker faglig match + kulturell «lagspiller»-fit)',
@@ -301,3 +303,7 @@ Krav: Erfaring med verdikjeden (supply chain), B2B-relasjonssalg og automatiseri
     }
   ]
 };
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = _root.NORSK_SCENARIOS;
+}

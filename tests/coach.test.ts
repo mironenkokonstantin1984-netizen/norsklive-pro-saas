@@ -1,8 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect, vi } from 'vitest';
 import nextConfig from '../next.config';
 import { createCoachHandler } from '../src/server/coachHandler';
+import { createRateLimiter } from '../src/server/rateLimit';
 import { CoachResponseSchema } from '../src/server/schemas';
 import { generateStrategicRAndDFallback } from '../src/server/fallback';
 import { buildGeminiCoachPayload } from '../src/server/prompts/coach';
@@ -225,7 +226,7 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
     expect(parts[1].text).toBe(secretInjection);
   });
 
-  test('7. Rate limiter keys by X-Forwarded-For: 31st request from same IP gets 429, other IPs get 200', async () => {
+  test('7. Rate limiter keys by X-Forwarded-For: 31st request from same IP gets 429, other IPs get 200, and expired entries are swept after window', async () => {
     const handler = createCoachHandler();
     const validBody = {
       module: 'norskprove',
@@ -255,6 +256,59 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
       makeCoachRequest(validBody, { 'x-forwarded-for': '203.0.113.99' })
     );
     expect(otherIpRes.status).toBe(200);
+
+    // Fake timers check: after window passes, limited IP is allowed again and old expired entry is gone
+    vi.useFakeTimers();
+    try {
+      const startTime = new Date('2026-09-27T10:00:00Z');
+      vi.setSystemTime(startTime);
+
+      const limiter = createRateLimiter({ max: 2, windowMs: 60_000, sweepInterval: 2 });
+      const timedHandler = createCoachHandler({ rateLimit: limiter });
+
+      // Stale client makes 1 request
+      const staleIp = '203.0.113.50';
+      expect(
+        (await timedHandler(makeCoachRequest(validBody, { 'x-forwarded-for': staleIp }))).status
+      ).toBe(200);
+      expect(limiter.hits.has(staleIp)).toBe(true);
+
+      // Active client hits limit (2 requests -> 200, 3rd -> 429)
+      const limitedClientIp = '198.51.100.77';
+      expect(
+        (
+          await timedHandler(
+            makeCoachRequest(validBody, { 'x-forwarded-for': limitedClientIp })
+          )
+        ).status
+      ).toBe(200);
+      expect(
+        (
+          await timedHandler(
+            makeCoachRequest(validBody, { 'x-forwarded-for': limitedClientIp })
+          )
+        ).status
+      ).toBe(200);
+      expect(
+        (
+          await timedHandler(
+            makeCoachRequest(validBody, { 'x-forwarded-for': limitedClientIp })
+          )
+        ).status
+      ).toBe(429);
+
+      // Advance clock past the 60s window
+      vi.setSystemTime(new Date(startTime.getTime() + 61_000));
+
+      // Previously limited IP is allowed again (200) and stale entry is swept from hits map
+      const afterWindowRes = await timedHandler(
+        makeCoachRequest(validBody, { 'x-forwarded-for': limitedClientIp })
+      );
+      expect(afterWindowRes.status).toBe(200);
+      expect(limiter.hits.has(staleIp)).toBe(false);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   test('8. POST /api/coach returns 500 { error: "Internal error" } if fallback throws unexpectedly', async () => {

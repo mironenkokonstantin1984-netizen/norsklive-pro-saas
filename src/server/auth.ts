@@ -1,4 +1,4 @@
-import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { createSupabaseServerClient } from '../lib/supabase/server';
 
 export function isAuthEnabled(): boolean {
   return process.env.AUTH_ENABLED === 'true';

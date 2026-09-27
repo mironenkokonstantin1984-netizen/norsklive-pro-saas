@@ -70,3 +70,16 @@ To stop the local Supabase containers when you are done working:
 ```bash
 npm run db:stop
 ```
+
+## 6. Login Locally (`M1b-2a`)
+
+To enable magic-link authentication locally:
+
+1. Set `AUTH_ENABLED=true` in `.env.local`:
+   ```dotenv
+   AUTH_ENABLED=true
+   ```
+2. Start the local Supabase stack (`npm run db:start`) and the Next.js server (`npm run dev` or `npm start`).
+3. Open `http://localhost:3000/login` in your browser, enter any email address (e.g. `kari@norsklive.no`), and click **«Получить ссылку для входа»**.
+4. Open **Mailpit** at `http://localhost:54324`, open the captured magic-link email, and click the login link (`http://localhost:3000/auth/callback?code=...`) in the same browser to sign in and return to `/`.
+

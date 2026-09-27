@@ -137,8 +137,8 @@ body {
   .topbar {
     flex-direction: column;
     align-items: stretch;
-    padding: var(--space-2) var(--space-3);
-    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    gap: var(--space-1);
   }
   .topbar-row {
     width: 100%;
@@ -149,6 +149,19 @@ body {
   .module-tab {
     flex: 1;
     padding: var(--space-1) var(--space-2);
+    min-height: 2.25rem;
+  }
+  .studio-layout {
+    padding: var(--space-2);
+  }
+  .exam-prompt-text {
+    font-size: 0.9375rem;
+    line-height: 1.35;
+  }
+  .msg-norsk,
+  .msg-user-text {
+    font-size: 0.9375rem;
+    line-height: 1.35;
   }
 }
 

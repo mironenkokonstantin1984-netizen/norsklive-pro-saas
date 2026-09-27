@@ -1,23 +1,24 @@
 import type { ReactNode } from 'react';
+import { Manrope } from 'next/font/google';
+import '../styles/tokens.css';
 import './studio/studio.css';
 
+const manrope = Manrope({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-manrope'
+});
+
 export const metadata = {
-  title: 'NorskLive Pro — Multi-Agent Norskprøve · Jobbintervju · CEFR Teleprompter',
+  title: 'NorskLive',
   description:
-    'AI-powered Norwegian oral exam (Norskprøve Muntlig) and career interview trainer'
+    'NorskLive Pro — AI-powered Norwegian oral exam (Norskprøve Muntlig) and career interview trainer'
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="nb-NO">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="nb-NO" className={manrope.variable}>
       <body>{children}</body>
     </html>
   );

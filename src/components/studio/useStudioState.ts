@@ -59,10 +59,10 @@ export interface StudioState {
 }
 
 export const DEFAULT_MIC_STATUS =
-  'L2 ASR Ready (`nb-NO` без автоисправления ошибок грамматики) — Нажми 🎙️';
+  'L2 ASR Ready (nb-NO без автоисправления ошибок грамматики) — Нажми Snakk';
 
 export const THINKING_MIC_STATUS =
-  '🧠 Серверный анализ V2-грамматики, уровня CEFR (A2→B2) и критерия Samhandling...';
+  'Серверный анализ V2-грамматики, уровня CEFR (A2→B2) и критерия Samhandling...';
 
 export const DEFAULT_HKDIR_SCORES: HkdirScores = {
   cefr: 'B1+',

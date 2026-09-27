@@ -203,6 +203,7 @@ body {
   width: 100%;
   max-width: 40rem;
   margin: 0 auto;
+  padding-bottom: 7.5rem;
   overflow: visible;
 }
 
@@ -761,14 +762,18 @@ body {
 
 /* VOICE DOCK & 72PX MICBUTTON (DESIGN SYSTEM §8) */
 .voice-dock {
-  position: sticky;
+  position: fixed;
   bottom: 0;
-  z-index: 30;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 40rem;
+  z-index: 40;
   padding: var(--space-3) var(--space-4);
   background: var(--surface);
-  border-top: 1px solid var(--border);
-  border-bottom-left-radius: var(--radius-lg);
-  border-bottom-right-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
   box-shadow: var(--shadow-float);
   display: flex;
   align-items: center;

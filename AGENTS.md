@@ -20,6 +20,8 @@ Full technical roadmap: `docs/AGENT_TASK_SPEC.md`. How the task loop works: `doc
    cause. Do not push red code, do not disable or delete tests to get green.
 2. Re-read your diff (`git diff master...HEAD`) and remove anything the issue did not ask for.
 3. Fill the PR report as described in `.agents/skills/pr-report/SKILL.md`.
+4. After `git push`, confirm the push landed: `git ls-remote origin <branch>` must print the same
+   SHA as `git rev-parse HEAD`. Only then reply on the PR, and cite that SHA — never a local-only commit.
 
 ## Hard rules
 - No secrets in code, tests, fixtures, logs or commits. Keys only via server env vars; every new

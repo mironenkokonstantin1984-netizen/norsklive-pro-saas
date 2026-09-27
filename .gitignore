@@ -1,4 +1,5 @@
 node_modules/
+.next/
 .vercel/
 public/.vercel/
 *.log

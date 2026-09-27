@@ -1,0 +1,91 @@
+# NorskLive Pro — план вывода на рынок как SaaS
+
+## Context
+Пользователь попросил проанализировать репозиторий `norsklive-pro-saas`, провести исследование рынка и дать чёткий план запуска продукта как SaaS.
+
+### Что есть в репозитории сейчас (факты из кода)
+- **Статический фронтенд + минимальный Express** (`server.js`, 65 строк). Нет базы данных, авторизации, биллинга, аналитики, тестов, CI.
+- `public/norsk/*` — сам тренажёр: Web Speech API (`nb-NO`, работает только в Chrome/Edge), SpeechSynthesis, 3 режима (Norskprøve / Jobbintervju / CEFR-телесуфлёр), сценарии захардкожены в `scenarios.js`, логика коррекций — в основном правила (regex V2-инверсии), Gemini опционален.
+- **Ключ Gemini вводит сам пользователь и хранится в `localStorage`** (`public/norsk/app.js:18,857`), запрос уходит напрямую из браузера (`app.js:479`). Для SaaS это неприемлемо: платящий клиент не должен нести свой API-ключ.
+- `public/index.html`, `public/app.js`, `public/data.js`, `public/styles.css` — **остатки другого проекта (дашборд ЧМ-2026 по футболу)**; `package.json` называется `fifa-world-cup-2026-predictor`; корневой `/` отдаёт футбол, а не продукт.
+- `POST /api/scrape-finn` — открытый прокси без rate-limit и с проверкой `url.includes('finn.no')` (обходится `https://evil.com/?finn.no` → SSRF).
+- Блюпринт содержит локальные Windows-пути и ряд непроверенных цифр.
+
+### Ключевые выводы исследования (сентябрь 2026)
+1. **Спрос реален и регулярен.** С 01.09.2025 для ПМЖ нужен сданный **муниципальный устный норскпрёве на A2** + samfunnskunnskap (часы курсов больше не засчитываются); для гражданства — **устный B1**. В мае 2026 устную часть сдавали **9 311 человек** (всего 11 107), сессий до 4 в год → ориентир ~25–35 тыс. сдающих устный в год.
+2. **Рынок уже занят — «первым» не будем.** Прямые AI-конкуренты по устному экзамену: **Norskprøven.ai** (295 NOK/мес или 495 NOK/90 дней), **Lingu «Muntlig»** (от 499 NOK), **NorskAI** (freemium, 30-дневные коды, B2B-коды для школ), **Språki** (есть режим Norskprøve и jobbintervju), **Voki.no**, **muntlig.com**. Цена в блюпринте 349 NOK/мес — на верхней границе; модель «пакет до экзамена» уже норма рынка.
+3. **Формат экзамена в приложении не совпадает с реальным.** Официальный устный тест HK-dir: парный экзамен; задачи — краткая самопрезентация, **описание картинки**, разговор с медкандидатом по теме повседневной жизни, вопросы экзаменатора. В приложении нет описания картинки, а «Del 1/2/3» и темы B2 (velferdsstat, digitalisering) — избыточны для основного сегмента A2/B1. Это главный продуктовый пробел.
+4. **Сегмент «64 % украинцы» не мотивирован ПМЖ.** Коллективная защита не даёт права на ПМЖ (продлена до 2027; только работающие украинцы с доходом ~400 тыс. NOK могут перейти на трек). Основной платящий сегмент ПМЖ/гражданства — трудовые мигранты и члены семей (EU/не-EU), беженцы с защитой, экспаты. Украинцы — сегмент «работа/интеграция», не «экзамен к ПМЖ».
+5. **Скрейпинг Finn.no запрещён** условиями и robots.txt без письменного разрешения. Фичу в текущем виде выпускать нельзя.
+6. **Платежи:** в Норвегии нужен **Vipps MobilePay Recurring** (через Stripe недоступен напрямую — через агрегаторы вроде Frisbii/Reepay или собственная интеграция) + Stripe для карт/иностранцев.
+7. **GDPR/Datatilsynet:** голос — персональные данные; нужны DPA с LLM/STT-провайдером, EU-регион (Gemini — Vertex AI europe-*, не дефолтный us-central1), политика хранения записей. ИИ — приоритет надзора Datatilsynet.
+8. **Гранты:** Innovasjon Norge Oppstartstilskudd 1 — до 150 000 NOK, только для **AS**, на валидацию рынка; бюджет стартовых грантов 2026 урезан → конкуренция выше. SkatteFUNN — реалистичен при реальном R&D (L2-ASR оценка).
+
+## Позиционирование (рекомендация)
+Не «ещё один AI-тренажёр», а **«Сдай муntlig A2/B1 с первой попытки — на твоём родном языке»**:
+- Дифференциатор 1: объяснения и коррекции на **RU/UA/EN (+ позже PL, AR, TI, SO)** — у конкурентов в основном NO/EN.
+- Дифференциатор 2: **точная копия формата HK-dir** (включая описание картинки и парную задачу с AI-медкандидатом, «перебивающим/пассивным») + **оценка по бланку оценивания HK-dir** с прогнозом «сдашь/не сдашь».
+- Дифференциатор 3: **гарантия/пакет «до экзамена»** — 90 дней, привязка к датам сессий.
+- Jobbintervju и телесуфлёр — вторичные апселл-модули, не ядро запуска.
+
+## Ценообразование (старт)
+- Free: 1 полная пробная симуляция + 3 мини-упражнения в день.
+- **Exam Pass 90 дней — 490 NOK** (разовый, Vipps) — главный продукт.
+- Monthly — 249 NOK/мес (для jobbintervju/долгой практики).
+- B2B (фаза 3): лицензии для voksenopplæring/частных школ (Alfaskolen, Folkeuniversitetet), 800–1 500 NOK/ученик/год, и NAV-подрядчиков.
+- Целевая себестоимость LLM+STT ≤ 25 NOK на пакет; жёсткие дневные лимиты минут.
+
+## План работ
+
+### Фаза 0 — Гигиена репозитория и фундамент (1–2 недели)
+- Удалить футбольный проект: `public/index.html`, `public/app.js`, `public/data.js`, `public/styles.css`, `public/vercel.json`; переименовать `package.json` (`norsklive-pro`), вынести `/norsk` в корень, поправить `vercel.json`.
+- Отключить `/api/scrape-finn` (заменить на «вставьте текст вакансии» — пользователь копирует сам; позже — партнёрство с FINN или открытые данные NAV `arbeidsplassen.nav.no` через их публичный feed-API).
+- Выбрать стек: Next.js (App Router) + Supabase (Auth, Postgres в EU-регионе, Storage) на Vercel (регион `arn1`/`fra1`). Перенести текущую vanilla-логику (`public/norsk/app.js`, `scenarios.js`) как модули.
+- Серверный AI-прокси: `/api/coach` вызывает Gemini (Vertex AI, europe-north1/west) с серверным ключом, учётом минут на пользователя, rate-limit; убрать ввод ключа из UI (`app.js:146–160, 846–860`).
+- Базовые таблицы: `users`, `subscriptions`, `sessions` (симуляции), `attempts` (реплики + оценки), `usage` (минуты/токены).
+
+### Фаза 1 — MVP «Muntlig A2/B1» (3–5 недель)
+- Переделать режим Norskprøve под **реальный формат HK-dir**: самопрезентация → описание картинки (библиотека собственных/лицензированных AI-иллюстраций) → парный разговор с AI-медкандидатом → вопросы экзаменатора. Уровни A2 и B1 (B2 — позже).
+- STT: браузерный Web Speech не работает в Safari/Firefox и «исправляет» грамматику → серверная транскрипция (Gemini audio или NB-Whisper на Replicate/HF endpoint в EU). Сохранять сырую транскрипцию.
+- Оценка: промпт с бланком оценивания HK-dir → JSON (кommunikasjon, ordforråd, grammatikk, uttale/flyt, samhandling) + итог «A2 bestått / ikke / B1» + 3 конкретных совета на L1.
+- Отчёт после симуляции + прогресс по попыткам; обратный отсчёт до даты экзамена.
+- Оплата: Vipps MobilePay (ePayment для разового Exam Pass, Recurring для подписки) + Stripe Checkout для карт; webhooks → `subscriptions`.
+- Юридическое: регистрация **AS**, Personvernerklæring + Brukervilkår (NO/EN/RU/UA), DPA с Google, согласие на запись голоса, хранение аудио ≤ 30 дней, возможность удалить аккаунт. Дисклеймер «не связано с HK-dir».
+- Аналитика: PostHog (EU cloud) — воронка landing → первая симуляция → оплата; Sentry.
+
+### Фаза 2 — Бета и запуск B2C (6–10 недель от старта)
+- **Закрытая бета 30–50 человек** за 4–6 недель до ближайшей сессии экзамена (сессии обычно ~май/июнь, ~ноябрь/декабрь; даты сверять на prove.hkdir.no). Бесплатно в обмен на интервью и результат экзамена → кейсы «сдал».
+- Landing на NO/EN/RU/UA: SEO под «norskprøve muntlig A2 øving», «как сдать норскпрёве устный», «норскпрьове A2 ПМЖ»; бесплатный инструмент-лидмагнит (мини-тест уровня за 5 мин).
+- Каналы: русско/украиноязычные группы Facebook/Telegram «Норвегия», польская диаспора (mojanorwegia.pl — крупнейшая), YouTube/TikTok-разборы экзаменационных задач, партнёрство с репетиторами (реферальные 20–30 %).
+- Метрики запуска: активация (завершил симуляцию) ≥ 40 %, конверсия free→paid ≥ 5 %, CAC < 150 NOK, pass-rate беты публикуется.
+
+### Фаза 3 — Расширение (3–9 месяцев)
+- B2B-пилот с 1–2 частными школами/кommunale voksenopplæring (дашборд преподавателя, лицензии, SSO по коду класса).
+- Модуль «Jobbintervju» (текст вакансии вручную или NAV Arbeidsplassen API) и «Lunsjprat»; телесуфлёр как упражнение на словарь.
+- Samfunnskunnskap-тренажёр (обязателен для ПМЖ вместе с устным) — дешёвый в производстве кросс-селл.
+- Языки L1: польский, арабский, тигринья, сомали, литовский.
+- Заявки: Oppstartstilskudd 1 (после регистрации AS и первых данных беты), SkatteFUNN на R&D L2-оценки произношения.
+
+## Критичные файлы
+- `server.js` — убрать scraper, добавить серверный AI-прокси (или мигрировать в Next.js API routes).
+- `public/norsk/app.js` — убрать клиентский ключ (`:18`, `:150`, `:414–480`, `:846–860`), вынести вызовы на сервер.
+- `public/norsk/scenarios.js` — переписать Norskprøve-сценарии под реальный формат A2/B1.
+- `public/index.html`, `public/app.js`, `public/data.js`, `public/styles.css`, `package.json`, `vercel.json` — удалить/переименовать футбольные остатки.
+- `NORSKLIVE_PRO_SAAS_BLUEPRINT_2026.md` — исправить: формат экзамена, сегмент украинцев, скрейпинг Finn, конкурентов, Windows-пути.
+
+## Verification
+- Фаза 0: `npm start` → `/` открывает NorskLive, `/api/scrape-finn` отсутствует, в сети браузера нет запросов к `generativelanguage.googleapis.com` с клиента.
+- Фаза 1: e2e (Playwright, Chromium уже есть) — регистрация → симуляция A2 → отчёт с оценкой → тестовая оплата Vipps test / Stripe test mode → статус подписки активен.
+- Бизнес: дашборд PostHog с воронкой; результаты экзамена беты (≥ 70 % сдавших A2 — цель).
+
+## Источники
+- UDI: изменения требований к ПМЖ — https://www.udi.no/viktige-meldinger/endringer-i-kravene-om-norsk-og-samfunnskunnskap-permanent-oppholdstillatelse/
+- UDI: требования к гражданству — https://www.udi.no/ord-og-begreper/krav-om-prover-for-a-fa-norsk-statsborgerskap/
+- HK-dir: 11 000+ сдали в мае 2026 — https://kommunikasjon.ntb.no/pressemelding/18979058/over-11-000-personer-tok-norskproven-i-mai?publisherId=9361272&lang=no
+- HK-dir: формат устного — https://prove.hkdir.no/norskprove-a1-b2/les-om-proven-norsk-A1-B2/om-muntlig-prove
+- Конкуренты: https://www.norskproven.ai/ · https://lingu.no/content/muntlig-norskproven · https://www.norskai.com/en · https://spraki.no/ · https://voki.no/ · https://muntlig.com/
+- Коллективная защита и ПМЖ: https://www.nrk.no/norge/regjeringen_-ukrainere-kan-soke-om-oppholdstillatelse-hvis-de-er-i-jobb-1.18027736
+- FINN robots/условия: https://www.finn.no/robots.txt
+- Vipps Recurring API: https://developer.vippsmobilepay.com/api/recurring/
+- Oppstartstilskudd 1: https://www.innovasjonnorge.no/tjeneste/oppstartstilskudd-1 · сокращения 2026: https://www.innovasjonnorge.no/nyhetsartikkel/statsbudsjettet-2026:-forslag-til-kutt-i-lan-og-tilskudd-til-grundere-og-bedrifter
+- EU data residency (Gemini/OpenAI): https://companyscope.io/vendors/google-gemini · https://openai.com/index/introducing-data-residency-in-europe/

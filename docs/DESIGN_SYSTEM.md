@@ -131,10 +131,17 @@ rotation), speaking (expanding rings).
   guilt; does not pretend to be a friend.
 
 ## 10. Patterns to build in M1c
+- **Home = "Мой путь к B1"** (the learner's target level). The product is language learning
+  with exam prep as one mode (see `docs/GO_TO_MARKET_PLAN.md`, "Стратегия"). Home shows: current
+  level estimate, the next real-life situation to practise, the personal word deck, and an
+  "Экзамен" entry with the days-until-exam countdown when an exam date is set.
+- **Personal word deck** — words the learner stumbled on in conversation, reviewed with spaced
+  repetition (one card at a time, speak the word in a sentence, no multiple-choice games).
 - **Dagens setning** — one exam phrase per day, ~30 s, first attempt without an account.
 - **Readiness screen** — one clear chart: the three exam parts vs days until the exam.
 - **Finite sessions** — every session ends with a result and a clear finish, no endless feed.
-- **Path** — Samtale → Bilde → Diskusjon → mock exam, unlocked step by step.
+- **Path** — levels A1 → A2 → B1 → B2 built from real situations (job interview, doctor, NAV,
+  school); inside exam mode: Samtale → Bilde → Diskusjon → mock exam, unlocked step by step.
 
 ## 11. Do not
 Gradients (except Nora's orb), 3D, realistic avatars, streak flames/points/leagues, confetti,

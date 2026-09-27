@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "AI-powered Norwegian oral exam (Norskprøve Muntlig) and career interview trainer",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "dev": "next dev",

@@ -28,7 +28,11 @@ module.exports = [
     }
   },
   {
-    files: ['src/components/**/*.{js,ts,tsx}', 'src/lib/**/*.{js,ts,tsx}'],
+    files: [
+      'src/components/**/*.{js,ts,tsx}',
+      'src/lib/**/*.{js,ts,tsx}',
+      'src/app/login/**/*.{js,ts,tsx}'
+    ],
     rules: {
       'no-restricted-imports': [
         'error',

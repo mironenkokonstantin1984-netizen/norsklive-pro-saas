@@ -6,6 +6,7 @@ These rules are always active. They apply to every agent (Antigravity, Claude Co
 NorskLive Pro — AI trainer for the Norwegian oral exam "Norskprøve muntlig" (HK-dir), levels A2/B1,
 explanations in the learner's L1 (ru/uk/en). Business context: `docs/GO_TO_MARKET_PLAN.md`.
 Full technical roadmap: `docs/AGENT_TASK_SPEC.md`. How the task loop works: `docs/AGENT_LOOP.md`.
+UI work follows `docs/DESIGN_SYSTEM.md` via the `design-system` skill.
 
 ## How you receive work
 - Each task is a GitHub issue labelled `agent-task`, or a PR comment starting with `@antigravity`.

@@ -8,6 +8,7 @@ import {
   type ScenariosByModule,
   type TargetWord
 } from '../../content/scenarios';
+import type { Correction, Hint } from '../../server/schemas';
 import { speakNorwegian } from '../../lib/speech';
 
 export type L1Language = 'ru' | 'ua' | 'en';
@@ -18,6 +19,19 @@ export interface GlossaryItem {
   word: string;
   translation: string;
   example?: string;
+}
+
+export interface ChatMessage {
+  sender: 'user' | 'ai';
+  norsk: string;
+  l1?: string;
+  time?: string;
+}
+
+export interface HkdirScores {
+  cefr: string;
+  gram: string;
+  arg: string;
 }
 
 export interface StudioState {
@@ -32,6 +46,41 @@ export interface StudioState {
   savedGlossary: GlossaryItem[];
   blurMode: boolean;
   timerSeconds: number;
+  chatHistory: ChatMessage[];
+  coachingHistory: Correction[];
+  hints: Hint[];
+  isRecording: boolean;
+  isSpeaking: boolean;
+  isThinking: boolean;
+  micStatusText: string;
+  usedWordsToast: string;
+  hkdirScores: HkdirScores;
+}
+
+export const DEFAULT_MIC_STATUS =
+  'L2 ASR Ready (`nb-NO` без автоисправления ошибок грамматики) — Нажми 🎙️';
+
+export const DEFAULT_HKDIR_SCORES: HkdirScores = {
+  cefr: 'B1+',
+  gram: 'Ожидание реплики...',
+  arg: 'Инициатива в диалоге'
+};
+
+export function getOpeningL1(scenario: Scenario, l1Lang: L1Language): string {
+  if (l1Lang === 'ua') return scenario.openingUa || scenario.openingTranslation;
+  if (l1Lang === 'en') return scenario.openingEn || scenario.openingTranslation;
+  return scenario.openingTranslation;
+}
+
+export function createInitialChat(scenario: Scenario, l1Lang: L1Language): ChatMessage[] {
+  return [
+    {
+      sender: 'ai',
+      norsk: scenario.openingLine,
+      l1: getOpeningL1(scenario, l1Lang),
+      time: '12:00'
+    }
+  ];
 }
 
 export type StudioAction =
@@ -47,7 +96,18 @@ export type StudioAction =
   | { type: 'APPLY_CUSTOM_SCENARIO'; scenario: Scenario }
   | { type: 'LOAD_GLOSSARY'; items: GlossaryItem[] }
   | { type: 'SAVE_TO_GLOSSARY'; item: GlossaryItem }
-  | { type: 'MARK_WORD_USED'; word: string };
+  | { type: 'MARK_WORD_USED'; word: string }
+  | { type: 'MARK_WORDS_USED'; words: string[]; toast: string }
+  | { type: 'CLEAR_USED_WORDS_TOAST' }
+  | { type: 'APPEND_MESSAGE'; message: ChatMessage }
+  | { type: 'ADD_COACHING_CARD'; correction: Correction }
+  | { type: 'SET_HINTS'; hints: Hint[] }
+  | { type: 'SET_RECORDING'; isRecording: boolean }
+  | { type: 'SET_SPEAKING'; isSpeaking: boolean }
+  | { type: 'SET_THINKING'; isThinking: boolean }
+  | { type: 'SET_MIC_STATUS'; text: string };
+
+const firstScenario = scenariosByModule.norskprove[0];
 
 export const initialStudioState: StudioState = {
   currentModule: 'norskprove',
@@ -56,7 +116,7 @@ export const initialStudioState: StudioState = {
     jobbintervju: [...scenariosByModule.jobbintervju],
     pensum: [...scenariosByModule.pensum]
   },
-  currentScenario: scenariosByModule.norskprove[0],
+  currentScenario: firstScenario,
   l1Lang: 'ru',
   userLevel: 'B1',
   agentPersona: 'standard',
@@ -64,34 +124,57 @@ export const initialStudioState: StudioState = {
   usedWords: [],
   savedGlossary: [],
   blurMode: false,
-  timerSeconds: 0
+  timerSeconds: 0,
+  chatHistory: createInitialChat(firstScenario, 'ru'),
+  coachingHistory: [],
+  hints: [...(firstScenario.hints || [])],
+  isRecording: false,
+  isSpeaking: false,
+  isThinking: false,
+  micStatusText: DEFAULT_MIC_STATUS,
+  usedWordsToast: '',
+  hkdirScores: { ...DEFAULT_HKDIR_SCORES }
 };
+
+function resetForScenario(state: StudioState, scenario: Scenario, module = state.currentModule): StudioState {
+  return {
+    ...state,
+    currentModule: module,
+    currentScenario: scenario,
+    usedWords: [],
+    examPart: 1,
+    timerSeconds: 0,
+    chatHistory: createInitialChat(scenario, state.l1Lang),
+    coachingHistory: [],
+    hints: [...(scenario.hints || [])],
+    isThinking: false,
+    micStatusText: DEFAULT_MIC_STATUS,
+    usedWordsToast: '',
+    hkdirScores: { ...DEFAULT_HKDIR_SCORES }
+  };
+}
 
 export function studioReducer(state: StudioState, action: StudioAction): StudioState {
   switch (action.type) {
     case 'SWITCH_MODULE': {
       const moduleList = state.scenarios[action.module] || [];
-      const firstScenario = moduleList[0] || state.currentScenario;
+      const nextSc = moduleList[0] || state.currentScenario;
+      return resetForScenario(state, nextSc, action.module);
+    }
+    case 'SELECT_SCENARIO':
+      return resetForScenario(state, action.scenario);
+    case 'SET_L1_LANG': {
+      const updatedChat = state.chatHistory.map((m, idx) =>
+        idx === 0 && m.sender === 'ai' && m.norsk === state.currentScenario.openingLine
+          ? { ...m, l1: getOpeningL1(state.currentScenario, action.l1Lang) }
+          : m
+      );
       return {
         ...state,
-        currentModule: action.module,
-        currentScenario: firstScenario,
-        usedWords: [],
-        examPart: 1,
-        timerSeconds: 0
+        l1Lang: action.l1Lang,
+        chatHistory: updatedChat
       };
     }
-    case 'SELECT_SCENARIO': {
-      return {
-        ...state,
-        currentScenario: action.scenario,
-        usedWords: [],
-        examPart: 1,
-        timerSeconds: 0
-      };
-    }
-    case 'SET_L1_LANG':
-      return { ...state, l1Lang: action.l1Lang };
     case 'SET_USER_LEVEL':
       return { ...state, userLevel: action.userLevel };
     case 'SET_AGENT_PERSONA':
@@ -101,12 +184,7 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
     case 'SET_EXAM_PART':
       return { ...state, examPart: action.examPart };
     case 'RESTART_SESSION':
-      return {
-        ...state,
-        usedWords: [],
-        examPart: 1,
-        timerSeconds: 0
-      };
+      return resetForScenario(state, state.currentScenario);
     case 'TICK_TIMER':
       return { ...state, timerSeconds: state.timerSeconds + 1 };
     case 'APPLY_CUSTOM_SCENARIO': {
@@ -114,16 +192,13 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
         action.scenario,
         ...(state.scenarios[state.currentModule] || [])
       ];
+      const nextState = resetForScenario(state, action.scenario);
       return {
-        ...state,
+        ...nextState,
         scenarios: {
           ...state.scenarios,
           [state.currentModule]: updatedModuleList
-        },
-        currentScenario: action.scenario,
-        usedWords: [],
-        examPart: 1,
-        timerSeconds: 0
+        }
       };
     }
     case 'LOAD_GLOSSARY':
@@ -147,6 +222,44 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
         usedWords: [...state.usedWords, normalized]
       };
     }
+    case 'MARK_WORDS_USED': {
+      const merged = new Set(state.usedWords);
+      action.words.forEach((w) => merged.add(w.toLowerCase()));
+      return {
+        ...state,
+        usedWords: Array.from(merged),
+        usedWordsToast: action.toast
+      };
+    }
+    case 'CLEAR_USED_WORDS_TOAST':
+      return { ...state, usedWordsToast: '' };
+    case 'APPEND_MESSAGE':
+      return {
+        ...state,
+        chatHistory: [...state.chatHistory, action.message]
+      };
+    case 'ADD_COACHING_CARD': {
+      const corr = action.correction;
+      return {
+        ...state,
+        coachingHistory: [corr, ...state.coachingHistory],
+        hkdirScores: {
+          cefr: corr.cefr_estimate || 'B1+',
+          gram: corr.v2_status || '✓ Korrekt V2',
+          arg: corr.samhandling_status || 'Активный диалог'
+        }
+      };
+    }
+    case 'SET_HINTS':
+      return { ...state, hints: action.hints };
+    case 'SET_RECORDING':
+      return { ...state, isRecording: action.isRecording };
+    case 'SET_SPEAKING':
+      return { ...state, isSpeaking: action.isSpeaking };
+    case 'SET_THINKING':
+      return { ...state, isThinking: action.isThinking };
+    case 'SET_MIC_STATUS':
+      return { ...state, micStatusText: action.text };
     default:
       return state;
   }
@@ -161,6 +274,36 @@ export function getL1Text(
   if (l1Lang === 'ua' && obj.ua) return obj.ua;
   if (l1Lang === 'en' && obj.en) return obj.en;
   return obj[ruKey] || obj.ru || obj.translation || '';
+}
+
+export function detectSpokenTargetWords(
+  userText: string,
+  targetWords: TargetWord[],
+  alreadyUsed: string[]
+): { newlyUsedDisplay: string[]; newlyUsedLower: string[] } {
+  const usedSet = new Set((alreadyUsed || []).map((w) => w.toLowerCase()));
+  const normalizedInput = userText.toLowerCase();
+  const newlyUsedDisplay: string[] = [];
+  const newlyUsedLower: string[] = [];
+
+  (targetWords || []).forEach((item) => {
+    const target = item.word.toLowerCase();
+    if (usedSet.has(target)) return;
+
+    const cleanTarget = target.replace(/^å\s+/, '').trim();
+    const rootStem = cleanTarget.length > 5 ? cleanTarget.slice(0, -2) : cleanTarget;
+
+    if (
+      normalizedInput.includes(cleanTarget) ||
+      (rootStem.length >= 4 && normalizedInput.includes(rootStem))
+    ) {
+      usedSet.add(target);
+      newlyUsedLower.push(target);
+      newlyUsedDisplay.push(item.word);
+    }
+  });
+
+  return { newlyUsedDisplay, newlyUsedLower };
 }
 
 export function buildCustomScenarioFromText(raw: string, userLevel: CefrLevel): Scenario {
@@ -212,6 +355,18 @@ export function buildCustomScenarioFromText(raw: string, userLevel: CefrLevel): 
 export function useStudioState() {
   const [state, dispatch] = useReducer(studioReducer, initialStudioState);
 
+  const speakWithOrb = useCallback((text: string) => {
+    speakNorwegian(text, {
+      onStart: () => {
+        dispatch({ type: 'SET_RECORDING', isRecording: false });
+        dispatch({ type: 'SET_SPEAKING', isSpeaking: true });
+      },
+      onEnd: () => {
+        dispatch({ type: 'SET_SPEAKING', isSpeaking: false });
+      }
+    });
+  }, []);
+
   // Load saved glossary from localStorage on client mount
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -241,16 +396,19 @@ export function useStudioState() {
       dispatch({ type: 'SWITCH_MODULE', module });
       const nextScenario = state.scenarios[module]?.[0];
       if (nextScenario) {
-        speakNorwegian(nextScenario.openingLine);
+        speakWithOrb(nextScenario.openingLine);
       }
     },
-    [state.scenarios]
+    [state.scenarios, speakWithOrb]
   );
 
-  const selectScenario = useCallback((scenario: Scenario) => {
-    dispatch({ type: 'SELECT_SCENARIO', scenario });
-    speakNorwegian(scenario.openingLine);
-  }, []);
+  const selectScenario = useCallback(
+    (scenario: Scenario) => {
+      dispatch({ type: 'SELECT_SCENARIO', scenario });
+      speakWithOrb(scenario.openingLine);
+    },
+    [speakWithOrb]
+  );
 
   const setL1Lang = useCallback((l1Lang: L1Language) => {
     dispatch({ type: 'SET_L1_LANG', l1Lang });
@@ -270,8 +428,8 @@ export function useStudioState() {
 
   const restartSession = useCallback(() => {
     dispatch({ type: 'RESTART_SESSION' });
-    speakNorwegian(state.currentScenario.openingLine);
-  }, [state.currentScenario]);
+    speakWithOrb(state.currentScenario.openingLine);
+  }, [state.currentScenario, speakWithOrb]);
 
   const applyCustomSource = useCallback(
     (rawText: string) => {
@@ -279,9 +437,9 @@ export function useStudioState() {
       if (!trimmed) return;
       const customScenario = buildCustomScenarioFromText(trimmed, state.userLevel);
       dispatch({ type: 'APPLY_CUSTOM_SCENARIO', scenario: customScenario });
-      speakNorwegian(customScenario.openingLine);
+      speakWithOrb(customScenario.openingLine);
     },
-    [state.userLevel]
+    [state.userLevel, speakWithOrb]
   );
 
   const saveToGlossary = useCallback(
@@ -311,13 +469,21 @@ export function useStudioState() {
     const lines = [
       `# 🇳🇴 NorskLive Pro — HK-dir & R&D Rapport (${new Date().toLocaleDateString()})`,
       `**Концепт:** ${state.currentModule.toUpperCase()} | **Сценарий:** ${sc ? sc.title : ''}`,
-      `**Язык L1 микро-коррекций:** ${state.l1Lang.toUpperCase()} | **Оценка уровня:** Уровень: B1+`,
+      `**Язык L1 микро-коррекций:** ${state.l1Lang.toUpperCase()} | **Оценка уровня:** Уровень: ${state.hkdirScores.cefr}`,
       `**Активный словарь (Bingo):** ${state.usedWords.length} из ${(sc && sc.targetWords.length) || 0}`,
       ``,
-      `## 1. Использованные целевые слова (Bingo)`,
-      ...state.usedWords.map((w) => `- ✓ **${w}**`),
+      `## 1. Трансформация фраз (A2 → B2) и L1 Микро-коррекции`,
+      ...state.coachingHistory.map(
+        (c, i) =>
+          `### Реплика ${i + 1}\n- **Что сказал кандидат (${c.cefr_estimate}):** ${c.original}\n- **Naturlig Bokmål:** ${c.natural_bokmal}\n- **B2-Oppgradering:** ${c.b2_upgrade}\n- **L1 Разбор & Samhandling:** ${c.grammar_rule_l1}\n`
+      ),
+      `## 2. История диалога (Samtalelogg)`,
+      ...state.chatHistory.map(
+        (m) =>
+          `- **${m.sender === 'ai' ? sc.partnerName : 'Кандидат'}:** ${m.norsk}${m.l1 ? ` _(${m.l1})_` : ''}`
+      ),
       ``,
-      `## 2. Личный словарь (Min Ordbok)`,
+      `## 3. Личный словарь (Min Ordbok)`,
       ...state.savedGlossary.map((g) => `- **${g.word}** — ${g.translation} (*«${g.example || ''}»*)`)
     ];
     const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
@@ -325,7 +491,16 @@ export function useStudioState() {
     a.href = URL.createObjectURL(blob);
     a.download = `NorskLive-HKdir-Report-${new Date().toISOString().slice(0, 10)}.md`;
     a.click();
-  }, [state.currentModule, state.currentScenario, state.l1Lang, state.usedWords, state.savedGlossary]);
+  }, [
+    state.currentModule,
+    state.currentScenario,
+    state.l1Lang,
+    state.hkdirScores.cefr,
+    state.usedWords,
+    state.coachingHistory,
+    state.chatHistory,
+    state.savedGlossary
+  ]);
 
   const advanceExamPart = useCallback(() => {
     const sc = state.currentScenario;
@@ -335,16 +510,33 @@ export function useStudioState() {
       if (sc?.examStructure) {
         const nextPrompt =
           nextPart === 2 ? sc.examStructure.part2Prompt : sc.examStructure.part3Prompt;
-        speakNorwegian(nextPrompt);
+        dispatch({
+          type: 'APPEND_MESSAGE',
+          message: {
+            sender: 'ai',
+            norsk: nextPrompt,
+            l1: 'Переход к следующему регламентированному этапу экзамена HK-dir!',
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          }
+        });
+        speakWithOrb(nextPrompt);
       }
     } else {
       exportReportAndGlossary();
     }
-  }, [state.currentScenario, state.examPart, exportReportAndGlossary]);
+  }, [state.currentScenario, state.examPart, exportReportAndGlossary, speakWithOrb]);
+
+  const speakLastAiReply = useCallback(() => {
+    const lastAi = [...state.chatHistory].reverse().find((m) => m.sender === 'ai');
+    if (lastAi) {
+      speakWithOrb(lastAi.norsk);
+    }
+  }, [state.chatHistory, speakWithOrb]);
 
   return {
     state,
     dispatch,
+    speakWithOrb,
     switchModule,
     selectScenario,
     setL1Lang,
@@ -356,6 +548,7 @@ export function useStudioState() {
     saveToGlossary,
     markWordUsed,
     exportReportAndGlossary,
-    advanceExamPart
+    advanceExamPart,
+    speakLastAiReply
   };
 }

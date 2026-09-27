@@ -9,7 +9,7 @@ import {
   type TargetWord
 } from '../../content/scenarios';
 import type { Correction, Hint } from '../../server/schemas';
-import { postCoach } from '../../lib/coachClient';
+import { AuthRequiredError, postCoach } from '../../lib/coachClient';
 import { speakNorwegian } from '../../lib/speech';
 
 export type L1Language = 'ru' | 'ua' | 'en';
@@ -609,6 +609,13 @@ export function useStudioState() {
         dispatch({ type: 'SET_THINKING', isThinking: false });
         dispatch({ type: 'SET_MIC_STATUS', text: DEFAULT_MIC_STATUS });
       } catch (err) {
+        if (err instanceof AuthRequiredError) {
+          dispatch({ type: 'SET_THINKING', isThinking: false });
+          if (typeof window !== 'undefined' && typeof window.location?.assign === 'function') {
+            window.location.assign('/login');
+          }
+          return;
+        }
         const message = err instanceof Error ? err.message : String(err);
         dispatch({ type: 'SET_THINKING', isThinking: false });
         dispatch({

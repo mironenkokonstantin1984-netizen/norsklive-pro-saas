@@ -10,7 +10,12 @@ import { ChatPanel } from './ChatPanel';
 import { GlossaryPanel } from './GlossaryPanel';
 import { getL1Text, useStudioState } from './useStudioState';
 
-export function StudioPage() {
+export interface StudioPageProps {
+  authEnabled?: boolean;
+  userEmail?: string | null;
+}
+
+export function StudioPage({ authEnabled = false, userEmail = null }: StudioPageProps = {}) {
   const {
     state,
     dispatch,
@@ -98,6 +103,8 @@ export function StudioPage() {
         currentModule={state.currentModule}
         l1Lang={state.l1Lang}
         userLevel={state.userLevel}
+        authEnabled={authEnabled}
+        userEmail={userEmail}
         onSwitchModule={switchModule}
         onChangeL1Lang={setL1Lang}
         onChangeUserLevel={setUserLevel}

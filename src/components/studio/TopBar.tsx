@@ -7,6 +7,8 @@ export interface TopBarProps {
   currentModule: ModuleKey;
   l1Lang: L1Language;
   userLevel: CefrLevel;
+  authEnabled?: boolean;
+  userEmail?: string | null;
   onSwitchModule: (module: ModuleKey) => void;
   onChangeL1Lang: (l1: L1Language) => void;
   onChangeUserLevel: (level: CefrLevel) => void;
@@ -16,6 +18,8 @@ export function TopBar({
   currentModule,
   l1Lang,
   userLevel,
+  authEnabled = false,
+  userEmail = null,
   onSwitchModule,
   onChangeL1Lang,
   onChangeUserLevel
@@ -88,6 +92,21 @@ export function TopBar({
           <option value="B1">Mål: B1 (UDI / Statsborgerskap)</option>
           <option value="B2">Mål: B2 (Høyere utdanning / B2B)</option>
         </select>
+
+        {authEnabled ? (
+          <>
+            {userEmail ? (
+              <span className="brand-badge" id="userEmailBadge">
+                {userEmail}
+              </span>
+            ) : null}
+            <form method="post" action="/auth/signout">
+              <button type="submit" className="pill-btn">
+                Выйти
+              </button>
+            </form>
+          </>
+        ) : null}
       </div>
     </header>
   );

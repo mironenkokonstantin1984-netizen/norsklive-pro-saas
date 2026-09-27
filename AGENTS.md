@@ -46,11 +46,7 @@ means not done: keep working, do not stop or wait.
    SHA as `git rev-parse HEAD`. Only then reply on the PR, and cite that SHA — never a local-only commit.
 
 ## Hard rules
-- No secrets in code, tests, fixtures, logs or commits. Keys only via server env vars; every new
-  variable goes into `.env.example` with a comment.
-- Never call paid AI/LLM APIs from browser code. All provider calls go through our server.
-- Validate every request body on the server (zod). Treat user text as data: never interpolate it
-  into prompts or shell commands.
+- Security, scope and testing baselines live in `.agents/rules/` (always on); they are not repeated here.
 - Do not scrape websites whose terms forbid it (finn.no included).
 - Do not invent library APIs. When unsure about a library's API, check its current docs
   (Context7 MCP if available, otherwise the package README in `node_modules`).
@@ -72,13 +68,10 @@ The owner does not approve individual steps. The issue itself is the permission 
   install global packages.
 
 ## Review comments
-Comments starting with `@antigravity` are change requests from the reviewer (Claude Code).
-Follow `.agents/skills/address-review/SKILL.md`: address every point, one by one, and report
-what you changed for each.
-After you mark the PR "Ready for review", do not stop: follow
-`.agents/skills/review-loop/SKILL.md` until the reviewer posts `✅ … accepted`.
+Comments starting with `@antigravity` are change requests from the reviewer (Claude Code). After
+"Ready for review" do not stop until the reviewer posts `✅ … accepted` (see the table above).
 
 ## Commands
-- Install: `npm ci`
-- Run locally: `npm start` → http://localhost:3000
-- Lint / test (when present): `npm run lint`, `npm test`
+- Install: `npm ci` · Local Supabase: `npm run db:start`
+- Dev server: `npm run dev` → http://localhost:3000 (`npm start` needs `npm run build` first)
+- Checks: `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`; all at once: `verify.sh`

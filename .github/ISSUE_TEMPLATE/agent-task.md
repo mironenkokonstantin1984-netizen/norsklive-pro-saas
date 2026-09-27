@@ -1,12 +1,12 @@
 ---
 name: Agent task
-about: A task for the implementing agent (Antigravity). Adding the agent-task label starts it.
+about: A task for the implementing agent (Antigravity), picked up via the agent-task label.
 title: "[agent-task] "
 labels: []
 ---
 
 ## Instructions for the implementing agent
-- Branch: `agent/issue-<this issue number>` (created by the workflow). One PR into `master` with `Closes #<N>`.
+- Branch: `agent/issue-<this issue number>` (create it from `master`). One PR into `master` with `Closes #<N>`.
 - Follow `AGENTS.md`. Work only on the scope below.
 - Review comments starting with `@antigravity` are change requests.
 

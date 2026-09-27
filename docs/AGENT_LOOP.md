@@ -1,49 +1,56 @@
-# Цикл «Claude Code → Antigravity → Claude Code»
+# Цикл «Claude Code → Antigravity → Claude Code» (полуавтомат)
 
-> **Статус:** workflow `.github/workflows/antigravity-agent.yml` (автозапуск Antigravity в Actions)
-> пока **не добавлен** — ждёт явного решения владельца. Сейчас Antigravity запускается вручную в IDE
-> и работает по правилам и скиллам ниже; постановка задач и ревью идут через issues/PR.
-
-Задачи ставит и проверяет Claude Code, выполняет Antigravity CLI (`agy`) в GitHub Actions.
-От владельца нужен только финальный Merge.
+Задачи ставит и проверяет Claude Code. Выполняет Antigravity в IDE владельца.
+Владелец только запускает Antigravity одной фразой и в конце жмёт Merge.
 
 ```
-Claude Code: создаёт issue → ставит метку agent-task
-        │  (событие issues.labeled)
+Claude Code: создаёт issue с меткой agent-task (задача + критерии приёмки)
+        │
         ▼
-Action antigravity-agent: ветка agent/issue-N → agy -p (headless) → verify.sh → commit + push → draft PR
-        │  push/PR/комментарий → событие в PR
+Владелец: «Antigravity, возьми задачу»  (одна фраза, см. ниже)
+        │
         ▼
-Claude Code просыпается (подписка на PR): проверяет критерии приёмки, тесты, код
-   ├─ есть правки → комментарий "@antigravity …" → Action запускается снова → …
-   └─ всё принято → PR переводится в Ready + комментарий «✅ Принято» → владелец жмёт Merge
+Antigravity (IDE + GitHub MCP): ветка agent/issue-N → код → verify.sh → push → PR «Closes #N»
+        │  события PR приходят Claude Code автоматически
+        ▼
+Claude Code: проверяет критерии, тесты, код
+   ├─ есть правки → комментарий в PR, начинающийся с "@antigravity"
+   │        → владелец: «Antigravity, возьми ревью» → Antigravity правит → push → …
+   └─ всё принято → комментарий «✅ Принято» → владелец жмёт Merge → Claude ставит следующий issue
 ```
 
-## Разовая настройка (владелец репозитория)
-1. **Secrets** (Settings → Secrets and variables → Actions → New repository secret):
-   - `GEMINI_API_KEY` — ключ из Google AI Studio (на нём работает `agy`).
-   - `AGENT_PAT` — fine-grained personal access token только на этот репозиторий, права
-     *Contents*, *Pull requests*, *Issues* = Read and write. Нужен, потому что пуши через
-     стандартный `GITHUB_TOKEN` не запускают CI.
-2. **Labels**: создать метки `agent-task` и `needs-human`.
-3. **Branch protection** для `master`: merge только через PR, обязательный зелёный CI.
-4. Workflow работает только после того, как попал в `master` (события `issues` читаются из default-ветки).
+## Разовая настройка Antigravity (владелец)
+1. Подключить **GitHub MCP**: в Antigravity → `…` → MCP Servers → Manage MCP Servers → View raw config
+   (`~/.gemini/config/mcp_config.json`) и добавить:
+   ```json
+   {
+     "mcpServers": {
+       "github": {
+         "serverUrl": "https://api.githubcopilot.com/mcp/",
+         "headers": { "Authorization": "Bearer <GitHub fine-grained token>" }
+       }
+     }
+   }
+   ```
+   Токен: fine-grained PAT только на этот репозиторий, права *Contents*, *Pull requests*, *Issues* = Read and write.
+   Официальная инструкция: https://github.com/github/github-mcp-server/blob/main/docs/installation-guides/install-antigravity.md
+2. По желанию: **Context7** (актуальная документация библиотек) и **Playwright MCP** (проверка UI в браузере).
+   Всего держать не больше ~50 инструментов. С этапа M1 — **Supabase MCP** в режиме read-only.
+3. Создать в репозитории метки `agent-task` и `needs-human` (если их ещё нет).
+
+## Фразы для запуска Antigravity
+**Новая задача:**
+> Open the oldest open issue in mironenkokonstantin1984-netizen/norsklive-pro-saas labelled `agent-task` that has no linked PR. Follow AGENTS.md: create branch `agent/issue-<N>` from `master`, implement the issue exactly, run `bash .agents/skills/verify-before-pr/scripts/verify.sh` until it passes, push, and open a PR into `master` with "Closes #<N>" and the report from the pr-report skill.
+
+**Правки по ревью:**
+> Open my open PR on an `agent/*` branch in mironenkokonstantin1984-netizen/norsklive-pro-saas. Read the latest comment starting with `@antigravity` and all unresolved review threads. Follow the address-review skill: fix every point, run verify.sh until it passes, push to the same branch, and reply on the PR in the address-review format.
 
 ## Правила и инструменты агента
 - `AGENTS.md` — всегда активные правила.
 - `.agents/rules/` — безопасность, тесты, границы задачи.
-- `.agents/skills/` — `verify-before-pr` (самопроверка, скрипт `scripts/verify.sh`),
-  `pr-report` (формат отчёта), `address-review` (как отвечать на ревью), `code-review` (самоаудит диффа).
+- `.agents/skills/` — `verify-before-pr` (самопроверка, `scripts/verify.sh`), `pr-report` (формат отчёта),
+  `address-review` (как отвечать на ревью), `code-review` (самоаудит диффа).
 
-## Защита от зацикливания
-- Action реагирует только на действия владельца репозитория и только на комментарии,
-  начинающиеся с `@antigravity`, в PR с веткой `agent/*`.
-- Больше 5 раундов ревью → метка `needs-human`, агент останавливается. Тогда нужно решение человека.
-- Параллельно по одному issue работает не больше одного запуска (`concurrency`).
-
-## Рекомендуемые MCP для локального Antigravity IDE (по желанию)
-Файл `~/.gemini/config/mcp_config.json`, всего не больше ~50 инструментов:
-- **GitHub MCP** (официальный, `serverUrl: https://api.githubcopilot.com/mcp/`) — читать issues/PR и отвечать в них.
-- **Context7** — актуальная документация библиотек (меньше выдуманных API).
-- **Playwright MCP** — проверка интерфейса в браузере.
-- С этапа M1 — **Supabase MCP** в режиме read-only.
+## Остановка
+Если по одному PR больше 5 раундов ревью, Claude Code ставит метку `needs-human` и пишет владельцу,
+в чём расхождение. Дальше решает человек.

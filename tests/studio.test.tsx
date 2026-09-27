@@ -289,4 +289,77 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
       expect(usedChips[0]?.textContent).toContain('✓ BRUKT I TALE');
     });
   });
+
+  test('10 (M1c-1). MicButton label changes with recording and processing state ("Snakk" -> "Слушаю" -> "Думаю")', async () => {
+    class MockSpeechRecognition {
+      lang = 'nb-NO';
+      interimResults = true;
+      continuous = true;
+      onstart: (() => void) | null = null;
+      onresult: ((e: unknown) => void) | null = null;
+      onerror: ((e: unknown) => void) | null = null;
+      onend: (() => void) | null = null;
+      start() {
+        this.onstart?.();
+      }
+      stop() {
+        this.onend?.();
+      }
+    }
+    (window as unknown as { SpeechRecognition: unknown }).SpeechRecognition =
+      MockSpeechRecognition;
+
+    const { container } = render(<StudioPage />);
+    const micBtn = container.querySelector('#micToggleBtn') as HTMLButtonElement;
+    const statusEl = container.querySelector('#micStatusText') as HTMLElement;
+    const inputEl = container.querySelector('#userSpeechInput') as HTMLInputElement;
+    expect(micBtn).toBeTruthy();
+    expect(micBtn.getAttribute('aria-pressed')).toBe('false');
+    expect(micBtn.textContent).toContain('Snakk');
+    expect(statusEl.textContent).toBe('Нажмите и говорите');
+    expect(inputEl.getAttribute('placeholder')).toBe('Или напишите ответ');
+
+    fireEvent.click(micBtn);
+    expect(micBtn.getAttribute('aria-pressed')).toBe('true');
+    expect(micBtn.textContent).toContain('Слушаю');
+    expect(statusEl.textContent).toBe('0:00 / 2:00');
+    expect(container.querySelector('#micRecordingTimer')).toBeTruthy();
+
+    fireEvent.click(micBtn);
+    expect(micBtn.getAttribute('aria-pressed')).toBe('false');
+    expect(micBtn.textContent).toContain('Snakk');
+    expect(statusEl.textContent).toBe('Нажмите и говорите');
+
+    delete (window as unknown as { SpeechRecognition?: unknown }).SpeechRecognition;
+  });
+
+  test('11 (M1c-1). Clicking "Материалы" button toggles materials drawer and aria-expanded', () => {
+    const { container } = render(<StudioPage />);
+
+    const materialsBtn = container.querySelector(
+      '#materialsToggleBtn'
+    ) as HTMLButtonElement;
+    const drawer = container.querySelector('#materialsDrawer') as HTMLElement;
+
+    expect(materialsBtn).toBeTruthy();
+    expect(drawer).toBeTruthy();
+    expect(materialsBtn.getAttribute('aria-expanded')).toBe('false');
+    expect(drawer.classList.contains('is-closed')).toBe(true);
+
+    fireEvent.click(materialsBtn);
+    expect(materialsBtn.getAttribute('aria-expanded')).toBe('true');
+    expect(drawer.classList.contains('is-open')).toBe(true);
+
+    fireEvent.click(materialsBtn);
+    expect(materialsBtn.getAttribute('aria-expanded')).toBe('false');
+    expect(drawer.classList.contains('is-closed')).toBe(true);
+  });
+
+  test('12 (M1c-1). src/app/studio/studio.css contains zero hardcoded hex/rgb colors or px font-size declarations', async () => {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+    const cssPath = path.resolve(process.cwd(), 'src/app/studio/studio.css');
+    const cssContent = fs.readFileSync(cssPath, 'utf8');
+    expect(cssContent).not.toMatch(/#[0-9a-fA-F]{3,8}|rgb|font-size: *[0-9]+px/);
+  });
 });

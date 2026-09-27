@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { createBrowserClient } from '../../lib/supabase/browser';
-import '../../styles/tokens.css';
 import styles from './login.module.css';
 
 type LoginStatus = 'idle' | 'sending' | 'sent' | 'error';

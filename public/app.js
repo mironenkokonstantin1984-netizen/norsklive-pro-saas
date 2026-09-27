@@ -1,1162 +1,686 @@
-// JS Logic: FIFA World Cup 2026 Dashboard & Monte Carlo Simulator
-import { INITIAL_DATA } from './data.js';
+// NorskLive Pro — Client Studio Engine
+// Calls server-side POST /api/coach; no client-side API keys or external scraping
 
-// Application State
-let teams = JSON.parse(JSON.stringify(INITIAL_DATA.teams));
-let matches = JSON.parse(JSON.stringify(INITIAL_DATA.matches));
-let groups = INITIAL_DATA.groups;
-let currentTab = 'standings';
-let predictionChart = null;
-let autoPlayInterval = null;
-
-// Initialize App
-document.addEventListener('DOMContentLoaded', () => {
-  setupNavigation();
-  loadAppState();
-  calculateAndRender();
-  setupEventListeners();
-  setupApiSync();
-});
-
-// Setup tab navigation
-function setupNavigation() {
-  const menuItems = document.querySelectorAll('.menu-item');
-  menuItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-      const clickedItem = e.currentTarget;
-      const tabName = clickedItem.getAttribute('data-tab');
-      
-      // Update UI menu state
-      menuItems.forEach(btn => btn.classList.remove('active'));
-      clickedItem.classList.add('active');
-      
-      // Update Tab Pane state
-      const tabPanes = document.querySelectorAll('.tab-pane');
-      tabPanes.forEach(pane => pane.classList.remove('active'));
-      document.getElementById(`tab-${tabName}`).classList.add('active');
-      
-      currentTab = tabName;
-      
-      // Update header title
-      const pageTitle = document.getElementById('page-title');
-      if (tabName === 'standings') pageTitle.textContent = 'Турнирное положение групп';
-      if (tabName === 'matches') pageTitle.textContent = 'Центр матчей ЧМ-2026';
-      if (tabName === 'analytics') {
-        pageTitle.textContent = 'Аналитика и прогнозы победителя';
-        // Render chart specifically when switching to analytics tab to ensure sizing is correct
-        setTimeout(renderChart, 100);
-      }
-      if (tabName === 'bracket') pageTitle.textContent = 'Сетка плей-офф (1/16 финала)';
-    });
-  });
-}
-
-// Load state from localStorage if available, else use initial data
-function loadAppState() {
-  const savedMatches = localStorage.getItem('wc_2026_matches');
-  if (savedMatches) {
-    try {
-      const parsedMatches = JSON.parse(savedMatches);
-      // Validate structure matches
-      if (parsedMatches.length === matches.length) {
-        matches = parsedMatches;
-      }
-    } catch (e) {
-      console.error("Error reading saved matches", e);
-    }
-  }
-}
-
-// Save state to localStorage
-function saveAppState() {
-  localStorage.setItem('wc_2026_matches', JSON.stringify(matches));
-}
-
-// Setup Event Listeners
-function setupEventListeners() {
-  const handleReset = () => {
-    if (confirm("Вы уверены, что хотите сбросить все измененные результаты матчей?")) {
-      stopAutoPlay();
-      matches = JSON.parse(JSON.stringify(INITIAL_DATA.matches));
-      saveAppState();
-      calculateAndRender();
-    }
+(function () {
+  const state = {
+    currentModule: 'norskprove',
+    currentScenario: null,
+    l1Lang: 'ru',
+    userLevel: 'B1',
+    agentPersona: 'standard',
+    speechRate: 0.96,
+    blurMode: false,
+    examPart: 1,
+    usedWords: new Set(),
+    savedGlossary: JSON.parse(localStorage.getItem('norsklive_glossary') || '[]'),
+    chatHistory: [],
+    coachingHistory: [],
+    isRecording: false,
+    isSpeaking: false,
+    timerSeconds: 0,
+    timerInterval: null
   };
 
-  const handleSimulateAll = () => {
-    stopAutoPlay();
-    simulateRemainingMatches(true);
-    calculateAndRender();
+  const els = {
+    moduleTabs: document.querySelectorAll('.module-tab'),
+    leftPanelTitle: document.getElementById('leftPanelTitle'),
+    scenarioCountBadge: document.getElementById('scenarioCountBadge'),
+    complianceNotice: document.getElementById('complianceNotice'),
+    scenarioList: document.getElementById('scenarioList'),
+    customLoaderTitle: document.getElementById('customLoaderTitle'),
+    customSourceTextarea: document.getElementById('customSourceTextarea'),
+    fileUploadInput: document.getElementById('fileUploadInput'),
+    applyCustomSourceBtn: document.getElementById('applyCustomSourceBtn'),
+    vocabProgressText: document.getElementById('vocabProgressText'),
+    vocabProgressBar: document.getElementById('vocabProgressBar'),
+    vocabBingoList: document.getElementById('vocabBingoList'),
+    voiceOrb: document.getElementById('voiceOrb'),
+    partnerAvatar: document.getElementById('partnerAvatar'),
+    partnerName: document.getElementById('partnerName'),
+    partnerRole: document.getElementById('partnerRole'),
+    agentPersonaSelect: document.getElementById('agentPersonaSelect'),
+    blurToggleBtn: document.getElementById('blurToggleBtn'),
+    examPartBtn: document.getElementById('examPartBtn'),
+    examBanner: document.getElementById('examBanner'),
+    examStageLabel: document.getElementById('examStageLabel'),
+    examPromptText: document.getElementById('examPromptText'),
+    sessionTimerBadge: document.getElementById('sessionTimerBadge'),
+    restartSessionBtn: document.getElementById('restartSessionBtn'),
+    chatStream: document.getElementById('chatStream'),
+    hintsContainer: document.getElementById('hintsContainer'),
+    speakHintBtn: document.getElementById('speakHintBtn'),
+    micToggleBtn: document.getElementById('micToggleBtn'),
+    userSpeechInput: document.getElementById('userSpeechInput'),
+    micStatusText: document.getElementById('micStatusText'),
+    usedWordsToast: document.getElementById('usedWordsToast'),
+    sendSpeechBtn: document.getElementById('sendSpeechBtn'),
+    coachingCardsList: document.getElementById('coachingCardsList'),
+    overallCefrBadge: document.getElementById('overallCefrBadge'),
+    scoreFlyt: document.getElementById('scoreFlyt'),
+    scoreOrd: document.getElementById('scoreOrd'),
+    scoreGram: document.getElementById('scoreGram'),
+    scoreArg: document.getElementById('scoreArg'),
+    savedWordsCount: document.getElementById('savedWordsCount'),
+    savedGlossaryList: document.getElementById('savedGlossaryList'),
+    exportGlossaryBtn: document.getElementById('exportGlossaryBtn'),
+    generateReportBtn: document.getElementById('generateReportBtn'),
+    l1LangSelect: document.getElementById('l1LangSelect'),
+    userLevelSelect: document.getElementById('userLevelSelect')
   };
 
-  // Reset Button
-  document.getElementById('btn-reset-scores').addEventListener('click', handleReset);
-  const resetMobile = document.getElementById('btn-reset-scores-mobile');
-  if (resetMobile) resetMobile.addEventListener('click', handleReset);
-
-  // Quick Simulate All Remaining Button
-  document.getElementById('btn-quick-simulate').addEventListener('click', handleSimulateAll);
-  const simulateAllMobile = document.getElementById('btn-quick-simulate-mobile');
-  if (simulateAllMobile) simulateAllMobile.addEventListener('click', handleSimulateAll);
-
-  // Auto Play Button
-  document.getElementById('btn-auto-play').addEventListener('click', () => {
-    toggleAutoPlay();
-  });
-
-  // Filter Group Selector
-  document.getElementById('filter-group-select').addEventListener('change', () => {
-    renderMatchesList();
-  });
-
-  // Filter Status Selector
-  document.getElementById('filter-status-select').addEventListener('change', () => {
-    renderMatchesList();
-  });
-
-  // Simulate Filtered matches button
-  document.getElementById('btn-simulate-visible').addEventListener('click', () => {
-    stopAutoPlay();
-    simulateRemainingMatches(false);
-    calculateAndRender();
-  });
-}
-
-function stopAutoPlay() {
-  if (autoPlayInterval) {
-    clearInterval(autoPlayInterval);
-    autoPlayInterval = null;
-    const btn = document.getElementById('btn-auto-play');
-    if (btn) {
-      btn.innerHTML = '<i class="fa-solid fa-play"></i> <span>Авто-игры по одной</span>';
-      btn.classList.remove('btn-danger');
-      btn.classList.add('btn-secondary');
-    }
+  function getL1Text(obj, ruKey = 'translation', uaKey = 'ua', enKey = 'en') {
+    if (!obj) return '';
+    if (state.l1Lang === 'ua' && obj[uaKey]) return obj[uaKey];
+    if (state.l1Lang === 'en' && obj[enKey]) return obj[enKey];
+    return obj[ruKey] || obj.ru || '';
   }
-}
 
-function toggleAutoPlay() {
-  if (autoPlayInterval) {
-    stopAutoPlay();
-  } else {
-    const btn = document.getElementById('btn-auto-play');
-    if (btn) {
-      btn.innerHTML = '<i class="fa-solid fa-pause"></i> <span>Остановить игры</span>';
-      btn.classList.remove('btn-secondary');
-      btn.classList.add('btn-danger');
-    }
-    
-    autoPlayInterval = setInterval(() => {
-      // Find first unplayed match
-      const nextMatch = matches.find(m => m.scoreHome === null || m.scoreAway === null);
-      if (nextMatch) {
-        const score = simulateMatchScore(nextMatch.home, nextMatch.away);
-        nextMatch.scoreHome = score.home;
-        nextMatch.scoreAway = score.away;
-        nextMatch.status = 'played';
-        saveAppState();
-        calculateAndRender();
-      } else {
-        stopAutoPlay();
-      }
-    }, 800); // 800ms per match
-  }
-}
+  let recognition = null;
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.lang = 'nb-NO';
+    recognition.interimResults = true;
+    recognition.continuous = false;
 
-// Poisson approximation for goals
-function getPoisson(mean) {
-  const L = Math.exp(-mean);
-  let k = 0;
-  let p = 1;
-  do {
-    k++;
-    p *= Math.random();
-  } while (p > L);
-  return k - 1;
-}
-
-// Simulate match score based on strengths
-function simulateMatchScore(teamAId, teamBId) {
-  const teamA = teams[teamAId];
-  const teamB = teams[teamBId];
-  if (!teamA || !teamB) return { home: 0, away: 0 };
-  
-  // Base expectation of goals per match
-  const baseExpectation = 1.35;
-  const ratio = teamA.strength / teamB.strength;
-  
-  const meanHome = baseExpectation * Math.pow(ratio, 1.2);
-  const meanAway = baseExpectation * Math.pow(1 / ratio, 1.2);
-  
-  let scoreHome = getPoisson(meanHome);
-  let scoreAway = getPoisson(meanAway);
-  
-  // Cap extreme scores
-  if (scoreHome > 9) scoreHome = 9;
-  if (scoreAway > 9) scoreAway = 9;
-  
-  return { home: scoreHome, away: scoreAway };
-}
-
-// Simulate remaining games
-// allG = true: simulate all remaining in the whole tournament
-// allG = false: simulate only currently filtered games in the matches tab
-function simulateRemainingMatches(allG) {
-  const groupFilter = document.getElementById('filter-group-select').value;
-  const statusFilter = document.getElementById('filter-status-select').value;
-  
-  matches.forEach(m => {
-    if (m.scoreHome === null || m.scoreAway === null) {
-      let matchesFilter = true;
-      if (!allG) {
-        if (groupFilter !== 'all' && m.group !== groupFilter) matchesFilter = false;
-        if (statusFilter === 'played') matchesFilter = false; // can't simulate already played games if filtering played
-      }
-      
-      if (matchesFilter) {
-        const score = simulateMatchScore(m.home, m.away);
-        m.scoreHome = score.home;
-        m.scoreAway = score.away;
-        m.status = 'played';
-      }
-    }
-  });
-  saveAppState();
-}
-
-// Calculate standings, stats, predictions and render everything
-function calculateAndRender() {
-  const standings = calculateStandings(matches);
-  const generalStats = calculateGeneralStats();
-  
-  // Update stats cards in top bar
-  document.getElementById('stat-total-goals').textContent = generalStats.totalGoals;
-  document.getElementById('stat-played-matches').textContent = generalStats.playedMatches;
-  document.getElementById('stat-avg-goals').textContent = generalStats.avgGoals;
-  
-  // Render Tab contents
-  renderStandings(standings);
-  renderMatchesList();
-  
-  // Run Monte Carlo simulation for prediction tab
-  const simulationResults = runMonteCarlo(1000);
-  renderAnalytics(simulationResults);
-  
-  // Render Knockout Bracket based on current standings
-  const bracketData = buildCurrentBracket(standings);
-  renderBracket(bracketData);
-}
-
-// Standings calculation logic
-function calculateStandings(matchList) {
-  const standings = {};
-  
-  // Init group standings object
-  for (const groupName in groups) {
-    standings[groupName] = groups[groupName].map(teamId => ({
-      id: teamId,
-      name: teams[teamId].name,
-      flag: teams[teamId].flag,
-      played: 0,
-      wins: 0,
-      draws: 0,
-      losses: 0,
-      goalsFor: 0,
-      goalsAgainst: 0,
-      goalDiff: 0,
-      points: 0
-    }));
-  }
-  
-  // Aggregate match results
-  matchList.forEach(m => {
-    if (m.scoreHome !== null && m.scoreAway !== null) {
-      const groupStandings = standings[m.group];
-      const homeTeam = groupStandings.find(t => t.id === m.home);
-      const awayTeam = groupStandings.find(t => t.id === m.away);
-      
-      if (homeTeam && awayTeam) {
-        homeTeam.played++;
-        awayTeam.played++;
-        
-        homeTeam.goalsFor += m.scoreHome;
-        homeTeam.goalsAgainst += m.scoreAway;
-        awayTeam.goalsFor += m.scoreAway;
-        awayTeam.goalsAgainst += m.scoreHome;
-        
-        homeTeam.goalDiff = homeTeam.goalsFor - homeTeam.goalsAgainst;
-        awayTeam.goalDiff = awayTeam.goalsFor - awayTeam.goalsAgainst;
-        
-        if (m.scoreHome > m.scoreAway) {
-          homeTeam.wins++;
-          homeTeam.points += 3;
-          awayTeam.losses++;
-        } else if (m.scoreHome < m.scoreAway) {
-          awayTeam.wins++;
-          awayTeam.points += 3;
-          homeTeam.losses++;
-        } else {
-          homeTeam.draws++;
-          homeTeam.points += 1;
-          awayTeam.draws++;
-          awayTeam.points += 1;
-        }
-      }
-    }
-  });
-  
-  // Sort each group
-  for (const groupName in standings) {
-    standings[groupName].sort((a, b) => {
-      // 1. Points
-      if (b.points !== a.points) return b.points - a.points;
-      // 2. Goal Difference
-      if (b.goalDiff !== a.goalDiff) return b.goalDiff - a.goalDiff;
-      // 3. Goals For
-      if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
-      // 4. Team Strength (FIFA rank / rating fallback)
-      return teams[b.id].strength - teams[a.id].strength;
-    });
-  }
-  
-  return standings;
-}
-
-// Calculate general stats
-function calculateGeneralStats() {
-  let playedMatches = 0;
-  let totalGoals = 0;
-  
-  matches.forEach(m => {
-    if (m.scoreHome !== null && m.scoreAway !== null) {
-      playedMatches++;
-      totalGoals += (m.scoreHome + m.scoreAway);
-    }
-  });
-  
-  const avgGoals = playedMatches > 0 ? (totalGoals / playedMatches).toFixed(2) : "0.00";
-  return { playedMatches, totalGoals, avgGoals };
-}
-
-// Render Standings Tab
-function renderStandings(standings) {
-  const container = document.getElementById('groups-container');
-  container.innerHTML = '';
-  
-  for (const groupName in standings) {
-    const groupCard = document.createElement('div');
-    groupCard.className = 'group-card card';
-    
-    let html = `
-      <div class="group-title">
-        <span>Группа ${groupName}</span>
-        <i class="fa-solid fa-ranking-star"></i>
-      </div>
-      <table class="group-table">
-        <thead>
-          <tr>
-            <th>Команда</th>
-            <th class="num-cell">И</th>
-            <th class="num-cell">РМ</th>
-            <th class="num-cell points-cell">О</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
-    
-    standings[groupName].forEach((team, index) => {
-      let rowClass = '';
-      if (index === 0) rowClass = 'qualified-row-1';
-      else if (index === 1) rowClass = 'qualified-row-2';
-      
-      const gdSign = team.goalDiff > 0 ? `+${team.goalDiff}` : team.goalDiff;
-      
-      html += `
-        <tr class="${rowClass}">
-          <td>
-            <div class="team-cell">
-              <span class="team-flag">${team.flag}</span>
-              <span class="team-name" title="${team.name}">${team.name}</span>
-            </div>
-          </td>
-          <td class="num-cell">${team.played}</td>
-          <td class="num-cell">${gdSign}</td>
-          <td class="num-cell points-cell">${team.points}</td>
-        </tr>
-      `;
-    });
-    
-    html += `
-        </tbody>
-      </table>
-    `;
-    
-    groupCard.innerHTML = html;
-    container.appendChild(groupCard);
-  }
-}
-
-// Calculate betting odds based on team strength
-function calculateMatchOdds(homeTeamId, awayTeamId) {
-  const teamA = teams[homeTeamId];
-  const teamB = teams[awayTeamId];
-  if (!teamA || !teamB) return { home: "1.00", draw: "1.00", away: "1.00" };
-  
-  const ratio = teamA.strength / teamB.strength;
-  
-  let pA_raw = 0.45 * Math.pow(ratio, 1.5);
-  let pB_raw = 0.45 * Math.pow(1 / ratio, 1.5);
-  let pDraw_raw = 0.28;
-  
-  // Normalize
-  const sum = pA_raw + pB_raw + pDraw_raw;
-  const pA = pA_raw / sum;
-  const pB = pB_raw / sum;
-  const pDraw = pDraw_raw / sum;
-  
-  // Apply 5% bookmaker margin
-  const margin = 1.05;
-  const oddsHome = Math.min(25.0, Math.max(1.01, 1 / (pA * margin))).toFixed(2);
-  const oddsDraw = Math.min(15.0, Math.max(1.01, 1 / (pDraw * margin))).toFixed(2);
-  const oddsAway = Math.min(25.0, Math.max(1.01, 1 / (pB * margin))).toFixed(2);
-  
-  return { home: oddsHome, draw: oddsDraw, away: oddsAway };
-}
-
-// Render Matches list
-function renderMatchesList() {
-  const container = document.getElementById('matches-container');
-  container.innerHTML = '';
-  
-  const groupFilter = document.getElementById('filter-group-select').value;
-  const statusFilter = document.getElementById('filter-status-select').value;
-  
-  const filtered = matches.filter(m => {
-    if (groupFilter !== 'all' && m.group !== groupFilter) return false;
-    if (statusFilter === 'played' && (m.scoreHome === null || m.scoreAway === null)) return false;
-    if (statusFilter === 'scheduled' && m.scoreHome !== null && m.scoreAway !== null) return false;
-    return true;
-  });
-  
-  if (filtered.length === 0) {
-    container.innerHTML = `
-      <div class="card text-center text-muted p-4">
-        <i class="fa-regular fa-calendar-xmark fa-2x mb-2"></i>
-        <p>Матчи с выбранными фильтрами не найдены.</p>
-      </div>
-    `;
-    return;
-  }
-  
-  filtered.forEach(m => {
-    const homeTeam = teams[m.home];
-    const awayTeam = teams[m.away];
-    
-    const card = document.createElement('div');
-    card.className = 'match-card card';
-    
-    const valHome = m.scoreHome !== null ? m.scoreHome : '';
-    const valAway = m.scoreAway !== null ? m.scoreAway : '';
-    
-    const odds = calculateMatchOdds(m.home, m.away);
-    
-    card.innerHTML = `
-      <div class="match-meta">
-        <span class="match-group-badge">Группа ${m.group}</span>
-        <span>${m.date} • ${m.time || "21:00"} (Бельгия)</span>
-      </div>
-      
-      <div class="match-team home">
-        <span class="team-name" title="${homeTeam.name}">${homeTeam.name}</span>
-        <span class="team-flag">${homeTeam.flag}</span>
-      </div>
-      
-      <div class="match-score-section">
-        <div class="score-input-container">
-          <input type="number" min="0" max="9" class="score-input home-score-input" data-id="${m.id}" value="${valHome}" placeholder="-">
-          <span class="score-divider">:</span>
-          <input type="number" min="0" max="9" class="score-input away-score-input" data-id="${m.id}" value="${valAway}" placeholder="-">
-        </div>
-        <div class="match-odds">
-          <span class="odds-val" title="Победа ${homeTeam.name}">П1: <strong>${odds.home}</strong></span>
-          <span class="odds-val" title="Ничья">X: <strong>${odds.draw}</strong></span>
-          <span class="odds-val" title="Победа ${awayTeam.name}">П2: <strong>${odds.away}</strong></span>
-        </div>
-      </div>
-      
-      <div class="match-team away">
-        <span class="team-flag">${awayTeam.flag}</span>
-        <span class="team-name" title="${awayTeam.name}">${awayTeam.name}</span>
-      </div>
-      
-      <div class="match-actions">
-        <button class="btn btn-outline btn-sm btn-simulate-single" data-id="${m.id}">
-          <i class="fa-solid fa-dice"></i> Симулировать
-        </button>
-        ${(m.scoreHome !== null || m.scoreAway !== null) ? `
-          <button class="btn btn-outline btn-sm btn-clear-single text-danger" data-id="${m.id}">
-            <i class="fa-solid fa-trash-can"></i>
-          </button>
-        ` : ''}
-      </div>
-    `;
-    
-    // Inputs Event Listeners
-    const homeInput = card.querySelector('.home-score-input');
-    const awayInput = card.querySelector('.away-score-input');
-    
-    const onScoreChange = () => {
-      const hVal = homeInput.value.trim();
-      const aVal = awayInput.value.trim();
-      
-      if (hVal !== '' && aVal !== '') {
-        m.scoreHome = parseInt(hVal, 10);
-        m.scoreAway = parseInt(aVal, 10);
-        m.status = 'played';
-      } else {
-        m.scoreHome = null;
-        m.scoreAway = null;
-        m.status = 'scheduled';
-      }
-      saveAppState();
-      calculateAndRender();
+    recognition.onstart = () => {
+      state.isRecording = true;
+      els.micToggleBtn.classList.add('recording');
+      els.voiceOrb.classList.remove('speaking');
+      els.voiceOrb.classList.add('listening');
+      els.micStatusText.textContent = '🔴 Слушаю норвежскую речь (L2 ASR nb-NO)... Говорите!';
     };
-    
-    homeInput.addEventListener('change', onScoreChange);
-    awayInput.addEventListener('change', onScoreChange);
-    
-    // Simulate single match button
-    card.querySelector('.btn-simulate-single').addEventListener('click', () => {
-      const score = simulateMatchScore(m.home, m.away);
-      m.scoreHome = score.home;
-      m.scoreAway = score.away;
-      m.status = 'played';
-      saveAppState();
-      calculateAndRender();
-    });
-    
-    // Clear single match score button
-    const clearBtn = card.querySelector('.btn-clear-single');
-    if (clearBtn) {
-      clearBtn.addEventListener('click', () => {
-        m.scoreHome = null;
-        m.scoreAway = null;
-        m.status = 'scheduled';
-        saveAppState();
-        calculateAndRender();
-      });
-    }
-    
-    container.appendChild(card);
-  });
-}
 
-// Monte Carlo simulation runner
-// Runs N simulations from the CURRENT state of group stage matches
-function runMonteCarlo(iterations = 1000) {
-  const counts = {};
-  
-  // Init win counters for all 48 teams
-  for (const teamId in teams) {
-    counts[teamId] = {
-      win: 0,
-      final: 0,
-      semi: 0,
-      qf: 0,
-      r16: 0,
-      r32: 0
+    recognition.onresult = (event) => {
+      let transcript = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript;
+      }
+      els.userSpeechInput.value = transcript;
+    };
+
+    recognition.onerror = (event) => {
+      state.isRecording = false;
+      els.micToggleBtn.classList.remove('recording');
+      els.voiceOrb.classList.remove('listening');
+      els.micStatusText.textContent = `Статус микрофона: ${event.error}. Можно говорить или писать в поле.`;
+    };
+
+    recognition.onend = () => {
+      const wasRecording = state.isRecording;
+      state.isRecording = false;
+      els.micToggleBtn.classList.remove('recording');
+      els.voiceOrb.classList.remove('listening');
+      els.micStatusText.textContent =
+        'L2 ASR Ready (`nb-NO` без автоисправления ошибок грамматики) — Нажми 🎙️';
+
+      const text = els.userSpeechInput.value.trim();
+      if (wasRecording && text.length > 1) {
+        handleUserSubmission(text);
+      }
     };
   }
-  
-  // Run iterations
-  for (let i = 0; i < iterations; i++) {
-    // 1. Copy matches database
-    const simMatches = JSON.parse(JSON.stringify(matches));
-    
-    // 2. Simulate remaining matches in group stage
-    simMatches.forEach(m => {
-      if (m.scoreHome === null || m.scoreAway === null) {
-        const score = simulateMatchScore(m.home, m.away);
-        m.scoreHome = score.home;
-        m.scoreAway = score.away;
-      }
+
+  function init() {
+    renderSavedGlossary();
+    startSessionTimer();
+    switchModule('norskprove');
+    bindEvents();
+  }
+
+  function startSessionTimer() {
+    if (state.timerInterval) clearInterval(state.timerInterval);
+    state.timerSeconds = 0;
+    state.timerInterval = setInterval(() => {
+      state.timerSeconds++;
+      const mins = String(Math.floor(state.timerSeconds / 60)).padStart(2, '0');
+      const secs = String(state.timerSeconds % 60).padStart(2, '0');
+      els.sessionTimerBadge.textContent = `⏱️ ${mins}:${secs}`;
+    }, 1000);
+  }
+
+  function switchModule(moduleKey) {
+    state.currentModule = moduleKey;
+    els.moduleTabs.forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.module === moduleKey);
     });
-    
-    // 3. Compute group standings
-    const simStandings = calculateStandings(simMatches);
-    
-    // 4. Determine 32 teams qualified for knockout stage
-    const qualified = getKnockoutQualifiers(simStandings);
-    qualified.forEach(t => {
-      if (counts[t]) counts[t].r32++;
-    });
-    
-    if (qualified.length < 32) continue; // safety fallback
-    
-    // 5. Build Round of 32 matches
-    let r32Matches = pairRoundOf32(qualified);
-    
-    // 6. Simulate Round of 32 -> Round of 16
-    let r16Teams = [];
-    r32Matches.forEach(m => {
-      const winner = simKnockoutMatch(m.teamA, m.teamB);
-      r16Teams.push(winner);
-      if (counts[winner]) counts[winner].r16++;
-    });
-    
-    // 7. Simulate Round of 16 -> Quarter-finals
-    let qfTeams = [];
-    for (let m = 0; m < 8; m++) {
-      const winner = simKnockoutMatch(r16Teams[m*2], r16Teams[m*2+1]);
-      qfTeams.push(winner);
-      if (counts[winner]) counts[winner].qf++;
+
+    if (moduleKey === 'norskprove') {
+      els.leftPanelTitle.textContent = '🎓 1. Norskprøve Muntlig (HK-dir)';
+      els.complianceNotice.innerHTML =
+        '🏛️ <strong>Закон UDI (с 01.09.2025):</strong> Для получения ПМЖ обязательна сдача устного экзамена Norskprøve (A2/B1). Мультиагентная симуляция (Sensor + Medkandidat).';
+      els.customLoaderTitle.textContent = '➕ Своя экзаменационная тема / список слов';
+    } else if (moduleKey === 'jobbintervju') {
+      els.leftPanelTitle.textContent = '💼 2. Jobbintervju på norsk';
+      els.complianceNotice.innerHTML =
+        '👔 <strong>CV + Вакансия & Cultural Fit:</strong> Анализ разрыва между твоим CV и вакансией + адаптация ответов под норвежский командный стиль (lagspiller & lunsjprat).';
+      els.customLoaderTitle.textContent = '➕ Вставьте текст вакансии и вашего CV';
+    } else {
+      els.leftPanelTitle.textContent = '🛡️ 3. CEFR Teleprompter';
+      els.complianceNotice.innerHTML =
+        '🛡️ <strong>Åndsverkloven & Kopinor 2026–2027 Safe:</strong> 100% проприетарные модули CEFR + телесуфлёр на 10 твоих слов.';
+      els.customLoaderTitle.textContent = '➕ Введите 10 своих слов для вывода в речь';
     }
-    
-    // 8. Simulate Quarter-finals -> Semi-finals
-    let sfTeams = [];
-    for (let m = 0; m < 4; m++) {
-      const winner = simKnockoutMatch(qfTeams[m*2], qfTeams[m*2+1]);
-      sfTeams.push(winner);
-      if (counts[winner]) counts[winner].semi++;
+
+    const list = window.NORSK_SCENARIOS[moduleKey] || [];
+    els.scenarioCountBadge.textContent = `${list.length} сценария`;
+    renderScenarioList(list);
+    if (list.length > 0) {
+      selectScenario(list[0]);
     }
-    
-    // 9. Simulate Semi-finals -> Final
-    let finalTeams = [];
-    for (let m = 0; m < 2; m++) {
-      const winner = simKnockoutMatch(sfTeams[m*2], sfTeams[m*2+1]);
-      finalTeams.push(winner);
-      if (counts[winner]) counts[winner].final++;
-    }
-    
-    // 10. Simulate Final
-    const champion = simKnockoutMatch(finalTeams[0], finalTeams[1]);
-    if (counts[champion]) counts[champion].win++;
   }
-  
-  // Convert counts to percentages
-  const results = [];
-  for (const teamId in teams) {
-    results.push({
-      id: teamId,
-      name: teams[teamId].name,
-      flag: teams[teamId].flag,
-      win: parseFloat((counts[teamId].win / iterations * 100).toFixed(1)),
-      final: parseFloat((counts[teamId].final / iterations * 100).toFixed(1)),
-      semi: parseFloat((counts[teamId].semi / iterations * 100).toFixed(1)),
-      r32: parseFloat((counts[teamId].r32 / iterations * 100).toFixed(1))
-    });
-  }
-  
-  // Sort by Win probability
-  results.sort((a, b) => b.win - a.win);
-  return results;
-}
 
-// Simulates a single knockout match to resolve a winner (no draws)
-function simKnockoutMatch(teamAId, teamBId) {
-  const score = simulateMatchScore(teamAId, teamBId);
-  if (score.home > score.away) return teamAId;
-  if (score.away > score.home) return teamBId;
-  
-  // In case of a draw, simulate penalty shootouts using team strengths
-  const strA = teams[teamAId].strength;
-  const strB = teams[teamBId].strength;
-  const probabilityA = 0.5 + (strA - strB) * 0.005; // range: ~35% to 65%
-  return Math.random() < probabilityA ? teamAId : teamBId;
-}
-
-// Determine 32 teams qualified for knockout stage
-function getKnockoutQualifiers(standings) {
-  const qualifiers = [];
-  const thirdPlaced = [];
-  
-  // Top 2 of each group qualify directly
-  for (const groupName in standings) {
-    const group = standings[groupName];
-    if (group[0]) qualifiers.push({ id: group[0].id, points: group[0].points, goalDiff: group[0].goalDiff, goalsFor: group[0].goalsFor, origin: `1${groupName}` });
-    if (group[1]) qualifiers.push({ id: group[1].id, points: group[1].points, goalDiff: group[1].goalDiff, goalsFor: group[1].goalsFor, origin: `2${groupName}` });
-    if (group[2]) thirdPlaced.push({ id: group[2].id, points: group[2].points, goalDiff: group[2].goalDiff, goalsFor: group[2].goalsFor, origin: `3${groupName}` });
-  }
-  
-  // Sort third-placed teams
-  thirdPlaced.sort((a, b) => {
-    if (b.points !== a.points) return b.points - a.points;
-    if (b.goalDiff !== a.goalDiff) return b.goalDiff - a.goalDiff;
-    if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
-    return teams[b.id].strength - teams[a.id].strength;
-  });
-  
-  // Take top 8 third-placed teams
-  const bestThird = thirdPlaced.slice(0, 8);
-  
-  // Combine all 32 qualifiers
-  const all32 = [...qualifiers, ...bestThird];
-  return all32;
-}
-
-// Pairs the 32 teams into 16 matches of Round of 32
-function pairRoundOf32(qualifiers) {
-  // Extract teams by their origin
-  const getTeam = (originPrefix) => {
-    const found = qualifiers.find(q => q.origin === originPrefix);
-    return found ? found.id : null;
-  };
-  
-  const getBestThirdTeam = (index) => {
-    const thirds = qualifiers.filter(q => q.origin.startsWith('3'));
-    return thirds[index] ? thirds[index].id : 'UNKNOWN_3RD';
-  };
-  
-  // Matches list matching our simplified bracket structure
-  return [
-    { teamA: getTeam('1A') || '1A', teamB: getBestThirdTeam(0) },
-    { teamA: getTeam('2B') || '2B', teamB: getTeam('2C') || '2C' },
-    { teamA: getTeam('1C') || '1C', teamB: getBestThirdTeam(1) },
-    { teamA: getTeam('2D') || '2D', teamB: getTeam('2E') || '2E' },
-    
-    { teamA: getTeam('1E') || '1E', teamB: getBestThirdTeam(2) },
-    { teamA: getTeam('2F') || '2F', teamB: getTeam('2G') || '2G' },
-    { teamA: getTeam('1G') || '1G', teamB: getBestThirdTeam(3) },
-    { teamA: getTeam('2H') || '2H', teamB: getTeam('2I') || '2I' },
-    
-    { teamA: getTeam('1I') || '1I', teamB: getBestThirdTeam(4) },
-    { teamA: getTeam('2J') || '2J', teamB: getTeam('2K') || '2K' },
-    { teamA: getTeam('1K') || '1K', teamB: getBestThirdTeam(5) },
-    { teamA: getTeam('2L') || '2L', teamB: getTeam('2A') || '2A' },
-    
-    { teamA: getTeam('1B') || '1B', teamB: getBestThirdTeam(6) },
-    { teamA: getTeam('1D') || '1D', teamB: getBestThirdTeam(7) },
-    { teamA: getTeam('1F') || '1F', teamB: getTeam('2H') || '2H_TEMP' },
-    { teamA: getTeam('1H') || '1H', teamB: getTeam('2J') || '2J_TEMP' }
-  ];
-}
-
-// Render Analytics Tab
-function renderAnalytics(results) {
-  // 1. Top list
-  const topList = document.getElementById('top-teams-list');
-  topList.innerHTML = '';
-  
-  const top10 = results.slice(0, 8);
-  top10.forEach((item, index) => {
-    const row = document.createElement('div');
-    row.className = 'top-team-row';
-    row.innerHTML = `
-      <span class="rank-badge">#${index+1}</span>
-      <span class="team-flag">${item.flag}</span>
-      <span><strong>${item.name}</strong></span>
-      <span class="text-right text-gold font-weight-bold">${item.win}%</span>
-    `;
-    topList.appendChild(row);
-  });
-  
-  // 2. Commentary
-  const commentaryBox = document.getElementById('ai-commentary');
-  commentaryBox.innerHTML = '';
-  
-  // Compile comments based on actual tournament status
-  const comments = [];
-  
-  const leader = results[0];
-  comments.push({
-    text: `Наш суперкомпьютер AI прогнозирует, что сборная <strong>${leader.name} ${leader.flag}</strong> имеет наибольшие шансы выиграть Чемпионат мира 2026 с вероятностью <strong>${leader.win}%</strong>, благодаря ее силе и турнирной сетке.`,
-    type: 'hot'
-  });
-  
-  // Check Germany stats
-  const gerMatch = matches.find(m => m.home === 'GER' && m.away === 'CUW');
-  if (gerMatch && gerMatch.scoreHome === 7) {
-    comments.push({
-      text: `Разгромная победа Германии над Кюрасао со счетом 7:1 вывела немцев в лидеры по результативности. Их показатель силы вырос, а вероятность попадания в финал оценивается в <strong>${results.find(t=>t.id==='GER').final}%</strong>.`,
-      type: 'stat'
-    });
-  }
-  
-  // Check USA stats
-  const usaMatch = matches.find(m => m.home === 'USA' && m.away === 'PRY');
-  if (usaMatch && usaMatch.scoreHome === 4) {
-    comments.push({
-      text: `Сборная США отлично провела стартовый матч с Парагваем (4:1) и имеет высокие шансы на проход из группы D (<strong>${results.find(t=>t.id==='USA').r32}%</strong>).`,
-      type: 'stat'
-    });
-  }
-  
-  // General prediction comment
-  comments.push({
-    text: `Бразилия (${results.find(t=>t.id==='BRA').win}%) и Франция (${results.find(t=>t.id==='FRA').win}%) замыкают тройку главных фаворитов мундиаля. Их первый тур группового этапа несколько скорректировал ожидания, но они остаются грозной силой.`,
-    type: 'normal'
-  });
-  
-  comments.forEach(c => {
-    const el = document.createElement('div');
-    el.className = `commentary-item ${c.type}`;
-    el.innerHTML = c.text;
-    commentaryBox.appendChild(el);
-  });
-}
-
-// Render Winning Probability Chart
-function renderChart() {
-  if (currentTab !== 'analytics') return;
-  
-  // Re-run Monte Carlo to get latest probabilities
-  const results = runMonteCarlo(1000).slice(0, 10); // top 10
-  
-  const ctx = document.getElementById('predictionChart').getContext('2d');
-  
-  const labels = results.map(r => `${r.flag} ${r.name}`);
-  const data = results.map(r => r.win);
-  
-  if (predictionChart) {
-    predictionChart.destroy();
-  }
-  
-  predictionChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Шансы на победу в турнире (%)',
-        data: data,
-        backgroundColor: [
-          'rgba(212, 175, 55, 0.85)', // Gold for #1
-          'rgba(59, 130, 246, 0.7)',
-          'rgba(59, 130, 246, 0.7)',
-          'rgba(59, 130, 246, 0.7)',
-          'rgba(59, 130, 246, 0.7)',
-          'rgba(59, 130, 246, 0.7)',
-          'rgba(59, 130, 246, 0.7)',
-          'rgba(59, 130, 246, 0.7)',
-          'rgba(59, 130, 246, 0.7)',
-          'rgba(59, 130, 246, 0.7)'
-        ],
-        borderColor: 'rgba(255, 255, 255, 0.1)',
-        borderWidth: 1,
-        borderRadius: 6
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false
-        }
-      },
-      scales: {
-        x: {
-          grid: {
-            color: 'rgba(255, 255, 255, 0.05)'
-          },
-          ticks: {
-            color: '#9ca3af'
-          },
-          max: Math.ceil(Math.max(...data) * 1.2) // Give some padding
-        },
-        y: {
-          grid: {
-            display: false
-          },
-          ticks: {
-            color: '#f3f4f6',
-            font: {
-              size: 13,
-              weight: 'bold'
-            }
-          }
-        }
-      }
-    }
-  });
-}
-
-// Build Bracket Data from Group standings projection
-function buildCurrentBracket(standings) {
-  // Translate standings into qualifiers structure
-  const simQualifiers = getKnockoutQualifiers(standings);
-  const r32Pairings = pairRoundOf32(simQualifiers);
-  
-  // Standard simulated projection for later rounds based on team strengths
-  const getWinnerNode = (tA, tB) => {
-    if (tA.startsWith('1') || tA.startsWith('2') || tA.startsWith('3') || tA.startsWith('UNKNOWN')) {
-      return { id: `Победитель матча`, flag: '🏳️', name: `Победитель: ${tA} / ${tB}`, strength: 70 };
-    }
-    const teamA = teams[tA];
-    const teamB = teams[tB];
-    if (!teamA || !teamB) return { id: 'TBD', flag: '🏳️', name: 'Определяется', strength: 50 };
-    
-    // Simulate a deterministic winner or stronger team projection
-    if (teamA.strength > teamB.strength) return teamA;
-    return teamB;
-  };
-  
-  const buildKnockoutRound = (roundMatches) => {
-    return roundMatches.map(m => {
-      const teamAName = m.teamA.length <= 3 ? teams[m.teamA]?.name || m.teamA : m.teamA;
-      const teamAFlag = m.teamA.length <= 3 ? teams[m.teamA]?.flag || '🏳️' : '🏳️';
-      
-      const teamBName = m.teamB.length <= 3 ? teams[m.teamB]?.name || m.teamB : m.teamB;
-      const teamBFlag = m.teamB.length <= 3 ? teams[m.teamB]?.flag || '🏳️' : '🏳️';
-      
-      // Calculate projected winner
-      const projectedWinner = getWinnerNode(m.teamA, m.teamB);
-      
-      return {
-        teamA: { id: m.teamA, name: teamAName, flag: teamAFlag },
-        teamB: { id: m.teamB, name: teamBName, flag: teamBFlag },
-        winner: projectedWinner
-      };
-    });
-  };
-  
-  // Round of 32
-  const r32 = buildKnockoutRound(r32Pairings);
-  
-  // Round of 16
-  const r16Pairings = [];
-  for (let i = 0; i < 8; i++) {
-    r16Pairings.push({ teamA: r32[i*2].winner.id, teamB: r32[i*2+1].winner.id });
-  }
-  const r16 = buildKnockoutRound(r16Pairings);
-  
-  // Quarter-finals
-  const qfPairings = [];
-  for (let i = 0; i < 4; i++) {
-    qfPairings.push({ teamA: r16[i*2].winner.id, teamB: r16[i*2+1].winner.id });
-  }
-  const qf = buildKnockoutRound(qfPairings);
-  
-  // Semi-finals
-  const sfPairings = [];
-  for (let i = 0; i < 2; i++) {
-    sfPairings.push({ teamA: qf[i*2].winner.id, teamB: qf[i*2+1].winner.id });
-  }
-  const sf = buildKnockoutRound(sfPairings);
-  
-  // Final
-  const fPairings = [{ teamA: sf[0].winner.id, teamB: sf[1].winner.id }];
-  const f = buildKnockoutRound(fPairings);
-  
-  return { r32, r16, qf, sf, f };
-}
-
-// Render Visual Tournament Bracket
-function renderBracket(bracketData) {
-  const treeContainer = document.getElementById('bracket-tree');
-  treeContainer.innerHTML = '';
-  
-  const rounds = [
-    { name: '1/16 Финала', data: bracketData.r32 },
-    { name: '1/8 Финала', data: bracketData.r16 },
-    { name: '1/4 Финала', data: bracketData.qf },
-    { name: 'Полуфиналы', data: bracketData.sf },
-    { name: 'Финал', data: bracketData.f }
-  ];
-  
-  rounds.forEach((round, roundIndex) => {
-    const col = document.createElement('div');
-    col.className = 'bracket-column';
-    
-    col.innerHTML = `<div class="bracket-column-title">${round.name}</div>`;
-    
-    round.data.forEach((match, matchIndex) => {
-      const matchNode = document.createElement('div');
-      matchNode.className = 'bracket-match';
-      
-      const isWinnerA = match.winner.id === match.teamA.id;
-      const isWinnerB = match.winner.id === match.teamB.id;
-      
-      matchNode.innerHTML = `
-        <div class="bracket-match-info">Матч ${matchIndex + 1}</div>
-        
-        <div class="bracket-team-row ${isWinnerA ? 'bracket-winner' : ''}">
-          <span class="bracket-team-name">
-            <span>${match.teamA.flag}</span>
-            <span title="${match.teamA.name}">${match.teamA.name}</span>
-          </span>
-          <span class="bracket-score">${isWinnerA ? '🏆' : ''}</span>
+  function renderScenarioList(list) {
+    els.scenarioList.innerHTML = '';
+    list.forEach((sc) => {
+      const div = document.createElement('div');
+      div.className = `scenario-item ${state.currentScenario && state.currentScenario.id === sc.id ? 'active' : ''}`;
+      div.innerHTML = `
+        <div class="scenario-top">
+          <span class="scenario-badge">${sc.badge}</span>
+          <span style="font-size:0.75rem; color:#38bdf8; font-weight:700;">${sc.level}</span>
         </div>
-        
-        <div class="bracket-team-row ${isWinnerB ? 'bracket-winner' : ''}">
-          <span class="bracket-team-name">
-            <span>${match.teamB.flag}</span>
-            <span title="${match.teamB.name}">${match.teamB.name}</span>
-          </span>
-          <span class="bracket-score">${isWinnerB ? '🏆' : ''}</span>
-        </div>
+        <div class="scenario-name">${sc.avatar} ${sc.title}</div>
+        <div class="scenario-desc">${sc.description}</div>
       `;
-      
-      col.appendChild(matchNode);
+      div.addEventListener('click', () => selectScenario(sc));
+      els.scenarioList.appendChild(div);
     });
-    
-    treeContainer.appendChild(col);
-  });
-}
-
-// API-Football Sync integration
-const API_TEAM_MAPPING = {
-  "Mexico": "MEX", "South Africa": "ZAF", "Czech Republic": "CZE", "Czechia": "CZE", "South Korea": "KOR", "Korea Republic": "KOR",
-  "Canada": "CAN", "Bosnia & Herzegovina": "BIH", "Bosnia and Herzegovina": "BIH", "Qatar": "QAT", "Switzerland": "CHE",
-  "Brazil": "BRA", "Morocco": "MAR", "Haiti": "HAI", "Scotland": "SCO",
-  "USA": "USA", "United States": "USA", "Paraguay": "PRY", "Australia": "AUS", "Turkey": "TUR", "Türkiye": "TUR",
-  "Germany": "GER", "Curacao": "CUW", "Curaçao": "CUW", "Ivory Coast": "CIV", "Ecuador": "ECU",
-  "Netherlands": "NLD", "Japan": "JPN", "Sweden": "SWE", "Tunisia": "TUN",
-  "Belgium": "BEL", "Egypt": "EGY", "Iran": "IRN", "New Zealand": "NZL",
-  "Spain": "ESP", "Cape Verde": "CPV", "Cabo Verde": "CPV", "Saudi Arabia": "SAU", "Uruguay": "URU",
-  "France": "FRA", "Senegal": "SEN", "Iraq": "IRQ", "Norway": "NOR",
-  "Argentina": "ARG", "Algeria": "DZA", "Austria": "AUT", "Jordan": "JOR",
-  "Portugal": "PRT", "DR Congo": "COD", "Uzbekistan": "UZB", "Colombia": "COL",
-  "England": "ENG", "Croatia": "HRV", "Ghana": "GHA", "Panama": "PAN"
-};
-
-function setupApiSync() {
-  const toggleBtn = document.getElementById('api-settings-toggle');
-  const body = document.getElementById('api-settings-body');
-  const icon = document.getElementById('api-toggle-icon');
-  const keyInput = document.getElementById('api-key-input');
-  const syncBtn = document.getElementById('btn-sync-api');
-  const statusDiv = document.getElementById('api-sync-status');
-  
-  if (!toggleBtn || !body) return;
-  
-  // Default API Key fallback provided by the user
-  const defaultKey = '2a98172da953047947f81e4a998f0711';
-  const savedKey = localStorage.getItem('wc_2026_api_key') || defaultKey;
-  
-  if (savedKey) {
-    keyInput.value = savedKey;
-    if (!localStorage.getItem('wc_2026_api_key')) {
-      localStorage.setItem('wc_2026_api_key', defaultKey);
-    }
   }
-  
-  // Toggle Collapse
-  toggleBtn.style.transition = 'transform 0.3s';
-  toggleBtn.addEventListener('click', () => {
-    const isCollapsed = body.style.display === 'none';
-    body.style.display = isCollapsed ? 'block' : 'none';
-    icon.style.transform = isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)';
-  });
-  
-  // Save Key on change
-  keyInput.addEventListener('change', () => {
-    localStorage.setItem('wc_2026_api_key', keyInput.value.trim());
-  });
-  
-  // Shared Sync logic
-  async function triggerSync(key) {
-    syncBtn.disabled = true;
-    statusDiv.innerHTML = '<span class="text-muted"><i class="fa-solid fa-spinner fa-spin"></i> Подключение к API-Sports и скачивание результатов...</span>';
-    
-    try {
-      // Fetch fixtures from API-Football for League 1 (World Cup), Season 2026
-      const response = await fetch('https://v3.football.api-sports.io/fixtures?league=1&season=2026', {
-        method: 'GET',
-        headers: {
-          'x-apisports-key': key
-        }
-      });
-      
-      const data = await response.json();
-      
-      if (data.errors && Object.keys(data.errors).length > 0) {
-        throw new Error(JSON.stringify(data.errors));
-      }
-      
-      if (!data.response || data.response.length === 0) {
-        throw new Error("Не найдено матчей в этом сезоне.");
-      }
-      
-      let updatedCount = 0;
-      
-      data.response.forEach(item => {
-        const apiHomeName = item.teams.home.name;
-        const apiAwayName = item.teams.away.name;
-        
-        const mappedHome = API_TEAM_MAPPING[apiHomeName];
-        const mappedAway = API_TEAM_MAPPING[apiAwayName];
-        
-        if (mappedHome && mappedAway) {
-          const match = matches.find(m => m.home === mappedHome && m.away === mappedAway && m.group !== 'knockout');
-          if (match) {
-            // Parse and format kickoff date & time in Belgian time (Europe/Brussels)
-            const dateObj = new Date(item.fixture.date);
-            const apiBelgianDate = new Intl.DateTimeFormat('ru-RU', {
-              timeZone: 'Europe/Brussels',
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric'
-            }).format(dateObj);
-            
-            const apiBelgianTime = new Intl.DateTimeFormat('ru-RU', {
-              timeZone: 'Europe/Brussels',
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: false
-            }).format(dateObj);
-            
-            // Sync date and time if changed
-            if (match.date !== apiBelgianDate || match.time !== apiBelgianTime) {
-              match.date = apiBelgianDate;
-              match.time = apiBelgianTime;
-              updatedCount++;
-            }
-            
-            // Sync score if finished
-            const fixtureStatus = item.fixture.status.short;
-            const isFinished = ['FT', 'AET', 'PEN'].includes(fixtureStatus);
-            if (isFinished) {
-              const goalsHome = item.goals.home;
-              const goalsAway = item.goals.away;
-              
-              if (match.scoreHome !== goalsHome || match.scoreAway !== goalsAway) {
-                match.scoreHome = goalsHome;
-                match.scoreAway = goalsAway;
-                match.status = 'played';
-                updatedCount++;
-              }
-            }
-          }
-        }
-      });
-      
-      syncBtn.disabled = false;
-      localStorage.setItem('wc_2026_last_sync_time', Date.now().toString());
-      
-      if (updatedCount > 0) {
-        saveAppState();
-        calculateAndRender();
-        statusDiv.innerHTML = `<span class="text-green"><i class="fa-solid fa-circle-check"></i> Синхронизация успешна! Обновлено результатов: ${updatedCount}.</span>`;
-      } else {
-        statusDiv.innerHTML = '<span class="text-blue"><i class="fa-solid fa-circle-info"></i> Все результаты соответствуют API (последняя проверка: только что).</span>';
-      }
-      
-    } catch (err) {
-      console.error(err);
-      syncBtn.disabled = false;
-      statusDiv.innerHTML = `<span class="text-danger"><i class="fa-solid fa-triangle-exclamation"></i> Ошибка синхронизации: ${err.message || err}. Проверьте правильность API-ключа.</span>`;
+
+  function selectScenario(scenario) {
+    state.currentScenario = scenario;
+    state.usedWords = new Set();
+    state.chatHistory = [];
+    state.coachingHistory = [];
+    state.examPart = 1;
+    startSessionTimer();
+
+    renderScenarioList(window.NORSK_SCENARIOS[state.currentModule] || []);
+
+    els.partnerAvatar.textContent = scenario.avatar || '🇳🇴';
+    els.partnerName.textContent = scenario.partnerName;
+    els.partnerRole.textContent = `${scenario.badge} · ${scenario.partnerRole}`;
+
+    if (state.currentModule === 'norskprove' && scenario.examStructure) {
+      els.examBanner.style.display = 'block';
+      els.examPartBtn.style.display = 'inline-flex';
+      updateExamStageUI();
+    } else {
+      els.examBanner.style.display = 'none';
+      els.examPartBtn.style.display = 'none';
+    }
+
+    renderVocabBingo();
+
+    els.chatStream.innerHTML = '';
+    const openingL1 =
+      state.l1Lang === 'ua'
+        ? scenario.openingUa || scenario.openingTranslation
+        : state.l1Lang === 'en'
+          ? scenario.openingEn || scenario.openingTranslation
+          : scenario.openingTranslation;
+
+    appendMessage({
+      sender: 'ai',
+      norsk: scenario.openingLine,
+      l1: openingL1
+    });
+
+    renderHints(scenario.hints || []);
+    speakNorwegian(scenario.openingLine);
+  }
+
+  function updateExamStageUI() {
+    const sc = state.currentScenario;
+    if (!sc || !sc.examStructure) return;
+    if (state.examPart === 1) {
+      els.examStageLabel.textContent = '🎓 ЭТАП 1 (Individuell presentasjon — 2–3 мин): ';
+      els.examPromptText.textContent = sc.examStructure.part1Prompt;
+      els.examPartBtn.textContent = '⏭️ К Этапу 2 (Дебаты с Medkandidat)';
+    } else if (state.examPart === 2) {
+      els.examStageLabel.textContent = '🗣️ ЭТАП 2 (Samhandling — Диалог с напарником 5–7 мин): ';
+      els.examPromptText.textContent = sc.examStructure.part2Prompt;
+      els.examPartBtn.textContent = '⏭️ К Этапу 3 (Вопросы Sensor HK-dir)';
+    } else {
+      els.examStageLabel.textContent = '🏛️ ЭТАП 3 (Каверзные вопросы экзаменатора HK-dir): ';
+      els.examPromptText.textContent = sc.examStructure.part3Prompt;
+      els.examPartBtn.textContent = '✅ Завершить и скачать вердикт HK-dir';
     }
   }
 
-  // Click Sync Event
-  syncBtn.addEventListener('click', () => {
-    const key = keyInput.value.trim();
-    if (!key) {
-      statusDiv.innerHTML = '<span class="text-danger"><i class="fa-solid fa-triangle-exclamation"></i> Пожалуйста, введите API-ключ!</span>';
-      return;
-    }
-    triggerSync(key);
-  });
+  function renderVocabBingo() {
+    const words = (state.currentScenario && state.currentScenario.targetWords) || [];
+    const usedCount = state.usedWords.size;
+    const total = words.length;
+    const pct = total > 0 ? Math.round((usedCount / total) * 100) : 0;
 
-  // Auto-sync on page load if key is available and last sync was > 15 min ago
-  if (savedKey) {
-    const lastSync = localStorage.getItem('wc_2026_last_sync_time');
-    const now = Date.now();
-    if (!lastSync || (now - parseInt(lastSync, 10)) > 15 * 60 * 1000) {
+    els.vocabProgressText.textContent = `${usedCount} / ${total} brukt (${pct}%)`;
+    els.vocabProgressBar.style.width = `${pct}%`;
+    els.scoreOrd.textContent = `${usedCount} av ${total} målord (${pct}%)`;
+
+    els.vocabBingoList.innerHTML = '';
+    words.forEach((item) => {
+      const isUsed = state.usedWords.has(item.word.toLowerCase());
+      const l1Meaning = getL1Text(item, 'translation', 'ua', 'en');
+      const chip = document.createElement('div');
+      chip.className = `vocab-chip ${isUsed ? 'used' : ''}`;
+      chip.innerHTML = `
+        <div class="vocab-chip-top">
+          <span class="vocab-word">🔊 ${item.word}</span>
+          <span class="vocab-status">${isUsed ? '✓ BRUKT I TALE' : 'ЦЕЛЬ'}</span>
+        </div>
+        <div class="vocab-ru">${l1Meaning}</div>
+        <div class="vocab-ex">«${item.example}»</div>
+      `;
+      chip.addEventListener('click', () => {
+        speakNorwegian(item.example || item.word);
+        saveToGlossary(item.word, l1Meaning, item.example);
+      });
+      els.vocabBingoList.appendChild(chip);
+    });
+  }
+
+  function checkSpokenTargetWords(userText) {
+    const words = (state.currentScenario && state.currentScenario.targetWords) || [];
+    const normalizedInput = userText.toLowerCase();
+    const newlyUsed = [];
+
+    words.forEach((item) => {
+      const target = item.word.toLowerCase();
+      if (state.usedWords.has(target)) return;
+
+      const cleanTarget = target.replace(/^å\s+/, '').trim();
+      const rootStem = cleanTarget.length > 5 ? cleanTarget.slice(0, -2) : cleanTarget;
+
+      if (
+        normalizedInput.includes(cleanTarget) ||
+        (rootStem.length >= 4 && normalizedInput.includes(rootStem))
+      ) {
+        state.usedWords.add(target);
+        newlyUsed.push(item.word);
+      }
+    });
+
+    if (newlyUsed.length > 0) {
+      renderVocabBingo();
+      els.usedWordsToast.textContent = `🎉 Использовано в речи: ${newlyUsed.join(', ')}`;
       setTimeout(() => {
-        triggerSync(savedKey);
-      }, 1000);
+        els.usedWordsToast.textContent = '';
+      }, 4500);
     }
   }
-}
+
+  function appendMessage({ sender, norsk, l1 }) {
+    state.chatHistory.push({ sender, norsk, l1 });
+
+    const div = document.createElement('div');
+    div.className = `msg-bubble ${sender === 'ai' ? 'msg-ai' : 'msg-user'} ${state.blurMode && sender === 'ai' ? 'blur-text' : ''}`;
+
+    const flagIcon = state.l1Lang === 'ua' ? '🇺🇦' : state.l1Lang === 'en' ? '🇬🇧' : '🇷🇺';
+    const speakerLabel =
+      sender === 'ai' ? `🇳🇴 ${state.currentScenario.partnerName}` : '🎙️ Du (Кандидат)';
+
+    div.innerHTML = `
+      <div class="msg-meta">
+        <span>${speakerLabel}</span>
+        <span>${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+      </div>
+      <div class="msg-norsk">${norsk}</div>
+      ${l1 ? `<div class="msg-translation">${flagIcon} ${l1}</div>` : ''}
+      <div class="msg-actions">
+        <button class="mini-action-btn btn-replay">🔊 Озвучить</button>
+        <button class="mini-action-btn btn-save-phrase">📌 В словарь</button>
+      </div>
+    `;
+
+    div.querySelector('.btn-replay').addEventListener('click', () => speakNorwegian(norsk));
+    div.querySelector('.btn-save-phrase').addEventListener('click', () => {
+      saveToGlossary(norsk.slice(0, 65), l1 || 'Lagret fra samtale', norsk);
+    });
+
+    els.chatStream.appendChild(div);
+    els.chatStream.scrollTop = els.chatStream.scrollHeight;
+  }
+
+  function renderHints(hints) {
+    els.hintsContainer.innerHTML = '';
+    (hints || []).forEach((h) => {
+      const l1Hint = getL1Text(h, 'ru', 'ua', 'en');
+      const card = document.createElement('div');
+      card.className = 'hint-card';
+      card.innerHTML = `
+        <div class="hint-label">💡 ${h.label}</div>
+        <div class="hint-norsk">«${h.norsk}»</div>
+        <div class="hint-ru">${l1Hint}</div>
+      `;
+      card.addEventListener('click', () => {
+        els.userSpeechInput.value = h.norsk;
+        handleUserSubmission(h.norsk);
+      });
+      els.hintsContainer.appendChild(card);
+    });
+  }
+
+  async function handleUserSubmission(text) {
+    const cleanText = (text || els.userSpeechInput.value || '').trim();
+    if (!cleanText) return;
+
+    els.userSpeechInput.value = '';
+    window.speechSynthesis.cancel();
+
+    appendMessage({ sender: 'user', norsk: cleanText, l1: '' });
+    checkSpokenTargetWords(cleanText);
+
+    els.micStatusText.textContent =
+      '🧠 Серверный анализ V2-грамматики, уровня CEFR (A2→B2) и критерия Samhandling...';
+
+    try {
+      const sc = state.currentScenario;
+      const response = await fetch('/api/coach', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          module: state.currentModule,
+          scenarioId: sc ? sc.id : 'np-b1b2-velferd-hjemmekontor',
+          level: state.userLevel,
+          l1: state.l1Lang,
+          persona: state.agentPersona,
+          userText: cleanText,
+          history: state.chatHistory.slice(-20),
+          usedWords: Array.from(state.usedWords),
+          customScenario:
+            sc && String(sc.id).startsWith('custom-')
+              ? {
+                  id: sc.id,
+                  title: sc.title,
+                  partnerName: sc.partnerName,
+                  partnerRole: sc.partnerRole,
+                  sourceText: sc.sourceText,
+                  targetWords: sc.targetWords
+                }
+              : undefined
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.correction) {
+        addCoachingCard(result.correction);
+        updateHkdirScores(result.correction);
+      }
+
+      appendMessage({
+        sender: 'ai',
+        norsk: result.reply_norsk,
+        l1: result.reply_l1
+      });
+
+      if (result.next_hints && result.next_hints.length > 0) {
+        renderHints(result.next_hints);
+      }
+
+      speakNorwegian(result.reply_norsk);
+      els.micStatusText.textContent =
+        'L2 ASR Ready (`nb-NO` без автоисправления ошибок грамматики) — Нажми 🎙️';
+    } catch (err) {
+      els.micStatusText.textContent = `Ошибка связи с сервером: ${err.message}`;
+    }
+  }
+
+  function addCoachingCard(corr) {
+    state.coachingHistory.unshift(corr);
+    const card = document.createElement('div');
+    card.className = 'coaching-card';
+    card.innerHTML = `
+      <div class="coaching-row">
+        <span class="coaching-tag tag-said">🔴 Hva du sa (${corr.cefr_estimate || 'B1'})</span>
+        <div style="color:#fda4af;">«${corr.original}»</div>
+      </div>
+      <div class="coaching-row">
+        <span class="coaching-tag tag-better">🟢 Naturlig Bokmål</span>
+        <div style="color:#6ee7b7; font-weight:600;">«${corr.natural_bokmal}»</div>
+      </div>
+      <div class="coaching-row">
+        <span class="coaching-tag tag-b2">🚀 B2-Oppgradering (HK-dir / Business Løft)</span>
+        <div style="color:#c7d2fe; font-weight:600;">«${corr.b2_upgrade}»</div>
+      </div>
+      <div class="coaching-row">
+        <span class="coaching-tag tag-rule">💡 L1 Микро-коррекция (${state.l1Lang.toUpperCase()}) & Samhandling</span>
+        <div style="color:#fde68a; font-size:0.78rem;">${corr.grammar_rule_l1}</div>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="mini-action-btn btn-listen-b2">🔊 Прослушать B2-фразу</button>
+        <button class="mini-action-btn btn-save-b2">📌 В словарь</button>
+      </div>
+    `;
+
+    card.querySelector('.btn-listen-b2').addEventListener('click', () =>
+      speakNorwegian(corr.b2_upgrade)
+    );
+    card.querySelector('.btn-save-b2').addEventListener('click', () => {
+      saveToGlossary(corr.b2_upgrade, corr.grammar_rule_l1, corr.natural_bokmal);
+    });
+
+    els.coachingCardsList.prepend(card);
+  }
+
+  function updateHkdirScores(corr) {
+    els.overallCefrBadge.textContent = `Уровень: ${corr.cefr_estimate || 'B1+'}`;
+    els.scoreGram.textContent = corr.v2_status || '✓ Korrekt V2';
+    els.scoreArg.textContent = corr.samhandling_status || 'Активный диалог';
+  }
+
+  function speakNorwegian(text) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'nb-NO';
+    utter.rate = state.speechRate;
+    const voices = window.speechSynthesis.getVoices();
+    const noVoice = voices.find((v) => v.lang.includes('nb') || v.lang.includes('no'));
+    if (noVoice) utter.voice = noVoice;
+    utter.onstart = () => {
+      els.voiceOrb.classList.remove('listening');
+      els.voiceOrb.classList.add('speaking');
+    };
+    utter.onend = () => {
+      els.voiceOrb.classList.remove('speaking');
+    };
+    window.speechSynthesis.speak(utter);
+  }
+
+  function handleApplyCustomSource() {
+    const raw = els.customSourceTextarea.value.trim();
+    if (!raw) return;
+
+    const tokens = raw
+      .replace(/[.,!?;:()"«»]/g, ' ')
+      .split(/[\s,;\n]+/)
+      .map((w) => w.trim())
+      .filter((w) => w.length >= 4);
+
+    const uniqueWords = [...new Set(tokens)].slice(0, 10);
+    const targetWords = uniqueWords.map((w) => ({
+      word: w.toLowerCase(),
+      translation: 'Целевое слово из твоего списка / вакансии',
+      ua: 'Цільове слово з твого списку / вакансії',
+      en: 'Target word from your custom list / job ad',
+      example: `Det er viktig å fokusere på ${w.toLowerCase()} i denne situasjonen.`
+    }));
+
+    const customScenario = {
+      id: 'custom-' + Date.now(),
+      title: '⚡ Кастомный тренажёр: ' + raw.slice(0, 34) + '...',
+      level: state.userLevel,
+      badge: '🛡️ Kopinor-Safe Custom',
+      avatar: '🎯',
+      partnerName: 'AI Sparringpartner (Персональный сценарий)',
+      partnerRole: 'Динамический телесуфлёр по твоим словам и источнику',
+      description: raw.slice(0, 130),
+      sourceText: raw,
+      targetWords:
+        targetWords.length > 0 ? targetWords : window.NORSK_SCENARIOS.norskprove[0].targetWords,
+      openingLine: `Jeg har lagt inn dine ${targetWords.length} målord i teleprompteren! La oss starte rollespillet. Hvordan vil du bruke «${(targetWords[0] && targetWords[0].word) || 'arbeidsmiljø'}» for å beskrive din erfaring eller mening her?`,
+      openingTranslation: `Я загрузил твои целевые слова (${targetWords.length} шт.) в телесуфлёр! Давай начнём ролевую тренировку. Как ты используешь первое слово в своём ответе?`,
+      openingUa: `Я завантажив твої цільові слова (${targetWords.length} шт.) у телесуфлер! Давай почнемо рольове тренування.`,
+      openingEn: `I loaded your ${targetWords.length} target words into the teleprompter! Let us begin the roleplay.`,
+      hints: [
+        {
+          label: 'Использовать слово №1 + №2 (B1/B2)',
+          norsk: `Det er avgjørende å ta hensyn til ${(targetWords[0] && targetWords[0].word) || 'dette'}, spesielt i kombinasjon med ${(targetWords[1] && targetWords[1].word) || 'praksis'}.`,
+          ru: 'Критически важно учитывать первое понятие, особенно в сочетании со вторым.',
+          ua: 'Критично важливо враховувати перше поняття, особливо в поєднанні з другим.',
+          en: 'It is crucial to consider the first concept, especially in combination with the second.'
+        }
+      ]
+    };
+
+    window.NORSK_SCENARIOS[state.currentModule].unshift(customScenario);
+    selectScenario(customScenario);
+    els.customSourceTextarea.value = '';
+  }
+
+  function saveToGlossary(word, translation, example) {
+    if (state.savedGlossary.some((x) => x.word === word)) return;
+    state.savedGlossary.unshift({ word, translation, example });
+    localStorage.setItem('norsklive_glossary', JSON.stringify(state.savedGlossary));
+    renderSavedGlossary();
+  }
+
+  function renderSavedGlossary() {
+    els.savedWordsCount.textContent = state.savedGlossary.length;
+    els.savedGlossaryList.innerHTML = '';
+    state.savedGlossary.forEach((item) => {
+      const badge = document.createElement('span');
+      badge.className = 'scenario-badge';
+      badge.style.cursor = 'pointer';
+      badge.textContent = `📌 ${item.word}`;
+      badge.addEventListener('click', () => speakNorwegian(item.example || item.word));
+      els.savedGlossaryList.appendChild(badge);
+    });
+  }
+
+  function exportReportAndGlossary() {
+    const sc = state.currentScenario;
+    const lines = [
+      `# 🇳🇴 NorskLive Pro — HK-dir & R&D Rapport (${new Date().toLocaleDateString()})`,
+      `**Концепт:** ${state.currentModule.toUpperCase()} | **Сценарий:** ${sc ? sc.title : ''}`,
+      `**Язык L1 микро-коррекций:** ${state.l1Lang.toUpperCase()} | **Оценка уровня:** ${els.overallCefrBadge.textContent}`,
+      `**Активный словарь (Bingo):** ${state.usedWords.size} из ${(sc && sc.targetWords.length) || 0}`,
+      ``,
+      `## 1. Трансформация фраз (A2 → B2) и L1 Микро-коррекции`,
+      ...state.coachingHistory.map(
+        (c, i) =>
+          `### Реплика ${i + 1}\n- **Что сказал кандидат (${c.cefr_estimate}):** ${c.original}\n- **Naturlig Bokmål:** ${c.natural_bokmal}\n- **B2-Oppgradering:** ${c.b2_upgrade}\n- **L1 Разбор & Samhandling:** ${c.grammar_rule_l1}\n`
+      ),
+      `## 2. Личный словарь (Min Ordbok)`,
+      ...state.savedGlossary.map((g) => `- **${g.word}** — ${g.translation} (*«${g.example}»*)`)
+    ];
+    const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `NorskLive-HKdir-Report-${new Date().toISOString().slice(0, 10)}.md`;
+    a.click();
+  }
+
+  function bindEvents() {
+    els.moduleTabs.forEach((btn) => {
+      btn.addEventListener('click', () => switchModule(btn.dataset.module));
+    });
+
+    els.l1LangSelect.addEventListener('change', (e) => {
+      state.l1Lang = e.target.value;
+      renderVocabBingo();
+      if (state.currentScenario) renderHints(state.currentScenario.hints || []);
+    });
+
+    els.userLevelSelect.addEventListener('change', (e) => {
+      state.userLevel = e.target.value;
+    });
+
+    els.agentPersonaSelect.addEventListener('change', (e) => {
+      state.agentPersona = e.target.value;
+    });
+
+    els.applyCustomSourceBtn.addEventListener('click', handleApplyCustomSource);
+
+    els.fileUploadInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        els.customSourceTextarea.value = ev.target.result;
+      };
+      reader.readAsText(file);
+    });
+
+    els.micToggleBtn.addEventListener('click', () => {
+      if (!recognition) {
+        alert(
+          'Используйте браузер Chrome/Edge для голосового распознавания nb-NO или введите ответ текстом.'
+        );
+        return;
+      }
+      if (state.isRecording) recognition.stop();
+      else {
+        window.speechSynthesis.cancel();
+        recognition.start();
+      }
+    });
+
+    els.sendSpeechBtn.addEventListener('click', () =>
+      handleUserSubmission(els.userSpeechInput.value)
+    );
+    els.userSpeechInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleUserSubmission(els.userSpeechInput.value);
+      }
+    });
+
+    els.blurToggleBtn.addEventListener('click', () => {
+      state.blurMode = !state.blurMode;
+      els.blurToggleBtn.classList.toggle('active', state.blurMode);
+      document
+        .querySelectorAll('.msg-ai')
+        .forEach((el) => el.classList.toggle('blur-text', state.blurMode));
+    });
+
+    els.examPartBtn.addEventListener('click', () => {
+      if (state.examPart < 3) {
+        state.examPart++;
+        updateExamStageUI();
+        const sc = state.currentScenario;
+        const nextPrompt =
+          state.examPart === 2 ? sc.examStructure.part2Prompt : sc.examStructure.part3Prompt;
+        appendMessage({
+          sender: 'ai',
+          norsk: nextPrompt,
+          l1: 'Переход к следующему регламентированному этапу экзамена HK-dir!'
+        });
+        speakNorwegian(nextPrompt);
+      } else {
+        exportReportAndGlossary();
+      }
+    });
+
+    els.restartSessionBtn.addEventListener('click', () => {
+      if (state.currentScenario) selectScenario(state.currentScenario);
+    });
+
+    els.speakHintBtn.addEventListener('click', () => {
+      const lastAi = [...state.chatHistory].reverse().find((m) => m.sender === 'ai');
+      if (lastAi) speakNorwegian(lastAi.norsk);
+    });
+
+    els.exportGlossaryBtn.addEventListener('click', exportReportAndGlossary);
+    els.generateReportBtn.addEventListener('click', exportReportAndGlossary);
+  }
+
+  init();
+})();

@@ -1,8 +1,8 @@
 # 🇳🇴 NorskLive Pro SaaS (2026) — Мастер-Документ: Бизнес-Концепт, Анализ Рынка, Юридическая и Техническая Архитектура + Отчёт о Реализации MVP
 
 **Дата сборки:** 27 сентября 2026 г.  
-**Статус проекта:** Рабочий 3-в-1 SaaS MVP запущен локально (`http://localhost:3000/norsk`) и готов к деплою на Vercel.  
-**Расположение исходного кода:** `c:\Eagy2-project-smy-first-project\public\norsk\` + серверное ядро `c:\Eagy2-project-smy-first-project\server.js`
+**Статус проекта:** Рабочий 3-в-1 SaaS MVP запущен локально (`http://localhost:3000/`) и готов к деплою на Vercel.  
+**Расположение исходного кода:** `public/` + серверное ядро `server/app.js` и `api/index.js`
 
 ---
 
@@ -59,10 +59,10 @@
 3. **Матрица оценки по 4 критериям HK-dir (`Uttale, Ordforråd, Grammatikk, Samhandling`) + Трансформация `A2 → B2`:**
    * Система находит простые конструкции уровня A2 (например: *«Jeg tenker at miljø er viktig»*) и перестраивает их на уровень B2 (*«Det er avgjørende å ta hensyn til miljøet for å sikre en bærekraftig velferdsstat»*) с разбором инверсии **V2-regelen** на родном языке пользователя (**L1: 🇺🇦 Українська / 🇷🇺 Русский / 🇬🇧 English**).
 
-### Концепт №2: Карьерный симулятор `Jobbintervju på norsk (Finn.no Scraper + CV + Lunsjprat)`
-1. **Обход закрытого Partner API Finn.no через легальный B2C веб-скрейпинг:**
-   * Официальный REST API `Finn.no` доступен только партнёрам с Provider ID. Поэтому наш серверный модуль (`/api/scrape-finn`) извлекает публичные HTML-данные вакансии (`title`, `description`, отраслевые требования) напрямую по ссылке `https://www.finn.no/job/ad/...`.
-2. **Gap-анализ `CV vs. Finn.no` + Отраслевой норвежский:**
+### Концепт №2: Карьерный симулятор `Jobbintervju på norsk (Stillingsannonse + CV + Lunsjprat)`
+1. **Юридически чистый ввод текста вакансии (`Paste Stillingsannonse`):**
+   * Пользователь вставляет текст интересующей вакансии и ключевые тезисы резюме напрямую в интерфейс, не нарушая условия использования сторонних площадок.
+2. **Gap-анализ `CV vs. Stillingsannonse` + Отраслевой норвежский:**
    * Тренажёр превращается в норвежского HR-директора конкретной компании (например, в сфере **B2B Sales, Logistikk & Supply Chain, AI/Automation, IT, Helse**).
 3. **Дипломатический фильтр скандинавской культуры (`Cultural Fit & Lunsjprat`):**
    * Перефразирует индивидуалистичные ответы в духе норвежских ценностей (*lagspiller, medvirkning, flat struktur, tillit*) и тренирует неформальный разговор с коллегами за обедом (**`Uformell Lunsjprat ved kaffemaskinen`**).
@@ -93,32 +93,32 @@
 
 ## ЧАСТЬ 4. ЧТО ИМЕННО МЫ СДЕЛАЛИ И РЕАЛИЗОВАЛИ В КОДЕ (ТЕХНИЧЕСКИЙ ОТЧЁТ)
 
-Мы спроектировали, написали и запустили полнофункциональное веб-приложение **`NorskLive Pro SaaS`** внутри твоего проекта.
+Мы спроектировали, написали и запустили полнофункциональное веб-приложение **`NorskLive Pro SaaS`**.
 
 ### 4.1. Архитектура созданных и обновлённых файлов
 
 | Файл проекта | Что реализовано внутри |
 | :--- | :--- |
-| **[`server.js`](file:///c:/Eagy2-project-smy-first-project/server.js)** | 1. Добавлен серверный маршрут `/norsk` для отдачи SPA-приложения.<br>2. Реализован серверный B2C-скрейпер вакансий **`POST /api/scrape-finn`**, который принимает любую ссылку `https://www.finn.no/job/ad/...`, обходит ограничения закрытого Partner API, очищает HTML от скриптов и извлекает название должности, краткое описание и полный текст требований для генерации интервью. |
-| **[`public/norsk/index.html`](file:///c:/Eagy2-project-smy-first-project/public/norsk/index.html)** | 1. Верхняя панель с переключателем **3 стратегических концептов** (`Концепт №1: Norskprøve HK-dir`, `Концепт №2: Finn.no Jobbintervju`, `Концепт №3: CEFR Teleprompter`).<br>2. Переключатель родного языка микро-коррекций **L1 (`🇺🇦 Українська` | `🇷🇺 Русский` | `🇬🇧 English`)**.<br>3. Селектор целевого уровня (`A2`, `B1`, `B2`) и селектор **поведения второго ИИ-агента (`Medkandidat`: Стандартный / Перебивающий и спорящий / Пассивный)**.<br>4. Встроенное модальное окно **«📊 SkatteFUNN & Архитектура 2026»** со сводной матрицей проекта.<br>5. Модальное окно подключения **Gemini API Key (`gemini-2.5-flash` / `gemini-2.0-flash`)**. |
-| **[`public/norsk/scenarios.js`](file:///c:/Eagy2-project-smy-first-project/public/norsk/scenarios.js)** | 1. **База Концепта №1 (`norskprove`):** Экзаменационные билеты уровней `B1–B2` (*Digitalisering, hjemmekontor og bærekraftig velferdsstat*) и `A2–B1` (*Miljø, kildesortering og frivillighet под новое требование UDI для ПМЖ*), разбитые на 3 регламентированных этапа (`Del 1`, `Del 2`, `Del 3`).<br>2. **База Концепта №2 (`jobbintervju`):** Кейс *Key Account Manager / Logistikk & AI-automasjon* (под твой гибридный профиль!) + сценарий неформального общения с коллегами *Uformell Lunsjprat ved kaffemaskinen*.<br>3. **База Концепта №3 (`pensum`):** Юридически чистые проприетарные модули CEFR (*Fastlege, egenmelding og gradert sykmelding*; *Husleiekontrakt og depositumskonto*) без нарушения прав *Åndsverkloven / Kopinor*.<br>4. Полная локализация всех словарей и подсказок на **3 языка (RU, UA, EN)**. |
-| **[`public/norsk/app.js`](file:///c:/Eagy2-project-smy-first-project/public/norsk/app.js)** | 1. **Голосовое распознавание норвежской речи (`Web Speech API nb-NO`)** + синтез норвежской речи (`SpeechSynthesis nb-NO`) с анимированной звуковой сферой (`Voice Orb`).<br>2. **Детектор активного словаря (`Active Vocabulary Bingo`):** отслеживает произнесённые пользователем целевые слова (с учётом норвежских окончаний и словоформ), подсвечивает их зелёным (`✓ BRUKT I TALE`) и обновляет прогресс-бар.<br>3. **Движок микро-коррекций `A2 → B2` и проверки правила `V2-inversjon`:** автоматически ловит ошибки порядка слов после обстоятельств (*I dag, Nå, Derfor, Dessuten*) и трансформирует фразы уровня A2 (включая эталонный пример *«Jeg tenker at miljø er viktig»*) в конструкции уровня B2.<br>4. **Логика проверки `Samhandling`:** анализирует, задаёт ли кандидат встречные вопросы пассивному или спорящему напарнику (`Medkandidat`).<br>5. **Генератор кастомных сценариев и экспорт отчёта `.md` (под Notion / HK-dir)**. |
-| **[`public/norsk/styles.css`](file:///c:/Eagy2-project-smy-first-project/public/norsk/styles.css)** | Современный скандинавский дизайн в тёмной теме (Nordic Glassmorphism), трёхколоночный интерфейс студии звонка, режим размытия текста для тренировки аудирования (`Blur Mode`), цветовая кодировка тегов коучинга (`Hva du sa`, `Naturlig Bokmål`, `B2-Oppgradering`, `L1 Грамматика`). |
-| **[`vercel.json`](file:///c:/Eagy2-project-smy-first-project/vercel.json)** | Настроена маршрутизация `/norsk` для мгновенного облачного деплоя на Vercel. |
+| **`server/app.js` & `api/index.js`** | 1. Серверное ядро Express + Vercel Serverless handler с защитой `helmet`, `express-rate-limit` и валидацией `Zod`.<br>2. Серверный прокси **`POST /api/coach`**, скрывающий `GEMINI_API_KEY` на сервере и автоматически переключающийся на детерминированный R&D-движок при отсутствии ключа. |
+| **`public/index.html`** | 1. Верхняя панель с переключателем **3 стратегических концептов** (`Концепт №1: Norskprøve HK-dir`, `Концепт №2: Jobbintervju på norsk`, `Концепт №3: CEFR Teleprompter`).<br>2. Переключатель родного языка микро-коррекций **L1 (`🇺🇦 Українська` \| `🇷🇺 Русский` \| `🇬🇧 English`)**.<br>3. Селектор целевого уровня (`A2`, `B1`, `B2`) и селектор **поведения второго ИИ-агента (`Medkandidat`: Стандартный / Перебивающий и спорящий / Пассивный)**. |
+| **`public/scenarios.js`** | 1. **База Концепта №1 (`norskprove`):** Экзаменационные билеты уровней `B1–B2` (*Digitalisering, hjemmekontor og bærekraftig velferdsstat*) и `A2–B1` (*Miljø, kildesortering og frivillighet*), разбитые на 3 регламентированных этапа (`Del 1`, `Del 2`, `Del 3`).<br>2. **База Концепта №2 (`jobbintervju`):** Кейс *Key Account Manager / Logistikk & AI-automasjon* + сценарий неформального общения с коллегами *Uformell Lunsjprat ved kaffemaskinen*.<br>3. **База Концепта №3 (`pensum`):** Юридически чистые проприетарные модули CEFR (*Fastlege, egenmelding og gradert sykmelding*; *Husleiekontrakt og depositumskonto*) без нарушения прав *Åndsverkloven / Kopinor*.<br>4. Полная локализация всех словарей и подсказок на **3 языка (RU, UA, EN)**. |
+| **`public/app.js`** | 1. **Голосовое распознавание норвежской речи (`Web Speech API nb-NO`)** + синтез норвежской речи (`SpeechSynthesis nb-NO`) с анимированной звуковой сферой (`Voice Orb`).<br>2. **Детектор активного словаря (`Active Vocabulary Bingo`):** отслеживает произнесённые пользователем целевые слова, подсвечивает их зелёным (`✓ BRUKT I TALE`) и обновляет прогресс-бар.<br>3. **Связь с серверным `POST /api/coach`:** передаёт реплику кандидата и контекст сценария на сервер для получения оценки по критериям HK-dir.<br>4. **Генератор кастомных сценариев и экспорт отчёта `.md` (под Notion / HK-dir)**. |
+| **`public/styles.css`** | Современный скандинавский дизайн в тёмной теме (Nordic Glassmorphism), трёхколоночный интерфейс студии звонка, режим размытия текста для тренировки аудирования (`Blur Mode`), цветовая кодировка тегов коучинга (`Hva du sa`, `Naturlig Bokmål`, `B2-Oppgradering`, `L1 Грамматика`). |
+| **`vercel.json`** | Настроена маршрутизация `/api/(.*)` и редиректы `/norsk` -> `/` для облачного деплоя на Vercel. |
 
 ---
 
 ## ЧАСТЬ 5. КАК ЗАПУСКАТЬ И ИСПОЛЬЗОВАТЬ ПЛАТФОРМУ
 
 1. **Локальный запуск:**
-   В терминале из папки `c:\Eagy2-project-smy-first-project` выполняется команда:
+   В терминале из корневой папки проекта выполняется команда:
    ```bash
-   node server.js
+   npm start
    ```
-   Платформа открывается по адресу: **`http://localhost:3000/norsk`**
+   Платформа открывается по адресу: **`http://localhost:3000/`**
 
 2. **Как тестировать все 3 концепта:**
    * Выбери сверху вкладку **🎓 Концепт №1: Norskprøve (HK-dir)**, переключи язык микро-коррекций **L1** (`🇷🇺 Русский` / `🇺🇦 Українська` / `🇬🇧 English`) и выбери поведение второго ИИ-агента (`⚡ Medkandidat: Спорящий` или `😳 Medkandidat: Пассивный`).
    * Скажи в микрофон **🎙️** или отправь тестовую фразу `Jeg tenker at miljø er viktig` — справа мгновенно появится карточка трансформации **A2 → B2** и разбор по критериям HK-dir.
-   * Переключись на **💼 Концепт №2: Finn.no Jobbintervju**, вставь ссылку на любую вакансию с `finn.no` в блок **Finn.no Jobb-Scraper** (или используй готовый кейс *Key Account Manager / Logistikk & AI*) и отработай ответы с дипломатическим фильтром норвежской культуры (*lagspiller & medvirkning*).
+   * Переключись на **💼 Концепт №2: Jobbintervju**, вставь текст вакансии или используй готовый кейс *Key Account Manager / Logistikk & AI* и отработай ответы с дипломатическим фильтром норвежской культуры (*lagspiller & medvirkning*).
    * Переключись на **🛡️ Концепт №3: CEFR Teleprompter**, введи до 10 своих норвежских слов через запятую и выведи их в активную речь с помощью динамического телесуфлёра.

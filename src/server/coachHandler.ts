@@ -30,11 +30,7 @@ export function createCoachHandler(
       ? deps.rateLimit
       : createRateLimiter(deps.rateLimit);
 
-  const checkAuthEnabled: () => boolean =
-    deps.authEnabled ??
-    (deps.getUser
-      ? isAuthEnabled
-      : () => (process.env.VITEST ? false : isAuthEnabled()));
+  const checkAuthEnabled: () => boolean = deps.authEnabled ?? isAuthEnabled;
 
   const resolveUser: () => Promise<{ id: string } | null> =
     deps.getUser ?? getSessionUser;

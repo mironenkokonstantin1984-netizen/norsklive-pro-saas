@@ -1,9 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
-import { isAuthEnabled } from './server/auth';
-
 export async function middleware(request: NextRequest) {
-  if (!isAuthEnabled()) {
+  if (process.env.AUTH_ENABLED !== 'true') {
     return NextResponse.next();
   }
 

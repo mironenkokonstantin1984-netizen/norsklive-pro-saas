@@ -154,14 +154,24 @@ body {
   .studio-layout {
     padding: var(--space-2);
   }
-  .exam-prompt-text {
-    font-size: 0.9375rem;
-    line-height: 1.35;
+  .call-hero {
+    padding: var(--space-2);
+    gap: var(--space-1);
   }
-  .msg-norsk,
-  .msg-user-text {
+  .exam-stage-banner {
+    padding: var(--space-2);
+  }
+  .exam-prompt-text.t-speech {
     font-size: 0.9375rem;
-    line-height: 1.35;
+    line-height: 1.32;
+  }
+  .msg-norsk.t-speech,
+  .msg-user-text.t-speech {
+    font-size: 0.9375rem;
+    line-height: 1.32;
+  }
+  .chat-stream {
+    padding: var(--space-2);
   }
 }
 

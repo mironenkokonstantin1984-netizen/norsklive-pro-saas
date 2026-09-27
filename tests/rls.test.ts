@@ -10,6 +10,11 @@ const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const hasSupabaseEnv = Boolean(supabaseUrl && supabaseAnonKey && supabaseServiceRoleKey);
 
 if (!hasSupabaseEnv) {
+  if (process.env.CI) {
+    throw new Error(
+      'RLS tests must run in CI: SUPABASE_URL / SUPABASE_ANON_KEY / SUPABASE_SERVICE_ROLE_KEY missing'
+    );
+  }
   console.info(
     'Skipping RLS integration tests: SUPABASE_URL, SUPABASE_ANON_KEY, and SUPABASE_SERVICE_ROLE_KEY must be set.'
   );

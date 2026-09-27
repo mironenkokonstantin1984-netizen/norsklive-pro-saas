@@ -36,10 +36,25 @@ Full technical roadmap: `docs/AGENT_TASK_SPEC.md`. How the task loop works: `doc
 - Keep user-facing exam content in Norwegian Bokmål; do not copy textbook content
   (På vei, Stein på stein, etc.).
 
+## Autonomy (no owner confirmations)
+The owner does not approve individual steps. The issue itself is the permission to do the work.
+- Never ask the owner in the IDE chat "shall I start / continue / proceed?". Start and keep going.
+- Something is unclear but you can still proceed → pick the simplest option that stays inside
+  the issue, continue, and list it under "Decisions made" in the PR report.
+- A real blocker (you cannot continue correctly without an answer) → post a comment on **your PR**
+  starting with `❓ Question for reviewer:`, keep working on the other tasks, and wait for the
+  answer using the review-loop skill. Never ask in the IDE chat. (This is why the draft PR is
+  opened right after the first commit.)
+- Never do these unless the issue explicitly says so: `git push --force`, push to `master`,
+  merge a PR, delete branches other than your own, edit `.github/workflows` outside the task,
+  install global packages.
+
 ## Review comments
 Comments starting with `@antigravity` are change requests from the reviewer (Claude Code).
 Follow `.agents/skills/address-review/SKILL.md`: address every point, one by one, and report
 what you changed for each.
+After you mark the PR "Ready for review", do not stop: follow
+`.agents/skills/review-loop/SKILL.md` until the reviewer posts `✅ … accepted`.
 
 ## Commands
 - Install: `npm ci`

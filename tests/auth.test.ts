@@ -19,7 +19,9 @@ const VALID_COACH_BODY = {
   level: 'B1' as const,
   l1: 'ru' as const,
   persona: 'standard' as const,
-  userText: 'Vi må sikre høy sysselsetting og bærekraftig velferdsstat.'
+  userText: 'Vi må sikre høy sysselsetting og bærekraftig velferdsstat.',
+  history: [],
+  usedWords: []
 };
 
 function makeCoachRequest(body: unknown = VALID_COACH_BODY): Request {

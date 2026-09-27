@@ -79,28 +79,47 @@ ACCEPTANCE M0:
   "Jeg tenker at miljø er viktig" → A2), rate limiter.
 
 ────────────────────────────────────────────
-M1 — Platform migration: Next.js + Supabase (EU)
+M1 — Platform migration: Next.js + local Supabase (split into M1a and M1b)
 ────────────────────────────────────────────
+Decision (owner): develop against local Supabase running in Docker via the Supabase CLI;
+connect a cloud Supabase project in the EU (Frankfurt/Stockholm) only before launch.
+The Supabase CLI runs its own Postgres (port 54322), so it does not clash with other
+local Postgres containers.
+
+M1a — Next.js migration, no database (issue #4)
 1.1 Create a Next.js 15 (App Router, TypeScript strict, Tailwind) app in the repo root; move
-    the trainer UI into React components (StudioPage, ChatPanel, CoachingPanel,
-    TargetWordsPanel, VoiceOrb). Port styles from public/norsk/styles.css.
-    Port scenarios.js to typed data in src/content/scenarios/*.ts.
-1.2 Move /api/coach to src/app/api/coach/route.ts reusing server/prompts + server/fallback.
-1.3 Supabase project in EU region (eu-north-1 / eu-central-1). Auth: email magic link +
-    Google OAuth. Tables (SQL migrations in supabase/migrations, RLS on every table,
-    user can only read/write own rows):
+    the trainer UI into React components (StudioPage, ModuleTabs, ChatPanel, CoachingPanel,
+    TargetWordsPanel, VoiceOrb) with 1:1 behaviour. Port public/scenarios.js to typed data
+    in src/content/scenarios/*.ts.
+1.2 Move /api/coach to src/app/api/coach/route.ts, porting server/schemas, server/fallback,
+    server/prompts to src/server/*.ts without rewriting the logic; keep all M0 guarantees
+    (validation, 16 KB limit, 20 s timeout, fallback, 500 without details, per-IP rate limit).
+1.3 Security headers and /norsk redirect in next.config; tests ported to Vitest; CI runs
+    lint + typecheck + test + build. Express, helmet, supertest removed.
+ACCEPTANCE M1a: app works as before under `npm run dev`; lint/typecheck/test/build green;
+no Gemini URL or key in .next/static; verify.sh PASS.
+
+M1b — Local Supabase: auth, data, quotas (created after M1a is merged)
+1.4 `supabase init` / `supabase start` (Docker). SQL migrations in supabase/migrations with
+    RLS on every table (user can only read/write own rows):
       profiles(id uuid pk = auth.uid, l1, target_level, exam_date, created_at)
       practice_sessions(id, user_id, module, scenario_id, level, started_at, ended_at, score_json)
       turns(id, session_id, role, text, correction_json, created_at)
       usage(user_id, day date, ai_calls int, audio_seconds int, pk(user_id, day))
       subscriptions(user_id, plan, status, provider, provider_ref, current_period_end)
-1.4 /api/coach requires auth; persists turns; increments usage; enforces plan quota
+1.5 Auth via @supabase/ssr: email magic link (local mail UI at localhost:54324); Google
+    OAuth prepared in config but optional locally.
+1.6 /api/coach requires auth; persists turns; increments usage; enforces plan quota
     (free: 20 AI calls/day, paid: 300/day) → 402 with upgrade payload when exceeded.
-1.5 Gemini via Vertex AI in an EU region (europe-north1 or europe-west4) with service
-    account creds in env; document data-processing terms in docs/PRIVACY_TECH.md.
-ACCEPTANCE M1: sign up → practice → reload → history persists; RLS tests prove user A
-cannot read user B rows; quota returns 402; Playwright e2e (Chromium at /opt/pw-browsers)
-covers signup→first turn.
+1.7 Env: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+    (server only). docs/SUPABASE_LOCAL.md explains setup. CI starts Supabase with
+    supabase/setup-cli before tests.
+ACCEPTANCE M1b: sign up → practice → reload → history persists; RLS tests prove user A
+cannot read user B rows; quota returns 402; Playwright e2e covers signup→first turn.
+
+Before launch (not an agent task): create the cloud Supabase project in the EU, run the
+migrations there, and switch Gemini to Vertex AI in an EU region (europe-north1 or
+europe-west4) with data-processing terms documented in docs/PRIVACY_TECH.md.
 
 ────────────────────────────────────────────
 M2 — Exam simulator that matches the real HK-dir oral test (core product)

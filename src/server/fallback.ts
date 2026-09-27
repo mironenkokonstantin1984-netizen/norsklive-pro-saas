@@ -1,4 +1,4 @@
-import scenariosRaw from '../../public/scenarios.js';
+import { scenariosByModule } from '../content/scenarios';
 import type { CoachResponse, CustomScenario, TargetWord } from './schemas';
 
 export interface ScenarioRecord {
@@ -10,7 +10,7 @@ export interface ScenarioRecord {
   targetWords?: TargetWord[];
 }
 
-const scenariosByModule = scenariosRaw as Record<string, ScenarioRecord[]>;
+const scenariosMap = scenariosByModule as unknown as Record<string, ScenarioRecord[]>;
 
 export function findScenario(
   moduleKey: string,
@@ -20,9 +20,9 @@ export function findScenario(
   if (customScenario && customScenario.sourceText) {
     return customScenario;
   }
-  const moduleList = scenariosByModule[moduleKey] || scenariosByModule.norskprove || [];
+  const moduleList = scenariosMap[moduleKey] || scenariosMap.norskprove || [];
   const found = moduleList.find((sc) => sc.id === scenarioId);
-  return found || moduleList[0] || scenariosByModule.norskprove[0];
+  return found || moduleList[0] || scenariosMap.norskprove[0];
 }
 
 export interface FallbackInput {

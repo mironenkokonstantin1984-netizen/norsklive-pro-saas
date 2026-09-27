@@ -58,7 +58,8 @@ Claude Code (события PR приходят автоматически): п�
 - `AGENTS.md` — всегда активные правила, включая раздел *Autonomy*.
 - `.agents/rules/` — безопасность, тесты, границы задачи.
 - `.agents/skills/` — `verify-before-pr` (самопроверка), `pr-report` (отчёт), `address-review` (ответ на
-  ревью), `review-loop` (ожидание ревью без владельца), `code-review` (самоаудит диффа).
+  ревью), `review-loop` (ожидание ревью без владельца), `code-review` (самоаудит диффа), `design-system`
+  (токены и правила интерфейса, `docs/DESIGN_SYSTEM.md`).
 
 ## Когда нужен владелец
 - Merge PR.

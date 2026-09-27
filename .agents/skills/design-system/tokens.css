@@ -1,0 +1,135 @@
+/* NorskLive design tokens. Source of truth: docs/DESIGN_SYSTEM.md.
+ * Themes: light (default), dark (prefers-color-scheme or data-theme="dark"),
+ * contrast (prefers-contrast: more or data-theme="contrast"). Never hardcode colours; use var(--token). */
+
+:root {
+  color-scheme: light;
+  --bg: #f5f7f9;
+  --surface: #ffffff;
+  --surface-2: #eceff3;
+  --ink: #16202b;
+  --muted: #566271;
+  --line: #dde2e8;
+  --line-strong: #8a95a3;
+  --primary: #1e4e79;
+  --on-primary: #ffffff;
+  --primary-hover: #173e61;
+  --primary-soft: #e4edf6;
+  --success: #256b4a;
+  --success-soft: #e3f1e9;
+  --error: #a8233a;
+  --error-soft: #f9e4e8;
+  --hint: #7f5207;
+  --hint-soft: #fbf0da;
+  --recording: #c8323f;
+  --scrim: rgba(15, 21, 27, 0.48);
+  --shadow-1: 0 1px 2px rgba(22, 32, 43, 0.06), 0 1px 1px rgba(22, 32, 43, 0.04);
+  --shadow-float: 0 8px 28px rgba(22, 32, 43, 0.12), 0 2px 6px rgba(22, 32, 43, 0.06);
+  --font-sans: Manrope, 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 280ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="contrast"]) {
+    color-scheme: dark;
+    --bg: #0f151b;
+    --surface: #172029;
+    --surface-2: #1f2831;
+    --ink: #e7ecf1;
+    --muted: #9ba8b5;
+    --line: #27313b;
+    --line-strong: #677584;
+    --primary: #8bbbe9;
+    --on-primary: #0c1b29;
+    --primary-hover: #a6ccf0;
+    --primary-soft: #16324b;
+    --success: #74caa0;
+    --success-soft: #143326;
+    --error: #f2909f;
+    --error-soft: #3d1a22;
+    --hint: #e7ba6a;
+    --hint-soft: #3a2c12;
+    --recording: #ff7b86;
+    --scrim: rgba(0, 0, 0, 0.6);
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-float: 0 10px 30px rgba(0, 0, 0, 0.55);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f151b;
+  --surface: #172029;
+  --surface-2: #1f2831;
+  --ink: #e7ecf1;
+  --muted: #9ba8b5;
+  --line: #27313b;
+  --line-strong: #677584;
+  --primary: #8bbbe9;
+  --on-primary: #0c1b29;
+  --primary-hover: #a6ccf0;
+  --primary-soft: #16324b;
+  --success: #74caa0;
+  --success-soft: #143326;
+  --error: #f2909f;
+  --error-soft: #3d1a22;
+  --hint: #e7ba6a;
+  --hint-soft: #3a2c12;
+  --recording: #ff7b86;
+  --scrim: rgba(0, 0, 0, 0.6);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-float: 0 10px 30px rgba(0, 0, 0, 0.55);
+}
+
+@media (prefers-contrast: more) {
+  :root:not([data-theme]) {
+    --ink: #000a14;
+    --muted: #2f3a47;
+    --line: #8a95a3;
+    --line-strong: #3d4856;
+    --primary: #10365a;
+    --primary-hover: #0a2742;
+    --success: #17563a;
+    --error: #8c1328;
+    --hint: #5e3c00;
+  }
+}
+
+:root[data-theme="contrast"] {
+  --ink: #000a14;
+  --muted: #2f3a47;
+  --line: #8a95a3;
+  --line-strong: #3d4856;
+  --primary: #10365a;
+  --primary-hover: #0a2742;
+  --success: #17563a;
+  --error: #8c1328;
+  --hint: #5e3c00;
+}
+
+/* Type styles (sizes in rem so text scales to 200%). */
+.t-display { font-family: var(--font-sans); font-size: 2.125rem; line-height: 1.12; font-weight: 700; letter-spacing: -0.02em; }
+.t-title { font-family: var(--font-sans); font-size: 1.5rem; line-height: 1.2; font-weight: 700; letter-spacing: -0.01em; }
+.t-speech { font-family: var(--font-sans); font-size: 1.25rem; line-height: 1.45; font-weight: 500; }
+.t-body { font-family: var(--font-sans); font-size: 1.0625rem; line-height: 1.5; font-weight: 400; }
+.t-callout { font-family: var(--font-sans); font-size: 0.9375rem; line-height: 1.45; font-weight: 600; }
+.t-caption { font-family: var(--font-sans); font-size: 0.8125rem; line-height: 1.4; font-weight: 500; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

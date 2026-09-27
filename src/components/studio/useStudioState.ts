@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useReducer, useCallback } from 'react';
+import { useEffect, useReducer, useCallback, useRef } from 'react';
 import {
   scenariosByModule,
   type ModuleKey,
@@ -9,6 +9,7 @@ import {
   type TargetWord
 } from '../../content/scenarios';
 import type { Correction, Hint } from '../../server/schemas';
+import { postCoach } from '../../lib/coachClient';
 import { speakNorwegian } from '../../lib/speech';
 
 export type L1Language = 'ru' | 'ua' | 'en';
@@ -59,6 +60,9 @@ export interface StudioState {
 
 export const DEFAULT_MIC_STATUS =
   'L2 ASR Ready (`nb-NO` без автоисправления ошибок грамматики) — Нажми 🎙️';
+
+export const THINKING_MIC_STATUS =
+  '🧠 Серверный анализ V2-грамматики, уровня CEFR (A2→B2) и критерия Samhandling...';
 
 export const DEFAULT_HKDIR_SCORES: HkdirScores = {
   cefr: 'B1+',
@@ -136,7 +140,11 @@ export const initialStudioState: StudioState = {
   hkdirScores: { ...DEFAULT_HKDIR_SCORES }
 };
 
-function resetForScenario(state: StudioState, scenario: Scenario, module = state.currentModule): StudioState {
+function resetForScenario(
+  state: StudioState,
+  scenario: Scenario,
+  module = state.currentModule
+): StudioState {
   return {
     ...state,
     currentModule: module,
@@ -354,6 +362,7 @@ export function buildCustomScenarioFromText(raw: string, userLevel: CefrLevel): 
 
 export function useStudioState() {
   const [state, dispatch] = useReducer(studioReducer, initialStudioState);
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const speakWithOrb = useCallback((text: string) => {
     speakNorwegian(text, {
@@ -463,6 +472,136 @@ export function useStudioState() {
     dispatch({ type: 'MARK_WORD_USED', word });
   }, []);
 
+  const handleUserSubmission = useCallback(
+    async (rawText: string) => {
+      const cleanText = (rawText || '').trim();
+      if (!cleanText) return;
+
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        try {
+          window.speechSynthesis.cancel();
+        } catch {
+          // Ignore
+        }
+      }
+
+      const nowTime = new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      const userMsg: ChatMessage = {
+        sender: 'user',
+        norsk: cleanText,
+        l1: '',
+        time: nowTime
+      };
+
+      dispatch({ type: 'APPEND_MESSAGE', message: userMsg });
+
+      const sc = state.currentScenario;
+      const { newlyUsedDisplay, newlyUsedLower } = detectSpokenTargetWords(
+        cleanText,
+        sc?.targetWords || [],
+        state.usedWords
+      );
+
+      const nextUsedWords = Array.from(
+        new Set([...state.usedWords, ...newlyUsedLower])
+      );
+
+      if (newlyUsedDisplay.length > 0) {
+        const toastMsg = `🎉 Использовано в речи: ${newlyUsedDisplay.join(', ')}`;
+        dispatch({
+          type: 'MARK_WORDS_USED',
+          words: newlyUsedLower,
+          toast: toastMsg
+        });
+        if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+        toastTimeoutRef.current = setTimeout(() => {
+          dispatch({ type: 'CLEAR_USED_WORDS_TOAST' });
+        }, 4500);
+      }
+
+      dispatch({ type: 'SET_THINKING', isThinking: true });
+      dispatch({ type: 'SET_MIC_STATUS', text: THINKING_MIC_STATUS });
+
+      const historyPayload = [...state.chatHistory, userMsg]
+        .slice(-20)
+        .map((t) => ({
+          sender: t.sender,
+          norsk: t.norsk,
+          l1: t.l1
+        }));
+
+      try {
+        const result = await postCoach({
+          module: state.currentModule,
+          scenarioId: sc ? sc.id : 'np-b1b2-velferd-hjemmekontor',
+          level: state.userLevel,
+          l1: state.l1Lang,
+          persona: state.agentPersona,
+          userText: cleanText,
+          history: historyPayload,
+          usedWords: nextUsedWords,
+          customScenario:
+            sc && String(sc.id).startsWith('custom-')
+              ? {
+                  id: sc.id,
+                  title: sc.title,
+                  partnerName: sc.partnerName,
+                  partnerRole: sc.partnerRole,
+                  sourceText: sc.sourceText,
+                  targetWords: sc.targetWords
+                }
+              : undefined
+        });
+
+        if (result.correction) {
+          dispatch({ type: 'ADD_COACHING_CARD', correction: result.correction });
+        }
+
+        dispatch({
+          type: 'APPEND_MESSAGE',
+          message: {
+            sender: 'ai',
+            norsk: result.reply_norsk,
+            l1: result.reply_l1,
+            time: new Date().toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit'
+            })
+          }
+        });
+
+        if (result.next_hints && result.next_hints.length > 0) {
+          dispatch({ type: 'SET_HINTS', hints: result.next_hints });
+        }
+
+        speakWithOrb(result.reply_norsk);
+        dispatch({ type: 'SET_THINKING', isThinking: false });
+        dispatch({ type: 'SET_MIC_STATUS', text: DEFAULT_MIC_STATUS });
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        dispatch({ type: 'SET_THINKING', isThinking: false });
+        dispatch({
+          type: 'SET_MIC_STATUS',
+          text: `Ошибка связи с сервером: ${message}`
+        });
+      }
+    },
+    [
+      state.currentScenario,
+      state.usedWords,
+      state.chatHistory,
+      state.currentModule,
+      state.userLevel,
+      state.l1Lang,
+      state.agentPersona,
+      speakWithOrb
+    ]
+  );
+
   const exportReportAndGlossary = useCallback(() => {
     if (typeof window === 'undefined') return;
     const sc = state.currentScenario;
@@ -477,13 +616,7 @@ export function useStudioState() {
         (c, i) =>
           `### Реплика ${i + 1}\n- **Что сказал кандидат (${c.cefr_estimate}):** ${c.original}\n- **Naturlig Bokmål:** ${c.natural_bokmal}\n- **B2-Oppgradering:** ${c.b2_upgrade}\n- **L1 Разбор & Samhandling:** ${c.grammar_rule_l1}\n`
       ),
-      `## 2. История диалога (Samtalelogg)`,
-      ...state.chatHistory.map(
-        (m) =>
-          `- **${m.sender === 'ai' ? sc.partnerName : 'Кандидат'}:** ${m.norsk}${m.l1 ? ` _(${m.l1})_` : ''}`
-      ),
-      ``,
-      `## 3. Личный словарь (Min Ordbok)`,
+      `## 2. Личный словарь (Min Ordbok)`,
       ...state.savedGlossary.map((g) => `- **${g.word}** — ${g.translation} (*«${g.example || ''}»*)`)
     ];
     const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
@@ -498,7 +631,6 @@ export function useStudioState() {
     state.hkdirScores.cefr,
     state.usedWords,
     state.coachingHistory,
-    state.chatHistory,
     state.savedGlossary
   ]);
 
@@ -547,6 +679,7 @@ export function useStudioState() {
     applyCustomSource,
     saveToGlossary,
     markWordUsed,
+    handleUserSubmission,
     exportReportAndGlossary,
     advanceExamPart,
     speakLastAiReply

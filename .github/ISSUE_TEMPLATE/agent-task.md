@@ -9,6 +9,7 @@ labels: []
 - Branch: `agent/issue-<this issue number>` (create it from `master`). One PR into `master` with `Closes #<N>`.
 - Follow `AGENTS.md`. Work only on the scope below.
 - Review comments starting with `@antigravity` are change requests.
+- Do not ask the owner for confirmation; questions go to the PR as `❓ Question for reviewer:` (see `AGENTS.md` → Autonomy). After "Ready for review", follow the review-loop skill until `✅ … accepted`.
 
 ## Context
 <!-- Why this is needed; links to docs -->

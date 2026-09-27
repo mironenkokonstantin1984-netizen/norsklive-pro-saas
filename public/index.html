@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ЧМ-2026: Интерактивный Дашборд и AI-Прогноз</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Интерактивный дашборд Чемпионата мира по футболу 2026. Симуляция матчей, таблицы групп, аналитика и AI-прогнозирование победителя в реальном времени.">
+  <meta name="keywords" content="ЧМ-2026, футбол, чемпионат мира, прогнозы, турнирная таблица, симулятор футбола, Монте-Карло">
+  <meta name="author" content="Antigravity AI">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <i class="fa-solid fa-trophy text-gold"></i>
+        </div>
+        <div class="brand-text">
+          <h2>FIFA 2026</h2>
+          <span>AI Predictor & Dashboard</span>
+        </div>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <button class="menu-item active" data-tab="standings">
+          <i class="fa-solid fa-table-list"></i>
+          <span>Турнирные таблицы</span>
+        </button>
+        <button class="menu-item" data-tab="matches">
+          <i class="fa-solid fa-circle-play"></i>
+          <span>Центр матчей</span>
+        </button>
+        <button class="menu-item" data-tab="analytics">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>AI-Аналитика & Прогноз</span>
+        </button>
+        <button class="menu-item" data-tab="bracket">
+          <i class="fa-solid fa-diagram-project"></i>
+          <span>Сетка плей-офф (1/16)</span>
+        </button>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="simulation-speed-ctrl">
+          <button id="btn-quick-simulate" class="btn btn-primary btn-block">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            Симулировать все сразу
+          </button>
+          <button id="btn-auto-play" class="btn btn-secondary btn-block mt-2">
+            <i class="fa-solid fa-play"></i>
+            <span>Авто-игры по одной</span>
+          </button>
+          <button id="btn-reset-scores" class="btn btn-outline btn-block mt-2">
+            <i class="fa-solid fa-rotate-left"></i>
+            Сбросить результаты
+          </button>
+        </div>
+        <div class="footer-meta">
+          <p>Local time: <span id="current-time">15.06.2026 20:00</span></p>
+          <p>Групповой этап — День 5</p>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Stats Bar -->
+      <header class="top-bar">
+        <div class="top-bar-title">
+          <h1 id="page-title">Турнирное положение групп</h1>
+          <p class="text-muted">Интерактивный расчет таблиц, показателей и шансов на победу</p>
+        </div>
+        
+        <div class="stats-cards">
+          <div class="stat-card">
+            <div class="stat-icon bg-blue">
+              <i class="fa-solid fa-futbol"></i>
+            </div>
+            <div class="stat-info">
+              <span id="stat-total-goals">29</span>
+              <label>Всего голов</label>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon bg-green">
+              <i class="fa-solid fa-calendar-check"></i>
+            </div>
+            <div class="stat-info">
+              <span id="stat-played-matches">11</span>
+              <label>Матчей сыграно</label>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon bg-gold">
+              <i class="fa-solid fa-chart-simple"></i>
+            </div>
+            <div class="stat-info">
+              <span id="stat-avg-goals">2.64</span>
+              <label>Голов за матч</label>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Content Container -->
+      <section class="content-body">
+        
+        <!-- Tab: Standings -->
+        <div id="tab-standings" class="tab-pane active">
+          <div class="groups-grid" id="groups-container">
+            <!-- Dynamic groups will be injected here -->
+          </div>
+        </div>
+        
+        <!-- Tab: Matches -->
+        <div id="tab-matches" class="tab-pane">
+          <!-- API Sync Box -->
+          <div class="api-settings-card card mb-3">
+            <div class="api-settings-header" id="api-settings-toggle" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+              <h3 style="font-size: 1rem; margin: 0;"><i class="fa-solid fa-gears text-gold"></i> Автоматическая синхронизация результатов (API-Sports)</h3>
+              <i class="fa-solid fa-chevron-down toggle-icon" id="api-toggle-icon"></i>
+            </div>
+            <div class="api-settings-body" id="api-settings-body" style="margin-top: 1rem; display: none;">
+              <p class="text-muted mb-2" style="font-size: 0.8rem; line-height: 1.4;">
+                Вы можете настроить автоматическое обновление результатов матчей ЧМ-2026 в реальном времени, используя бесплатный API-ключ от 
+                <a href="https://v3.football.api-sports.io/" target="_blank" style="color: var(--color-blue); text-decoration: underline;">api-sports.io</a>. 
+                Регистрация бесплатна и дает 100 запросов в день.
+              </p>
+              <div style="display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap; margin-top: 0.5rem;">
+                <div class="filter-group" style="flex-grow: 1; min-width: 250px;">
+                  <label for="api-key-input" style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted);">API-Ключ (x-apisports-key):</label>
+                  <input type="password" id="api-key-input" class="form-control" placeholder="Вставьте ваш API-ключ..." style="width: 100%;">
+                </div>
+                <button id="btn-sync-api" class="btn btn-primary">
+                  <i class="fa-solid fa-rotate"></i> Синхронизировать результаты
+                </button>
+              </div>
+              <div id="api-sync-status" style="font-size: 0.8rem; margin-top: 0.75rem; font-weight: 600;"></div>
+            </div>
+          </div>
+
+          <div class="matches-filter-bar card">
+            <div class="filter-group">
+              <label for="filter-group-select">Группа:</label>
+              <select id="filter-group-select" class="form-control">
+                <option value="all">Все группы (A-L)</option>
+                <option value="A">Группа A</option>
+                <option value="B">Группа B</option>
+                <option value="C">Группа C</option>
+                <option value="D">Группа D</option>
+                <option value="E">Группа E</option>
+                <option value="F">Группа F</option>
+                <option value="G">Группа G</option>
+                <option value="H">Группа H</option>
+                <option value="I">Группа I</option>
+                <option value="J">Группа J</option>
+                <option value="K">Группа K</option>
+                <option value="L">Группа L</option>
+              </select>
+            </div>
+            
+            <div class="filter-group">
+              <label for="filter-status-select">Статус:</label>
+              <select id="filter-status-select" class="form-control">
+                <option value="all">Все матчи</option>
+                <option value="played">Сыгранные</option>
+                <option value="scheduled">Предстоящие</option>
+              </select>
+            </div>
+            
+            <div class="filter-actions">
+              <button id="btn-simulate-visible" class="btn btn-secondary">
+                <i class="fa-solid fa-dice"></i> Симулировать отфильтрованные
+              </button>
+              <button id="btn-quick-simulate-mobile" class="btn btn-primary show-on-mobile">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Симулировать все
+              </button>
+              <button id="btn-reset-scores-mobile" class="btn btn-outline show-on-mobile">
+                <i class="fa-solid fa-rotate-left"></i> Сбросить
+              </button>
+            </div>
+          </div>
+          
+          <div class="matches-list" id="matches-container">
+            <!-- Dynamic match cards will be injected here -->
+          </div>
+        </div>
+        
+        <!-- Tab: AI Analytics & Predictions -->
+        <div id="tab-analytics" class="tab-pane">
+          <div class="analytics-layout">
+            
+            <!-- Left panel: Prediction Chart -->
+            <div class="analytics-left card">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-brain text-gold"></i> AI-Прогноз: Вероятность победы в ЧМ-2026</h3>
+                <p class="text-muted">Рассчитано методом симуляции Монте-Карло (1000 запусков) на основе силы команд и текущих очков</p>
+              </div>
+              <div class="card-body chart-container">
+                <canvas id="predictionChart"></canvas>
+              </div>
+            </div>
+            
+            <!-- Right panel: Commentary & Indicators -->
+            <div class="analytics-right">
+              
+              <!-- Leaderboard / Standings info -->
+              <div class="card mb-4">
+                <div class="card-header">
+                  <h3><i class="fa-solid fa-list-ol text-blue"></i> Лидеры симуляции</h3>
+                </div>
+                <div class="card-body">
+                  <div class="top-teams-list" id="top-teams-list">
+                    <!-- Dynamic top contenders list -->
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Analytical Commentary -->
+              <div class="card">
+                <div class="card-header">
+                  <h3><i class="fa-solid fa-comment-dots text-green"></i> Аналитические комментарии AI</h3>
+                </div>
+                <div class="card-body commentary-box" id="ai-commentary">
+                  <!-- Dynamic textual comments -->
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        
+        <!-- Tab: Knockout Bracket -->
+        <div id="tab-bracket" class="tab-pane">
+          <div class="bracket-intro card mb-4">
+            <h3><i class="fa-solid fa-network-wired text-gold"></i> Проекция сетки плей-офф (1/16 финала)</h3>
+            <p class="text-muted">В стадии 1/16 финала принимают участие по 2 лучшие команды из 12 групп + 8 лучших команд из числа занявших 3-и места.</p>
+            <p class="text-muted">Ниже приведена проекция сетки на основе текущего положения команд в группах. 
+               Вы можете сыграть/симулировать все групповые матчи в меню <strong>«Центр матчей»</strong>, чтобы увидеть реальных участников плей-офф.</p>
+          </div>
+          
+          <div class="bracket-wrapper" id="bracket-container">
+            <!-- Dynamic bracket container -->
+            <div class="bracket-scroll-area">
+              <div class="bracket-tree" id="bracket-tree">
+                <!-- Dynamically compiled tree nodes will go here -->
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </section>
+      
+    </main>
+    
+  </div>
+  
+  <!-- JavaScript Files -->
+  <script type="module" src="data.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

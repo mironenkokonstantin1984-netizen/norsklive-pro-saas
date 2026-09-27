@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="nb-NO">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NorskLive Pro SaaS — Multi-Agent Norskprøve · Finn.no Intervju · CEFR Teleprompter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/norsk/styles.css" />
+</head>
+<body>
+
+  <!-- TOP NAVIGATION & 3 STRATEGIC CONCEPTS -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-flag">🇳🇴</div>
+      <div>
+        <div class="brand-title">
+          NorskLive Pro
+          <span class="brand-badge">DeepTech EdTech SaaS · 2026</span>
+        </div>
+        <div class="brand-sub">HK-dir Multi-Agent · Finn.no Scraper · Kopinor-Safe CEFR · NB-Whisper L2 ASR</div>
+      </div>
+    </div>
+
+    <!-- 3 Strategic Concepts (Ordered by Monetization & UDI 2025/2026 Priority) -->
+    <nav class="module-tabs" id="moduleTabs">
+      <button class="module-tab active" data-module="norskprove">
+        🎓 Концепт №1: Norskprøve (HK-dir)
+      </button>
+      <button class="module-tab" data-module="jobbintervju">
+        💼 Концепт №2: Finn.no Jobbintervju
+      </button>
+      <button class="module-tab" data-module="pensum">
+        🛡️ Концепт №3: CEFR Teleprompter
+      </button>
+    </nav>
+
+    <div class="top-controls">
+      <!-- L1 Native Micro-Correction Language Selector (UA 64% market share / RU / EN) -->
+      <select id="l1LangSelect" class="level-selector" title="Родной язык микро-коррекций (L1)">
+        <option value="ru" selected>🇷🇺 L1: Русский (Коррекции)</option>
+        <option value="ua">🇺🇦 L1: Українська (64% Voksenopplæring)</option>
+        <option value="en">🇬🇧 L1: English (Expat Edition)</option>
+      </select>
+
+      <select id="userLevelSelect" class="level-selector" title="Целевой уровень CEFR">
+        <option value="A2">Mål: A2 (UDI Opphold)</option>
+        <option value="B1" selected>Mål: B1 (UDI / Statsborgerskap)</option>
+        <option value="B2">Mål: B2 (Høyere utdanning / B2B)</option>
+      </select>
+
+      <button id="openGrantModalBtn" class="pill-btn" style="border-color:#818cf8; color:#c7d2fe;">
+        📊 SkatteFUNN & Архитектура
+      </button>
+
+      <button id="openApiModalBtn" class="api-status-btn demo-mode">
+        🔑 <span id="apiStatusLabel">Demo / API</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 3-COLUMN LIVE SPARRING STUDIO -->
+  <main class="studio-layout">
+
+    <!-- LEFT COLUMN: SCENARIOS, FINN.NO SCRAPER / 10-WORD GENERATOR & ACTIVE VOCAB BINGO -->
+    <section class="panel">
+      <div class="panel-header">
+        <div class="panel-title" id="leftPanelTitle">🎓 Norskprøve Muntlig (HK-dir)</div>
+        <span class="scenario-badge" id="scenarioCountBadge">2 opplegg</span>
+      </div>
+
+      <div class="panel-body">
+        <!-- Legal Compliance / UDI Context Banner -->
+        <div id="complianceNotice" style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:9px; padding:8px 10px; font-size:0.73rem; color:#6ee7b7;">
+          🏛️ <strong>UDI-krav (fra 1. sept 2025):</strong> Bestått muntlig prøve (A2/B1) kreves for permanent oppholdstillatelse.
+        </div>
+
+        <!-- Scenarios list dynamically rendered -->
+        <div class="scenario-list" id="scenarioList"></div>
+
+        <!-- Finn.no Direct URL Scraper (Shown in Concept #2 Jobbintervju) -->
+        <div id="finnScraperBox" class="custom-loader-box" style="display:none; border-color:rgba(56,189,248,0.5);">
+          <div class="custom-loader-title">
+            <span>🔗 Finn.no Jobb-Scraper (B2C HTML Extractor)</span>
+          </div>
+          <div style="display:flex; gap:6px; margin-bottom:8px;">
+            <input
+              type="url"
+              id="finnUrlInput"
+              class="form-input"
+              style="padding:7px 9px; font-size:0.76rem;"
+              placeholder="https://www.finn.no/job/ad/..."
+            />
+            <button id="scrapeFinnBtn" class="pill-btn" style="background:#0284c7; color:#fff; flex-shrink:0;">
+              Hent annonse
+            </button>
+          </div>
+          <div id="finnScrapeStatus" style="font-size:0.71rem; color:#94a3b8;">
+            Omgår lukket FINN Partner API via lovlig offentlig HTML-ekstraksjon.
+          </div>
+        </div>
+
+        <!-- Custom 10-Word Generator / CV & Vacancy Input -->
+        <div class="custom-loader-box">
+          <div class="custom-loader-title">
+            <span id="customLoaderTitle">➕ Свои 10 слов / CV / Вакансия</span>
+            <label style="cursor:pointer; font-size:0.72rem; color:#93c5fd; text-decoration:underline;">
+              📄 Загрузить .txt/.md
+              <input type="file" id="fileUploadInput" accept=".txt,.md,.csv" style="display:none;" />
+            </label>
+          </div>
+          <textarea
+            id="customSourceTextarea"
+            class="custom-textarea"
+            placeholder="Введите до 10 новых норвежских слов через запятую (или вставьте текст своего CV и вакансии с Finn.no)..."
+          ></textarea>
+          <button id="applyCustomSourceBtn" class="btn-primary-sm">
+            🚀 Сгенерировать ролевой спарринг и телесуфлёр
+          </button>
+        </div>
+
+        <!-- Active Vocabulary Bingo (Tracks spoken words in real-time!) -->
+        <div>
+          <div class="vocab-progress-head">
+            <span>🎯 Активный вывод в речь (Bingo)</span>
+            <span id="vocabProgressText" style="color:#34d399;">0 / 7 brukt</span>
+          </div>
+          <div class="vocab-bar-bg">
+            <div class="vocab-bar-fill" id="vocabProgressBar"></div>
+          </div>
+          <div class="vocab-grid" id="vocabBingoList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CENTER COLUMN: MULTI-AGENT CALL STUDIO, TRANSCRIPT, TELEPROMPTER & MIC -->
+    <section class="panel">
+      <div class="call-hero">
+        <div class="partner-profile">
+          <div class="voice-orb-wrap" id="voiceOrb">
+            <div class="voice-orb-ring"></div>
+            <div class="partner-avatar" id="partnerAvatar">🏛️</div>
+          </div>
+          <div class="partner-info">
+            <h2 id="partnerName">Sensor Kari & Medkandidat Jonas</h2>
+            <p id="partnerRole">Multi-Agent Norskprøve Simulator</p>
+          </div>
+        </div>
+
+        <div class="call-toolbar">
+          <!-- Multi-Agent Partner Behavior Selector (Samhandling Trainer!) -->
+          <select id="agentPersonaSelect" class="level-selector" title="Поведение второго ИИ-агента (Samhandling)">
+            <option value="standard">🤝 Агент: Стандартный экзамен / HR</option>
+            <option value="interrupting">⚡ Medkandidat: Спорящий и перебивающий</option>
+            <option value="passive">😳 Medkandidat: Пассивный (разговори его!)</option>
+          </select>
+
+          <button class="pill-btn" id="blurToggleBtn" title="Скрыть текст для тренировки чистого аудирования">
+            👁️ Blur (Аудирование)
+          </button>
+          <button class="pill-btn" id="examPartBtn">
+            ⏭️ Этап 1 → 2 (Samhandling)
+          </button>
+          <div class="exam-timer-badge" id="sessionTimerBadge">⏱️ 00:00</div>
+          <button class="pill-btn" id="restartSessionBtn" title="Перезапустить сессию">
+            🔄 Сброс
+          </button>
+        </div>
+      </div>
+
+      <!-- Exam Prompt Banner (Visible in Concept #1 Norskprøve) -->
+      <div id="examBanner" style="background:rgba(99,102,241,0.14); border-bottom:1px solid rgba(99,102,241,0.35); padding:10px 18px; font-size:0.81rem;">
+        <strong style="color:#a5b4fc;" id="examStageLabel">🎓 NORSKPRØVE DEL 1 (Individuell presentasjon — 2–3 min):</strong>
+        <span id="examPromptText"></span>
+      </div>
+
+      <!-- Chat / Transcript Stream -->
+      <div class="chat-stream" id="chatStream"></div>
+
+      <!-- Teleprompter / Lifesaver Hints -->
+      <div class="teleprompter-box">
+        <div class="teleprompter-header">
+          <span>💡 Динамический Телесуфлёр (Svar-forslag med målord · Кликни или произнеси в микрофон)</span>
+          <button id="speakHintBtn" class="mini-action-btn">🔊 Повторить вопрос ИИ</button>
+        </div>
+        <div class="hints-list" id="hintsContainer"></div>
+      </div>
+
+      <!-- Bottom Microphone & Voice Dock -->
+      <div class="voice-dock">
+        <button id="micToggleBtn" class="mic-button" title="Нажми 🎙️ и говори по-норвежски">
+          🎙️
+        </button>
+        <div class="voice-input-wrap">
+          <input
+            type="text"
+            id="userSpeechInput"
+            class="voice-text-input"
+            placeholder="Нажми 🎙️ и говори по-норвежски (или напиши фразу здесь, например: Jeg tenker at miljø er viktig)..."
+          />
+          <div class="voice-status-line">
+            <span id="micStatusText">L2 ASR Ready (`nb-NO` без автоисправления ошибок грамматики) — Нажми 🎙️</span>
+            <span id="usedWordsToast" style="color:#34d399; font-weight:700;"></span>
+          </div>
+        </div>
+        <button id="sendSpeechBtn" class="send-btn">Отправить ➤</button>
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN: L1 MICRO-CORRECTIONS (A2->B2), CULTURAL FIT & HK-DIR SCORECARD -->
+    <section class="panel right-panel">
+      <div class="panel-header">
+        <div class="panel-title">🧠 HK-dir Матрица & L1 Микро-коррекция</div>
+        <button id="generateReportBtn" class="mini-action-btn" style="background:rgba(16,185,129,0.2); color:#34d399; font-weight:700;">
+          📊 Отчёт HK-dir / Notion
+        </button>
+      </div>
+
+      <div class="panel-body">
+        <!-- HK-dir Official 4-Criteria Live Estimator -->
+        <div class="hkdir-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <span style="font-size:0.83rem; font-weight:700; color:#c7d2fe;">🏛️ 4 Критерия HK-dir (Официальная шкала)</span>
+            <span class="hkdir-pill" id="overallCefrBadge">Уровень: B1+</span>
+          </div>
+          <div class="hkdir-score-row">
+            <span>1. Uttale & Tonelag (L2 Акцент)</span>
+            <strong id="scoreFlyt" style="color:#38bdf8;">B1+ (Tydelig)</strong>
+          </div>
+          <div class="hkdir-score-row">
+            <span>2. Ordforråd (Активный словарь)</span>
+            <strong id="scoreOrd" style="color:#34d399;">0 målord brukt</strong>
+          </div>
+          <div class="hkdir-score-row">
+            <span>3. Grammatikk (V2-инверсия)</span>
+            <strong id="scoreGram" style="color:#fbbf24;">Ожидание реплики...</strong>
+          </div>
+          <div class="hkdir-score-row" style="margin-bottom:0;">
+            <span>4. Samhandling & Norsk Kultur</span>
+            <strong id="scoreArg" style="color:#a5b4fc;">Инициатива в диалоге</strong>
+          </div>
+        </div>
+
+        <!-- Latest Live Correction Cards (A2 -> B2 + L1 Explanation + Cultural Fit) -->
+        <div>
+          <div style="font-size:0.8rem; font-weight:700; margin-bottom:8px; color:#94a3b8;">
+            ⚡ Трансформация фраз (A2 → B2) + L1 Разбор + Cultural Fit
+          </div>
+          <div id="coachingCardsList" style="display:flex; flex-direction:column; gap:10px;">
+            <div class="coaching-card">
+              <div class="coaching-row">
+                <span class="coaching-tag tag-better">Пример из ТЗ (A2 → B2 Løft)</span>
+                <div style="margin-top:4px; color:#cbd5e1; font-size:0.79rem;">
+                  🔴 <strong>A2:</strong> «Jeg tenker at miljø er viktig»<br>
+                  🟢 <strong>B2:</strong> «Det er avgjørende å ta hensyn til miljøet for å sikre en bærekraftig velferdsstat.»<br>
+                  🤝 <strong>Samhandling / Janteloven:</strong> Вместо «Я сделал всё сам» → «Vi oppnådde dette gjennom tett samarbeid og medvirkning i teamet».
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Saved Personal Glossary (Min Ordbok) + Export -->
+        <div style="margin-top:auto; border-top:1px solid var(--border-subtle); padding-top:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:0.8rem; font-weight:700;">📌 Min Ordbok (<span id="savedWordsCount">0</span>)</span>
+            <button id="exportGlossaryBtn" class="mini-action-btn">⬇️ Скачать отчёт (.md)</button>
+          </div>
+          <div id="savedGlossaryList" style="display:flex; flex-wrap:wrap; gap:6px; max-height:95px; overflow-y:auto;"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- STRATEGIC ARCHITECTURE & SKATTEFUNN / INNOVASJON NORGE 2026 MODAL -->
+  <div class="modal-backdrop" id="grantModal">
+    <div class="modal-card" style="max-width:760px; max-height:88vh; overflow-y:auto;">
+      <h3>🇳🇴 Техническое обоснование SaaS, Unit-экономика и Гранты 2026</h3>
+      <p>Встроенная матрица из твоего стратегического исследования для питчинга в <strong>Innovasjon Norge (Oppstartstilskudd 1)</strong> и <strong>Forskningsrådet (SkatteFUNN)</strong>.</p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; font-size:0.8rem;">
+        <div style="background:#1e293b; padding:12px; border-radius:10px; border:1px solid rgba(56,189,248,0.3);">
+          <strong style="color:#38bdf8;">1. Закон UDI (с 01.09.2025) & Демография</strong>
+          <ul style="margin-top:6px; padding-left:16px; color:#cbd5e1;">
+            <li>Отмена «250 часов курсов» для ПМЖ — обязательна сдача устного <strong>Norskprøve A2/B1</strong>.</li>
+            <li><strong>64% учащихся Voksenopplæring</strong> — украинцы + платящий сегмент русскоязычных и англоязычных экспатов (L1 микро-коррекция UA/RU/EN).</li>
+          </ul>
+        </div>
+
+        <div style="background:#1e293b; padding:12px; border-radius:10px; border:1px solid rgba(16,185,129,0.3);">
+          <strong style="color:#34d399;">2. Защита Åndsverkloven & Kopinor 2026–2027</strong>
+          <ul style="margin-top:6px; padding-left:16px; color:#cbd5e1;">
+            <li>Соглашение <strong>Kopinor–KS (226 млн NOK)</strong> запрещает сканировать <em>På vei / Stein på stein</em> в ИИ.</li>
+            <li>Наше решение (Концепт №3): <strong>100% проприетарная CEFR-база</strong> + генеративный телесуфлёр по 10 словам пользователя.</li>
+          </ul>
+        </div>
+
+        <div style="background:#1e293b; padding:12px; border-radius:10px; border:1px solid rgba(245,158,11,0.3);">
+          <strong style="color:#fbbf24;">3. R&D Архитектура: NB-Whisper + Realtime API</strong>
+          <ul style="margin-top:6px; padding-left:16px; color:#cbd5e1;">
+            <li><strong>NB-Whisper (NTNU / Nasjonalbiblioteket):</strong> снижает WER до <strong>2.2%–4%</strong> на L2 акцентах без скрытия ошибок грамматики.</li>
+            <li><strong>Unit Economics:</strong> `gpt-realtime-2.1-mini` ($0.016/мин = <strong>$0.32 за 20-мин экзамен</strong>) или `Gemini Live Flash` (~$0.08 за сессию).</li>
+          </ul>
+        </div>
+
+        <div style="background:#1e293b; padding:12px; border-radius:10px; border:1px solid rgba(168,85,247,0.3);">
+          <strong style="color:#c084fc;">4. Гранты 2026: Oppstartstilskudd 1 & SkatteFUNN</strong>
+          <ul style="margin-top:6px; padding-left:16px; color:#cbd5e1;">
+            <li><strong>Oppstartstilskudd 1 (Innovasjon Norge):</strong> до <strong>150 000 NOK</strong> (требуется статус <strong>AS</strong>, внешние затраты на валидацию рынка).</li>
+            <li><strong>SkatteFUNN (Forskningsrådet):</strong> возврат <strong>19% R&D затрат</strong> живыми деньгами через Skatteetaten (ставка до 700 NOK/ч, до 1850 ч/год).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end;">
+        <button id="closeGrantModalBtn" class="send-btn">Закрыть матрицу</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GEMINI API KEY MODAL -->
+  <div class="modal-backdrop" id="apiModal">
+    <div class="modal-card">
+      <h3>🔑 Подключение Realtime AI / Gemini API</h3>
+      <p>
+        Вставь свой ключ из <a href="https://aistudio.google.com/apikey" target="_blank" style="color:#38bdf8;">Google AI Studio</a>.
+        Без ключа платформа работает в автономном <strong>Smart R&D Demo-режиме</strong> (с проверкой V2-инверсии, подъёмом фраз A2→B2, скрейпером Finn.no и микро-коррекциями на UA/RU/EN).
+      </p>
+
+      <div class="form-group">
+        <label for="geminiApiKeyInput">Gemini API Key (`AIzaSy...`)</label>
+        <input type="password" id="geminiApiKeyInput" class="form-input" placeholder="AIzaSy..." />
+      </div>
+
+      <div class="form-group">
+        <label for="geminiModelSelect">Вычислительная модель</label>
+        <select id="geminiModelSelect" class="form-input">
+          <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash + NB-Whisper L2 Prompting (Рекомендуется)</option>
+          <option value="gemini-2.0-flash">Gemini 2.0 Flash Low-Latency</option>
+        </select>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:18px;">
+        <button id="closeApiModalBtn" class="pill-btn">Продолжить в Demo-режиме</button>
+        <button id="saveApiKeyBtn" class="send-btn">Сохранить ключ</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/norsk/scenarios.js"></script>
+  <script src="/norsk/app.js"></script>
+</body>
+</html>

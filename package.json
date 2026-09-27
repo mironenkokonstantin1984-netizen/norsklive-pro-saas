@@ -1,0 +1,17 @@
+{
+  "name": "fifa-world-cup-2026-predictor",
+  "version": "1.0.0",
+  "description": "Interactive FIFA World Cup 2026 Dashboard and AI Predictor",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "author": "Antigravity",
+  "license": "ISC",
+  "devDependencies": {
+    "vercel": "^54.14.0"
+  }
+}

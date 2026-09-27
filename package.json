@@ -6,10 +6,13 @@
     "node": ">=20"
   },
   "scripts": {
-    "start": "node server.js",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "lint": "eslint .",
-    "format": "prettier --write .",
-    "test": "node --test tests/*.test.js"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "next": "^15.5.26",

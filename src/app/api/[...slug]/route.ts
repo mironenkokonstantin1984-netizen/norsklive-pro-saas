@@ -1,6 +1,6 @@
 export const runtime = 'nodejs';
 
-export async function notFoundHandler(): Promise<Response> {
+async function notFoundHandler(): Promise<Response> {
   return Response.json({ error: 'API route not found' }, { status: 404 });
 }
 

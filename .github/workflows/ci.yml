@@ -25,5 +25,11 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
+      - name: Run TypeScript typecheck
+        run: npm run typecheck
+
       - name: Run unit & integration tests
         run: npm test
+
+      - name: Build Next.js application
+        run: npm run build

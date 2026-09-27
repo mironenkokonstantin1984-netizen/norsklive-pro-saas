@@ -22,20 +22,14 @@ function makeCoachRequest(body: unknown, headers: Record<string, string> = {}): 
 }
 
 describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
-  test('1. Static trainer UI at / and permanent redirect /norsk -> / configured in next.config.ts', async () => {
-    const indexHtmlPath = path.join(process.cwd(), 'public', 'index.html');
-    const html = fs.readFileSync(indexHtmlPath, 'utf8');
-    expect(html).toMatch(/NorskLive Pro/);
-    expect(html).not.toMatch(/FIFA World Cup/i);
-
-    const rewrites = await nextConfig.rewrites?.();
-    expect(rewrites).toBeDefined();
-    if (rewrites && !Array.isArray(rewrites)) {
-      expect(rewrites.beforeFiles).toContainEqual({
-        source: '/',
-        destination: '/index.html'
-      });
-    }
+  test('1. React trainer UI at / and permanent redirect /norsk -> / configured in next.config.ts', async () => {
+    const layoutPath = path.join(process.cwd(), 'src', 'app', 'layout.tsx');
+    const pagePath = path.join(process.cwd(), 'src', 'app', 'page.tsx');
+    const layoutSource = fs.readFileSync(layoutPath, 'utf8');
+    const pageSource = fs.readFileSync(pagePath, 'utf8');
+    expect(layoutSource).toMatch(/NorskLive Pro/);
+    expect(layoutSource).not.toMatch(/FIFA World Cup/i);
+    expect(pageSource).toMatch(/StudioPage/);
 
     const redirects = await nextConfig.redirects?.();
     expect(redirects).toEqual(

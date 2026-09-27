@@ -1,16 +1,20 @@
 'use client';
 
-import { speakNorwegian } from '../../lib/speech';
+import { useState, useCallback, type KeyboardEvent } from 'react';
+import { useSpeechRecognition } from '../../lib/useSpeechRecognition';
 import { CallHero, TopBar } from './TopBar';
 import { ScenarioPanel } from './ScenarioPanel';
 import { TargetWordsPanel } from './TargetWordsPanel';
 import { ExamStage } from './ExamStage';
+import { ChatPanel } from './ChatPanel';
 import { GlossaryPanel } from './GlossaryPanel';
 import { getL1Text, useStudioState } from './useStudioState';
 
 export function StudioPage() {
   const {
     state,
+    dispatch,
+    speakWithOrb,
     switchModule,
     selectScenario,
     setL1Lang,
@@ -20,13 +24,73 @@ export function StudioPage() {
     restartSession,
     applyCustomSource,
     saveToGlossary,
+    handleUserSubmission,
     exportReportAndGlossary,
-    advanceExamPart
+    advanceExamPart,
+    speakLastAiReply
   } = useStudioState();
+
+  const [inputText, setInputText] = useState('');
+
+  const onRecordingChange = useCallback(
+    (isRecording: boolean) => {
+      dispatch({ type: 'SET_RECORDING', isRecording });
+    },
+    [dispatch]
+  );
+
+  const onSpeakingChange = useCallback(
+    (isSpeaking: boolean) => {
+      dispatch({ type: 'SET_SPEAKING', isSpeaking });
+    },
+    [dispatch]
+  );
+
+  const onStatusChange = useCallback(
+    (text: string) => {
+      dispatch({ type: 'SET_MIC_STATUS', text });
+    },
+    [dispatch]
+  );
+
+  const onSubmitTranscript = useCallback(
+    (transcript: string) => {
+      void handleUserSubmission(transcript);
+    },
+    [handleUserSubmission]
+  );
+
+  const { toggleMic } = useSpeechRecognition({
+    inputText,
+    onTranscriptChange: setInputText,
+    onSubmitTranscript,
+    onRecordingChange,
+    onSpeakingChange,
+    onStatusChange
+  });
 
   const currentModuleScenarios = state.scenarios[state.currentModule] || [];
   const currentScenario = state.currentScenario;
-  const hints = currentScenario.hints || [];
+  const hints = state.hints || [];
+
+  const handleSend = () => {
+    const clean = inputText.trim();
+    if (!clean) return;
+    setInputText('');
+    void handleUserSubmission(clean);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  const handleHintClick = (norskText: string) => {
+    setInputText('');
+    void handleUserSubmission(norskText);
+  };
 
   return (
     <div>
@@ -56,7 +120,7 @@ export function StudioPage() {
           />
         </ScenarioPanel>
 
-        {/* CENTER COLUMN: MULTI-AGENT CALL STUDIO, EXAM STAGE & PLACEHOLDER FOR CHAT */}
+        {/* CENTER COLUMN: MULTI-AGENT CALL STUDIO, EXAM STAGE & CHAT STREAM */}
         <section className="panel">
           <CallHero
             currentModule={state.currentModule}
@@ -65,6 +129,8 @@ export function StudioPage() {
             blurMode={state.blurMode}
             examPart={state.examPart}
             timerSeconds={state.timerSeconds}
+            isListening={state.isRecording}
+            isSpeaking={state.isSpeaking}
             onChangeAgentPersona={setAgentPersona}
             onToggleBlur={toggleBlurMode}
             onAdvanceExamPart={advanceExamPart}
@@ -77,17 +143,14 @@ export function StudioPage() {
             examPart={state.examPart}
           />
 
-          {/* Chat / Transcript Stream Placeholder (M1a-2) */}
-          <div className="chat-stream" id="chatStream">
-            <div className="msg-bubble msg-ai">
-              <div className="msg-meta">
-                <span>{`🇳🇴 ${currentScenario.partnerName}`}</span>
-                <span>M1a-2</span>
-              </div>
-              <div className="msg-norsk">{currentScenario.openingLine}</div>
-              <div className="msg-translation">Chat — coming in M1a-3</div>
-            </div>
-          </div>
+          <ChatPanel
+            chatHistory={state.chatHistory}
+            partnerName={currentScenario.partnerName}
+            l1Lang={state.l1Lang}
+            blurMode={state.blurMode}
+            onSpeak={speakWithOrb}
+            onSaveToGlossary={saveToGlossary}
+          />
 
           {/* Teleprompter / Lifesaver Hints */}
           <div className="teleprompter-box">
@@ -100,7 +163,7 @@ export function StudioPage() {
                 type="button"
                 id="speakHintBtn"
                 className="mini-action-btn"
-                onClick={() => speakNorwegian(currentScenario.openingLine)}
+                onClick={speakLastAiReply}
               >
                 🔊 Повторить вопрос ИИ
               </button>
@@ -110,9 +173,9 @@ export function StudioPage() {
                 const l1Hint = getL1Text(h, state.l1Lang, 'ru');
                 return (
                   <div
-                    key={h.label}
+                    key={`${h.label}-${h.norsk}`}
                     className="hint-card"
-                    onClick={() => speakNorwegian(h.norsk)}
+                    onClick={() => handleHintClick(h.norsk)}
                   >
                     <div className="hint-label">{`💡 ${h.label}`}</div>
                     <div className="hint-norsk">{`«${h.norsk}»`}</div>
@@ -123,14 +186,14 @@ export function StudioPage() {
             </div>
           </div>
 
-          {/* Bottom Microphone & Voice Dock Placeholder */}
+          {/* Bottom Microphone & Voice Dock */}
           <div className="voice-dock">
             <button
               type="button"
               id="micToggleBtn"
-              className="mic-button"
-              title="Chat — coming in M1a-3"
-              disabled
+              className={`mic-button ${state.isRecording ? 'recording' : ''}`}
+              title="Нажми и говори по-норвежски (nb-NO)"
+              onClick={toggleMic}
             >
               🎙️
             </button>
@@ -139,18 +202,27 @@ export function StudioPage() {
                 type="text"
                 id="userSpeechInput"
                 className="voice-text-input"
-                placeholder="Chat — coming in M1a-3"
-                disabled
+                placeholder="Нажми 🎙️ и говори по-норвежски (или напиши фразу здесь, например: «Jeg tenker at miljø er viktig»)..."
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
               <div className="voice-status-line">
-                <span id="micStatusText">Chat — coming in M1a-3</span>
+                <span id="micStatusText">{state.micStatusText}</span>
                 <span
                   id="usedWordsToast"
                   style={{ color: '#34d399', fontWeight: 700 }}
-                ></span>
+                >
+                  {state.usedWordsToast}
+                </span>
               </div>
             </div>
-            <button type="button" id="sendSpeechBtn" className="send-btn" disabled>
+            <button
+              type="button"
+              id="sendSpeechBtn"
+              className="send-btn"
+              onClick={handleSend}
+            >
               Отправить ➤
             </button>
           </div>
@@ -161,6 +233,11 @@ export function StudioPage() {
           savedGlossary={state.savedGlossary}
           usedWordsCount={state.usedWords.length}
           totalTargetWords={(currentScenario.targetWords || []).length}
+          coachingHistory={state.coachingHistory}
+          hkdirScores={state.hkdirScores}
+          l1Lang={state.l1Lang}
+          onSpeak={speakWithOrb}
+          onSaveToGlossary={saveToGlossary}
           onExportReport={exportReportAndGlossary}
         />
       </main>

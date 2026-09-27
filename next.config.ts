@@ -4,18 +4,6 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true
   },
-  async rewrites() {
-    return {
-      beforeFiles: [
-        {
-          source: '/',
-          destination: '/index.html'
-        }
-      ],
-      afterFiles: [],
-      fallback: []
-    };
-  },
   async headers() {
     return [
       {

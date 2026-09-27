@@ -100,6 +100,8 @@ export interface CallHeroProps {
   blurMode: boolean;
   examPart: number;
   timerSeconds: number;
+  isListening?: boolean;
+  isSpeaking?: boolean;
   onChangeAgentPersona: (persona: AgentPersona) => void;
   onToggleBlur: () => void;
   onAdvanceExamPart: () => void;
@@ -113,6 +115,8 @@ export function CallHero({
   blurMode,
   examPart,
   timerSeconds,
+  isListening = false,
+  isSpeaking = false,
   onChangeAgentPersona,
   onToggleBlur,
   onAdvanceExamPart,
@@ -130,10 +134,18 @@ export function CallHero({
         ? '⏭️ К Этапу 3 (Вопросы Sensor HK-dir)'
         : '✅ Завершить и скачать вердикт HK-dir';
 
+  const orbClasses = [
+    'voice-orb-wrap',
+    isListening ? 'listening' : '',
+    !isListening && isSpeaking ? 'speaking' : ''
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <div className="call-hero">
       <div className="partner-profile">
-        <div className="voice-orb-wrap" id="voiceOrb">
+        <div className={orbClasses} id="voiceOrb">
           <div className="voice-orb-ring"></div>
           <div className="partner-avatar" id="partnerAvatar">
             {currentScenario.avatar || '🇳🇴'}

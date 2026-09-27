@@ -18,6 +18,8 @@
     "db:reset": "supabase db reset"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.2",
     "next": "^15.5.26",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

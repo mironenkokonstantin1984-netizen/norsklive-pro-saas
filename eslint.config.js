@@ -26,5 +26,36 @@ module.exports = [
       '@typescript-eslint/no-require-imports': 'off',
       'no-console': 'off'
     }
+  },
+  {
+    files: ['src/components/**/*.{js,ts,tsx}', 'src/lib/**/*.{js,ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: '@/server/supabaseAdmin',
+              message: 'supabaseAdmin is server-only and must never be imported in client/shared code.'
+            },
+            {
+              name: '../server/supabaseAdmin',
+              message: 'supabaseAdmin is server-only and must never be imported in client/shared code.'
+            },
+            {
+              name: '../../server/supabaseAdmin',
+              message: 'supabaseAdmin is server-only and must never be imported in client/shared code.'
+            }
+          ],
+          patterns: [
+            {
+              group: ['**/server/supabaseAdmin*', '@/server/supabaseAdmin*'],
+              message: 'supabaseAdmin is server-only and must never be imported in client/shared code.'
+            }
+          ]
+        }
+      ]
+    }
   }
 ];
+

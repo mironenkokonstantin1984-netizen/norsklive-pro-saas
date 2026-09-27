@@ -1,6 +1,22 @@
-const scenariosByModule = require('../public/scenarios');
+import scenariosRaw from '../../public/scenarios.js';
+import type { CoachResponse, CustomScenario, TargetWord } from './schemas';
 
-function findScenario(moduleKey, scenarioId, customScenario) {
+export interface ScenarioRecord {
+  id?: string;
+  title?: string;
+  partnerName?: string;
+  partnerRole?: string;
+  sourceText?: string;
+  targetWords?: TargetWord[];
+}
+
+const scenariosByModule = scenariosRaw as Record<string, ScenarioRecord[]>;
+
+export function findScenario(
+  moduleKey: string,
+  scenarioId: string,
+  customScenario?: CustomScenario | null
+): ScenarioRecord {
   if (customScenario && customScenario.sourceText) {
     return customScenario;
   }
@@ -9,7 +25,17 @@ function findScenario(moduleKey, scenarioId, customScenario) {
   return found || moduleList[0] || scenariosByModule.norskprove[0];
 }
 
-function generateStrategicRAndDFallback({
+export interface FallbackInput {
+  userText: string;
+  module?: string;
+  scenarioId?: string;
+  l1?: 'ru' | 'ua' | 'en';
+  persona?: 'standard' | 'interrupting' | 'passive';
+  usedWords?: string[];
+  customScenario?: CustomScenario | null;
+}
+
+export function generateStrategicRAndDFallback({
   userText,
   module = 'norskprove',
   scenarioId = 'np-b1b2-velferd-hjemmekontor',
@@ -17,12 +43,12 @@ function generateStrategicRAndDFallback({
   persona = 'standard',
   usedWords = [],
   customScenario = null
-}) {
+}: FallbackInput): CoachResponse {
   const sc = findScenario(module, scenarioId, customScenario);
   const usedSet = new Set((usedWords || []).map((w) => w.toLowerCase()));
   const targetWords = sc.targetWords || [];
   const unused = targetWords.filter((w) => !usedSet.has(w.word.toLowerCase()));
-  const nextTarget = unused[0] ||
+  const nextTarget: TargetWord = unused[0] ||
     targetWords[0] || {
       word: 'bærekraftig',
       translation: 'устойчивый',
@@ -151,8 +177,3 @@ function generateStrategicRAndDFallback({
     ]
   };
 }
-
-module.exports = {
-  generateStrategicRAndDFallback,
-  findScenario
-};

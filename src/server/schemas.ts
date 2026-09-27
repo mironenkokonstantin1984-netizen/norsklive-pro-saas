@@ -1,12 +1,12 @@
-const { z } = require('zod');
+import { z } from 'zod';
 
-const HistoryTurnSchema = z.object({
+export const HistoryTurnSchema = z.object({
   sender: z.enum(['user', 'ai']),
   norsk: z.string().max(2000),
   l1: z.string().max(2000).optional()
 });
 
-const TargetWordSchema = z.object({
+export const TargetWordSchema = z.object({
   word: z.string().max(120),
   translation: z.string().max(300).optional(),
   ua: z.string().max(300).optional(),
@@ -14,7 +14,7 @@ const TargetWordSchema = z.object({
   example: z.string().max(400).optional()
 });
 
-const CustomScenarioSchema = z
+export const CustomScenarioSchema = z
   .object({
     id: z.string().max(120).optional(),
     title: z.string().max(200).optional(),
@@ -25,7 +25,7 @@ const CustomScenarioSchema = z
   })
   .optional();
 
-const CoachRequestSchema = z.object({
+export const CoachRequestSchema = z.object({
   module: z.enum(['norskprove', 'jobbintervju', 'pensum']),
   scenarioId: z.string().min(1).max(120),
   level: z.enum(['A2', 'B1', 'B2']),
@@ -37,7 +37,7 @@ const CoachRequestSchema = z.object({
   customScenario: CustomScenarioSchema
 });
 
-const HintSchema = z.object({
+export const HintSchema = z.object({
   label: z.string(),
   norsk: z.string(),
   ru: z.string().optional(),
@@ -45,7 +45,7 @@ const HintSchema = z.object({
   en: z.string().optional()
 });
 
-const CorrectionSchema = z.object({
+export const CorrectionSchema = z.object({
   original: z.string(),
   natural_bokmal: z.string(),
   b2_upgrade: z.string(),
@@ -55,14 +55,17 @@ const CorrectionSchema = z.object({
   samhandling_status: z.string().optional()
 });
 
-const CoachResponseSchema = z.object({
+export const CoachResponseSchema = z.object({
   reply_norsk: z.string(),
   reply_l1: z.string(),
   correction: CorrectionSchema,
   next_hints: z.array(HintSchema)
 });
 
-module.exports = {
-  CoachRequestSchema,
-  CoachResponseSchema
-};
+export type HistoryTurn = z.infer<typeof HistoryTurnSchema>;
+export type TargetWord = z.infer<typeof TargetWordSchema>;
+export type CustomScenario = z.infer<typeof CustomScenarioSchema>;
+export type CoachRequest = z.infer<typeof CoachRequestSchema>;
+export type Hint = z.infer<typeof HintSchema>;
+export type Correction = z.infer<typeof CorrectionSchema>;
+export type CoachResponse = z.infer<typeof CoachResponseSchema>;

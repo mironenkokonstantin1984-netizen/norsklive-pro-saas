@@ -1,10 +1,13 @@
-function getLanguageName(l1) {
+import type { ScenarioRecord } from '../fallback';
+import type { HistoryTurn } from '../schemas';
+
+export function getLanguageName(l1: string): string {
   if (l1 === 'ua') return 'Ukrainian (Українська)';
   if (l1 === 'en') return 'English';
   return 'Russian (Русский)';
 }
 
-function getPersonaInstruction(persona, scenario) {
+export function getPersonaInstruction(persona: string, scenario: ScenarioRecord): string {
   if (persona === 'interrupting') {
     return 'Du spiller en uenig og litt avbrytende medkandidat (Jonas) på muntlig Norskprøve Del 2. Utfordre brukerens argument høflig men bestemt.';
   }
@@ -14,13 +17,31 @@ function getPersonaInstruction(persona, scenario) {
   return `Du spiller ${scenario.partnerName || 'Sensor Kari'} (${scenario.partnerRole || 'Eksaminator ved HK-dir'}).`;
 }
 
+export interface BuildGeminiCoachPayloadInput {
+  scenario: ScenarioRecord;
+  level: string;
+  l1: string;
+  persona: string;
+  userText: string;
+  history?: HistoryTurn[];
+  usedWords?: string[];
+}
+
 /**
  * Builds the Gemini generateContent request payload.
  * Security / Prompt-Injection Hardening:
  * `userText` is NEVER interpolated into the system instruction or JSON schema template.
  * Instead, `userText` is passed as a separate content part in `contents`.
  */
-function buildGeminiCoachPayload({ scenario, level, l1, persona, userText, history = [], usedWords = [] }) {
+export function buildGeminiCoachPayload({
+  scenario,
+  level,
+  l1,
+  persona,
+  userText,
+  history = [],
+  usedWords = []
+}: BuildGeminiCoachPayloadInput) {
   const langName = getLanguageName(l1);
   const personaInstruction = getPersonaInstruction(persona, scenario);
   const usedSet = new Set((usedWords || []).map((w) => w.toLowerCase()));
@@ -75,10 +96,7 @@ Returner KUN gyldig JSON med følgende nøkler:
     contents: [
       {
         role: 'user',
-        parts: [
-          { text: instructionPart },
-          { text: userText }
-        ]
+        parts: [{ text: instructionPart }, { text: userText }]
       }
     ],
     generationConfig: {
@@ -87,9 +105,3 @@ Returner KUN gyldig JSON med følgende nøkler:
     }
   };
 }
-
-module.exports = {
-  buildGeminiCoachPayload,
-  getLanguageName,
-  getPersonaInstruction
-};

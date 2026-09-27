@@ -311,18 +311,24 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
 
     const { container } = render(<StudioPage />);
     const micBtn = container.querySelector('#micToggleBtn') as HTMLButtonElement;
+    const statusEl = container.querySelector('#micStatusText') as HTMLElement;
+    const inputEl = container.querySelector('#userSpeechInput') as HTMLInputElement;
     expect(micBtn).toBeTruthy();
     expect(micBtn.getAttribute('aria-pressed')).toBe('false');
     expect(micBtn.textContent).toContain('Snakk');
+    expect(statusEl.textContent).toBe('Нажмите и говорите');
+    expect(inputEl.getAttribute('placeholder')).toBe('Или напишите ответ');
 
     fireEvent.click(micBtn);
     expect(micBtn.getAttribute('aria-pressed')).toBe('true');
     expect(micBtn.textContent).toContain('Слушаю');
+    expect(statusEl.textContent).toBe('0:00 / 2:00');
     expect(container.querySelector('#micRecordingTimer')).toBeTruthy();
 
     fireEvent.click(micBtn);
     expect(micBtn.getAttribute('aria-pressed')).toBe('false');
     expect(micBtn.textContent).toContain('Snakk');
+    expect(statusEl.textContent).toBe('Нажмите и говорите');
 
     delete (window as unknown as { SpeechRecognition?: unknown }).SpeechRecognition;
   });

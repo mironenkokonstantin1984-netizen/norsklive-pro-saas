@@ -9,10 +9,11 @@ const DEFAULT_PORT = 3125;
 const OUT_DIR = path.resolve(process.env.SCREENSHOT_DIR || 'docs/screenshots');
 
 const TARGETS = [
-  { name: 'home-390x844-light.png', width: 390, height: 844, colorScheme: 'light' },
-  { name: 'home-390x844-dark.png', width: 390, height: 844, colorScheme: 'dark' },
-  { name: 'home-1440x900-light.png', width: 1440, height: 900, colorScheme: 'light' },
-  { name: 'home-1440x900-dark.png', width: 1440, height: 900, colorScheme: 'dark' }
+  { name: 'home-390x844-light.png', width: 390, height: 844, colorScheme: 'light', openMaterials: false },
+  { name: 'home-390x844-dark.png', width: 390, height: 844, colorScheme: 'dark', openMaterials: false },
+  { name: 'home-390x844-materials.png', width: 390, height: 844, colorScheme: 'light', openMaterials: true },
+  { name: 'home-1440x900-light.png', width: 1440, height: 900, colorScheme: 'light', openMaterials: false },
+  { name: 'home-1440x900-dark.png', width: 1440, height: 900, colorScheme: 'dark', openMaterials: false }
 ];
 
 function checkUrl(url) {
@@ -88,6 +89,10 @@ async function run() {
       });
       const page = await context.newPage();
       await page.goto(server.url, { waitUntil: 'networkidle' });
+      if (target.openMaterials) {
+        await page.click('#materialsToggleBtn');
+        await page.locator('#materialsDrawer.is-open').waitFor({ state: 'visible' });
+      }
       const filePath = path.join(OUT_DIR, target.name);
       await page.screenshot({ path: filePath, fullPage: false });
       process.stdout.write(`Saved screenshot: ${filePath}\n`);

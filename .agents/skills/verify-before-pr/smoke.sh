@@ -3,6 +3,25 @@ set -euo pipefail
 
 BASE_URL="${BASE_URL:-http://localhost:3000}"
 
+root_html="$(curl -s "$BASE_URL/")"
+code_root="$(curl -s -o /dev/null -w '%{http_code}' "$BASE_URL/")"
+if [ "$code_root" != "200" ]; then
+  echo "FAIL: GET / returned $code_root (expected 200)"
+  exit 1
+fi
+if ! echo "$root_html" | grep -q "NorskLive Pro"; then
+  echo "FAIL: GET / HTML does not contain 'NorskLive Pro'"
+  exit 1
+fi
+echo "OK: GET / -> 200 (contains NorskLive Pro)"
+
+code_index_html="$(curl -s -o /dev/null -w '%{http_code}' "$BASE_URL/index.html")"
+if [ "$code_index_html" != "404" ]; then
+  echo "FAIL: GET /index.html returned $code_index_html (expected 404)"
+  exit 1
+fi
+echo "OK: GET /index.html -> 404"
+
 VALID_BODY='{"module":"norskprove","scenarioId":"np-b1b2-velferd-hjemmekontor","level":"B1","l1":"ru","persona":"standard","userText":"I dag jeg liker kaffe"}'
 
 code_valid="$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE_URL/api/coach" \

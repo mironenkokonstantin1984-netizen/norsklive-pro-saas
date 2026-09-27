@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, type KeyboardEvent } from 'react';
+import { useState, useCallback, type KeyboardEvent } from 'react';
+import { useSpeechRecognition } from '../../lib/useSpeechRecognition';
 import { CallHero, TopBar } from './TopBar';
 import { ScenarioPanel } from './ScenarioPanel';
 import { TargetWordsPanel } from './TargetWordsPanel';
@@ -12,6 +13,7 @@ import { getL1Text, useStudioState } from './useStudioState';
 export function StudioPage() {
   const {
     state,
+    dispatch,
     speakWithOrb,
     switchModule,
     selectScenario,
@@ -29,6 +31,43 @@ export function StudioPage() {
   } = useStudioState();
 
   const [inputText, setInputText] = useState('');
+
+  const onRecordingChange = useCallback(
+    (isRecording: boolean) => {
+      dispatch({ type: 'SET_RECORDING', isRecording });
+    },
+    [dispatch]
+  );
+
+  const onSpeakingChange = useCallback(
+    (isSpeaking: boolean) => {
+      dispatch({ type: 'SET_SPEAKING', isSpeaking });
+    },
+    [dispatch]
+  );
+
+  const onStatusChange = useCallback(
+    (text: string) => {
+      dispatch({ type: 'SET_MIC_STATUS', text });
+    },
+    [dispatch]
+  );
+
+  const onSubmitTranscript = useCallback(
+    (transcript: string) => {
+      void handleUserSubmission(transcript);
+    },
+    [handleUserSubmission]
+  );
+
+  const { toggleMic } = useSpeechRecognition({
+    inputText,
+    onTranscriptChange: setInputText,
+    onSubmitTranscript,
+    onRecordingChange,
+    onSpeakingChange,
+    onStatusChange
+  });
 
   const currentModuleScenarios = state.scenarios[state.currentModule] || [];
   const currentScenario = state.currentScenario;
@@ -154,6 +193,7 @@ export function StudioPage() {
               id="micToggleBtn"
               className={`mic-button ${state.isRecording ? 'recording' : ''}`}
               title="Нажми и говори по-норвежски (nb-NO)"
+              onClick={toggleMic}
             >
               🎙️
             </button>

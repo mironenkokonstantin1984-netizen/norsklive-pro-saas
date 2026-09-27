@@ -87,6 +87,33 @@ export function createInitialChat(scenario: Scenario, l1Lang: L1Language): ChatM
   ];
 }
 
+export function buildReportMarkdown(state: StudioState): string {
+  const sc = state.currentScenario;
+  const lines = [
+    `# 🇳🇴 NorskLive Pro — HK-dir & R&D Rapport (${new Date().toLocaleDateString()})`,
+    `**Концепт:** ${state.currentModule.toUpperCase()} | **Сценарий:** ${sc ? sc.title : ''}`,
+    `**Язык L1 микро-коррекций:** ${state.l1Lang.toUpperCase()} | **Оценка уровня:** Уровень: ${state.hkdirScores.cefr}`,
+    `**Активный словарь (Bingo):** ${state.usedWords.length} из ${(sc && sc.targetWords.length) || 0}`,
+    ``,
+    `## 1. Трансформация фраз (A2 → B2) и L1 Микро-коррекции`,
+    ...state.coachingHistory.map(
+      (c, i) =>
+        `### Реплика ${i + 1}\n- **Что сказал кандидат (${c.cefr_estimate}):** ${c.original}\n- **Naturlig Bokmål:** ${c.natural_bokmal}\n- **B2-Oppgradering:** ${c.b2_upgrade}\n- **L1 Разбор & Samhandling:** ${c.grammar_rule_l1}\n`
+    ),
+    `## 2. Личный словарь (Min Ordbok)`,
+    ...state.savedGlossary.map(
+      (g) => `- **${g.word}** — ${g.translation} (*«${g.example || ''}»*)`
+    ),
+    ``,
+    `## 3. История диалога (Samtalelogg)`,
+    ...state.chatHistory.map(
+      (m) =>
+        `- **${m.sender === 'ai' ? sc.partnerName : 'Кандидат'}:** ${m.norsk}${m.l1 ? ` (${m.l1})` : ''}`
+    )
+  ];
+  return lines.join('\n');
+}
+
 export type StudioAction =
   | { type: 'SWITCH_MODULE'; module: ModuleKey }
   | { type: 'SELECT_SCENARIO'; scenario: Scenario }
@@ -604,35 +631,13 @@ export function useStudioState() {
 
   const exportReportAndGlossary = useCallback(() => {
     if (typeof window === 'undefined') return;
-    const sc = state.currentScenario;
-    const lines = [
-      `# 🇳🇴 NorskLive Pro — HK-dir & R&D Rapport (${new Date().toLocaleDateString()})`,
-      `**Концепт:** ${state.currentModule.toUpperCase()} | **Сценарий:** ${sc ? sc.title : ''}`,
-      `**Язык L1 микро-коррекций:** ${state.l1Lang.toUpperCase()} | **Оценка уровня:** Уровень: ${state.hkdirScores.cefr}`,
-      `**Активный словарь (Bingo):** ${state.usedWords.length} из ${(sc && sc.targetWords.length) || 0}`,
-      ``,
-      `## 1. Трансформация фраз (A2 → B2) и L1 Микро-коррекции`,
-      ...state.coachingHistory.map(
-        (c, i) =>
-          `### Реплика ${i + 1}\n- **Что сказал кандидат (${c.cefr_estimate}):** ${c.original}\n- **Naturlig Bokmål:** ${c.natural_bokmal}\n- **B2-Oppgradering:** ${c.b2_upgrade}\n- **L1 Разбор & Samhandling:** ${c.grammar_rule_l1}\n`
-      ),
-      `## 2. Личный словарь (Min Ordbok)`,
-      ...state.savedGlossary.map((g) => `- **${g.word}** — ${g.translation} (*«${g.example || ''}»*)`)
-    ];
-    const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
+    const markdown = buildReportMarkdown(state);
+    const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = `NorskLive-HKdir-Report-${new Date().toISOString().slice(0, 10)}.md`;
     a.click();
-  }, [
-    state.currentModule,
-    state.currentScenario,
-    state.l1Lang,
-    state.hkdirScores.cefr,
-    state.usedWords,
-    state.coachingHistory,
-    state.savedGlossary
-  ]);
+  }, [state]);
 
   const advanceExamPart = useCallback(() => {
     const sc = state.currentScenario;

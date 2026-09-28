@@ -9,6 +9,12 @@ import {
   type PathPrefs
 } from '../../lib/path/storage';
 import { nextSituation } from '../../lib/path/situations';
+import { getAllCatalogItems } from '../../lib/words/catalog';
+import {
+  buildDailySession,
+  countKnownWords,
+  readWordsProgress
+} from '../../lib/words/progress';
 import { Nora } from '../companion/Nora';
 import { FirstRun } from './FirstRun';
 import './path.css';
@@ -21,11 +27,25 @@ export interface PathHomeProps {
 export function PathHome({ authEnabled = false, userEmail = null }: PathHomeProps = {}) {
   const [prefs, setPrefs] = useState<PathPrefs>(() => readPathPrefs());
   const [savedWordsCount, setSavedWordsCount] = useState<number>(() => readSavedWordsCount());
+  const [dueTodayWordsCount, setDueTodayWordsCount] = useState<number>(() => {
+    const catalog = getAllCatalogItems();
+    const progress = readWordsProgress();
+    return buildDailySession(new Date(), catalog, progress).queue.length;
+  });
+  const [knownWordsCount, setKnownWordsCount] = useState<number>(() => {
+    const catalog = getAllCatalogItems();
+    const progress = readWordsProgress();
+    return countKnownWords(progress, catalog);
+  });
   const dateInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     setPrefs(readPathPrefs());
     setSavedWordsCount(readSavedWordsCount());
+    const catalog = getAllCatalogItems();
+    const progress = readWordsProgress();
+    setDueTodayWordsCount(buildDailySession(new Date(), catalog, progress).queue.length);
+    setKnownWordsCount(countKnownWords(progress, catalog));
   }, []);
 
   const situation = nextSituation([]);
@@ -99,16 +119,26 @@ export function PathHome({ authEnabled = false, userEmail = null }: PathHomeProp
         </section>
 
         {/* Card 3: Мои слова */}
-        <section className="path-card" aria-labelledby="pathWordsHeading">
+        <section className="path-card" id="pathWordsCard" aria-labelledby="pathWordsHeading">
           <h2 id="pathWordsHeading" className="path-card-title t-callout">
             Мои слова
           </h2>
-          <p className="path-words-count t-speech" data-testid="savedWordsCount">
-            {`Сохранено слов: ${savedWordsCount}`}
-          </p>
-          <p className="path-card-text t-body">
-            Слова, на которых вы споткнулись, появятся здесь
-          </p>
+          <div className="path-words-stats t-num">
+            <p className="path-words-count t-speech" data-testid="wordsTodayCount">
+              {`На сегодня: ${dueTodayWordsCount} слов`}
+            </p>
+            <p className="path-card-text t-body" data-testid="wordsKnownCount">
+              {`Знаю: ${knownWordsCount}`}
+            </p>
+            <p className="path-card-text t-caption" data-testid="savedWordsCount">
+              {`Сохранено слов: ${savedWordsCount}`}
+            </p>
+          </div>
+          <div className="path-actions">
+            <a href="/words" className="path-outline-link t-callout">
+              Повторить
+            </a>
+          </div>
         </section>
 
         {/* Card 4: Экзамен */}

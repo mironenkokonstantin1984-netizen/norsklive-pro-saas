@@ -1,7 +1,7 @@
 .path-page {
   min-height: 100vh;
   background: var(--bg);
-  color: var(--text);
+  color: var(--ink);
   padding: var(--space-8) var(--space-4);
 }
 
@@ -21,12 +21,12 @@
 
 .path-title {
   margin: 0;
-  color: var(--text);
+  color: var(--ink);
 }
 
 .path-card {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-1);
   padding: var(--space-6);
@@ -37,7 +37,7 @@
 
 .path-card-title {
   margin: 0;
-  color: var(--text);
+  color: var(--ink);
 }
 
 .path-card-text {
@@ -47,12 +47,12 @@
 
 .path-situation-title {
   margin: 0;
-  color: var(--text);
+  color: var(--ink);
 }
 
 .path-words-count {
   margin: 0;
-  color: var(--text);
+  color: var(--ink);
 }
 
 .path-actions {
@@ -86,9 +86,9 @@
   min-height: 2.75rem;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-md);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   background: var(--surface-2);
-  color: var(--text);
+  color: var(--ink);
   text-decoration: none;
   font-weight: 600;
 }
@@ -103,9 +103,9 @@
   min-height: 2.75rem;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   background: var(--surface-2);
-  color: var(--text);
+  color: var(--ink);
   font-family: var(--font-sans);
 }
 
@@ -119,7 +119,7 @@
 
 .path-exam-countdown {
   margin: 0;
-  color: var(--text);
+  color: var(--ink);
   font-weight: 600;
 }
 

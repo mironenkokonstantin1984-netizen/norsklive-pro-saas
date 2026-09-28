@@ -15,6 +15,10 @@ test('main studio flow: examiner greeting, text answer reply, materials toggle, 
     consoleErrors.push(err.message);
   });
 
+  await page.route('**/favicon.ico', (route) =>
+    route.fulfill({ status: 204, body: '' })
+  );
+
   await page.goto('/');
 
   // 1. See the examiner's first line and the mic button #micToggleBtn

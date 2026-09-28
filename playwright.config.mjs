@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import process from 'node:process';
 import { chromium, defineConfig } from 'playwright/test';
 
 const hasBundledChromium = (() => {

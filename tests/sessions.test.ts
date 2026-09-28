@@ -44,7 +44,7 @@ function createInMemorySessionClient(initial?: {
               const matching = sessions
                 .filter((s) =>
                   Object.entries(filters).every(
-                    ([k, v]) => (s as Record<string, unknown>)[k] === v
+                    ([k, v]) => (s as unknown as Record<string, unknown>)[k] === v
                   )
                 )
                 .sort(
@@ -104,7 +104,7 @@ function createInMemorySessionClient(initial?: {
               const matching = turns
                 .filter((t) =>
                   Object.entries(filters).every(
-                    ([k, v]) => (t as Record<string, unknown>)[k] === v
+                    ([k, v]) => (t as unknown as Record<string, unknown>)[k] === v
                   )
                 )
                 .sort((a, b) => b.id - a.id)

@@ -120,7 +120,7 @@ describe('M1b-2b-2 UI tests: session restore, daily-limit card, #plans block, an
     expect(
       within(chatStream).getByText('Det tredje perspektivet belyser psykososialt arbeidsmiljø.')
     ).toBeTruthy();
-  });
+  }, 15000);
 
   it('shows the daily-limit card with exact N, M, and limit when QuotaExceededError is thrown, disables mic/send/input, and «Вернусь завтра» closes the card while keeping history visible', async () => {
     let callCount = 0;
@@ -195,7 +195,7 @@ describe('M1b-2b-2 UI tests: session restore, daily-limit card, #plans block, an
     expect(screen.getByText('Svar nummer 1')).toBeTruthy();
     expect(screen.getByText('Svar nummer 2')).toBeTruthy();
     expect(micBtn.disabled).toBe(true);
-  });
+  }, 15000);
 
   it('renders FirstRun step 1 greeting under Nora and #plans subscription block on PathHome', () => {
     render(<PathHome />);

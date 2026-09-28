@@ -188,6 +188,45 @@ authenticated (test) → e2e «topic → answer → explanation in ru» passes �
 HK-dir format as checked → the disclaimer is visible → free limits and `samfunn_pass` are enforced.
 
 ────────────────────────────────────────────
+M1f — «Слова»: frequent words and phrases with spaced repetition (after M1b-2b-2)
+────────────────────────────────────────────
+Goal: a short daily practice that brings learners back every day. Explanations in ru/uk/en;
+content in Bokmål. Nothing is copied from textbooks.
+Content model (static JSON in the repo, validated by zod):
+  {id, lemma, pos, gender?, forms{}, level A1|A2|B1, topics[], translations{ru,uk,en},
+   examples[{nb, ru, uk, en}], status draft|reviewed, source}.
+  - Forms (gender, plural, verb forms) come from Norsk Ordbank (Språkrådet/UiB, CC BY).
+  - Word frequency comes from an open list whose licence allows commercial use; write the
+    licence down in data/words/SOURCES.md.
+  - Priority: exam topics (arbeid, bolig, helse, familie, handel, transport, fritid).
+  - Target: 1 000 words (A1 ~300, A2 ~400, B1 ~300) plus ~150 conversation phrases for the
+    exam («Jeg er enig, fordi…», «Det kommer an på…»).
+  - Production shows only `reviewed` items; the teacher reviews them.
+M1f-1 Data and daily review (steps 1–3)
+  - Static data, zod schema and a review export for the teacher.
+  - Scheduler on ts-fsrs (MIT); grades Again / Hard / Good / Easy.
+  - Daily session: all due reviews plus up to N new words, then a finite summary.
+    No streaks and no guilt; honest progress («240 из 1 000»).
+  - Step 1 intro (audio, say it aloud); step 2 recall the meaning; step 3 recall the word
+    (type it or say it; the article is needed for nouns). No multiple-choice games.
+  - Progress is kept in localStorage first; Supabase sync comes in M1f-3.
+M1f-2 Write your own sentence
+  - Step 4 from about the 3rd review: the learner writes a sentence with the word, and the
+    coach checks it with the existing CorrectionCard (explanation in L1).
+  - Words the learner stumbled on in conversation are added to a personal deck automatically.
+M1f-3 Sync and access
+  - Tables `user_cards` and `reviews` with RLS for signed-in users.
+  - Free plan: the first 200 words and 5 new words a day. All words, phrases, sentence checks
+    and the personal deck come with a paid plan.
+M1f-4 Reminders
+  - One daily reminder at a time the learner picks: Telegram bot first, then web push
+    (on iOS it needs the site installed to the home screen); email only as a fallback.
+ACCEPTANCE M1f: every JSON item passes the schema → production shows only reviewed items →
+intervals grow after Good and reset after Again (tests) → a session ends with a summary →
+step 4 shows a correction in L1 → RLS protects user_cards → a reminder arrives at the chosen
+time.
+
+────────────────────────────────────────────
 M2 — Exam simulator that matches the real HK-dir oral test (core product)
 ────────────────────────────────────────────
 2.1 New exam flow for A2 and B1, timed, in this order (verify wording against

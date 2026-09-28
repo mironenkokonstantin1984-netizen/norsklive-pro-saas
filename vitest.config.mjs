@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 
 export default defineConfig({
   oxc: {
@@ -7,8 +7,10 @@ export default defineConfig({
     }
   },
   test: {
+    exclude: [...configDefaults.exclude, 'e2e/**'],
     env: {
       AUTH_ENABLED: 'false'
     }
   }
 });
+

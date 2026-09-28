@@ -9,7 +9,7 @@ import {
   type TargetWord
 } from '../../content/scenarios';
 import type { Correction, Hint } from '../../server/schemas';
-import { AuthRequiredError, postCoach } from '../../lib/coachClient';
+import { AuthRequiredError, QuotaExceededError, postCoach } from '../../lib/coachClient';
 import { speakNorwegian } from '../../lib/speech';
 import { readPathPrefs } from '../../lib/path/storage';
 
@@ -36,6 +36,11 @@ export interface HkdirScores {
   arg: string;
 }
 
+export interface QuotaExceededInfo {
+  limit: number;
+  plan: string;
+}
+
 export interface StudioState {
   currentModule: ModuleKey;
   scenarios: ScenariosByModule;
@@ -58,6 +63,8 @@ export interface StudioState {
   usedWordsToast: string;
   hkdirScores: HkdirScores;
   activeSpeech: { text: string; charIndex: number } | null;
+  quotaExceeded: QuotaExceededInfo | null;
+  limitCardDismissed: boolean;
 }
 
 export const DEFAULT_MIC_STATUS = 'Нажмите и говорите';
@@ -153,7 +160,9 @@ export type StudioAction =
         correction_json?: unknown;
         created_at?: string;
       }>;
-    };
+    }
+  | { type: 'SET_QUOTA_EXCEEDED'; limit: number; plan: string }
+  | { type: 'DISMISS_LIMIT_CARD' };
 
 const firstScenario = scenariosByModule.norskprove[0];
 
@@ -182,7 +191,9 @@ export const initialStudioState: StudioState = {
   micStatusText: DEFAULT_MIC_STATUS,
   usedWordsToast: '',
   hkdirScores: { ...DEFAULT_HKDIR_SCORES },
-  activeSpeech: null
+  activeSpeech: null,
+  quotaExceeded: null,
+  limitCardDismissed: false
 };
 
 function resetForScenario(
@@ -372,6 +383,30 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
         hkdirScores: nextScores
       };
     }
+    case 'SET_QUOTA_EXCEEDED': {
+      const lastMsg = state.chatHistory[state.chatHistory.length - 1];
+      const trimmedChat =
+        lastMsg && lastMsg.sender === 'user'
+          ? state.chatHistory.slice(0, -1)
+          : state.chatHistory;
+      return {
+        ...state,
+        chatHistory: trimmedChat,
+        isThinking: false,
+        isRecording: false,
+        quotaExceeded: {
+          limit: action.limit,
+          plan: action.plan
+        },
+        limitCardDismissed: false,
+        micStatusText: 'Лимит на сегодня исчерпан'
+      };
+    }
+    case 'DISMISS_LIMIT_CARD':
+      return {
+        ...state,
+        limitCardDismissed: true
+      };
     default:
       return state;
   }
@@ -778,6 +813,14 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
           }
           return;
         }
+        if (err instanceof QuotaExceededError) {
+          dispatch({
+            type: 'SET_QUOTA_EXCEEDED',
+            limit: err.limit,
+            plan: err.plan
+          });
+          return;
+        }
         const message = err instanceof Error ? err.message : String(err);
         dispatch({ type: 'SET_THINKING', isThinking: false });
         dispatch({
@@ -797,6 +840,10 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
       speakWithOrb
     ]
   );
+
+  const dismissLimitCard = useCallback(() => {
+    dispatch({ type: 'DISMISS_LIMIT_CARD' });
+  }, []);
 
   const exportReportAndGlossary = useCallback(() => {
     if (typeof window === 'undefined') return;
@@ -855,6 +902,7 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
     saveToGlossary,
     markWordUsed,
     handleUserSubmission,
+    dismissLimitCard,
     exportReportAndGlossary,
     advanceExamPart,
     speakLastAiReply

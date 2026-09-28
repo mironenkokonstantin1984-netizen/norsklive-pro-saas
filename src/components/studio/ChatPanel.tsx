@@ -5,7 +5,7 @@ import { Bookmark, Bot, Volume2, X } from 'lucide-react';
 import type { Correction } from '../../server/schemas';
 import type { LearnerMood } from '../../lib/prefs';
 import { CorrectionCard } from './CorrectionCard';
-import type { ChatMessage, L1Language } from './useStudioState';
+import type { ChatMessage, L1Language, QuotaExceededInfo } from './useStudioState';
 
 export interface ChatPanelProps {
   chatHistory: ChatMessage[];
@@ -15,6 +15,9 @@ export interface ChatPanelProps {
   blurMode: boolean;
   subtitlesEnabled?: boolean;
   activeSpeech?: { text: string; charIndex: number } | null;
+  quotaExceeded?: QuotaExceededInfo | null;
+  limitCardDismissed?: boolean;
+  onDismissLimitCard?: () => void;
   onSpeak: (text: string) => void;
   onSaveToGlossary: (word: string, translation: string) => void;
   onSelectMood?: (mood: LearnerMood) => void;
@@ -68,6 +71,9 @@ export function ChatPanel({
   blurMode,
   subtitlesEnabled = true,
   activeSpeech = null,
+  quotaExceeded = null,
+  limitCardDismissed = false,
+  onDismissLimitCard,
   onSpeak,
   onSaveToGlossary,
   onSelectMood
@@ -79,7 +85,7 @@ export function ChatPanel({
     if (streamRef.current) {
       streamRef.current.scrollTop = streamRef.current.scrollHeight;
     }
-  }, [chatHistory, coachingHistory.length]);
+  }, [chatHistory, coachingHistory.length, quotaExceeded, limitCardDismissed]);
 
   let lastUserIndex = -1;
   let learnerTurnCount = 0;
@@ -187,6 +193,37 @@ export function ChatPanel({
                 {mood}
               </button>
             ))}
+          </div>
+        </div>
+      ) : null}
+
+      {quotaExceeded && !limitCardDismissed ? (
+        <div
+          className="daily-limit-card"
+          data-testid="dailyLimitCard"
+          role="region"
+          aria-labelledby="dailyLimitCardTitle"
+        >
+          <h3 id="dailyLimitCardTitle" className="daily-limit-title t-callout">
+            На сегодня бесплатные ответы закончились
+          </h3>
+          <p className="daily-limit-body t-body">
+            {`Вы сделали ${learnerTurnCount} реплик и разобрали ${coachingHistory.length} ошибок. Лимит бесплатного плана — ${quotaExceeded.limit} в день, завтра снова доступно.`}
+          </p>
+          <div className="daily-limit-actions">
+            <a
+              href="/path#plans"
+              className="btn-primary daily-limit-primary-btn t-callout"
+            >
+              Посмотреть подписку
+            </a>
+            <button
+              type="button"
+              className="btn-text daily-limit-secondary-btn t-callout"
+              onClick={onDismissLimitCard}
+            >
+              Вернусь завтра
+            </button>
           </div>
         </div>
       ) : null}

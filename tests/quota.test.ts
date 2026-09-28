@@ -215,3 +215,72 @@ describe('M1b-2b-1 Daily AI quota unit tests', () => {
     expect(quotaErr.plan).toBe('free');
   });
 });
+
+const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const hasSupabaseEnv = Boolean(supabaseUrl && supabaseAnonKey && supabaseServiceRoleKey);
+
+const describeQuotaIntegration = hasSupabaseEnv ? describe : describe.skip;
+
+describeQuotaIntegration('M1b-2b-1 Supabase quota RPC integration test', () => {
+  it('seeds a user, calls increment_ai_calls 21 times (21st returns 21), and rejects anon/authenticated RPC calls', async () => {
+    const { createClient } = await import('@supabase/supabase-js');
+    const adminClient = createClient(supabaseUrl!, supabaseServiceRoleKey!, {
+      auth: { persistSession: false, autoRefreshToken: false }
+    });
+    const anonClient = createClient(supabaseUrl!, supabaseAnonKey!, {
+      auth: { persistSession: false, autoRefreshToken: false }
+    });
+    const authClient = createClient(supabaseUrl!, supabaseAnonKey!, {
+      auth: { persistSession: false, autoRefreshToken: false }
+    });
+
+    const runId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const email = `quota-user-${runId}@example.com`;
+    const password = 'TestPassword123!';
+
+    const { data: created, error: createErr } = await adminClient.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true
+    });
+    expect(createErr).toBeNull();
+    const userId = created.user!.id;
+
+    try {
+      const today = '2026-09-28';
+      let lastCount = 0;
+      for (let i = 1; i <= 21; i++) {
+        const { data, error } = await adminClient.rpc('increment_ai_calls', {
+          uid: userId,
+          d: today
+        });
+        expect(error).toBeNull();
+        lastCount = data as number;
+      }
+      expect(lastCount).toBe(21);
+
+      const { error: anonRpcErr } = await anonClient.rpc('increment_ai_calls', {
+        uid: userId,
+        d: today
+      });
+      expect(anonRpcErr).not.toBeNull();
+
+      const { error: signInErr } = await authClient.auth.signInWithPassword({
+        email,
+        password
+      });
+      expect(signInErr).toBeNull();
+
+      const { error: authRpcErr } = await authClient.rpc('increment_ai_calls', {
+        uid: userId,
+        d: today
+      });
+      expect(authRpcErr).not.toBeNull();
+    } finally {
+      await adminClient.auth.admin.deleteUser(userId);
+    }
+  });
+});
+

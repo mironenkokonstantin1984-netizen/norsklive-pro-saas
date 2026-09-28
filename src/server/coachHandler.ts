@@ -11,6 +11,7 @@ import {
   type RateLimitOptions
 } from './rateLimit';
 import { getSessionUser, isAuthEnabled } from './auth';
+import { checkAndCountAiCall, type QuotaCheckResult } from './quota';
 
 const MAX_BODY_BYTES = 16 * 1024;
 
@@ -20,6 +21,7 @@ export interface CoachHandlerDeps {
   rateLimit?: RateLimitCheckFn | RateLimitOptions;
   getUser?: () => Promise<{ id: string } | null>;
   authEnabled?: () => boolean;
+  quota?: (userId: string) => Promise<QuotaCheckResult>;
 }
 
 export function createCoachHandler(
@@ -35,11 +37,15 @@ export function createCoachHandler(
   const resolveUser: () => Promise<{ id: string } | null> =
     deps.getUser ?? getSessionUser;
 
+  const checkQuota: (userId: string) => Promise<QuotaCheckResult> =
+    deps.quota ?? ((userId: string) => checkAndCountAiCall(userId));
+
   return async (req: Request): Promise<Response> => {
     try {
+      let authedUser: { id: string } | null = null;
       if (checkAuthEnabled()) {
-        const user = await resolveUser();
-        if (!user) {
+        authedUser = await resolveUser();
+        if (!authedUser) {
           return Response.json({ error: 'auth_required' }, { status: 401 });
         }
       }
@@ -77,6 +83,20 @@ export function createCoachHandler(
           },
           { status: 400 }
         );
+      }
+
+      if (authedUser) {
+        const quotaResult = await checkQuota(authedUser.id);
+        if (!quotaResult.allowed) {
+          return Response.json(
+            {
+              error: 'quota_exceeded',
+              limit: quotaResult.limit,
+              plan: quotaResult.plan
+            },
+            { status: 402 }
+          );
+        }
       }
 
       const {

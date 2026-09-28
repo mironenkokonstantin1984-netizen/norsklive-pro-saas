@@ -158,9 +158,106 @@
 .path-primary-link:focus-visible,
 .path-outline-link:focus-visible,
 .path-date-input:focus-visible,
-.path-exam-edit-btn:focus-visible {
+.path-exam-edit-btn:focus-visible,
+.firstrun-skip-btn:focus-visible,
+.firstrun-secondary-btn:focus-visible,
+.firstrun-segment-btn:focus-visible,
+.firstrun-primary-btn:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
+}
+
+.firstrun-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--scrim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+.firstrun-sheet {
+  width: 100%;
+  max-width: 32rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.firstrun-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.firstrun-progress {
+  color: var(--muted);
+}
+
+.firstrun-skip-btn,
+.firstrun-secondary-btn {
+  min-height: 2.75rem;
+}
+
+.firstrun-nora {
+  display: flex;
+  justify-content: center;
+}
+
+.firstrun-step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.firstrun-title {
+  margin: 0;
+  color: var(--ink);
+  text-align: center;
+}
+
+.firstrun-segmented {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.firstrun-segment-btn {
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  cursor: pointer;
+}
+
+.firstrun-segment-btn.is-selected {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--ink);
+}
+
+.firstrun-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.firstrun-primary-btn {
+  width: 100%;
+  border: none;
+  font-family: var(--font-sans);
+  cursor: pointer;
 }
 
 @media (max-width: 700px) {
@@ -171,4 +268,9 @@
   .path-card {
     padding: var(--space-4);
   }
+
+  .firstrun-sheet {
+    padding: var(--space-4);
+  }
 }
+

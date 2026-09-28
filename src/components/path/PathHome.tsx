@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import {
-  DEFAULT_PATH_PREFS,
   daysUntilExam,
   readPathPrefs,
   readSavedWordsCount,
@@ -10,6 +9,7 @@ import {
   type PathPrefs
 } from '../../lib/path/storage';
 import { nextSituation } from '../../lib/path/situations';
+import { FirstRun } from './FirstRun';
 import './path.css';
 
 export interface PathHomeProps {
@@ -18,8 +18,8 @@ export interface PathHomeProps {
 }
 
 export function PathHome({ authEnabled = false, userEmail = null }: PathHomeProps = {}) {
-  const [prefs, setPrefs] = useState<PathPrefs>(() => ({ ...DEFAULT_PATH_PREFS }));
-  const [savedWordsCount, setSavedWordsCount] = useState<number>(0);
+  const [prefs, setPrefs] = useState<PathPrefs>(() => readPathPrefs());
+  const [savedWordsCount, setSavedWordsCount] = useState<number>(() => readSavedWordsCount());
   const dateInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -41,6 +41,13 @@ export function PathHome({ authEnabled = false, userEmail = null }: PathHomeProp
 
   return (
     <main className="path-page">
+      {!prefs.onboarded ? (
+        <FirstRun
+          initialPrefs={prefs}
+          onSkip={(nextPrefs) => setPrefs(nextPrefs)}
+          onFinish={(nextPrefs) => setPrefs(nextPrefs)}
+        />
+      ) : null}
       <div className="path-column">
         <div className="path-topbar">
           <span className="path-brand t-callout">NorskLive Pro</span>

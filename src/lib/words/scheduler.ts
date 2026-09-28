@@ -25,6 +25,7 @@ export interface WordCardState {
   stage3Successes: number;
   clozeIndex: number;
   seenClozeIndices: number[];
+  contextPassed?: boolean;
 }
 
 export interface AdaptiveState {
@@ -83,7 +84,8 @@ export function createInitialCardState(wordId: string, now: Date = new Date()): 
     fsrsCard: serializeFsrsCard(createEmptyCard(now)),
     stage3Successes: 0,
     clozeIndex: 0,
-    seenClozeIndices: []
+    seenClozeIndices: [],
+    contextPassed: false
   };
 }
 
@@ -100,49 +102,66 @@ function mapGradeToRating(grade: WordGrade): Grade {
   }
 }
 
-export function isWordKnown(card: Pick<WordCardState, 'stage'>): boolean {
-  return card.stage >= 4;
+export function isWordKnown(card: Pick<WordCardState, 'stage' | 'contextPassed'>): boolean {
+  return card.stage >= 4 && Boolean(card.contextPassed);
 }
 
 export function gradeWordCard(
   cardState: WordCardState,
   grade: WordGrade,
   now: Date = new Date(),
-  options?: { typedCorrect?: boolean }
+  options?: { typedCorrect?: boolean; clozeIndex?: number; totalClozeCount?: number }
 ): WordCardState {
-  const rating = mapGradeToRating(grade);
+  const effectiveGrade: WordGrade = options?.typedCorrect === false ? 'again' : grade;
+  const rating = mapGradeToRating(effectiveGrade);
   const currentCard = deserializeFsrsCard(cardState.fsrsCard);
   const scheduled = fScheduler.next(currentCard, now, rating);
   const nextCard: Card = { ...scheduled.card };
 
   let nextStage: MasteryStage = cardState.stage;
   let nextStage3Successes = cardState.stage3Successes;
+  let nextContextPassed = Boolean(cardState.contextPassed);
 
-  // Rule: «Легко» followed by a wrong typed answer moves it back
-  if (options?.typedCorrect === false && cardState.lastGrade === 'easy') {
+  if (effectiveGrade === 'again') {
     nextStage = Math.max(2, cardState.stage - 1) as MasteryStage;
     nextStage3Successes = Math.max(0, nextStage3Successes - 1);
-  } else if (grade === 'again') {
-    nextStage = Math.max(2, cardState.stage - 1) as MasteryStage;
-    nextStage3Successes = Math.max(0, nextStage3Successes - 1);
-    // Bring card back today on "again"
+    // Bring card back today on "again" (or wrong typed answer)
     nextCard.due = new Date(now.getTime());
     nextCard.scheduled_days = 0;
-  } else if (grade === 'hard') {
+  } else if (effectiveGrade === 'hard') {
     nextStage = Math.max(2, cardState.stage) as MasteryStage;
-  } else if (grade === 'good' || grade === 'easy') {
+    if (cardState.stage >= 4 && options?.typedCorrect === true) {
+      nextContextPassed = true;
+    }
+  } else if (effectiveGrade === 'good' || effectiveGrade === 'easy') {
     if (cardState.stage === 3 && options?.typedCorrect !== false) {
       nextStage3Successes += 1;
     }
+    if (cardState.stage >= 4 && options?.typedCorrect === true) {
+      nextContextPassed = true;
+    }
     nextStage = Math.min(4, cardState.stage + 1) as MasteryStage;
+  }
+
+  let nextSeenClozeIndices = cardState.seenClozeIndices ?? [];
+  let nextClozeIndex = cardState.clozeIndex;
+  if (options?.clozeIndex !== undefined) {
+    if (!nextSeenClozeIndices.includes(options.clozeIndex)) {
+      nextSeenClozeIndices = [...nextSeenClozeIndices, options.clozeIndex];
+    }
+    const total = options.totalClozeCount ?? 2;
+    nextClozeIndex = (options.clozeIndex + 1) % Math.max(1, total);
   }
 
   return {
     ...cardState,
     stage: nextStage,
     fsrsCard: serializeFsrsCard(nextCard),
-    lastGrade: grade,
-    stage3Successes: nextStage3Successes
+    lastGrade: effectiveGrade,
+    stage3Successes: nextStage3Successes,
+    clozeIndex: nextClozeIndex,
+    seenClozeIndices: nextSeenClozeIndices,
+    contextPassed: nextContextPassed
   };
 }
 

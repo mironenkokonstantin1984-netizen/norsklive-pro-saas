@@ -6,6 +6,12 @@
   padding: var(--space-4);
 }
 
+.words-page button,
+.words-page input {
+  font: inherit;
+  font-family: var(--font-sans);
+}
+
 .words-container {
   max-width: 36rem;
   margin: 0 auto;

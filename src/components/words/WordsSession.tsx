@@ -48,7 +48,13 @@ function getClozeHintL1(
 }
 
 function formatFormsLine(item: WordItem): string {
-  return Object.values(item.forms).join(' · ');
+  if (item.pos === 'noun') {
+    const nounForms = [item.forms.be_ent, item.forms.fl_ub, item.forms.fl_be].filter(Boolean);
+    if (nounForms.length > 0) {
+      return nounForms.join(' — ');
+    }
+  }
+  return Object.values(item.forms).filter(Boolean).join(' — ');
 }
 
 export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSessionProps) {
@@ -146,13 +152,20 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
     const now = new Date();
     const wasStage = currentEntry.card.stage;
     const typedCorrect = checkResult ? checkResult.correct : undefined;
+    const effectiveGrade: WordGrade = typedCorrect === false ? 'again' : grade;
     const outcomeCorrect =
-      typedCorrect !== undefined ? typedCorrect && grade !== 'again' : grade !== 'again';
+      typedCorrect !== undefined ? typedCorrect && effectiveGrade !== 'again' : effectiveGrade !== 'again';
 
-    const nextCard = gradeWordCard(currentEntry.card, grade, now, { typedCorrect });
-    if (wasStage === 4) {
-      nextCard.clozeIndex = (currentEntry.card.clozeIndex + 1) % currentEntry.item.cloze.length;
-    }
+    const activeClozeIdx =
+      wasStage >= 4
+        ? currentEntry.card.clozeIndex % currentEntry.item.cloze.length
+        : undefined;
+
+    const nextCard = gradeWordCard(currentEntry.card, effectiveGrade, now, {
+      typedCorrect,
+      clozeIndex: activeClozeIdx,
+      totalClozeCount: currentEntry.item.cloze.length
+    });
 
     const nextAdaptive = updateAdaptiveState(progress.adaptive, outcomeCorrect);
     const nextProgress: WordsProgressData = {
@@ -167,7 +180,7 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
     writeWordsProgress(nextProgress);
     setReviewedCount((c) => c + 1);
 
-    if (nextCard.stage >= 4 && (wasStage < 4 || wasStage === 4)) {
+    if (wasStage === 3 && nextCard.stage === 4) {
       setReachedContextCount((c) => c + 1);
     }
 
@@ -202,18 +215,35 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
     <main className="words-page" id="wordsPage">
       <div className="words-container">
         <header className="words-header">
-          <a href="/path" className="btn-outline words-back-link">
+          <a href="/path" className="btn-outline words-back-link t-callout">
             <ArrowLeft size={18} strokeWidth={1.75} aria-hidden="true" />
             <span>Мой путь</span>
           </a>
           <div className="words-progress-meta t-caption t-num">
-            {!isFinished
-              ? `Карточка ${currentIndex + 1} из ${queue.length}`
-              : 'Сессия завершена'}
+            {totalCatalogCount === 0
+              ? 'Слова'
+              : !isFinished
+                ? `Карточка ${currentIndex + 1} из ${queue.length}`
+                : 'Сессия завершена'}
           </div>
         </header>
 
-        {isFinished ? (
+        {totalCatalogCount === 0 ? (
+          <section
+            className="words-card words-summary-card"
+            data-testid="wordsEmptyState"
+            aria-labelledby="wordsEmptyHeading"
+          >
+            <p id="wordsEmptyHeading" className="t-body words-summary-line">
+              Слова сейчас проверяет преподаватель. Скоро они появятся здесь
+            </p>
+            <div className="words-actions-row">
+              <a href="/path" className="btn-primary words-primary-action t-callout">
+                Мой путь
+              </a>
+            </div>
+          </section>
+        ) : isFinished ? (
           <section
             className="words-card words-summary-card"
             data-testid="wordsSummary"
@@ -223,10 +253,10 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
               Итог на сегодня
             </h1>
             <p className="t-body words-summary-line t-num" data-testid="wordsSummaryLine">
-              {`Сегодня: ${newIntroducedCount} новых, ${reviewedCount} повторено, ${reachedContextCount} дошли до контекста. Вы знаете ${knownTotalCount} из ${totalCatalogCount} слов`}
+              {`Новых: ${newIntroducedCount} · Повторено: ${reviewedCount} · Дошли до контекста: ${reachedContextCount}. Вы знаете: ${knownTotalCount} из ${totalCatalogCount}`}
             </p>
             <div className="words-actions-row">
-              <a href="/path" className="btn-primary words-primary-action">
+              <a href="/path" className="btn-primary words-primary-action t-callout">
                 Вернуться на главную
               </a>
             </div>
@@ -261,7 +291,7 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
 
                 <button
                   type="button"
-                  className="btn-outline words-audio-btn"
+                  className="btn-outline words-audio-btn t-callout"
                   onClick={() => speakNorwegian(getCanonicalDisplayLemma(currentEntry.item))}
                 >
                   <Volume2 size={18} strokeWidth={1.75} aria-hidden="true" />
@@ -290,7 +320,7 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
                 <div className="words-actions-row">
                   <button
                     type="button"
-                    className="btn-primary words-primary-action"
+                    className="btn-primary words-primary-action t-callout"
                     onClick={handleStage1Next}
                   >
                     Дальше
@@ -313,7 +343,7 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
 
                 <button
                   type="button"
-                  className="btn-outline words-audio-btn"
+                  className="btn-outline words-audio-btn t-callout"
                   onClick={() => speakNorwegian(getCanonicalDisplayLemma(currentEntry.item))}
                 >
                   <Volume2 size={18} strokeWidth={1.75} aria-hidden="true" />
@@ -324,7 +354,7 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
                   <div className="words-actions-row">
                     <button
                       type="button"
-                      className="btn-primary words-primary-action"
+                      className="btn-primary words-primary-action t-callout"
                       onClick={() => setStage2Revealed(true)}
                     >
                       Показать ответ
@@ -347,28 +377,28 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
                     <div className="words-grade-grid" role="group" aria-label="Оцените ответ">
                       <button
                         type="button"
-                        className="btn-outline words-grade-btn"
+                        className="btn-outline words-grade-btn t-callout"
                         onClick={() => handleGrade('again')}
                       >
                         Не вспомнил
                       </button>
                       <button
                         type="button"
-                        className="btn-outline words-grade-btn"
+                        className="btn-outline words-grade-btn t-callout"
                         onClick={() => handleGrade('hard')}
                       >
                         Трудно
                       </button>
                       <button
                         type="button"
-                        className="btn-primary words-grade-btn"
+                        className="btn-primary words-grade-btn t-callout"
                         onClick={() => handleGrade('good')}
                       >
                         Нормально
                       </button>
                       <button
                         type="button"
-                        className="btn-outline words-grade-btn"
+                        className="btn-outline words-grade-btn t-callout"
                         onClick={() => handleGrade('easy')}
                       >
                         Легко
@@ -418,7 +448,7 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
                   {!checkResult ? (
                     <button
                       type="submit"
-                      className="btn-primary words-primary-action"
+                      className="btn-primary words-primary-action t-callout"
                       disabled={!typedInput.trim()}
                     >
                       Проверить
@@ -441,7 +471,7 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
                       </p>
                       <button
                         type="button"
-                        className="btn-outline words-audio-btn"
+                        className="btn-outline words-audio-btn t-callout"
                         onClick={() => speakNorwegian(checkResult.expected)}
                       >
                         <Volume2 size={18} strokeWidth={1.75} aria-hidden="true" />
@@ -449,36 +479,41 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
                       </button>
                     </div>
 
-                    <div className="words-grade-grid" role="group" aria-label="Оцените ответ">
-                      <button
-                        type="button"
-                        className="btn-outline words-grade-btn"
-                        onClick={() => handleGrade('again')}
-                      >
-                        Не вспомнил
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-outline words-grade-btn"
-                        onClick={() => handleGrade('hard')}
-                      >
-                        Трудно
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-primary words-grade-btn"
-                        onClick={() => handleGrade('good')}
-                      >
-                        Нормально
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-outline words-grade-btn"
-                        onClick={() => handleGrade('easy')}
-                      >
-                        Легко
-                      </button>
-                    </div>
+                    {checkResult.correct ? (
+                      <div className="words-grade-grid" role="group" aria-label="Оцените ответ">
+                        <button
+                          type="button"
+                          className="btn-outline words-grade-btn t-callout"
+                          onClick={() => handleGrade('hard')}
+                        >
+                          Трудно
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-primary words-grade-btn t-callout"
+                          onClick={() => handleGrade('good')}
+                        >
+                          Нормально
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-outline words-grade-btn t-callout"
+                          onClick={() => handleGrade('easy')}
+                        >
+                          Легко
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="words-actions-row">
+                        <button
+                          type="button"
+                          className="btn-primary words-primary-action t-callout"
+                          onClick={() => handleGrade('again')}
+                        >
+                          Дальше
+                        </button>
+                      </div>
+                    )}
                   </>
                 ) : null}
               </div>
@@ -510,7 +545,7 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
                   {!checkResult ? (
                     <button
                       type="submit"
-                      className="btn-primary words-primary-action"
+                      className="btn-primary words-primary-action t-callout"
                       disabled={!typedInput.trim()}
                     >
                       Проверить
@@ -538,7 +573,7 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
                       ) : null}
                       <button
                         type="button"
-                        className="btn-outline words-audio-btn"
+                        className="btn-outline words-audio-btn t-callout"
                         onClick={() =>
                           speakNorwegian(currentCloze.nb.replace('___', currentCloze.answer))
                         }
@@ -548,36 +583,41 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
                       </button>
                     </div>
 
-                    <div className="words-grade-grid" role="group" aria-label="Оцените ответ">
-                      <button
-                        type="button"
-                        className="btn-outline words-grade-btn"
-                        onClick={() => handleGrade('again')}
-                      >
-                        Не вспомнил
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-outline words-grade-btn"
-                        onClick={() => handleGrade('hard')}
-                      >
-                        Трудно
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-primary words-grade-btn"
-                        onClick={() => handleGrade('good')}
-                      >
-                        Нормально
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-outline words-grade-btn"
-                        onClick={() => handleGrade('easy')}
-                      >
-                        Легко
-                      </button>
-                    </div>
+                    {checkResult.correct ? (
+                      <div className="words-grade-grid" role="group" aria-label="Оцените ответ">
+                        <button
+                          type="button"
+                          className="btn-outline words-grade-btn t-callout"
+                          onClick={() => handleGrade('hard')}
+                        >
+                          Трудно
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-primary words-grade-btn t-callout"
+                          onClick={() => handleGrade('good')}
+                        >
+                          Нормально
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-outline words-grade-btn t-callout"
+                          onClick={() => handleGrade('easy')}
+                        >
+                          Легко
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="words-actions-row">
+                        <button
+                          type="button"
+                          className="btn-primary words-primary-action t-callout"
+                          onClick={() => handleGrade('again')}
+                        >
+                          Дальше
+                        </button>
+                      </div>
+                    )}
                   </>
                 ) : null}
               </div>

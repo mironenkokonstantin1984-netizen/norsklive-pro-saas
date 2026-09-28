@@ -18,16 +18,10 @@ This file documents the linguistic data sources, their licences, and required at
 
 ---
 
-## 2. Word Frequency & Selection — Norwegian Dependency Treebank (NDT Bokmål) + Exam Topics
+## 2. Word Selection — Norskprøve Exam Topics
 
-- **Resource:** Norwegian Dependency Treebank (NDT) – Norwegian Bokmål (`oai-nb-no-sbr-10`)
-- **Catalogue URL:** https://www.nb.no/sprakbanken/en/resource-catalogue/oai-nb-no-sbr-10/
-- **Creators / Rights holders:** Nasjonalbiblioteket — Språkbanken (in collaboration with the University of Oslo and the University of Bergen).
-- **Licence:** [Creative Commons CC0 1.0 Universal (CC0 1.0 Public Domain Dedication)](https://creativecommons.org/publicdomain/zero/1.0/) — dedicated to the public domain; commercial use is unrestricted.
-- **What we use:**
-  - Lemma frequency distribution across 300,000 lemmatised Norwegian Bokmål tokens, intersected with the seven core *Norskprøve muntlig* (HK-dir) topic areas (`arbeid`, `bolig`, `helse`, `familie`, `handel`, `transport`, `fritid`) to select the first 300 A1–A2 words and 50 oral exam conversation phrases.
-- **Attribution (courtesy):**
-  > Lemma frequency selection informed by the *Norwegian Dependency Treebank (NDT, Bokmål)* distributed by Nasjonalbiblioteket (Språkbanken) under CC0 1.0.
+- **Method:** The 300 A1–A2 words and 50 oral exam conversation phrases were chosen manually by exam topic, covering the seven core *Norskprøve muntlig* (HK-dir) topic areas (`arbeid`, `bolig`, `helse`, `familie`, `handel`, `transport`, `fritid`). No automated frequency computation was performed.
+- **Norwegian Dependency Treebank (NDT)** (`oai-nb-no-sbr-10`, CC0 1.0, distributed by Nasjonalbiblioteket — Språkbanken) was consulted as a reference for typical word usage in written Norwegian Bokmål, but no data from NDT is included in the dataset directly.
 
 ---
 

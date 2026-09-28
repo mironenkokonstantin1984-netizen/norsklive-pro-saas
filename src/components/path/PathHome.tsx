@@ -9,9 +9,9 @@ import {
   type PathPrefs
 } from '../../lib/path/storage';
 import { nextSituation } from '../../lib/path/situations';
-import { getAllCatalogItems } from '../../lib/words/catalog';
+import { formatCountRu } from '../../lib/plural';
 import {
-  buildDailySession,
+  countDueToday,
   countKnownWords,
   readWordsProgress
 } from '../../lib/words/progress';
@@ -22,31 +22,33 @@ import './path.css';
 export interface PathHomeProps {
   authEnabled?: boolean;
   userEmail?: string | null;
+  visibleWordIds?: readonly string[];
 }
 
-export function PathHome({ authEnabled = false, userEmail = null }: PathHomeProps = {}) {
+export function PathHome({
+  authEnabled = false,
+  userEmail = null,
+  visibleWordIds = []
+}: PathHomeProps = {}) {
   const [prefs, setPrefs] = useState<PathPrefs>(() => readPathPrefs());
   const [savedWordsCount, setSavedWordsCount] = useState<number>(() => readSavedWordsCount());
   const [dueTodayWordsCount, setDueTodayWordsCount] = useState<number>(() => {
-    const catalog = getAllCatalogItems();
     const progress = readWordsProgress();
-    return buildDailySession(new Date(), catalog, progress).queue.length;
+    return countDueToday(new Date(), visibleWordIds, progress);
   });
   const [knownWordsCount, setKnownWordsCount] = useState<number>(() => {
-    const catalog = getAllCatalogItems();
     const progress = readWordsProgress();
-    return countKnownWords(progress, catalog);
+    return countKnownWords(progress, visibleWordIds);
   });
   const dateInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     setPrefs(readPathPrefs());
     setSavedWordsCount(readSavedWordsCount());
-    const catalog = getAllCatalogItems();
     const progress = readWordsProgress();
-    setDueTodayWordsCount(buildDailySession(new Date(), catalog, progress).queue.length);
-    setKnownWordsCount(countKnownWords(progress, catalog));
-  }, []);
+    setDueTodayWordsCount(countDueToday(new Date(), visibleWordIds, progress));
+    setKnownWordsCount(countKnownWords(progress, visibleWordIds));
+  }, [visibleWordIds]);
 
   const situation = nextSituation([]);
   const daysLeft = prefs.examDate ? daysUntilExam(prefs.examDate) : null;
@@ -125,7 +127,7 @@ export function PathHome({ authEnabled = false, userEmail = null }: PathHomeProp
           </h2>
           <div className="path-words-stats t-num">
             <p className="path-words-count t-speech" data-testid="wordsTodayCount">
-              {`На сегодня: ${dueTodayWordsCount} слов`}
+              {`На сегодня: ${formatCountRu(dueTodayWordsCount, { one: 'слово', few: 'слова', many: 'слов' })}`}
             </p>
             <p className="path-card-text t-body" data-testid="wordsKnownCount">
               {`Знаю: ${knownWordsCount}`}

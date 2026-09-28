@@ -82,9 +82,15 @@ export function writeWordsProgress(data: WordsProgressData): void {
 
 export function countKnownWords(
   progress: WordsProgressData,
-  catalog?: WordItem[]
+  catalogOrIds?: WordItem[] | readonly string[]
 ): number {
-  const validIds = catalog ? new Set(catalog.map((w) => w.id)) : null;
+  const validIds = catalogOrIds
+    ? new Set(
+        catalogOrIds.map((entry) =>
+          typeof entry === 'string' ? entry : entry.id
+        )
+      )
+    : null;
   let count = 0;
   for (const card of Object.values(progress.cards)) {
     if (validIds && !validIds.has(card.wordId)) continue;
@@ -93,6 +99,33 @@ export function countKnownWords(
     }
   }
   return count;
+}
+
+export function countDueToday(
+  now: Date = new Date(),
+  ids: readonly string[],
+  progress: WordsProgressData = readWordsProgress()
+): number {
+  if (ids.length === 0) {
+    return 0;
+  }
+  let dueCount = 0;
+  let newCount = 0;
+  const nowMs = now.getTime();
+
+  for (const id of ids) {
+    const existing = progress.cards[id];
+    if (existing) {
+      const dueMs = new Date(existing.fsrsCard.due).getTime();
+      if (dueMs <= nowMs) {
+        dueCount += 1;
+      }
+    } else if (newCount < progress.adaptive.newPerDay) {
+      newCount += 1;
+    }
+  }
+
+  return dueCount + newCount;
 }
 
 export function buildDailySession(

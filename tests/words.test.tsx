@@ -95,7 +95,7 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
     expect(previewVisible.map((i) => i.id)).toEqual(['w-rev-1', 'w-draft-1']);
   });
 
-  it('3. scheduler intervals: good > hard; again brings card back today and drops stage; stage stays in [2, 4] after intro; easy + wrong typed answer moves stage back', () => {
+  it('3. scheduler intervals: good > hard; again brings card back today and drops stage; stage stays in [2, 4] after intro; wrong typed answer always grades again', () => {
     const now = new Date('2026-09-28T10:00:00Z');
     const baseCard = completeIntroStage(createInitialCardState('w-001', now), now);
     expect(baseCard.stage).toBe(2);
@@ -123,13 +123,17 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
     const droppedFrom2 = gradeWordCard(afterHard, 'again', now);
     expect(droppedFrom2.stage).toBe(2);
 
-    // «Легко» followed by a wrong typed answer moves the card back a stage
-    const easyAtStage3 = gradeWordCard(baseCard, 'easy', now);
-    expect(easyAtStage3.stage).toBe(3);
-    expect(easyAtStage3.lastGrade).toBe('easy');
+    // Wrong typed answer always becomes 'again', regardless of what button the user pressed
+    const goodAtStage3 = gradeWordCard(baseCard, 'good', now);
+    expect(goodAtStage3.stage).toBe(3);
 
-    const movedBack = gradeWordCard(easyAtStage3, 'good', now, { typedCorrect: false });
-    expect(movedBack.stage).toBe(2);
+    const movedBackFromGood = gradeWordCard(goodAtStage3, 'good', now, { typedCorrect: false });
+    expect(movedBackFromGood.stage).toBe(2);
+    expect(movedBackFromGood.lastGrade).toBe('again');
+
+    const easyWithWrong = gradeWordCard(goodAtStage3, 'easy', now, { typedCorrect: false });
+    expect(easyWithWrong.stage).toBe(2);
+    expect(easyWithWrong.lastGrade).toBe('again');
   });
 
   it('4. adaptive rule changes newPerDay and hint fading at >95% and <75% accuracy thresholds, and Known counts only stage >= 4', () => {
@@ -168,12 +172,13 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
     expect(lowAdaptive.newPerDay).toBe(8);
     expect(lowAdaptive.hintFadeStepOffset).toBe(0);
 
-    // Known counts only stage >= 4
-    expect(isWordKnown({ stage: 1 })).toBe(false);
-    expect(isWordKnown({ stage: 2 })).toBe(false);
-    expect(isWordKnown({ stage: 3 })).toBe(false);
-    expect(isWordKnown({ stage: 4 })).toBe(true);
-    expect(isWordKnown({ stage: 5 })).toBe(true);
+    // Known requires stage >= 4 AND contextPassed
+    expect(isWordKnown({ stage: 1, contextPassed: false })).toBe(false);
+    expect(isWordKnown({ stage: 2, contextPassed: false })).toBe(false);
+    expect(isWordKnown({ stage: 3, contextPassed: false })).toBe(false);
+    expect(isWordKnown({ stage: 4, contextPassed: false })).toBe(false);
+    expect(isWordKnown({ stage: 4, contextPassed: true })).toBe(true);
+    expect(isWordKnown({ stage: 5 as never, contextPassed: true })).toBe(true);
   });
 
   it('5. answer checking handles case, extra spaces, noun articles at stage 3, and enforces exact inflected form at stage 4', () => {
@@ -203,7 +208,8 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
     const prog = createDefaultWordsProgress();
     prog.cards['w-001'] = {
       ...createInitialCardState('w-001', now),
-      stage: 4
+      stage: 4,
+      contextPassed: true
     };
     writeWordsProgress(prog);
 
@@ -243,7 +249,7 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
 
     expect(screen.getByTestId('wordsSummary')).toBeTruthy();
     expect(screen.getByTestId('wordsSummaryLine').textContent).toContain(
-      'Сегодня: 1 новых, 1 повторено'
+      'Новых: 1 · Повторено: 1'
     );
     cleanup();
     window.localStorage.clear();
@@ -273,9 +279,13 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
     fireEvent.click(screen.getByRole('button', { name: 'Нормально' }));
 
     // Summary after 1 due card graded good (stage 3 -> stage 4!)
+    // contextPassed is false until stage 4 is answered correctly, so known = 0
     expect(screen.getByTestId('wordsSummary')).toBeTruthy();
     expect(screen.getByTestId('wordsSummaryLine').textContent).toContain(
-      'Сегодня: 0 новых, 1 повторено, 1 дошли до контекста. Вы знаете 1 из 1 слов'
+      'Дошли до контекста: 1'
+    );
+    expect(screen.getByTestId('wordsSummaryLine').textContent).toContain(
+      'Вы знаете: 0 из 1'
     );
 
     // Re-render at Stage 4 to test context cloze and wrong-form feedback
@@ -294,14 +304,59 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
 
     expect(screen.getByTestId('stage4Feedback').textContent).toContain('Нужная форма: jobbet');
     expect(screen.getByTestId('stage4HintL1').textContent).toContain('preteritum');
+    // Wrong answer: only «Дальше» button (grades 'again')
+    expect(screen.getByRole('button', { name: 'Дальше' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Нормально' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Легко' })).toBeNull();
 
     // Home card on /path shows «На сегодня: K слов», «Знаю: M», and «Повторить» link to /words
     cleanup();
     writePathPrefs({ onboarded: true });
-    render(<PathHome />);
+    render(<PathHome visibleWordIds={[sampleWord.id]} />);
     const wordsCard = document.getElementById('pathWordsCard')!;
-    expect(within(wordsCard).getByTestId('wordsKnownCount').textContent).toBe('Знаю: 1');
+    expect(within(wordsCard).getByTestId('wordsKnownCount').textContent).toBe('Знаю: 0');
     const repeatLink = within(wordsCard).getByRole('link', { name: 'Повторить' });
     expect(repeatLink.getAttribute('href')).toBe('/words');
+  });
+
+  it('8. empty state on /words when catalog is empty', () => {
+    render(<WordsSession catalog={[]} showDrafts={false} />);
+    expect(screen.getByTestId('wordsEmptyState')).toBeTruthy();
+    expect(screen.getByText('Слова сейчас проверяет преподаватель. Скоро они появятся здесь')).toBeTruthy();
+    const link = screen.getByRole('link', { name: 'Мой путь' });
+    expect(link.getAttribute('href')).toBe('/path');
+  });
+
+  it('9. guard: at most 5 items share the same first three words in examples and cloze; no translation contains a (...) placeholder', () => {
+    const allItems = [...catalogWords, ...catalogPhrases];
+    const exStarts: Record<string, number> = {};
+    const clozeStarts: Record<string, number> = {};
+
+    for (const item of allItems) {
+      for (const ex of item.examples) {
+        const start = ex.nb.split(/\s+/).slice(0, 3).join(' ');
+        exStarts[start] = (exStarts[start] || 0) + 1;
+      }
+      for (const c of item.cloze) {
+        const start = c.nb.split(/\s+/).slice(0, 3).join(' ');
+        clozeStarts[start] = (clozeStarts[start] || 0) + 1;
+      }
+    }
+
+    for (const [start, count] of Object.entries(exStarts)) {
+      expect(count, `Example start "${start}" appears ${count} times (max 5)`).toBeLessThanOrEqual(5);
+    }
+    for (const [start, count] of Object.entries(clozeStarts)) {
+      expect(count, `Cloze start "${start}" appears ${count} times (max 5)`).toBeLessThanOrEqual(5);
+    }
+
+    // No translation contains a (...) placeholder
+    for (const item of allItems) {
+      for (const ex of item.examples) {
+        expect(ex.ru, `ru example for ${item.id} "${ex.ru}"`).not.toMatch(/\([^)]+\)/);
+        expect(ex.uk, `uk example for ${item.id} "${ex.uk}"`).not.toMatch(/\([^)]+\)/);
+        expect(ex.en, `en example for ${item.id} "${ex.en}"`).not.toMatch(/\([^)]+\)/);
+      }
+    }
   });
 });

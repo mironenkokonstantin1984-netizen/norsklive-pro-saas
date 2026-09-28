@@ -3,7 +3,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
+  gap: var(--space-6);
+  padding-block: var(--space-4);
 }
 
 .nora-orb {
@@ -12,31 +13,65 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-pill);
-  background: radial-gradient(circle at 35% 35%, var(--success), var(--primary));
-  box-shadow: var(--shadow-float);
+  background: radial-gradient(
+    circle at 30% 25%,
+    var(--success-soft) 0%,
+    var(--success) 45%,
+    var(--primary) 100%
+  );
   transition: transform var(--duration-fast) var(--ease-standard);
 }
 
 .nora-orb-sm {
   width: 2.5rem;
   height: 2.5rem;
+  margin-block: var(--space-2);
 }
 
 .nora-orb-md {
   width: 4.5rem;
   height: 4.5rem;
+  margin-block: var(--space-3);
 }
 
 .nora-orb-lg {
   width: 7.5rem;
   height: 7.5rem;
+  margin-block: var(--space-4);
 }
 
 .nora-core {
   width: 100%;
   height: 100%;
   border-radius: var(--radius-pill);
-  background: radial-gradient(circle at 32% 32%, var(--success), var(--primary));
+  background: radial-gradient(
+    circle at 30% 25%,
+    var(--success-soft) 0%,
+    var(--success) 45%,
+    var(--primary) 100%
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="contrast"]) .nora-orb,
+  :root:not([data-theme="light"]):not([data-theme="contrast"]) .nora-core {
+    background: radial-gradient(
+      circle at 30% 25%,
+      var(--ink) 0%,
+      var(--success) 45%,
+      var(--primary) 100%
+    );
+  }
+}
+
+:root[data-theme="dark"] .nora-orb,
+:root[data-theme="dark"] .nora-core {
+  background: radial-gradient(
+    circle at 30% 25%,
+    var(--ink) 0%,
+    var(--success) 45%,
+    var(--primary) 100%
+  );
 }
 
 .nora-orb-idle {
@@ -105,7 +140,7 @@
 .nora-lab-page {
   min-height: 100vh;
   background: var(--bg);
-  color: var(--text);
+  color: var(--ink);
   padding: var(--space-8) var(--space-4);
 }
 
@@ -130,7 +165,7 @@
 
 .nora-lab-controls {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-md);
   padding: var(--space-4);
   display: flex;
@@ -166,19 +201,20 @@
 
 .nora-lab-card {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-1);
-  padding: var(--space-6) var(--space-4);
+  padding: var(--space-8) var(--space-4);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-4);
+  gap: var(--space-6);
 }
 
 .nora-lab-state-name {
   color: var(--muted);
   text-transform: uppercase;
 }
+
 

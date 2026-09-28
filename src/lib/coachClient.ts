@@ -1,9 +1,26 @@
 import type { CoachRequest, CoachResponse } from '../server/schemas';
+import type { SubscriptionPlan } from '../server/quota';
 
 export class AuthRequiredError extends Error {
   constructor(message = 'Authentication required') {
     super(message);
     this.name = 'AuthRequiredError';
+  }
+}
+
+export class QuotaExceededError extends Error {
+  limit: number;
+  plan: SubscriptionPlan;
+
+  constructor(
+    limit = 20,
+    plan: SubscriptionPlan = 'free',
+    message = 'Quota exceeded'
+  ) {
+    super(message);
+    this.name = 'QuotaExceededError';
+    this.limit = limit;
+    this.plan = plan;
   }
 }
 
@@ -18,9 +35,34 @@ export async function postCoach(body: CoachRequest): Promise<CoachResponse> {
     throw new AuthRequiredError();
   }
 
+  if (response.status === 402) {
+    let limit = 20;
+    let plan: SubscriptionPlan = 'free';
+    try {
+      const errData = (await response.json()) as {
+        limit?: unknown;
+        plan?: unknown;
+      };
+      if (typeof errData?.limit === 'number') {
+        limit = errData.limit;
+      }
+      if (
+        errData?.plan === 'free' ||
+        errData?.plan === 'exam_pass_90d' ||
+        errData?.plan === 'monthly'
+      ) {
+        plan = errData.plan;
+      }
+    } catch {
+      // keep fallback limit and plan
+    }
+    throw new QuotaExceededError(limit, plan);
+  }
+
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}`);
   }
 
   return (await response.json()) as CoachResponse;
 }
+

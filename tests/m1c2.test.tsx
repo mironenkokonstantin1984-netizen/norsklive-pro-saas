@@ -1,4 +1,6 @@
 // @vitest-environment jsdom
+import fs from 'node:fs';
+import path from 'node:path';
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
@@ -7,6 +9,7 @@ import { ScoreBar, parseCefrLevel } from '../src/components/studio/ScoreBar';
 import { ChatPanel } from '../src/components/studio/ChatPanel';
 import { StudioPage } from '../src/components/studio/StudioPage';
 import { PREFS_STORAGE_KEY } from '../src/lib/prefs';
+import { speakNorwegian } from '../src/lib/speech';
 import type { Correction } from '../src/server/schemas';
 
 const sampleCorrection: Correction = {
@@ -73,7 +76,7 @@ describe('M1c-2 components & flows', () => {
         name: /Предыдущие замечания \(1\)/i
       });
       expect(historyToggle.getAttribute('aria-expanded')).toBe('false');
-      expect(screen.queryByText(olderCorrection.natural_bokmal)).toBeNull();
+      expect(screen.queryByText(olderCorrection.grammar_rule_l1)).toBeNull();
 
       fireEvent.click(historyToggle);
       expect(historyToggle.getAttribute('aria-expanded')).toBe('true');
@@ -136,9 +139,22 @@ describe('M1c-2 components & flows', () => {
     });
   });
 
-  describe('PracticeSettingsSheet («Удобство») & localStorage resilience', () => {
-    it('opens from «Материалы», updates text size / tempo / switches, persists to norsklive_prefs, and restores focus on Escape', () => {
+  describe('PracticeSettingsSheet («Удобство»), 3 text-size steps & localStorage resilience', () => {
+    it('sets all three data-text-size values (sm/md/lg) with scale steps 1 / 1.12 / 1.25 (nothing below 13px), updates tempo & switches, persists to norsklive_prefs, and restores focus on Escape', () => {
+      const tokensCss = fs.readFileSync(
+        path.resolve(__dirname, '../src/styles/tokens.css'),
+        'utf-8'
+      );
+      expect(tokensCss).toContain('--text-scale: 1;');
+      expect(tokensCss).toContain('--text-scale: 1.12;');
+      expect(tokensCss).toContain('--text-scale: 1.25;');
+      expect(tokensCss).toContain('max(0.8125rem, calc(0.8125rem * var(--text-scale, 1)))');
+
       render(<StudioPage />);
+
+      // Default on mount is sm (scale 1)
+      expect(document.documentElement.getAttribute('data-text-size')).toBe('sm');
+      expect(document.documentElement.classList.contains('text-size-sm')).toBe(true);
 
       const comfortBtn = document.getElementById('comfortSettingsBtn') as HTMLButtonElement;
       expect(comfortBtn).toBeTruthy();
@@ -149,11 +165,23 @@ describe('M1c-2 components & flows', () => {
       const dialog = screen.getByRole('dialog', { name: 'Удобство' });
       expect(dialog).toBeTruthy();
 
-      // Text size segmented control -> lg
-      const lgBtn = screen.getByRole('button', { name: 'Крупный' });
-      fireEvent.click(lgBtn);
+      // Step 2: md (Крупный -> 1.12)
+      fireEvent.click(screen.getByRole('button', { name: 'Крупный' }));
+      expect(document.documentElement.getAttribute('data-text-size')).toBe('md');
+      expect(document.documentElement.classList.contains('text-size-md')).toBe(true);
+
+      // Step 3: lg (Очень крупный -> 1.25)
+      fireEvent.click(screen.getByRole('button', { name: 'Очень крупный' }));
       expect(document.documentElement.getAttribute('data-text-size')).toBe('lg');
       expect(document.documentElement.classList.contains('text-size-lg')).toBe(true);
+
+      // Step 1: sm (Стандартный -> 1)
+      fireEvent.click(screen.getByRole('button', { name: 'Стандартный' }));
+      expect(document.documentElement.getAttribute('data-text-size')).toBe('sm');
+      expect(document.documentElement.classList.contains('text-size-sm')).toBe(true);
+
+      // Switch back to lg to verify persistence
+      fireEvent.click(screen.getByRole('button', { name: 'Очень крупный' }));
 
       // Tempo -> 0.8
       const slowTempoBtn = screen.getByRole('button', { name: '0.8' });
@@ -189,21 +217,16 @@ describe('M1c-2 components & flows', () => {
       expect(() => render(<StudioPage />)).not.toThrow();
       const comfortBtn = document.getElementById('comfortSettingsBtn') as HTMLButtonElement;
       fireEvent.click(comfortBtn);
-      const lgBtn = screen.getByRole('button', { name: 'Крупный' });
+      const lgBtn = screen.getByRole('button', { name: 'Очень крупный' });
       expect(() => fireEvent.click(lgBtn)).not.toThrow();
     });
   });
 
   describe('Examiner subtitles & «Как ощущения?» on 5th turn', () => {
-    it('highlights active spoken word when activeSpeech matches examiner message and shows mood check on 5th learner turn', () => {
-      const onSelectMood = vi.fn();
+    it('highlights active spoken word when onboundary fires and clears on end', () => {
       const chatHistory = [
         { sender: 'ai' as const, norsk: 'Hei, hvordan går det med deg?' },
-        { sender: 'user' as const, norsk: 'Svar 1' },
-        { sender: 'user' as const, norsk: 'Svar 2' },
-        { sender: 'user' as const, norsk: 'Svar 3' },
-        { sender: 'user' as const, norsk: 'Svar 4' },
-        { sender: 'user' as const, norsk: 'Svar 5' }
+        { sender: 'user' as const, norsk: 'Svar 1' }
       ];
 
       const { container, rerender } = render(
@@ -217,24 +240,12 @@ describe('M1c-2 components & flows', () => {
           activeSpeech={{ text: 'Hei, hvordan går det med deg?', charIndex: 5 }}
           onSpeak={vi.fn()}
           onSaveToGlossary={vi.fn()}
-          onSelectMood={onSelectMood}
         />
       );
 
-      // Active word highlighted via <mark class="subtitle-word-active">
       const mark = container.querySelector('mark.subtitle-word-active');
       expect(mark?.textContent).toBe('hvordan');
 
-      // Mood check card appears on 5th learner turn
-      const moodCard = container.querySelector('#moodCheckCard');
-      expect(moodCard).toBeTruthy();
-      expect(screen.getByText('Как ощущения?')).toBeTruthy();
-
-      fireEvent.click(screen.getByRole('button', { name: 'Спокойно' }));
-      expect(onSelectMood).toHaveBeenCalledWith('Спокойно');
-      expect(container.querySelector('#moodCheckCard')).toBeNull();
-
-      // Clear activeSpeech on end -> removes <mark>
       rerender(
         <ChatPanel
           chatHistory={chatHistory}
@@ -246,10 +257,152 @@ describe('M1c-2 components & flows', () => {
           activeSpeech={null}
           onSpeak={vi.fn()}
           onSaveToGlossary={vi.fn()}
-          onSelectMood={onSelectMood}
         />
       );
       expect(container.querySelector('mark.subtitle-word-active')).toBeNull();
+    });
+
+    it('works without boundary events: (a) no window.speechSynthesis and (b) mocked speechSynthesis that fires onend without onboundary, rendering without <mark>', () => {
+      const originalSpeechSynthesis = window.speechSynthesis;
+      const originalUtterance = window.SpeechSynthesisUtterance;
+
+      try {
+        // (a) No window.speechSynthesis
+        Object.defineProperty(window, 'speechSynthesis', {
+          configurable: true,
+          writable: true,
+          value: undefined
+        });
+        const onBoundaryA = vi.fn();
+        const onEndA = vi.fn();
+        expect(() =>
+          speakNorwegian('Hei, hvordan går det?', {
+            onBoundary: onBoundaryA,
+            onEnd: onEndA
+          })
+        ).not.toThrow();
+        expect(onBoundaryA).not.toHaveBeenCalled();
+
+        // (b) Mocked speechSynthesis whose utterance never fires onboundary, only onend
+        class MockUtterance {
+          text: string;
+          lang = 'nb-NO';
+          rate = 1;
+          onstart: (() => void) | null = null;
+          onend: (() => void) | null = null;
+          onerror: (() => void) | null = null;
+          onboundary: ((ev: { charIndex?: number }) => void) | null = null;
+          constructor(text: string) {
+            this.text = text;
+          }
+        }
+        Object.defineProperty(window, 'SpeechSynthesisUtterance', {
+          configurable: true,
+          writable: true,
+          value: MockUtterance
+        });
+        Object.defineProperty(window, 'speechSynthesis', {
+          configurable: true,
+          writable: true,
+          value: {
+            cancel: vi.fn(),
+            getVoices: () => [],
+            speak: (utter: MockUtterance) => {
+              utter.onstart?.();
+              // Never fires utter.onboundary!
+              utter.onend?.();
+            }
+          }
+        });
+
+        const onBoundaryB = vi.fn();
+        const onEndB = vi.fn();
+        expect(() =>
+          speakNorwegian('Hei, hvordan går det?', {
+            onBoundary: onBoundaryB,
+            onEnd: onEndB
+          })
+        ).not.toThrow();
+        expect(onBoundaryB).not.toHaveBeenCalled();
+        expect(onEndB).toHaveBeenCalledTimes(1);
+
+        const { container } = render(<StudioPage />);
+        const speakBtns = container.querySelectorAll('.btn-speak');
+        expect(speakBtns.length).toBeGreaterThan(0);
+        expect(() => fireEvent.click(speakBtns[0])).not.toThrow();
+        expect(container.querySelector('mark')).toBeNull();
+      } finally {
+        Object.defineProperty(window, 'speechSynthesis', {
+          configurable: true,
+          writable: true,
+          value: originalSpeechSynthesis
+        });
+        Object.defineProperty(window, 'SpeechSynthesisUtterance', {
+          configurable: true,
+          writable: true,
+          value: originalUtterance
+        });
+      }
+    });
+
+    it('«Как ощущения?»: clicking «Тревожно» writes mood: "Тревожно" + timestamp to norsklive_prefs, and dismiss hides the card without writing mood', async () => {
+      vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            reply_norsk: 'Neste spørsmål.',
+            reply_l1: 'Следующий вопрос.',
+            correction: sampleCorrection,
+            next_hints: []
+          }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } }
+        )
+      );
+
+      // 1. Test dismiss button hides the card and writes no mood
+      const { container, unmount } = render(<StudioPage />);
+      const input = container.querySelector('#userSpeechInput') as HTMLInputElement;
+      const sendBtn = container.querySelector('#sendSpeechBtn') as HTMLButtonElement;
+
+      for (let i = 1; i <= 5; i++) {
+        fireEvent.change(input, { target: { value: `Svar ${i}` } });
+        fireEvent.click(sendBtn);
+      }
+
+      await waitFor(() => {
+        expect(container.querySelector('#moodCheckCard')).toBeTruthy();
+      });
+
+      const dismissBtn = screen.getByRole('button', { name: 'Закрыть вопрос' });
+      fireEvent.click(dismissBtn);
+
+      expect(container.querySelector('#moodCheckCard')).toBeNull();
+      const afterDismiss = JSON.parse(window.localStorage.getItem(PREFS_STORAGE_KEY) || '{}');
+      expect(afterDismiss.mood).toBeUndefined();
+
+      unmount();
+      window.localStorage.clear();
+
+      // 2. Test clicking «Тревожно» writes mood: 'Тревожно' + timestamp to norsklive_prefs
+      const { container: container2 } = render(<StudioPage />);
+      const input2 = container2.querySelector('#userSpeechInput') as HTMLInputElement;
+      const sendBtn2 = container2.querySelector('#sendSpeechBtn') as HTMLButtonElement;
+
+      for (let i = 1; i <= 5; i++) {
+        fireEvent.change(input2, { target: { value: `Svar ${i}` } });
+        fireEvent.click(sendBtn2);
+      }
+
+      await waitFor(() => {
+        expect(container2.querySelector('#moodCheckCard')).toBeTruthy();
+      });
+
+      fireEvent.click(screen.getByRole('button', { name: 'Тревожно' }));
+      expect(container2.querySelector('#moodCheckCard')).toBeNull();
+
+      const storedPrefs = JSON.parse(window.localStorage.getItem(PREFS_STORAGE_KEY) || '{}');
+      expect(storedPrefs.mood).toBe('Тревожно');
+      expect(typeof storedPrefs.timestamp).toBe('string');
+      expect(storedPrefs.timestamp.length).toBeGreaterThan(10);
     });
 
     it('renders CorrectionCard in StudioPage chat right after a learner turn', async () => {

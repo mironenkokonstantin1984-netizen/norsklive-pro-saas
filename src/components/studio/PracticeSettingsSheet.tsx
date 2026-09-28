@@ -91,27 +91,30 @@ export function PracticeSettingsSheet({
             >
               <button
                 type="button"
+                data-size="sm"
                 className={`module-tab ${prefs.textSize === 'sm' ? 'active' : ''}`}
                 aria-pressed={prefs.textSize === 'sm'}
                 onClick={() => setTextSize('sm')}
-              >
-                Малый
-              </button>
-              <button
-                type="button"
-                className={`module-tab ${prefs.textSize === 'md' ? 'active' : ''}`}
-                aria-pressed={prefs.textSize === 'md'}
-                onClick={() => setTextSize('md')}
               >
                 Стандартный
               </button>
               <button
                 type="button"
+                data-size="md"
+                className={`module-tab ${prefs.textSize === 'md' ? 'active' : ''}`}
+                aria-pressed={prefs.textSize === 'md'}
+                onClick={() => setTextSize('md')}
+              >
+                Крупный
+              </button>
+              <button
+                type="button"
+                data-size="lg"
                 className={`module-tab ${prefs.textSize === 'lg' ? 'active' : ''}`}
                 aria-pressed={prefs.textSize === 'lg'}
                 onClick={() => setTextSize('lg')}
               >
-                Крупный
+                Очень крупный
               </button>
             </div>
           </div>

@@ -54,17 +54,17 @@
 
 :root[data-text-size="sm"],
 .text-size-sm {
-  --text-scale: 0.92;
+  --text-scale: 1;
 }
 
 :root[data-text-size="md"],
 .text-size-md {
-  --text-scale: 1;
+  --text-scale: 1.12;
 }
 
 :root[data-text-size="lg"],
 .text-size-lg {
-  --text-scale: 1.12;
+  --text-scale: 1.25;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -151,7 +151,7 @@
 .t-speech { font-family: var(--font-sans); font-size: calc(var(--speech-size, 1.25rem) * var(--text-scale, 1)); line-height: 1.45; font-weight: 500; }
 .t-body { font-family: var(--font-sans); font-size: calc(1.0625rem * var(--text-scale, 1)); line-height: 1.5; font-weight: 400; }
 .t-callout { font-family: var(--font-sans); font-size: calc(0.9375rem * var(--text-scale, 1)); line-height: 1.45; font-weight: 600; }
-.t-caption { font-family: var(--font-sans); font-size: calc(0.8125rem * var(--text-scale, 1)); line-height: 1.4; font-weight: 500; }
+.t-caption { font-family: var(--font-sans); font-size: max(0.8125rem, calc(0.8125rem * var(--text-scale, 1))); line-height: 1.4; font-weight: 500; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }

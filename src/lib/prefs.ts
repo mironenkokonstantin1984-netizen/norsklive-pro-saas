@@ -14,7 +14,7 @@ export interface PracticePrefs {
 export const PREFS_STORAGE_KEY = 'norsklive_prefs';
 
 export const DEFAULT_PRACTICE_PREFS: PracticePrefs = {
-  textSize: 'md',
+  textSize: 'sm',
   tempo: 1.0,
   subtitles: true,
   contrast: false

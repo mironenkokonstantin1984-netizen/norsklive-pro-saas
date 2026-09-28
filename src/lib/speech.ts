@@ -6,7 +6,7 @@ export interface SpeakOptions {
 }
 
 export function speakNorwegian(text: string, options: SpeakOptions = {}): void {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window) || !window.speechSynthesis) {
     return;
   }
   try {

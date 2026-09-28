@@ -202,17 +202,28 @@ Content model (static JSON in the repo, validated by zod):
   - Target: 1 000 words (A1 ~300, A2 ~400, B1 ~300) plus ~150 conversation phrases for the
     exam («Jeg er enig, fordi…», «Det kommer an på…»).
   - Production shows only `reviewed` items; the teacher reviews them.
-M1f-1 Data and daily review (steps 1–3)
+Mastery ladder (the core rule of M1f): each word has stages 1–5.
+  1. Intro: hear it and say it aloud.
+  2. Recall the meaning.
+  3. Recall the word: type it, with hints (first letter, article) that fade out.
+  4. Word in a new context: fill a gap in a sentence the learner has not seen, in the right form.
+  5. The learner's own sentence, written or spoken, checked by the coach.
+
+  A word counts as known only at stage 4 or 5. FSRS target retention is about 0.88, so the
+  learner gets roughly 85–90 % right. When answers are almost always right, hints fade faster
+  and more new words appear; when there are many mistakes, the reverse. «Easy» followed by a
+  wrong spelling moves the word back.
+M1f-1 Data and daily review (stages 1–4)
   - Static data, zod schema and a review export for the teacher.
   - Scheduler on ts-fsrs (MIT); grades Again / Hard / Good / Easy.
   - Daily session: all due reviews plus up to N new words, then a finite summary.
     No streaks and no guilt; honest progress («240 из 1 000»).
-  - Step 1 intro (audio, say it aloud); step 2 recall the meaning; step 3 recall the word
-    (type it or say it; the article is needed for nouns). No multiple-choice games.
+  - Stages 1–4 of the mastery ladder: typing with fading hints, and a gap in a new sentence
+    in the right form. The article is needed for nouns. No multiple-choice games.
   - Progress is kept in localStorage first; Supabase sync comes in M1f-3.
 M1f-2 Write your own sentence
-  - Step 4 from about the 3rd review: the learner writes a sentence with the word, and the
-    coach checks it with the existing CorrectionCard (explanation in L1).
+  - Stage 5 of the ladder: the learner writes (later also says) a sentence with the word, and
+    the coach checks it with the existing CorrectionCard (explanation in L1).
   - Words the learner stumbled on in conversation are added to a personal deck automatically.
 M1f-3 Sync and access
   - Tables `user_cards` and `reviews` with RLS for signed-in users.
@@ -221,9 +232,24 @@ M1f-3 Sync and access
 M1f-4 Reminders
   - One daily reminder at a time the learner picks: Telegram bot first, then web push
     (on iOS it needs the site installed to the home screen); email only as a fallback.
+M1f-5 Word map and «Скорость»
+  - «Карта слов»: a grid of all words grouped by exam topic, each cell coloured by its stage.
+    It replaces streaks as the sign of progress. Topics unlock in order once most words of
+    the current topic reach stage 3.
+  - «Скорость» (optional, 1–2 minutes, known words only, stage 4 or higher): translations fall
+    slowly and the learner types the Norwegian word before it lands; the speed grows.
+    Calm colours, no confetti, the result is «34 слова за 2 минуты» plus a personal best.
+    Never used for new words.
+  - Weekly check: 20 random known words without hints → «Удержано 78 %».
+M1f-6 Knowledge points and groups (rules in docs/DESIGN_SYSTEM.md §12)
+  - Knowledge points only from mastery (stage 4 or 5, spoken answers, the weekly check,
+    mock exams).
+  - Personal records and a weekly report first; then a teacher group with a ranking and a
+    shared goal; opt-in weekly leagues only after about 200 active learners (nicknames, hide
+    option, no relegation).
 ACCEPTANCE M1f: every JSON item passes the schema → production shows only reviewed items →
 intervals grow after Good and reset after Again (tests) → a session ends with a summary →
-step 4 shows a correction in L1 → RLS protects user_cards → a reminder arrives at the chosen
+stage 5 shows a correction in L1 → RLS protects user_cards → a reminder arrives at the chosen
 time.
 
 ────────────────────────────────────────────

@@ -29,7 +29,7 @@ export function readPathPrefs(): PathPrefs {
     if (!raw) {
       return { ...DEFAULT_PATH_PREFS };
     }
-    const parsed = JSON.parse(raw) as Partial<PathPrefs> & { l1?: string };
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
     const targetLevel: TargetCefrLevel =
       parsed.targetLevel === 'A2' || parsed.targetLevel === 'B1' || parsed.targetLevel === 'B2'
         ? parsed.targetLevel

@@ -1,6 +1,6 @@
 import { expect, test } from 'playwright/test';
 
-test('main studio flow: examiner greeting, text answer reply, materials toggle, and zero console errors', async ({
+test('main studio flow: skip first-run on /, open /studio via Начать практику, examiner greeting, text answer reply, materials toggle, and zero console errors', async ({
   page
 }) => {
   const consoleErrors: string[] = [];
@@ -21,6 +21,17 @@ test('main studio flow: examiner greeting, text answer reply, materials toggle, 
 
   await page.goto('/');
 
+  // Skip FirstRun on / and click «Начать практику» to go to /studio
+  const skipBtn = page.getByRole('button', { name: 'Пропустить' });
+  await expect(skipBtn).toBeVisible();
+  await skipBtn.click();
+
+  const startPracticeLink = page.getByRole('link', { name: 'Начать практику' });
+  await expect(startPracticeLink).toBeVisible();
+  await startPracticeLink.click();
+
+  await expect(page).toHaveURL(/\/studio$/);
+
   // 1. See the examiner's first line and the mic button #micToggleBtn
   const aiMessages = page.locator('#chatStream .msg-ai .msg-norsk');
   await expect(aiMessages.first()).toBeVisible();
@@ -28,7 +39,9 @@ test('main studio flow: examiner greeting, text answer reply, materials toggle, 
   await expect(page.locator('#micToggleBtn')).toBeVisible();
 
   // 2. Type a Norwegian answer into #userSpeechInput, press #sendSpeechBtn, and wait for a new examiner message
-  await page.locator('#userSpeechInput').fill('Jeg mener at hjemmekontor gir bedre balanse i hverdagen.');
+  await page
+    .locator('#userSpeechInput')
+    .fill('Jeg mener at hjemmekontor gir bedre balanse i hverdagen.');
   await page.locator('#sendSpeechBtn').click();
 
   await expect(aiMessages).toHaveCount(2, { timeout: 15000 });

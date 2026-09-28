@@ -153,6 +153,41 @@ level → a 5-turn conversation stays on the topic → another user cannot read 
 (RLS test) → injection test passes → delete removes the row.
 
 ────────────────────────────────────────────
+M1e — Samfunnskunnskap / Statsborgerprøve module (after M3 payments, before M1d)
+────────────────────────────────────────────
+A module inside NorskLive, not a separate app. Explanations in ru/uk/en; exam content in
+Bokmål. Our own questions only, written from the public curriculum on samfunnskunnskap.no;
+the official HK-dir question bank is not public and must not be copied.
+M1e-1 Content and data
+  - Curriculum map by topic, taken from samfunnskunnskap.no; store the topic list in code.
+  - Table `samfunn_questions(id, topic, question_nb, options_nb text[], correct int,
+    explanation_ru, explanation_uk, explanation_en, source_ref, reviewed_by, created_at)`.
+    RLS: read for everyone; write only through the service role (admin seed script).
+  - Only rows with `reviewed_by` set (checked by the teacher) are shown. Seed at least
+    150 reviewed questions before release.
+M1e-2 Practice by topic
+  - Pick a topic → one question at a time → answer → explanation in the learner's L1
+    («почему этот ответ правильный») with the source reference.
+  - Listen to the question and the options (TTS, reuse `src/lib/speech.ts`).
+  - Progress per topic; wrong answers go into «Повторить ошибки».
+M1e-3 Mock test
+  - Format, number of questions and time limit exactly as the current HK-dir description
+    on prove.hkdir.no says. Check it when building; do not hard-code numbers from memory.
+  - Timer, result by topic, «Повторить ошибки», and the disclaimer
+    «Это не официальный банк вопросов HK-dir».
+M1e-4 Access
+  - Free: 1 mock test plus a limited number of practice questions.
+  - Included in `monthly` and `exam_pass_90d`; standalone plan `samfunn_pass` (see M3 3.1).
+    This needs a new migration that adds `samfunn_pass` to the `subscriptions.plan`
+    check constraint (currently free / exam_pass_90d / monthly).
+  - Card «Тест на гражданство» on the home screen `/`.
+M1e-5 Landing
+  - `/samfunnskunnskap` in ru/uk/en with SEO metadata; the CTA starts the free mock test.
+ACCEPTANCE M1e: unreviewed questions never show (test) → RLS blocks writes from anon and
+authenticated (test) → e2e «topic → answer → explanation in ru» passes → the mock test follows the
+HK-dir format as checked → the disclaimer is visible → free limits and `samfunn_pass` are enforced.
+
+────────────────────────────────────────────
 M2 — Exam simulator that matches the real HK-dir oral test (core product)
 ────────────────────────────────────────────
 2.1 New exam flow for A2 and B1, timed, in this order (verify wording against
@@ -180,7 +215,8 @@ runs and prints agreement; audio TTL job tested.
 ────────────────────────────────────────────
 M3 — Payments
 ────────────────────────────────────────────
-3.1 Plans: free; exam_pass_90d = 490 NOK one-off; monthly = 249 NOK recurring.
+3.1 Plans: free; exam_pass_90d = 490 NOK one-off; monthly = 249 NOK recurring;
+    samfunn_pass = 149 NOK one-off (Samfunnskunnskap module only, see M1e).
 3.2 Stripe Checkout (cards, NOK) + webhooks /api/webhooks/stripe (signature verified,
     idempotent by event id) → subscriptions table.
 3.3 Vipps MobilePay: ePayment API for exam_pass_90d, Recurring API for monthly; webhooks

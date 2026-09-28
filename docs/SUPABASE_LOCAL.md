@@ -83,3 +83,22 @@ To enable magic-link authentication locally:
 3. Open `http://localhost:3000/login` in your browser, enter any email address (e.g. `kari@norsklive.no`), and click **«Получить ссылку для входа»**.
 4. Open **Mailpit** at `http://localhost:54324`, open the captured magic-link email, and click the login link (`http://localhost:3000/auth/callback?code=...`) in the same browser to sign in and return to `/`.
 
+## 7. Quota (`M1b-2b-1`)
+
+When `AUTH_ENABLED=true`, `/api/coach` enforces a daily AI-call quota per authenticated user (`src/server/quota.ts`):
+
+- **Limits (`DAILY_LIMITS`):**
+  - `free`: **20** calls / day
+  - `exam_pass_90d`: **300** calls / day
+  - `monthly`: **300** calls / day
+- **Where calls are counted:**
+  - User plan is read from `public.subscriptions(plan)` (missing row defaults to `free`).
+  - Daily usage is atomically incremented in `public.usage (user_id, day, ai_calls)` via the `service_role`-only RPC `public.increment_ai_calls(uid, d)` (`supabase/migrations/0002_usage_fn.sql`), where `d` is today's calendar date in `Europe/Oslo`.
+  - Over the daily limit, `/api/coach` responds with `HTTP 402` and `{ error: 'quota_exceeded', limit, plan }`.
+- **Resetting quota locally:**
+  - To clear all local usage counters and re-apply migrations from scratch:
+    ```bash
+    npm run db:reset
+    ```
+
+

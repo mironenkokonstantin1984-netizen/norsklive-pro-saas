@@ -1,33 +1,104 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { Bookmark, Bot, Volume2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Bookmark, Bot, Volume2, X } from 'lucide-react';
+import type { Correction } from '../../server/schemas';
+import type { LearnerMood } from '../../lib/prefs';
+import { CorrectionCard } from './CorrectionCard';
 import type { ChatMessage, L1Language } from './useStudioState';
 
 export interface ChatPanelProps {
   chatHistory: ChatMessage[];
+  coachingHistory?: Correction[];
   partnerName: string;
   l1Lang: L1Language;
   blurMode: boolean;
+  subtitlesEnabled?: boolean;
+  activeSpeech?: { text: string; charIndex: number } | null;
   onSpeak: (text: string) => void;
   onSaveToGlossary: (word: string, translation: string) => void;
+  onSelectMood?: (mood: LearnerMood) => void;
+}
+
+const MOOD_OPTIONS: LearnerMood[] = ['Спокойно', 'Нормально', 'Тревожно'];
+
+export function renderSpokenText(
+  text: string,
+  subtitlesEnabled: boolean,
+  activeSpeech: { text: string; charIndex: number } | null | undefined
+) {
+  if (!subtitlesEnabled || !activeSpeech || activeSpeech.text !== text) {
+    return text;
+  }
+  const { charIndex } = activeSpeech;
+  if (charIndex < 0 || charIndex >= text.length) {
+    return text;
+  }
+  let start = charIndex;
+  while (start < text.length && /\s/.test(text[start])) {
+    start++;
+  }
+  if (start >= text.length) {
+    return text;
+  }
+  while (start > 0 && !/\s/.test(text[start - 1])) {
+    start--;
+  }
+  let end = start;
+  while (end < text.length && !/\s/.test(text[end])) {
+    end++;
+  }
+  if (start >= end) {
+    return text;
+  }
+  return (
+    <>
+      {text.slice(0, start)}
+      <mark className="subtitle-word-active">{text.slice(start, end)}</mark>
+      {text.slice(end)}
+    </>
+  );
 }
 
 export function ChatPanel({
   chatHistory,
+  coachingHistory = [],
   partnerName,
   l1Lang,
   blurMode,
+  subtitlesEnabled = true,
+  activeSpeech = null,
   onSpeak,
-  onSaveToGlossary
+  onSaveToGlossary,
+  onSelectMood
 }: ChatPanelProps) {
   const streamRef = useRef<HTMLDivElement | null>(null);
+  const [dismissedMoodTurn, setDismissedMoodTurn] = useState<number | null>(null);
 
   useEffect(() => {
     if (streamRef.current) {
       streamRef.current.scrollTop = streamRef.current.scrollHeight;
     }
-  }, [chatHistory]);
+  }, [chatHistory, coachingHistory.length]);
+
+  let lastUserIndex = -1;
+  let learnerTurnCount = 0;
+  for (let i = 0; i < chatHistory.length; i++) {
+    if (chatHistory[i].sender === 'user') {
+      lastUserIndex = i;
+      learnerTurnCount++;
+    }
+  }
+
+  const showMoodCard =
+    learnerTurnCount > 0 &&
+    learnerTurnCount % 5 === 0 &&
+    dismissedMoodTurn !== learnerTurnCount;
+
+  const handleMoodClick = (mood: LearnerMood) => {
+    onSelectMood?.(mood);
+    setDismissedMoodTurn(learnerTurnCount);
+  };
 
   return (
     <div className="chat-stream" id="chatStream" ref={streamRef}>
@@ -45,7 +116,9 @@ export function ChatPanel({
                 <Bot size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
                 <span>{partnerName}</span>
               </div>
-              <div className="msg-norsk t-speech">{msg.norsk}</div>
+              <div className="msg-norsk t-speech">
+                {renderSpokenText(msg.norsk, subtitlesEnabled, activeSpeech)}
+              </div>
               {l1Translation ? (
                 <div className="msg-ru t-caption">{`${l1Lang.toUpperCase()}: ${l1Translation}`}</div>
               ) : null}
@@ -71,13 +144,53 @@ export function ChatPanel({
           );
         }
 
+        const isLatestUserMsg = index === lastUserIndex && coachingHistory.length > 0;
+
         return (
-          <div key={key} className="msg msg-user">
-            <div className="msg-speaker t-caption">Du (Кандидат)</div>
-            <div className="msg-user-text t-speech">{msg.norsk}</div>
+          <div key={key} className="user-turn-group">
+            <div className="msg msg-user">
+              <div className="msg-speaker t-caption">Du (Кандидат)</div>
+              <div className="msg-user-text t-speech">{msg.norsk}</div>
+            </div>
+            {isLatestUserMsg ? (
+              <CorrectionCard
+                correction={coachingHistory[0]}
+                olderCorrections={coachingHistory.slice(1)}
+                onSpeak={onSpeak}
+              />
+            ) : null}
           </div>
         );
       })}
+
+      {showMoodCard ? (
+        <div className="mood-check-card" id="moodCheckCard" role="region" aria-label="Как ощущения?">
+          <div className="mood-check-header">
+            <span className="mood-check-title t-callout">Как ощущения?</span>
+            <button
+              type="button"
+              className="btn-text mood-dismiss-btn"
+              aria-label="Закрыть вопрос"
+              onClick={() => setDismissedMoodTurn(learnerTurnCount)}
+            >
+              <X size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+            </button>
+          </div>
+          <div className="mood-check-options">
+            {MOOD_OPTIONS.map((mood) => (
+              <button
+                key={mood}
+                type="button"
+                className="btn-outline mood-option-btn"
+                onClick={() => handleMoodClick(mood)}
+              >
+                {mood}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
+

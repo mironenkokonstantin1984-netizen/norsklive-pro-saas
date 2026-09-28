@@ -56,6 +56,7 @@ export interface StudioState {
   micStatusText: string;
   usedWordsToast: string;
   hkdirScores: HkdirScores;
+  activeSpeech: { text: string; charIndex: number } | null;
 }
 
 export const DEFAULT_MIC_STATUS = 'Нажмите и говорите';
@@ -134,7 +135,8 @@ export type StudioAction =
   | { type: 'SET_RECORDING'; isRecording: boolean }
   | { type: 'SET_SPEAKING'; isSpeaking: boolean }
   | { type: 'SET_THINKING'; isThinking: boolean }
-  | { type: 'SET_MIC_STATUS'; text: string };
+  | { type: 'SET_MIC_STATUS'; text: string }
+  | { type: 'SET_ACTIVE_SPEECH'; activeSpeech: { text: string; charIndex: number } | null };
 
 const firstScenario = scenariosByModule.norskprove[0];
 
@@ -162,7 +164,8 @@ export const initialStudioState: StudioState = {
   isThinking: false,
   micStatusText: DEFAULT_MIC_STATUS,
   usedWordsToast: '',
-  hkdirScores: { ...DEFAULT_HKDIR_SCORES }
+  hkdirScores: { ...DEFAULT_HKDIR_SCORES },
+  activeSpeech: null
 };
 
 function resetForScenario(
@@ -183,7 +186,8 @@ function resetForScenario(
     isThinking: false,
     micStatusText: DEFAULT_MIC_STATUS,
     usedWordsToast: '',
-    hkdirScores: { ...DEFAULT_HKDIR_SCORES }
+    hkdirScores: { ...DEFAULT_HKDIR_SCORES },
+    activeSpeech: null
   };
 }
 
@@ -293,6 +297,8 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
       return { ...state, isThinking: action.isThinking };
     case 'SET_MIC_STATUS':
       return { ...state, micStatusText: action.text };
+    case 'SET_ACTIVE_SPEECH':
+      return { ...state, activeSpeech: action.activeSpeech };
     default:
       return state;
   }
@@ -388,15 +394,25 @@ export function buildCustomScenarioFromText(raw: string, userLevel: CefrLevel): 
 export function useStudioState() {
   const [state, dispatch] = useReducer(studioReducer, initialStudioState);
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const speechRateRef = useRef<number>(1.0);
+
+  const setSpeechRate = useCallback((rate: number) => {
+    speechRateRef.current = rate;
+  }, []);
 
   const speakWithOrb = useCallback((text: string) => {
     speakNorwegian(text, {
+      rate: speechRateRef.current,
       onStart: () => {
         dispatch({ type: 'SET_RECORDING', isRecording: false });
         dispatch({ type: 'SET_SPEAKING', isSpeaking: true });
       },
+      onBoundary: (charIndex: number) => {
+        dispatch({ type: 'SET_ACTIVE_SPEECH', activeSpeech: { text, charIndex } });
+      },
       onEnd: () => {
         dispatch({ type: 'SET_SPEAKING', isSpeaking: false });
+        dispatch({ type: 'SET_ACTIVE_SPEECH', activeSpeech: null });
       }
     });
   }, []);
@@ -679,6 +695,7 @@ export function useStudioState() {
     state,
     dispatch,
     speakWithOrb,
+    setSpeechRate,
     switchModule,
     selectScenario,
     setL1Lang,

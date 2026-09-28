@@ -9,6 +9,7 @@ import {
   type PathPrefs
 } from '../../lib/path/storage';
 import { nextSituation } from '../../lib/path/situations';
+import { Nora } from '../companion/Nora';
 import { FirstRun } from './FirstRun';
 import './path.css';
 
@@ -64,6 +65,7 @@ export function PathHome({ authEnabled = false, userEmail = null }: PathHomeProp
         </div>
 
         <header className="path-header">
+          <Nora state="idle" size="sm" />
           <h1 className="path-title t-title">{`Мой путь к ${prefs.targetLevel}`}</h1>
         </header>
 

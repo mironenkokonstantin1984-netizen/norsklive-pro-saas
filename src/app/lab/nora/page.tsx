@@ -3,7 +3,7 @@ import { NoraLabClient } from './NoraLabClient';
 
 export const dynamic = 'force-dynamic';
 
-export function isNoraLabEnabled(): boolean {
+function isNoraLabEnabled(): boolean {
   return process.env.NORA_LAB_ENABLED === 'true';
 }
 

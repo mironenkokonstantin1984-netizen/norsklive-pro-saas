@@ -3,7 +3,7 @@ import React from 'react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { Nora, type NoraState } from '../src/components/companion/Nora';
-import NoraLabPage, { isNoraLabEnabled } from '../src/app/lab/nora/page';
+import NoraLabPage from '../src/app/lab/nora/page';
 
 const notFoundMock = vi.fn(() => {
   throw new Error('NEXT_NOT_FOUND');
@@ -65,12 +65,10 @@ describe('Nora companion orb & /lab/nora preview (Issue #27)', () => {
 
   it('returns notFound() when NORA_LAB_ENABLED is off and renders all 4 states + slider when on', () => {
     delete process.env.NORA_LAB_ENABLED;
-    expect(isNoraLabEnabled()).toBe(false);
     expect(() => NoraLabPage()).toThrow('NEXT_NOT_FOUND');
     expect(notFoundMock).toHaveBeenCalledTimes(1);
 
     process.env.NORA_LAB_ENABLED = 'true';
-    expect(isNoraLabEnabled()).toBe(true);
     const { container } = render(<NoraLabPage />);
     expect(screen.getByRole('img', { name: 'Нора ждёт' })).toBeTruthy();
     expect(screen.getByRole('img', { name: 'Нора слушает' })).toBeTruthy();

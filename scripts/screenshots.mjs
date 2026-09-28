@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
 import process from 'node:process';
+import { URL } from 'node:url';
 import { chromium } from 'playwright';
 
 const DEFAULT_PORT = 3125;
@@ -70,6 +71,20 @@ const TARGETS = [
     height: 900,
     colorScheme: 'light',
     submitTurn: true
+  },
+  {
+    name: 'nora-lab-1440x900-light.png',
+    width: 1440,
+    height: 900,
+    colorScheme: 'light',
+    routePath: '/lab/nora'
+  },
+  {
+    name: 'nora-lab-1440x900-dark.png',
+    width: 1440,
+    height: 900,
+    colorScheme: 'dark',
+    routePath: '/lab/nora'
   }
 ];
 
@@ -101,7 +116,11 @@ async function ensureServer() {
   const args = [nextBin, hasBuild ? 'start' : 'dev', '--port', String(DEFAULT_PORT)];
   const child = spawn(process.execPath, args, {
     stdio: 'ignore',
-    env: { ...process.env, NODE_ENV: hasBuild ? 'production' : 'development' }
+    env: {
+      ...process.env,
+      NODE_ENV: hasBuild ? 'production' : 'development',
+      NORA_LAB_ENABLED: 'true'
+    }
   });
 
   const url = `http://127.0.0.1:${DEFAULT_PORT}/`;
@@ -138,8 +157,13 @@ async function run() {
   const server = await ensureServer();
   const browser = await launchBrowser();
 
+  const activeTargets =
+    process.env.ONLY_NORA === 'true'
+      ? TARGETS.filter((t) => t.name.startsWith('nora-lab-'))
+      : TARGETS;
+
   try {
-    for (const target of TARGETS) {
+    for (const target of activeTargets) {
       const context = await browser.newContext({
         viewport: { width: target.width, height: target.height },
         colorScheme: target.colorScheme
@@ -154,7 +178,10 @@ async function run() {
         });
       });
 
-      await page.goto(server.url, { waitUntil: 'networkidle' });
+      const targetUrl = target.routePath
+        ? new URL(target.routePath, server.url).toString()
+        : server.url;
+      await page.goto(targetUrl, { waitUntil: 'networkidle' });
 
       if (target.submitTurn) {
         await page.fill(

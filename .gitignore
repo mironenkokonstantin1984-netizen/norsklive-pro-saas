@@ -5,3 +5,6 @@ public/.vercel/
 *.log
 *.tsbuildinfo
 .env
+test-results/
+playwright-report/
+

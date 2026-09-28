@@ -2,10 +2,11 @@ export interface SpeakOptions {
   rate?: number;
   onStart?: () => void;
   onEnd?: () => void;
+  onBoundary?: (charIndex: number) => void;
 }
 
 export function speakNorwegian(text: string, options: SpeakOptions = {}): void {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window) || !window.speechSynthesis) {
     return;
   }
   try {
@@ -26,6 +27,13 @@ export function speakNorwegian(text: string, options: SpeakOptions = {}): void {
     }
     if (options.onEnd) {
       utter.onend = options.onEnd;
+    }
+    if (options.onBoundary) {
+      utter.onboundary = (event: SpeechSynthesisEvent) => {
+        if (typeof event?.charIndex === 'number') {
+          options.onBoundary?.(event.charIndex);
+        }
+      };
     }
     window.speechSynthesis.speak(utter);
   } catch {

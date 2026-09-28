@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, type KeyboardEvent } from 'react';
+import { useState, useCallback, useEffect, useRef, type KeyboardEvent } from 'react';
 import {
   EyeOff,
   Lightbulb,
@@ -10,15 +10,26 @@ import {
   Send,
   Settings,
   Sliders,
+  SlidersHorizontal,
   Volume2
 } from 'lucide-react';
 import { useSpeechRecognition } from '../../lib/useSpeechRecognition';
+import {
+  DEFAULT_PRACTICE_PREFS,
+  applyPracticePrefsToDocument,
+  loadPracticePrefs,
+  savePracticePrefs,
+  type LearnerMood,
+  type PracticePrefs
+} from '../../lib/prefs';
 import { CallHero, TopBar } from './TopBar';
 import { ScenarioPanel } from './ScenarioPanel';
 import { TargetWordsPanel } from './TargetWordsPanel';
 import { ExamStage } from './ExamStage';
 import { ChatPanel } from './ChatPanel';
 import { GlossaryPanel } from './GlossaryPanel';
+import { ScoreBar, parseCefrLevel } from './ScoreBar';
+import { PracticeSettingsSheet } from './PracticeSettingsSheet';
 import {
   DEFAULT_MIC_STATUS,
   getL1Text,
@@ -38,6 +49,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
     state,
     dispatch,
     speakWithOrb,
+    setSpeechRate,
     switchModule,
     selectScenario,
     setL1Lang,
@@ -55,6 +67,44 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
 
   const [inputText, setInputText] = useState('');
   const [materialsOpen, setMaterialsOpen] = useState(false);
+  const [comfortOpen, setComfortOpen] = useState(false);
+  const [prefs, setPrefs] = useState<PracticePrefs>(() => ({ ...DEFAULT_PRACTICE_PREFS }));
+  const comfortBtnRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    const loaded = loadPracticePrefs();
+    setPrefs(loaded);
+    applyPracticePrefsToDocument(loaded);
+    setSpeechRate(loaded.tempo);
+  }, [setSpeechRate]);
+
+  const handleChangePrefs = useCallback(
+    (nextPrefs: PracticePrefs) => {
+      setPrefs(nextPrefs);
+      savePracticePrefs(nextPrefs);
+      applyPracticePrefsToDocument(nextPrefs);
+      setSpeechRate(nextPrefs.tempo);
+    },
+    [setSpeechRate]
+  );
+
+  const handleCloseComfort = useCallback(() => {
+    setComfortOpen(false);
+    comfortBtnRef.current?.focus();
+  }, []);
+
+  const handleSelectMood = useCallback(
+    (mood: LearnerMood) => {
+      const nextPrefs: PracticePrefs = {
+        ...prefs,
+        mood,
+        timestamp: new Date().toISOString()
+      };
+      setPrefs(nextPrefs);
+      savePracticePrefs(nextPrefs);
+    },
+    [prefs]
+  );
 
   const onRecordingChange = useCallback(
     (isRecording: boolean) => {
@@ -96,6 +146,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
   const currentModuleScenarios = state.scenarios[state.currentModule] || [];
   const currentScenario = state.currentScenario;
   const hints = state.hints || [];
+  const latestScoreLevel = parseCefrLevel(state.coachingHistory[0]?.cefr_estimate);
 
   const handleSend = () => {
     const clean = inputText.trim();
@@ -161,11 +212,15 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
 
           <ChatPanel
             chatHistory={state.chatHistory}
+            coachingHistory={state.coachingHistory}
             partnerName={currentScenario.partnerName}
             l1Lang={state.l1Lang}
             blurMode={state.blurMode}
+            subtitlesEnabled={prefs.subtitles}
+            activeSpeech={state.activeSpeech}
             onSpeak={speakWithOrb}
             onSaveToGlossary={saveToGlossary}
+            onSelectMood={handleSelectMood}
           />
 
           {/* Bottom Microphone & Voice Dock (72px circular MicButton + status + one-row input & text send button) */}
@@ -238,6 +293,38 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
           className={`materials-drawer ${materialsOpen ? 'is-open' : 'is-closed'}`}
           aria-label="Материалы и настройки"
         >
+          {/* Top of Материалы: Header with «Удобство» button + ScoreBar («Общая оценка») */}
+          <section className="panel drawer-group materials-overview-panel">
+            <div className="panel-header">
+              <div className="panel-title">
+                <span>Материалы</span>
+              </div>
+              <button
+                type="button"
+                id="comfortSettingsBtn"
+                ref={comfortBtnRef}
+                className="btn-text comfort-trigger-btn"
+                aria-expanded={comfortOpen}
+                aria-haspopup="dialog"
+                onClick={() => setComfortOpen(true)}
+              >
+                <SlidersHorizontal
+                  size={20}
+                  strokeWidth={1.75}
+                  color="currentColor"
+                  aria-hidden="true"
+                />
+                <span>Удобство</span>
+              </button>
+            </div>
+            <div className="panel-body materials-score-section">
+              <ScoreBar label="Общая оценка" level={latestScoreLevel} />
+              <p className="scorebar-disclaimer t-caption">
+                Оценка ориентировочная, это тренажёр, а не экзамен.
+              </p>
+            </div>
+          </section>
+
           {/* Group 1: Настройки (L1 & Mål selects) */}
           <section className="panel drawer-group">
             <div className="panel-header">
@@ -409,6 +496,13 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
           />
         </aside>
       </main>
+
+      <PracticeSettingsSheet
+        open={comfortOpen}
+        prefs={prefs}
+        onChangePrefs={handleChangePrefs}
+        onClose={handleCloseComfort}
+      />
     </div>
   );
 }

@@ -42,6 +42,29 @@
   --duration-slow: 280ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --text-scale: 1;
+  --speech-size: 1.25rem;
+}
+
+@media (max-width: 700px) {
+  :root {
+    --speech-size: 1.0625rem;
+  }
+}
+
+:root[data-text-size="sm"],
+.text-size-sm {
+  --text-scale: 1;
+}
+
+:root[data-text-size="md"],
+.text-size-md {
+  --text-scale: 1.12;
+}
+
+:root[data-text-size="lg"],
+.text-size-lg {
+  --text-scale: 1.25;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -122,13 +145,13 @@
   --hint: #5e3c00;
 }
 
-/* Type styles (sizes in rem so text scales to 200%). */
-.t-display { font-family: var(--font-sans); font-size: 2.125rem; line-height: 1.12; font-weight: 700; letter-spacing: -0.02em; }
-.t-title { font-family: var(--font-sans); font-size: 1.5rem; line-height: 1.2; font-weight: 700; letter-spacing: -0.01em; }
-.t-speech { font-family: var(--font-sans); font-size: 1.25rem; line-height: 1.45; font-weight: 500; }
-.t-body { font-family: var(--font-sans); font-size: 1.0625rem; line-height: 1.5; font-weight: 400; }
-.t-callout { font-family: var(--font-sans); font-size: 0.9375rem; line-height: 1.45; font-weight: 600; }
-.t-caption { font-family: var(--font-sans); font-size: 0.8125rem; line-height: 1.4; font-weight: 500; }
+/* Type styles (sizes in rem so text scales to 200% and responds to --text-scale). */
+.t-display { font-family: var(--font-sans); font-size: calc(2.125rem * var(--text-scale, 1)); line-height: 1.12; font-weight: 700; letter-spacing: -0.02em; }
+.t-title { font-family: var(--font-sans); font-size: calc(1.5rem * var(--text-scale, 1)); line-height: 1.2; font-weight: 700; letter-spacing: -0.01em; }
+.t-speech { font-family: var(--font-sans); font-size: calc(var(--speech-size, 1.25rem) * var(--text-scale, 1)); line-height: 1.45; font-weight: 500; }
+.t-body { font-family: var(--font-sans); font-size: calc(1.0625rem * var(--text-scale, 1)); line-height: 1.5; font-weight: 400; }
+.t-callout { font-family: var(--font-sans); font-size: calc(0.9375rem * var(--text-scale, 1)); line-height: 1.45; font-weight: 600; }
+.t-caption { font-family: var(--font-sans); font-size: max(0.8125rem, calc(0.8125rem * var(--text-scale, 1))); line-height: 1.4; font-weight: 500; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }

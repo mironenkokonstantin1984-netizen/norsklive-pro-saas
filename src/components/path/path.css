@@ -1,0 +1,124 @@
+.path-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  padding: var(--space-8) var(--space-4);
+}
+
+.path-column {
+  max-width: 40rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.path-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.path-title {
+  margin: 0;
+  color: var(--text);
+}
+
+.path-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.path-card-title {
+  margin: 0;
+  color: var(--text);
+}
+
+.path-card-text {
+  margin: 0;
+  color: var(--muted);
+}
+
+.path-situation-title {
+  margin: 0;
+  color: var(--text);
+}
+
+.path-words-count {
+  margin: 0;
+  color: var(--text);
+}
+
+.path-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.path-primary-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: var(--on-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.path-primary-link:hover {
+  background: var(--primary-hover);
+}
+
+.path-outline-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.path-exam-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.path-date-input {
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+.path-exam-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.path-exam-countdown {
+  margin: 0;
+  color: var(--text);
+  font-weight: 600;
+}

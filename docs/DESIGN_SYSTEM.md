@@ -22,8 +22,10 @@ Google Material Design Award (Reflectly).
 4. **Honest exam mode.** No hints (`hint` hidden), no feedback until the part ends, timings as in
    the HK-dir exam, no companion (see §8).
 5. **Plain language.** Short sentences. Exam content in Norwegian Bokmål; UI in the learner's L1.
-6. **Calm, not gamified.** No confetti, streak flames, points, leagues or mascots. Success is a
-   check icon and one sentence.
+6. **Calm, not gamified for its own sake.** No confetti, streak flames, guilt or mascots, and
+   no points for time spent or for repeating easy items. Success is a check icon and one
+   sentence. Competition is allowed only for real knowledge (see §12): points come only from
+   mastery, it is opt-in, it runs in small groups, and every learner can hide themselves.
 
 ## 2. Colour
 Themes: `light` (default), `dark`, `contrast` (≥ 7:1). All text/background pairs ≥ 4.5:1,
@@ -144,6 +146,22 @@ rotation), speaking (expanding rings).
   school); inside exam mode: Samtale → Bilde → Diskusjon → mock exam, unlocked step by step.
 
 ## 11. Do not
-Gradients (except Nora's orb), 3D, realistic avatars, streak flames/points/leagues, confetti,
-emoji icons, left-border accent cards, more than one filled button per screen, hardcoded colours
-or pixel font sizes, glass on anything other than the mic dock and sheets.
+Gradients (except Nora's orb), 3D, realistic avatars, streak flames, points for time or clicks,
+global leaderboards, public real names, confetti, emoji icons, left-border accent cards, more
+than one filled button per screen, hardcoded colours or pixel font sizes, glass on anything
+other than the mic dock and sheets.
+
+## 12. Progress and competition (owner decision, September 2026)
+- **Knowledge points** are earned only by real mastery: a word reaching stage 4 or 5,
+  a correct spoken answer, words kept in the weekly check, and mock-exam results.
+  Repeating already mastered or easy items earns nothing.
+- **Order of rollout:**
+  1. Compete with yourself: personal records, a weekly report, the word map.
+  2. A teacher's group: a ranking inside a group of 5–15 people who know each other, plus a
+     shared goal («Группа выучила 2 000 слов»).
+  3. Weekly leagues, only after about 200 active learners: opt-in, about 20 learners of a
+     similar level, nicknames, no relegation, and the learner can hide.
+- **Never:** a global ranking for everyone, points for time in the app, real names without
+  consent. Mock-exam results never go into a ranking.
+- Rankings look calm: a list with the learner's own row highlighted, no crowns and no
+  red «you dropped» messages.

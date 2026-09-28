@@ -138,8 +138,13 @@ export function FirstRun({ initialPrefs, onSkip, onFinish }: FirstRunProps) {
           </button>
         </div>
 
-        <div className="firstrun-nora">
+        <div className={`firstrun-nora ${step === 1 ? 'firstrun-nora-step1' : ''}`}>
           <Nora state="idle" size="md" />
+          {step === 1 ? (
+            <p className="firstrun-greeting t-body">
+              Привет, я Нора. Три коротких вопроса, и начнём.
+            </p>
+          ) : null}
         </div>
 
         {step === 1 ? (

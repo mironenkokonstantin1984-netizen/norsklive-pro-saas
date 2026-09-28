@@ -54,6 +54,13 @@ export function FirstRun({ initialPrefs, onSkip, onFinish }: FirstRunProps) {
   useEffect(() => {
     const el = dialogRef.current;
     if (!el) return;
+    const stepTarget = el.querySelector<HTMLElement>(
+      '.firstrun-step input:not([disabled]), .firstrun-step button.is-selected:not([disabled]), .firstrun-step button:not([disabled])'
+    );
+    if (stepTarget) {
+      stepTarget.focus();
+      return;
+    }
     const focusables = el.querySelectorAll<HTMLElement>(
       'button:not([disabled]), input:not([disabled]), [href], [tabindex]:not([tabindex="-1"])'
     );

@@ -12,7 +12,12 @@ import {
 import { nextSituation } from '../../lib/path/situations';
 import './path.css';
 
-export function PathHome() {
+export interface PathHomeProps {
+  authEnabled?: boolean;
+  userEmail?: string | null;
+}
+
+export function PathHome({ authEnabled = false, userEmail = null }: PathHomeProps = {}) {
   const [prefs, setPrefs] = useState<PathPrefs>(() => ({ ...DEFAULT_PATH_PREFS }));
   const [savedWordsCount, setSavedWordsCount] = useState<number>(0);
   const dateInputRef = useRef<HTMLInputElement | null>(null);
@@ -37,6 +42,20 @@ export function PathHome() {
   return (
     <main className="path-page">
       <div className="path-column">
+        <div className="path-topbar">
+          <span className="path-brand t-callout">NorskLive Pro</span>
+          {(authEnabled && userEmail) || userEmail ? (
+            <div className="path-auth-controls">
+              <span className="path-user-email t-caption">{userEmail}</span>
+              <form method="post" action="/auth/signout">
+                <button type="submit" className="btn-text path-signout-btn t-callout">
+                  Выйти
+                </button>
+              </form>
+            </div>
+          ) : null}
+        </div>
+
         <header className="path-header">
           <h1 className="path-title t-title">{`Мой путь к ${prefs.targetLevel}`}</h1>
         </header>

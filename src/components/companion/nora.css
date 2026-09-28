@@ -101,3 +101,84 @@
     display: none;
   }
 }
+
+.nora-lab-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  padding: var(--space-8) var(--space-4);
+}
+
+.nora-lab-container {
+  max-width: 64rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.nora-lab-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.nora-lab-subtitle {
+  color: var(--muted);
+  margin: 0;
+}
+
+.nora-lab-controls {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.nora-lab-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 16rem;
+}
+
+.nora-lab-sizes {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.nora-lab-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+@media (max-width: 700px) {
+  .nora-lab-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.nora-lab-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.nora-lab-state-name {
+  color: var(--muted);
+  text-transform: uppercase;
+}
+

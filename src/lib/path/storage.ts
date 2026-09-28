@@ -1,15 +1,21 @@
 export type TargetCefrLevel = 'A2' | 'B1' | 'B2';
+export type PathL1 = 'ru' | 'uk' | 'en';
 
 export interface PathPrefs {
-  examDate?: string;
+  onboarded?: boolean;
   targetLevel: TargetCefrLevel;
+  l1?: PathL1;
+  examDate?: string;
 }
 
 export const PATH_STORAGE_KEY = 'norsklive_path';
+const LEGACY_PATH_STORAGE_KEY = 'norsklive:path';
 export const GLOSSARY_STORAGE_KEY = 'norsklive_glossary';
 
 export const DEFAULT_PATH_PREFS: PathPrefs = {
-  targetLevel: 'B1'
+  onboarded: false,
+  targetLevel: 'B1',
+  l1: 'ru'
 };
 
 export function readPathPrefs(): PathPrefs {
@@ -17,21 +23,33 @@ export function readPathPrefs(): PathPrefs {
     return { ...DEFAULT_PATH_PREFS };
   }
   try {
-    const raw = window.localStorage.getItem(PATH_STORAGE_KEY);
+    const raw =
+      window.localStorage.getItem(PATH_STORAGE_KEY) ??
+      window.localStorage.getItem(LEGACY_PATH_STORAGE_KEY);
     if (!raw) {
       return { ...DEFAULT_PATH_PREFS };
     }
-    const parsed = JSON.parse(raw) as Partial<PathPrefs>;
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
     const targetLevel: TargetCefrLevel =
       parsed.targetLevel === 'A2' || parsed.targetLevel === 'B1' || parsed.targetLevel === 'B2'
         ? parsed.targetLevel
         : 'B1';
+    const rawL1 = parsed.l1;
+    const l1: PathL1 =
+      rawL1 === 'uk' || rawL1 === 'ua'
+        ? 'uk'
+        : rawL1 === 'en'
+          ? 'en'
+          : 'ru';
+    const onboarded = parsed.onboarded === true;
     const examDate =
       typeof parsed.examDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(parsed.examDate)
         ? parsed.examDate
         : undefined;
     return {
+      onboarded,
       targetLevel,
+      l1,
       ...(examDate ? { examDate } : {})
     };
   } catch {
@@ -39,21 +57,48 @@ export function readPathPrefs(): PathPrefs {
   }
 }
 
-export function writeExamDate(date: string | null): PathPrefs {
+export function writePathPrefs(patch: Partial<PathPrefs>): PathPrefs {
   const current = readPathPrefs();
-  const trimmed = date ? date.trim() : '';
+  const nextTargetLevel: TargetCefrLevel =
+    patch.targetLevel === 'A2' || patch.targetLevel === 'B1' || patch.targetLevel === 'B2'
+      ? patch.targetLevel
+      : current.targetLevel;
+  const nextL1: PathL1 =
+    patch.l1 === 'uk' || patch.l1 === 'en' || patch.l1 === 'ru'
+      ? patch.l1
+      : current.l1 ?? 'ru';
+  const nextOnboarded =
+    typeof patch.onboarded === 'boolean' ? patch.onboarded : Boolean(current.onboarded);
+
+  let nextExamDate = current.examDate;
+  if ('examDate' in patch) {
+    const trimmed = patch.examDate ? patch.examDate.trim() : '';
+    nextExamDate =
+      trimmed && /^\d{4}-\d{2}-\d{2}$/.test(trimmed) ? trimmed : undefined;
+  }
+
   const next: PathPrefs = {
-    targetLevel: current.targetLevel,
-    ...(trimmed && /^\d{4}-\d{2}-\d{2}$/.test(trimmed) ? { examDate: trimmed } : {})
+    onboarded: nextOnboarded,
+    targetLevel: nextTargetLevel,
+    l1: nextL1,
+    ...(nextExamDate ? { examDate: nextExamDate } : {})
   };
+
   if (typeof window !== 'undefined') {
     try {
-      window.localStorage.setItem(PATH_STORAGE_KEY, JSON.stringify(next));
+      const serialized = JSON.stringify(next);
+      window.localStorage.setItem(PATH_STORAGE_KEY, serialized);
+      window.localStorage.setItem(LEGACY_PATH_STORAGE_KEY, serialized);
     } catch {
       // Ignore storage errors
     }
   }
+
   return next;
+}
+
+export function writeExamDate(date: string | null): PathPrefs {
+  return writePathPrefs({ examDate: date ?? undefined });
 }
 
 export function readSavedWordsCount(): number {

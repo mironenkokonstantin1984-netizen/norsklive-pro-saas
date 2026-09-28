@@ -11,6 +11,7 @@ import {
 import type { Correction, Hint } from '../../server/schemas';
 import { AuthRequiredError, postCoach } from '../../lib/coachClient';
 import { speakNorwegian } from '../../lib/speech';
+import { readPathPrefs } from '../../lib/path/storage';
 
 export type L1Language = 'ru' | 'ua' | 'en';
 export type CefrLevel = 'A2' | 'B1' | 'B2';
@@ -391,8 +392,34 @@ export function buildCustomScenarioFromText(raw: string, userLevel: CefrLevel): 
   };
 }
 
+function createInitialStudioState(base: StudioState): StudioState {
+  if (typeof window === 'undefined') {
+    return base;
+  }
+  const prefs = readPathPrefs();
+  const l1Lang: L1Language =
+    prefs.l1 === 'uk' ? 'ua' : prefs.l1 === 'en' ? 'en' : 'ru';
+  const userLevel: CefrLevel =
+    prefs.targetLevel === 'A2' || prefs.targetLevel === 'B1' || prefs.targetLevel === 'B2'
+      ? prefs.targetLevel
+      : base.userLevel;
+  if (l1Lang === base.l1Lang && userLevel === base.userLevel) {
+    return base;
+  }
+  return {
+    ...base,
+    l1Lang,
+    userLevel,
+    chatHistory: createInitialChat(base.currentScenario, l1Lang)
+  };
+}
+
 export function useStudioState() {
-  const [state, dispatch] = useReducer(studioReducer, initialStudioState);
+  const [state, dispatch] = useReducer(
+    studioReducer,
+    initialStudioState,
+    createInitialStudioState
+  );
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const speechRateRef = useRef<number>(1.0);
 

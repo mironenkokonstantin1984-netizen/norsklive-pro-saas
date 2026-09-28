@@ -214,7 +214,19 @@
 
 .firstrun-nora {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.firstrun-nora-step1 .nora-reduced-motion-label {
+  display: none;
+}
+
+.firstrun-greeting {
+  margin: 0;
+  text-align: center;
+  color: var(--muted);
 }
 
 .firstrun-step {

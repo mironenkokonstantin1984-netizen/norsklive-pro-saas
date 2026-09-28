@@ -12,6 +12,13 @@ import {
 } from './rateLimit';
 import { getSessionUser, isAuthEnabled } from './auth';
 import { checkAndCountAiCall, type QuotaCheckResult } from './quota';
+import {
+  appendTurns,
+  getOrCreateSession,
+  type PracticeSessionRow,
+  type SessionParams,
+  type TurnInsertInput
+} from './sessions';
 
 const MAX_BODY_BYTES = 16 * 1024;
 
@@ -22,6 +29,15 @@ export interface CoachHandlerDeps {
   getUser?: () => Promise<{ id: string } | null>;
   authEnabled?: () => boolean;
   quota?: (userId: string) => Promise<QuotaCheckResult>;
+  getOrCreateSession?: (
+    userId: string,
+    params: SessionParams
+  ) => Promise<PracticeSessionRow>;
+  appendTurns?: (
+    sessionId: string,
+    userId: string,
+    turns: TurnInsertInput[]
+  ) => Promise<void>;
 }
 
 export function createCoachHandler(
@@ -39,6 +55,20 @@ export function createCoachHandler(
 
   const checkQuota: (userId: string) => Promise<QuotaCheckResult> =
     deps.quota ?? ((userId: string) => checkAndCountAiCall(userId));
+
+  const resolveSession: (
+    userId: string,
+    params: SessionParams
+  ) => Promise<PracticeSessionRow> =
+    deps.getOrCreateSession ?? ((userId, params) => getOrCreateSession(userId, params));
+
+  const persistSessionTurns: (
+    sessionId: string,
+    userId: string,
+    turns: TurnInsertInput[]
+  ) => Promise<void> =
+    deps.appendTurns ??
+    ((sessionId, userId, turns) => appendTurns(sessionId, userId, turns));
 
   return async (req: Request): Promise<Response> => {
     try {
@@ -111,6 +141,27 @@ export function createCoachHandler(
         customScenario
       } = parsed.data;
 
+      const persistReply = async (reply: CoachResponse) => {
+        if (!authedUser) return;
+        try {
+          const session = await resolveSession(authedUser.id, {
+            module,
+            scenarioId,
+            level
+          });
+          await persistSessionTurns(session.id, authedUser.id, [
+            { role: 'user', text: userText },
+            {
+              role: 'ai',
+              text: reply.reply_norsk,
+              correction_json: reply.correction
+            }
+          ]);
+        } catch {
+          console.error('Failed to persist practice session turns.');
+        }
+      };
+
       const scenario = findScenario(module, scenarioId, customScenario);
       const apiKey = process.env.GEMINI_API_KEY;
       const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
@@ -157,6 +208,7 @@ export function createCoachHandler(
 
           const parsedOutput = JSON.parse(rawJson);
           const validated = CoachResponseSchema.parse(parsedOutput);
+          await persistReply(validated);
           return Response.json(validated, { status: 200 });
         } catch {
           // Fall through to deterministic rule-based fallback on any Gemini error/timeout
@@ -174,6 +226,7 @@ export function createCoachHandler(
         customScenario
       });
       const validatedFallback = CoachResponseSchema.parse(fallbackResult);
+      await persistReply(validatedFallback);
       return Response.json(validatedFallback, { status: 200 });
     } catch {
       return Response.json({ error: 'Internal error' }, { status: 500 });

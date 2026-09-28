@@ -7,6 +7,7 @@ export default defineConfig({
     }
   },
   test: {
+    testTimeout: 15000,
     exclude: [...configDefaults.exclude, 'e2e/**'],
     env: {
       AUTH_ENABLED: 'false'

@@ -142,6 +142,16 @@ export function PathHome({ authEnabled = false, userEmail = null }: PathHomeProp
             </div>
           ) : null}
         </section>
+
+        {/* Card 5: Подписка (#plans) */}
+        <section id="plans" className="path-card" aria-labelledby="pathPlansHeading">
+          <h2 id="pathPlansHeading" className="path-card-title t-callout">
+            Подписка
+          </h2>
+          <p className="path-card-text t-body">
+            Месяц — 249 kr, 300 ответов в день. Оплата появится скоро.
+          </p>
+        </section>
       </div>
     </main>
   );

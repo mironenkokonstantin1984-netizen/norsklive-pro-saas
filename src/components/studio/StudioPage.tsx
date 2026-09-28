@@ -60,10 +60,11 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
     applyCustomSource,
     saveToGlossary,
     handleUserSubmission,
+    dismissLimitCard,
     exportReportAndGlossary,
     advanceExamPart,
     speakLastAiReply
-  } = useStudioState();
+  } = useStudioState({ authEnabled });
 
   const [inputText, setInputText] = useState('');
   const [materialsOpen, setMaterialsOpen] = useState(false);
@@ -218,6 +219,9 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
             blurMode={state.blurMode}
             subtitlesEnabled={prefs.subtitles}
             activeSpeech={state.activeSpeech}
+            quotaExceeded={state.quotaExceeded}
+            limitCardDismissed={state.limitCardDismissed}
+            onDismissLimitCard={dismissLimitCard}
             onSpeak={speakWithOrb}
             onSaveToGlossary={saveToGlossary}
             onSelectMood={handleSelectMood}
@@ -234,7 +238,12 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
                 }`}
                 aria-pressed={state.isRecording}
                 aria-label={micLabel}
-                title="Нажми и говори по-норвежски (nb-NO)"
+                title={
+                  state.quotaExceeded
+                    ? 'Лимит на сегодня исчерпан'
+                    : 'Нажми и говори по-норвежски (nb-NO)'
+                }
+                disabled={Boolean(state.quotaExceeded)}
                 onClick={toggleMic}
               >
                 {state.isRecording && (
@@ -255,7 +264,9 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
                 </span>
               )}
               <div className="voice-status-line t-caption">
-                <span id="micStatusText">{displayMicStatus}</span>
+                <span id="micStatusText">
+                  {state.quotaExceeded ? 'Лимит на сегодня исчерпан' : displayMicStatus}
+                </span>
                 {state.usedWordsToast ? (
                   <span id="usedWordsToast" className="used-words-toast">
                     {state.usedWordsToast}
@@ -269,7 +280,10 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
                 type="text"
                 id="userSpeechInput"
                 className="voice-text-input"
-                placeholder="Или напишите ответ"
+                placeholder={
+                  state.quotaExceeded ? 'Лимит на сегодня исчерпан' : 'Или напишите ответ'
+                }
+                disabled={Boolean(state.quotaExceeded)}
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -278,6 +292,8 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
                 type="button"
                 id="sendSpeechBtn"
                 className="send-btn btn-text"
+                disabled={Boolean(state.quotaExceeded)}
+                title={state.quotaExceeded ? 'Лимит на сегодня исчерпан' : undefined}
                 onClick={handleSend}
               >
                 <Send size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />

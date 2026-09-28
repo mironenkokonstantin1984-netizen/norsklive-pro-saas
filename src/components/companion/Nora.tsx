@@ -1,6 +1,7 @@
 'use client';
 
 import type { CSSProperties } from 'react';
+import './nora.css';
 
 export type NoraState = 'idle' | 'listening' | 'thinking' | 'speaking';
 export type NoraSize = 'sm' | 'md' | 'lg';

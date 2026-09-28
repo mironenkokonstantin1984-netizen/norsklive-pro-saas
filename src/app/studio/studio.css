@@ -1214,7 +1214,7 @@ body {
 .correction-ins {
   color: var(--success);
   background: var(--success-soft);
-  text-decoration: none;
+  text-decoration: underline;
   padding: 0 var(--space-1);
   border-radius: var(--radius-sm);
   font-weight: 600;

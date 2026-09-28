@@ -1,5 +1,7 @@
+import console from 'node:console';
 import fs from 'node:fs';
 import path from 'node:path';
+import process from 'node:process';
 
 function escapeCsvCell(value) {
   const str = String(value ?? '');

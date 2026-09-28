@@ -28,6 +28,9 @@ import { PathHome } from '../src/components/path/PathHome';
 import { writePathPrefs } from '../src/lib/path/storage';
 import * as speechModule from '../src/lib/speech';
 
+const catalogWords: WordItem[] = WordDatasetSchema.parse(wordsJson);
+const catalogPhrases: WordItem[] = WordDatasetSchema.parse(phrasesJson);
+
 describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, storage, and UI stages 1–4', () => {
   beforeEach(() => {
     window.localStorage.clear();
@@ -40,13 +43,10 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
   });
 
   it('1. validates all 300 words and 50 phrases against schema, ensures no duplicate IDs, and verifies 2-3 cloze sentences distinct from examples', () => {
-    const parsedWords = WordDatasetSchema.parse(wordsJson);
-    const parsedPhrases = WordDatasetSchema.parse(phrasesJson);
+    expect(catalogWords.length).toBe(300);
+    expect(catalogPhrases.length).toBe(50);
 
-    expect(parsedWords.length).toBe(300);
-    expect(parsedPhrases.length).toBe(50);
-
-    const allItems = [...parsedWords, ...parsedPhrases];
+    const allItems = [...catalogWords, ...catalogPhrases];
     const ids = new Set<string>();
     for (const item of allItems) {
       expect(ids.has(item.id)).toBe(false);
@@ -66,12 +66,12 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
 
   it('2. hides drafts in production and shows drafts when WORDS_SHOW_DRAFTS=true locally or on Vercel preview', () => {
     const sampleReviewed: WordItem = {
-      ...(wordsJson[0] as WordItem),
+      ...catalogWords[0],
       id: 'w-rev-1',
       status: 'reviewed'
     };
     const sampleDraft: WordItem = {
-      ...(wordsJson[1] as WordItem),
+      ...catalogWords[1],
       id: 'w-draft-1',
       status: 'draft'
     };
@@ -147,7 +147,7 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
     expect(adaptive.hintFadeStepOffset).toBe(1);
 
     // Hint fading progresses faster when hintFadeStepOffset = 1
-    const nounItem = wordsJson[0] as WordItem; // en jobb
+    const nounItem = catalogWords[0]; // en jobb
     expect(getStage3Hint(nounItem, { stage3Successes: 0 }, { hintFadeStepOffset: 0 }).level).toBe(
       'letter_and_article'
     );
@@ -177,9 +177,9 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
   });
 
   it('5. answer checking handles case, extra spaces, noun articles at stage 3, and enforces exact inflected form at stage 4', () => {
-    const nounJobb = wordsJson.find((w) => w.lemma === 'jobb') as WordItem;
-    const nounLonn = wordsJson.find((w) => w.lemma === 'lønn') as WordItem;
-    const verbJobbe = wordsJson.find((w) => w.lemma === 'jobbe') as WordItem;
+    const nounJobb = catalogWords.find((w) => w.lemma === 'jobb')!;
+    const nounLonn = catalogWords.find((w) => w.lemma === 'lønn')!;
+    const verbJobbe = catalogWords.find((w) => w.lemma === 'jobbe')!;
 
     // Stage 3 noun requires article or definite form; ignores case and extra spaces
     expect(checkStage3Answer(nounJobb, '  EN   JOBB ').correct).toBe(true);
@@ -211,7 +211,7 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
     expect(reloaded.cards['w-001']?.stage).toBe(4);
     expect(countKnownWords(reloaded)).toBe(1);
 
-    const plan = buildDailySession(now, wordsJson.slice(0, 15) as WordItem[], reloaded);
+    const plan = buildDailySession(now, catalogWords.slice(0, 15), reloaded);
     expect(plan.dueCards.length).toBe(1);
     expect(plan.newCards.length).toBe(10);
 
@@ -228,7 +228,7 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
   });
 
   it('7. RTL: renders stages 1, 2, 3, 4, and summary screen, plus updates /path «Мои слова» card', () => {
-    const sampleWord = wordsJson.find((w) => w.lemma === 'jobbe') as WordItem;
+    const sampleWord = catalogWords.find((w) => w.lemma === 'jobbe')!;
     const now = new Date('2026-09-28T10:00:00Z');
 
     // First verify Stage 1 -> Stage 2 -> Summary flow with a brand new word

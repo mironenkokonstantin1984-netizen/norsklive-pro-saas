@@ -30,7 +30,8 @@ export default defineConfig({
     env: {
       PORT: '3100',
       AUTH_ENABLED: 'false',
-      GEMINI_API_KEY: ''
+      GEMINI_API_KEY: '',
+      WORDS_SHOW_DRAFTS: 'true'
     }
   },
   projects: [

@@ -1,4 +1,4 @@
-import { createEmptyCard, fsrs, Rating, type Card } from 'ts-fsrs';
+import { createEmptyCard, fsrs, Rating, type Card, type Grade } from 'ts-fsrs';
 import type { WordCloze, WordItem } from './schema';
 
 export type WordGrade = 'again' | 'hard' | 'good' | 'easy';
@@ -87,7 +87,7 @@ export function createInitialCardState(wordId: string, now: Date = new Date()): 
   };
 }
 
-function mapGradeToRating(grade: WordGrade): Rating {
+function mapGradeToRating(grade: WordGrade): Grade {
   switch (grade) {
     case 'again':
       return Rating.Again;

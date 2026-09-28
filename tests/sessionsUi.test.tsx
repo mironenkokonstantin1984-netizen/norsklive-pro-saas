@@ -172,7 +172,7 @@ describe('M1b-2b-2 UI tests: session restore, daily-limit card, #plans block, an
 
     expect(
       screen.getByText(
-        'Вы сделали 2 реплик и разобрали 2 ошибок. Лимит бесплатного плана — 20 в день, завтра снова доступно.'
+        'Вы сделали 2 реплики и разобрали 2 ошибки. Лимит бесплатного плана — 20 в день, завтра снова доступно.'
       )
     ).toBeTruthy();
 
@@ -216,5 +216,25 @@ describe('M1b-2b-2 UI tests: session restore, daily-limit card, #plans block, an
     expect(
       screen.getByText('Месяц — 249 kr, 300 ответов в день. Оплата появится скоро.')
     ).toBeTruthy();
+  });
+
+  it('formats Russian plural forms (реплику/реплики/реплик, ошибку/ошибки/ошибок) for 1, 2, 5, 11, 21 and 22', async () => {
+    const { formatCountRu } = await import('../src/lib/plural');
+    const replika = { one: 'реплику', few: 'реплики', many: 'реплик' };
+    const oshibka = { one: 'ошибку', few: 'ошибки', many: 'ошибок' };
+
+    expect(formatCountRu(1, replika)).toBe('1 реплику');
+    expect(formatCountRu(2, replika)).toBe('2 реплики');
+    expect(formatCountRu(5, replika)).toBe('5 реплик');
+    expect(formatCountRu(11, replika)).toBe('11 реплик');
+    expect(formatCountRu(21, replika)).toBe('21 реплику');
+    expect(formatCountRu(22, replika)).toBe('22 реплики');
+
+    expect(formatCountRu(1, oshibka)).toBe('1 ошибку');
+    expect(formatCountRu(2, oshibka)).toBe('2 ошибки');
+    expect(formatCountRu(5, oshibka)).toBe('5 ошибок');
+    expect(formatCountRu(11, oshibka)).toBe('11 ошибок');
+    expect(formatCountRu(21, oshibka)).toBe('21 ошибку');
+    expect(formatCountRu(22, oshibka)).toBe('22 ошибки');
   });
 });

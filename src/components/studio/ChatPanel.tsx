@@ -4,8 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Bookmark, Bot, Volume2, X } from 'lucide-react';
 import type { Correction } from '../../server/schemas';
 import type { LearnerMood } from '../../lib/prefs';
+import { formatCountRu } from '../../lib/plural';
 import { CorrectionCard } from './CorrectionCard';
 import type { ChatMessage, L1Language, QuotaExceededInfo } from './useStudioState';
+
+const REPLIKA_FORMS = { one: 'реплику', few: 'реплики', many: 'реплик' } as const;
+const ERROR_FORMS = { one: 'ошибку', few: 'ошибки', many: 'ошибок' } as const;
 
 export interface ChatPanelProps {
   chatHistory: ChatMessage[];
@@ -208,7 +212,7 @@ export function ChatPanel({
             На сегодня бесплатные ответы закончились
           </h3>
           <p className="daily-limit-body t-body">
-            {`Вы сделали ${learnerTurnCount} реплик и разобрали ${coachingHistory.length} ошибок. Лимит бесплатного плана — ${quotaExceeded.limit} в день, завтра снова доступно.`}
+            {`Вы сделали ${formatCountRu(learnerTurnCount, REPLIKA_FORMS)} и разобрали ${formatCountRu(coachingHistory.length, ERROR_FORMS)}. Лимит бесплатного плана — ${quotaExceeded.limit} в день, завтра снова доступно.`}
           </p>
           <div className="daily-limit-actions">
             <a

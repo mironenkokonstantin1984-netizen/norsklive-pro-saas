@@ -253,6 +253,47 @@ stage 5 shows a correction in L1 → RLS protects user_cards → a reminder arri
 time.
 
 ────────────────────────────────────────────
+M1g — «Аудирование» (lytting): listen, understand, check (after M1f)
+────────────────────────────────────────────
+The real Norskprøve listening test runs on a PC, takes 25–50 minutes, adapts to the answers,
+uses click-on-image, choose-picture, choose-text and choose-an-option tasks, and plays each
+clip twice. Check the current format on hkdir.no / «Øv til Norskprøven» before building; do
+not copy HK-dir sample tasks (link to them only).
+Allowed sources (write them in data/listening/SOURCES.md with licence and attribution):
+  - Our own scripts: A2/B1 dialogues, announcements, voicemail messages and short monologues on
+    the exam topics. The AI writes a draft and the teacher reviews it; status draft|reviewed as
+    in M1f.
+  - Audio: commercial nb-NO TTS (Azure / Google / Gemini) with several voices, used under
+    their terms. Generate each clip once, cache it in storage (EU) and never generate audio
+    per request.
+  - «Живая речь» (advanced mode): NB Tale (CC0, 380 speakers, dialects) and NPSC (CC0,
+    Storting speech with transcripts), as short clips with their existing transcripts.
+  - Tatoeba sentences are CC BY 2.0 FR; Tatoeba audio only when the file's own licence allows
+    reuse (an empty licence means no).
+  - Never: NRK (including Klar Tale), textbooks, or task banks from exam-prep sites.
+Other allowed data for all modules: Norsk Ordbank (CC BY) for word forms, and Ordbøkene data
+(open for any use, including commercial, on their terms).
+M1g-1 Listening practice (first batch: 20 clips at A2 and 20 at B1)
+  - Stage 1, gist: exam-format tasks (choose a picture, text or option). Choosing from options
+    is allowed here only because the real exam uses it.
+  - Stage 2, detail: fill gaps while listening.
+  - Stage 3, dictation: write the whole sentence; check it with wordDiff and show it in the
+    CorrectionCard style.
+  - Controls: speed 0.8 / 1.0 / 1.15; replays unlimited in practice and exactly 2 in exam mode;
+    the transcript opens only after the answer; tapping a word in the transcript adds it to
+    «Слова».
+  - Difficulty goes up by level, speed, fewer plays, and then «живая речь».
+M1g-2 Answer by voice
+  - Stage 4: hear a question and answer it aloud; this reuses the coach and the correction flow.
+M1g-3 Listening check
+  - A 15–20 minute «Пробная проверка аудирования» in the exam format, with 2 plays, a result
+    per task type, and a level estimate marked «ориентировочно».
+ACCEPTANCE M1g: SOURCES.md lists every source with its licence → production shows only reviewed
+clips → exam mode allows exactly 2 plays → the transcript stays hidden until the answer →
+dictation shows del/ins → a word from the transcript lands in «Слова» → audio is served from the
+cache (no TTS call per play).
+
+────────────────────────────────────────────
 M2 — Exam simulator that matches the real HK-dir oral test (core product)
 ────────────────────────────────────────────
 2.1 New exam flow for A2 and B1, timed, in this order (verify wording against

@@ -63,7 +63,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
     exportReportAndGlossary,
     advanceExamPart,
     speakLastAiReply
-  } = useStudioState();
+  } = useStudioState({ authEnabled });
 
   const [inputText, setInputText] = useState('');
   const [materialsOpen, setMaterialsOpen] = useState(false);

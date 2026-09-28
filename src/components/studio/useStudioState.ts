@@ -137,7 +137,23 @@ export type StudioAction =
   | { type: 'SET_SPEAKING'; isSpeaking: boolean }
   | { type: 'SET_THINKING'; isThinking: boolean }
   | { type: 'SET_MIC_STATUS'; text: string }
-  | { type: 'SET_ACTIVE_SPEECH'; activeSpeech: { text: string; charIndex: number } | null };
+  | { type: 'SET_ACTIVE_SPEECH'; activeSpeech: { text: string; charIndex: number } | null }
+  | {
+      type: 'RESTORE_SESSION';
+      session: {
+        id: string;
+        module: string;
+        scenario_id: string;
+        level: string;
+      };
+      turns: Array<{
+        id?: number;
+        role: 'user' | 'ai';
+        text: string;
+        correction_json?: unknown;
+        created_at?: string;
+      }>;
+    };
 
 const firstScenario = scenariosByModule.norskprove[0];
 
@@ -300,6 +316,62 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
       return { ...state, micStatusText: action.text };
     case 'SET_ACTIVE_SPEECH':
       return { ...state, activeSpeech: action.activeSpeech };
+    case 'RESTORE_SESSION': {
+      const mod =
+        action.session.module === 'norskprove' ||
+        action.session.module === 'jobbintervju' ||
+        action.session.module === 'pensum'
+          ? action.session.module
+          : state.currentModule;
+      const modScenarios = state.scenarios[mod] || [];
+      const foundScenario =
+        modScenarios.find((s) => s.id === action.session.scenario_id) ||
+        modScenarios[0] ||
+        state.currentScenario;
+
+      const restoredMessages: ChatMessage[] = [
+        ...createInitialChat(foundScenario, state.l1Lang),
+        ...action.turns.map((t) => ({
+          sender: t.role,
+          norsk: t.text,
+          time: t.created_at
+            ? new Date(t.created_at).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+              })
+            : '12:00'
+        }))
+      ];
+
+      const restoredCorrections: Correction[] = [];
+      for (const t of action.turns) {
+        if (
+          t.role === 'ai' &&
+          t.correction_json &&
+          typeof t.correction_json === 'object'
+        ) {
+          restoredCorrections.unshift(t.correction_json as Correction);
+        }
+      }
+
+      const latestCorr = restoredCorrections[0];
+      const nextScores: HkdirScores = latestCorr
+        ? {
+            cefr: latestCorr.cefr_estimate || state.hkdirScores.cefr,
+            gram: latestCorr.v2_status || state.hkdirScores.gram,
+            arg: latestCorr.samhandling_status || state.hkdirScores.arg
+          }
+        : state.hkdirScores;
+
+      return {
+        ...state,
+        currentModule: mod,
+        currentScenario: foundScenario,
+        chatHistory: restoredMessages,
+        coachingHistory: restoredCorrections,
+        hkdirScores: nextScores
+      };
+    }
     default:
       return state;
   }
@@ -414,7 +486,11 @@ function createInitialStudioState(base: StudioState): StudioState {
   };
 }
 
-export function useStudioState() {
+export interface UseStudioStateOptions {
+  authEnabled?: boolean;
+}
+
+export function useStudioState({ authEnabled = false }: UseStudioStateOptions = {}) {
   const [state, dispatch] = useReducer(
     studioReducer,
     initialStudioState,
@@ -422,6 +498,51 @@ export function useStudioState() {
   );
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const speechRateRef = useRef<number>(1.0);
+
+  useEffect(() => {
+    if (!authEnabled || typeof window === 'undefined' || typeof globalThis.fetch !== 'function') {
+      return;
+    }
+    let cancelled = false;
+    globalThis
+      .fetch('/api/sessions/current')
+      .then(async (res) => {
+        if (!res || res.status !== 200) return;
+        const data = (await res.json()) as {
+          session?: {
+            id: string;
+            module: string;
+            scenario_id: string;
+            level: string;
+          } | null;
+          turns?: Array<{
+            id?: number;
+            role: 'user' | 'ai';
+            text: string;
+            correction_json?: unknown;
+            created_at?: string;
+          }>;
+        };
+        if (
+          !cancelled &&
+          data?.session &&
+          Array.isArray(data.turns) &&
+          data.turns.length > 0
+        ) {
+          dispatch({
+            type: 'RESTORE_SESSION',
+            session: data.session,
+            turns: data.turns
+          });
+        }
+      })
+      .catch(() => {
+        // Ignore session restore network errors
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [authEnabled]);
 
   const setSpeechRate = useCallback((rate: number) => {
     speechRateRef.current = rate;

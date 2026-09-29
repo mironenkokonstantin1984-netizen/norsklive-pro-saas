@@ -17,7 +17,7 @@ explanations in the learner's L1 (ru/uk/en). Business context: `docs/GO_TO_MARKE
 | write or update the PR description | `pr-report` skill |
 | see a comment starting with `@antigravity` | `address-review` skill |
 | have marked the PR Ready for review | `review-loop` skill |
-| plan a paywall, onboarding or an a11y audit (Claude Code only) | `.claude/skills/` (see `THIRD_PARTY.md`) |
+| plan a paywall, onboarding, an a11y audit or validate an idea (Claude Code only) | `.claude/skills/` (see `THIRD_PARTY.md`) |
 
 ## Definition of done
 A task is done only when **all** of these are true, in this order:

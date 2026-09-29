@@ -17,6 +17,15 @@ not copy; for design, our own `docs/DESIGN_SYSTEM.md` wins.
 
 To update: re-download the same paths from upstream, review the diff, and update the commit above.
 
+## Method inspiration (not vendored)
+
+`validate-idea` is **our own text**. The method follows *The Minimalist Entrepreneur* by Sahil
+Lavingia and the public repo [slavingia/skills](https://github.com/slavingia/skills). That repo
+has no LICENSE file (checked September 2026), so nothing is copied from it; only the ideas
+(validate by selling, do it by hand first, four questions before building, red and green
+flags) are re-expressed. To use the original skill, install it on your own machine with
+`/plugin marketplace add slavingia/skills`.
+
 ## License
 
 MIT License

@@ -8,7 +8,7 @@ export const jobbintervju: Scenario[] = [
     badge: 'Jobbintervju · Om deg selv',
     avatar: 'briefcase',
     partnerName: 'Kari (intervjuer)',
-    partnerRole: 'Leder som intervjuer en kandidat til en vanlig jobb',
+    partnerRole: 'Leder som intervjuer deg',
     description:
       'Первый вопрос любого собеседования: коротко расскажите о себе, об опыте и о том, какую работу вы ищете. Подходит для любой профессии.',
     sourceText: `Et vanlig jobbintervju i Norge. Intervjueren vil bli kjent med kandidaten: bakgrunn, utdanning, arbeidserfaring, sterke sider og hva slags jobb kandidaten søker. Intervjueren vet ingenting om kandidaten på forhånd og spør med enkle, vennlige spørsmål.`,
@@ -89,7 +89,7 @@ export const jobbintervju: Scenario[] = [
     badge: 'Jobbintervju · Motivasjon',
     avatar: 'briefcase',
     partnerName: 'Ole (intervjuer)',
-    partnerRole: 'Leder som vil vite hvorfor kandidaten søker jobben',
+    partnerRole: 'Leder som spør om motivasjonen din',
     description:
       'Вопрос о мотивации: почему вы хотите работать именно здесь и что можете дать команде. Подходит для любой профессии.',
     sourceText: `Et vanlig jobbintervju i Norge. Intervjueren spør hvorfor kandidaten vil ha jobben, hva kandidaten vet om arbeidsplassen, og hva kandidaten kan bidra med. Intervjueren vet ingenting om kandidaten på forhånd.`,

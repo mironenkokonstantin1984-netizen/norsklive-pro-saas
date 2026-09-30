@@ -533,7 +533,7 @@ export function buildVacancyScenario(raw: string, base: Scenario): Scenario {
     id: 'custom-vacancy-' + Date.now(),
     title: 'Intervju: stillingen du limte inn',
     badge: 'Jobbintervju · Din stillingsannonse',
-    partnerRole: 'Leder som intervjuer kandidaten til stillingen i annonsen',
+    partnerRole: 'Leder på arbeidsplassen i annonsen',
     description: vacancy.slice(0, 130),
     sourceText: vacancy,
     openingLine:

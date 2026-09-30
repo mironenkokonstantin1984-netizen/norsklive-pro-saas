@@ -11,9 +11,10 @@ import {
   Settings,
   Sliders,
   SlidersHorizontal,
+  Square,
   Volume2
 } from 'lucide-react';
-import { useSpeechRecognition } from '../../lib/useSpeechRecognition';
+import { MIC_RECORDING_HINT, useSpeechRecognition } from '../../lib/useSpeechRecognition';
 import {
   DEFAULT_PRACTICE_PREFS,
   applyPracticePrefsToDocument,
@@ -136,14 +137,42 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
     [handleUserSubmission]
   );
 
+  const [liveText, setLiveText] = useState('');
+  const [recordingSeconds, setRecordingSeconds] = useState(0);
+  const textInputRef = useRef<HTMLInputElement | null>(null);
+
+  const onTranscriptChange = useCallback((text: string) => {
+    setInputText(text);
+    if (text) {
+      // Let the learner review and edit the recognised text before sending.
+      textInputRef.current?.focus();
+    }
+  }, []);
+
+  const onUnsupported = useCallback(() => {
+    textInputRef.current?.focus();
+  }, []);
+
   const { toggleMic } = useSpeechRecognition({
     inputText,
-    onTranscriptChange: setInputText,
+    onTranscriptChange,
     onSubmitTranscript,
     onRecordingChange,
     onSpeakingChange,
-    onStatusChange
+    onStatusChange,
+    onLiveTextChange: setLiveText,
+    onUnsupported,
+    autoSend: prefs.autoSend
   });
+
+  useEffect(() => {
+    if (!state.isRecording) {
+      setRecordingSeconds(0);
+      return;
+    }
+    const id = window.setInterval(() => setRecordingSeconds((s) => s + 1), 1000);
+    return () => window.clearInterval(id);
+  }, [state.isRecording]);
 
   const currentModuleScenarios = state.scenarios[state.currentModule] || [];
   const currentScenario = state.currentScenario;
@@ -173,11 +202,15 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
     setMaterialsOpen((prev) => !prev);
   }, []);
 
-  const micLabel = state.isRecording ? 'Слушаю' : state.isThinking ? 'Думаю' : 'Snakk';
-  const recMins = String(Math.floor(state.timerSeconds / 60));
-  const recSecs = String(state.timerSeconds % 60).padStart(2, '0');
+  const micLabel = state.isRecording ? 'Готово' : state.isThinking ? 'Думаю' : 'Snakk';
+  const recMins = String(Math.floor(recordingSeconds / 60));
+  const recSecs = String(recordingSeconds % 60).padStart(2, '0');
+  // Part 1 of the oral exam is a 2-minute monologue: show the allowed time next to the timer.
+  const showMonologueLimit = state.currentModule === 'norskprove' && state.examPart === 1;
+  const recordingTimerText = `${recMins}:${recSecs}${showMonologueLimit ? ' / 2:00' : ''}`;
+  // The timer is already shown under the button; the status line says how to finish.
   const displayMicStatus = state.isRecording
-    ? `${recMins}:${recSecs} / 2:00`
+    ? MIC_RECORDING_HINT
     : state.isThinking
       ? 'Экзаменатор отвечает'
       : state.micStatusText || DEFAULT_MIC_STATUS;
@@ -250,11 +283,11 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
                 disabled={Boolean(state.quotaExceeded)}
                 onClick={toggleMic}
               >
-                {state.isRecording && (
-                  <span className="mic-breathing-ring" aria-hidden="true" />
-                )}
+                {state.isRecording && <span className="mic-breathing-ring" aria-hidden="true" />}
                 {state.isThinking ? (
                   <Loader2 size={24} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+                ) : state.isRecording ? (
+                  <Square size={24} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
                 ) : (
                   <Mic size={24} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
                 )}
@@ -264,10 +297,15 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
               </button>
               {state.isRecording && (
                 <span className="mic-recording-timer t-caption" id="micRecordingTimer">
-                  {`${recMins}:${recSecs} / 2:00`}
+                  {recordingTimerText}
                 </span>
               )}
-              <div className="voice-status-line t-caption">
+              {state.isRecording && liveText ? (
+                <p className="mic-live-text t-body" id="micLiveText" lang="nb">
+                  {liveText}
+                </p>
+              ) : null}
+              <div className="voice-status-line t-caption" aria-live="polite">
                 <span id="micStatusText">
                   {state.quotaExceeded ? 'Лимит на сегодня исчерпан' : displayMicStatus}
                 </span>
@@ -281,6 +319,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
 
             <div className="voice-input-row">
               <input
+                ref={textInputRef}
                 type="text"
                 id="userSpeechInput"
                 className="voice-text-input"
@@ -451,12 +490,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
                     className="mini-action-btn"
                     onClick={speakLastAiReply}
                   >
-                    <Volume2
-                      size={20}
-                      strokeWidth={1.75}
-                      color="currentColor"
-                      aria-hidden="true"
-                    />
+                    <Volume2 size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
                     <span>Повторить вопрос ИИ</span>
                   </button>
                 </div>

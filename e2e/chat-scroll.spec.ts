@@ -38,16 +38,32 @@ async function expectNewestReplyVisible(page: Page) {
     .toBe(true);
 }
 
-test('after sending, the newest examiner reply is visible above the mic dock', async ({ page }) => {
+/** Smooth scrolling runs for a moment; wait until the page stops moving before a screenshot. */
+async function waitForScrollToSettle(page: Page) {
+  let previous = -1;
+  await expect
+    .poll(
+      async () => {
+        const current = await page.evaluate(() => window.scrollY);
+        const settled = current === previous;
+        previous = current;
+        return settled;
+      },
+      { intervals: [200], timeout: 5000 }
+    )
+    .toBe(true);
+}
+
+test('after sending, the newest examiner reply is visible above the mic dock', async ({
+  page
+}, testInfo) => {
   await openStudio(page);
   await sendReply(page);
   await expectNewestReplyVisible(page);
 
-  const size = page.viewportSize();
-  if (size) {
-    await page.screenshot({
-      path: `docs/screenshots/chat-scroll-${size.width}x${size.height}-after-send.png`
-    });
+  if (testInfo.project.name === 'phone') {
+    await waitForScrollToSettle(page);
+    await page.screenshot({ path: 'docs/screenshots/chat-scroll-390x844-after-send.png' });
   }
 });
 
@@ -59,6 +75,7 @@ test.describe('laptop 1280x800', () => {
     await openStudio(page);
     await sendReply(page);
     await expectNewestReplyVisible(page);
+    await waitForScrollToSettle(page);
     await page.screenshot({ path: 'docs/screenshots/chat-scroll-1280x800-after-send.png' });
   });
 });

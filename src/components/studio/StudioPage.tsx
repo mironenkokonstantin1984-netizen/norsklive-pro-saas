@@ -253,6 +253,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
             l1Lang={state.l1Lang}
             blurMode={state.blurMode}
             subtitlesEnabled={prefs.subtitles}
+            examMode={prefs.examMode}
             activeSpeech={state.activeSpeech}
             quotaExceeded={state.quotaExceeded}
             limitCardDismissed={state.limitCardDismissed}
@@ -474,52 +475,59 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
                 </button>
               </div>
 
-              <div className="teleprompter-box">
-                <div className="teleprompter-header t-caption">
-                  <span className="teleprompter-title">
-                    <Lightbulb
-                      size={20}
-                      strokeWidth={1.75}
-                      color="currentColor"
-                      aria-hidden="true"
-                    />
-                    <span>Подсказки (Svar-forslag)</span>
-                  </span>
-                  <button
-                    type="button"
-                    id="speakHintBtn"
-                    className="mini-action-btn"
-                    onClick={speakLastAiReply}
-                  >
-                    <Volume2 size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
-                    <span>Повторить вопрос ИИ</span>
-                  </button>
-                </div>
-                <div className="hints-list" id="hintsContainer">
-                  {hints.map((h) => {
-                    const l1Hint = getL1Text(h, state.l1Lang, 'ru');
-                    return (
-                      <div
-                        key={`${h.label}-${h.norsk}`}
-                        className="hint-card"
-                        onClick={() => handleHintClick(h.norsk)}
-                      >
-                        <div className="hint-label t-caption">
-                          <Lightbulb
-                            size={20}
-                            strokeWidth={1.75}
-                            color="currentColor"
-                            aria-hidden="true"
-                          />
-                          <span>{h.label}</span>
+              {prefs.examMode ? null : (
+                <div className="teleprompter-box" id="hintsBox">
+                  <div className="teleprompter-header t-caption">
+                    <span className="teleprompter-title">
+                      <Lightbulb
+                        size={20}
+                        strokeWidth={1.75}
+                        color="currentColor"
+                        aria-hidden="true"
+                      />
+                      <span>Подсказки (Svar-forslag)</span>
+                    </span>
+                    <button
+                      type="button"
+                      id="speakHintBtn"
+                      className="mini-action-btn"
+                      onClick={speakLastAiReply}
+                    >
+                      <Volume2
+                        size={20}
+                        strokeWidth={1.75}
+                        color="currentColor"
+                        aria-hidden="true"
+                      />
+                      <span>Повторить вопрос ИИ</span>
+                    </button>
+                  </div>
+                  <div className="hints-list" id="hintsContainer">
+                    {hints.map((h) => {
+                      const l1Hint = getL1Text(h, state.l1Lang, 'ru');
+                      return (
+                        <div
+                          key={`${h.label}-${h.norsk}`}
+                          className="hint-card"
+                          onClick={() => handleHintClick(h.norsk)}
+                        >
+                          <div className="hint-label t-caption">
+                            <Lightbulb
+                              size={20}
+                              strokeWidth={1.75}
+                              color="currentColor"
+                              aria-hidden="true"
+                            />
+                            <span>{h.label}</span>
+                          </div>
+                          <div className="hint-norsk">{`«${h.norsk}»`}</div>
+                          <div className="hint-ru t-caption">{l1Hint}</div>
                         </div>
-                        <div className="hint-norsk">{`«${h.norsk}»`}</div>
-                        <div className="hint-ru t-caption">{l1Hint}</div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </section>
 

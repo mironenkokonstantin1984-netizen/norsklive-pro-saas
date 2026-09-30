@@ -7,12 +7,7 @@ import type { LearnerMood } from '../../lib/prefs';
 import { formatCountRu } from '../../lib/plural';
 import { CorrectionCard } from './CorrectionCard';
 import { useChatAutoScroll } from './useChatAutoScroll';
-import type {
-  ChatMessage,
-  CoachErrorInfo,
-  L1Language,
-  QuotaExceededInfo
-} from './useStudioState';
+import type { ChatMessage, CoachErrorInfo, L1Language, QuotaExceededInfo } from './useStudioState';
 
 const REPLIKA_FORMS = { one: 'реплику', few: 'реплики', many: 'реплик' } as const;
 const ERROR_FORMS = { one: 'ошибку', few: 'ошибки', many: 'ошибок' } as const;
@@ -24,6 +19,8 @@ export interface ChatPanelProps {
   l1Lang: L1Language;
   blurMode: boolean;
   subtitlesEnabled?: boolean;
+  /** Exam mode: no «Попробуйте» phrase under the correction. */
+  examMode?: boolean;
   activeSpeech?: { text: string; charIndex: number } | null;
   quotaExceeded?: QuotaExceededInfo | null;
   limitCardDismissed?: boolean;
@@ -85,6 +82,7 @@ export function ChatPanel({
   partnerName,
   l1Lang,
   blurMode,
+  examMode = false,
   subtitlesEnabled = true,
   activeSpeech = null,
   quotaExceeded = null,
@@ -117,9 +115,7 @@ export function ChatPanel({
   }
 
   const showMoodCard =
-    learnerTurnCount > 0 &&
-    learnerTurnCount % 5 === 0 &&
-    dismissedMoodTurn !== learnerTurnCount;
+    learnerTurnCount > 0 && learnerTurnCount % 5 === 0 && dismissedMoodTurn !== learnerTurnCount;
 
   const handleMoodClick = (mood: LearnerMood) => {
     onSelectMood?.(mood);
@@ -134,10 +130,7 @@ export function ChatPanel({
           const l1Translation = msg.l1 || '';
 
           return (
-            <div
-              key={key}
-              className={`msg msg-ai ${blurMode ? 'blurred' : ''}`}
-            >
+            <div key={key} className={`msg msg-ai ${blurMode ? 'blurred' : ''}`}>
               <div className="msg-speaker t-caption">
                 <Bot size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
                 <span>{partnerName}</span>
@@ -191,6 +184,7 @@ export function ChatPanel({
               <CorrectionCard
                 correction={coachingHistory[0]}
                 olderCorrections={coachingHistory.slice(1)}
+                showTry={!examMode}
                 onSpeak={onSpeak}
               />
             ) : null}
@@ -214,7 +208,12 @@ export function ChatPanel({
       ) : null}
 
       {showMoodCard ? (
-        <div className="mood-check-card" id="moodCheckCard" role="region" aria-label="Как ощущения?">
+        <div
+          className="mood-check-card"
+          id="moodCheckCard"
+          role="region"
+          aria-label="Как ощущения?"
+        >
           <div className="mood-check-header">
             <span className="mood-check-title t-callout">Как ощущения?</span>
             <button
@@ -255,10 +254,7 @@ export function ChatPanel({
             {`Вы сделали ${formatCountRu(learnerTurnCount, REPLIKA_FORMS)} и разобрали ${formatCountRu(coachingHistory.length, ERROR_FORMS)}. Лимит бесплатного плана — ${quotaExceeded.limit} в день, завтра снова доступно.`}
           </p>
           <div className="daily-limit-actions">
-            <a
-              href="/path#plans"
-              className="btn-primary daily-limit-primary-btn t-callout"
-            >
+            <a href="/path#plans" className="btn-primary daily-limit-primary-btn t-callout">
               Посмотреть подписку
             </a>
             <button

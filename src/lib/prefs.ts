@@ -9,6 +9,8 @@ export interface PracticePrefs {
   contrast: boolean;
   /** Send the recognised text right after «Готово» instead of letting the learner edit it. */
   autoSend: boolean;
+  /** Exam mode: no «Попробуйте» phrase and no answer suggestions, as in the real exam. */
+  examMode: boolean;
   mood?: LearnerMood;
   timestamp?: string;
 }
@@ -20,7 +22,8 @@ export const DEFAULT_PRACTICE_PREFS: PracticePrefs = {
   tempo: 1.0,
   subtitles: true,
   contrast: false,
-  autoSend: false
+  autoSend: false,
+  examMode: false
 };
 
 export function loadPracticePrefs(): PracticePrefs {
@@ -39,15 +42,13 @@ export function loadPracticePrefs(): PracticePrefs {
         : DEFAULT_PRACTICE_PREFS.textSize;
     const tempo: ExaminerTempo = parsed.tempo === 0.8 ? 0.8 : 1.0;
     const subtitles =
-      typeof parsed.subtitles === 'boolean'
-        ? parsed.subtitles
-        : DEFAULT_PRACTICE_PREFS.subtitles;
+      typeof parsed.subtitles === 'boolean' ? parsed.subtitles : DEFAULT_PRACTICE_PREFS.subtitles;
     const contrast =
-      typeof parsed.contrast === 'boolean'
-        ? parsed.contrast
-        : DEFAULT_PRACTICE_PREFS.contrast;
+      typeof parsed.contrast === 'boolean' ? parsed.contrast : DEFAULT_PRACTICE_PREFS.contrast;
     const autoSend =
       typeof parsed.autoSend === 'boolean' ? parsed.autoSend : DEFAULT_PRACTICE_PREFS.autoSend;
+    const examMode =
+      typeof parsed.examMode === 'boolean' ? parsed.examMode : DEFAULT_PRACTICE_PREFS.examMode;
     const mood =
       parsed.mood === 'Спокойно' || parsed.mood === 'Нормально' || parsed.mood === 'Тревожно'
         ? parsed.mood
@@ -60,6 +61,7 @@ export function loadPracticePrefs(): PracticePrefs {
       subtitles,
       contrast,
       autoSend,
+      examMode,
       ...(mood ? { mood } : {}),
       ...(timestamp ? { timestamp } : {})
     };

@@ -9,6 +9,8 @@ export interface CorrectionCardProps {
   correction: Correction;
   olderCorrections?: Correction[];
   l1Explanation?: string;
+  /** Exam mode hides the «Попробуйте» phrase. */
+  showTry?: boolean;
   onSpeak: (text: string) => void;
 }
 
@@ -45,15 +47,14 @@ export function CorrectionCard({
   correction,
   olderCorrections = [],
   l1Explanation,
+  showTry = true,
   onSpeak
 }: CorrectionCardProps) {
   const [expanded, setExpanded] = useState(false);
 
   return (
     <article className="correction-card" id="latestCorrectionCard" aria-label="Разбор ответа">
-      <div className="correction-meta t-caption">
-        {correction.cefr_estimate || 'B1'}
-      </div>
+      <div className="correction-meta t-caption">{correction.cefr_estimate || 'B1'}</div>
 
       <div className="correction-utterance t-speech">
         {renderDiffInline(correction.original, correction.natural_bokmal)}
@@ -65,20 +66,22 @@ export function CorrectionCard({
         <div className="correction-l1-explanation t-body">{l1Explanation}</div>
       ) : null}
 
-      <div className="correction-try">
-        <div className="correction-try-line t-body">
-          <span className="correction-try-label t-callout">Попробуйте:</span>{' '}
-          <span className="correction-try-phrase">{correction.b2_upgrade}</span>
+      {showTry ? (
+        <div className="correction-try" data-testid="correctionTry">
+          <div className="correction-try-line t-body">
+            <span className="correction-try-label t-callout">Попробуйте:</span>{' '}
+            <span className="correction-try-phrase">{correction.b2_upgrade}</span>
+          </div>
+          <button
+            type="button"
+            className="btn-text correction-listen-btn"
+            onClick={() => onSpeak(correction.b2_upgrade)}
+          >
+            <Volume2 size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+            <span>Прослушать</span>
+          </button>
         </div>
-        <button
-          type="button"
-          className="btn-text correction-listen-btn"
-          onClick={() => onSpeak(correction.b2_upgrade)}
-        >
-          <Volume2 size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
-          <span>Прослушать</span>
-        </button>
-      </div>
+      ) : null}
 
       {olderCorrections.length > 0 && (
         <div className="correction-older-wrap">
@@ -89,19 +92,9 @@ export function CorrectionCard({
             onClick={() => setExpanded((prev) => !prev)}
           >
             {expanded ? (
-              <ChevronUp
-                size={20}
-                strokeWidth={1.75}
-                color="currentColor"
-                aria-hidden="true"
-              />
+              <ChevronUp size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
             ) : (
-              <ChevronDown
-                size={20}
-                strokeWidth={1.75}
-                color="currentColor"
-                aria-hidden="true"
-              />
+              <ChevronDown size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
             )}
             <span>{`Предыдущие замечания (${olderCorrections.length})`}</span>
           </button>
@@ -110,9 +103,7 @@ export function CorrectionCard({
             <div className="correction-older-list">
               {olderCorrections.map((old, idx) => (
                 <div key={`${idx}-${old.original}`} className="correction-older-item">
-                  <div className="correction-meta t-caption">
-                    {old.cefr_estimate || 'B1'}
-                  </div>
+                  <div className="correction-meta t-caption">{old.cefr_estimate || 'B1'}</div>
                   <div className="correction-utterance t-speech">
                     {renderDiffInline(old.original, old.natural_bokmal)}
                   </div>

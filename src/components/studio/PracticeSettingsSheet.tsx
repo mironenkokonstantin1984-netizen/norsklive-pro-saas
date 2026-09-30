@@ -61,6 +61,10 @@ export function PracticeSettingsSheet({
     onChangePrefs({ ...prefs, autoSend: !prefs.autoSend });
   };
 
+  const toggleExamMode = () => {
+    onChangePrefs({ ...prefs, examMode: !prefs.examMode });
+  };
+
   return (
     <div className="comfort-sheet-backdrop" data-testid="comfortSheetScrim" onClick={onClose}>
       <div
@@ -88,11 +92,7 @@ export function PracticeSettingsSheet({
           {/* 1. Text size (3 steps segmented control) */}
           <div className="comfort-setting-row">
             <span className="t-callout">Размер текста</span>
-            <div
-              className="module-tabs segmented-control"
-              role="group"
-              aria-label="Размер текста"
-            >
+            <div className="module-tabs segmented-control" role="group" aria-label="Размер текста">
               <button
                 type="button"
                 data-size="sm"
@@ -210,6 +210,27 @@ export function PracticeSettingsSheet({
                 <span className="comfort-switch-thumb" />
               </span>
               <span className="t-caption">{prefs.autoSend ? 'Вкл' : 'Выкл'}</span>
+            </button>
+          </div>
+
+          {/* 6. Exam mode: no hints, as in the real exam */}
+          <div className="comfort-setting-row comfort-switch-row">
+            <span className="t-callout" id="examModeSwitchLabel">
+              Режим экзамена (без подсказок)
+            </span>
+            <button
+              type="button"
+              role="switch"
+              id="examModeSwitch"
+              aria-labelledby="examModeSwitchLabel"
+              aria-checked={prefs.examMode}
+              className={`comfort-switch ${prefs.examMode ? 'is-on' : ''}`}
+              onClick={toggleExamMode}
+            >
+              <span className="comfort-switch-track" aria-hidden="true">
+                <span className="comfort-switch-thumb" />
+              </span>
+              <span className="t-caption">{prefs.examMode ? 'Вкл' : 'Выкл'}</span>
             </button>
           </div>
         </div>

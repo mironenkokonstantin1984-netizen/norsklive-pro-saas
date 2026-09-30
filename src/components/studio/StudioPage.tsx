@@ -59,6 +59,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
     toggleBlurMode,
     restartSession,
     applyCustomSource,
+    applyVacancy,
     saveToGlossary,
     handleUserSubmission,
     dismissLimitCard,
@@ -528,6 +529,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
             currentScenario={currentScenario}
             onSelectScenario={selectScenario}
             onApplyCustomSource={applyCustomSource}
+            onApplyVacancy={applyVacancy}
           >
             <TargetWordsPanel
               targetWords={currentScenario.targetWords || []}

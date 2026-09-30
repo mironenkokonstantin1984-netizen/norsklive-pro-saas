@@ -270,10 +270,7 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
     case 'TICK_TIMER':
       return { ...state, timerSeconds: state.timerSeconds + 1 };
     case 'APPLY_CUSTOM_SCENARIO': {
-      const updatedModuleList = [
-        action.scenario,
-        ...(state.scenarios[state.currentModule] || [])
-      ];
+      const updatedModuleList = [action.scenario, ...(state.scenarios[state.currentModule] || [])];
       const nextState = resetForScenario(state, action.scenario);
       return {
         ...nextState,
@@ -373,11 +370,7 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
 
       const restoredCorrections: Correction[] = [];
       for (const t of action.turns) {
-        if (
-          t.role === 'ai' &&
-          t.correction_json &&
-          typeof t.correction_json === 'object'
-        ) {
+        if (t.role === 'ai' && t.correction_json && typeof t.correction_json === 'object') {
           restoredCorrections.unshift(t.correction_json as Correction);
         }
       }
@@ -403,9 +396,7 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
     case 'SET_QUOTA_EXCEEDED': {
       const lastMsg = state.chatHistory[state.chatHistory.length - 1];
       const trimmedChat =
-        lastMsg && lastMsg.sender === 'user'
-          ? state.chatHistory.slice(0, -1)
-          : state.chatHistory;
+        lastMsg && lastMsg.sender === 'user' ? state.chatHistory.slice(0, -1) : state.chatHistory;
       return {
         ...state,
         chatHistory: trimmedChat,
@@ -528,13 +519,40 @@ export function buildCustomScenarioFromText(raw: string, userLevel: CefrLevel): 
   };
 }
 
+/** Longest vacancy text the coach accepts (`customScenario.sourceText` in the request schema). */
+export const VACANCY_MAX_CHARS = 4000;
+
+/**
+ * An interview built from a vacancy the learner pasted. The examiner may mention the job only
+ * because the learner gave it; nothing is claimed about the learner themselves.
+ */
+export function buildVacancyScenario(raw: string, base: Scenario): Scenario {
+  const vacancy = raw.trim().slice(0, VACANCY_MAX_CHARS);
+  return {
+    ...base,
+    id: 'custom-vacancy-' + Date.now(),
+    title: 'Intervju: stillingen du limte inn',
+    badge: 'Jobbintervju · Din stillingsannonse',
+    partnerRole: 'Leder på arbeidsplassen i annonsen',
+    description: vacancy.slice(0, 130),
+    sourceText: vacancy,
+    openingLine:
+      'Hei og velkommen! Takk for at du søkte på denne stillingen. Kan du fortelle litt om deg selv og hvorfor du vil ha denne jobben?',
+    openingTranslation:
+      'Здравствуйте и добро пожаловать! Спасибо, что откликнулись на эту вакансию. Расскажите немного о себе и о том, почему вы хотите эту работу?',
+    openingUa:
+      'Вітаю і ласкаво просимо! Дякуємо, що відгукнулися на цю вакансію. Розкажіть трохи про себе і чому ви хочете цю роботу?',
+    openingEn:
+      'Hello and welcome! Thank you for applying for this position. Can you tell me a little about yourself and why you want this job?'
+  };
+}
+
 function createInitialStudioState(base: StudioState): StudioState {
   if (typeof window === 'undefined') {
     return base;
   }
   const prefs = readPathPrefs();
-  const l1Lang: L1Language =
-    prefs.l1 === 'uk' ? 'ua' : prefs.l1 === 'en' ? 'en' : 'ru';
+  const l1Lang: L1Language = prefs.l1 === 'uk' ? 'ua' : prefs.l1 === 'en' ? 'en' : 'ru';
   const userLevel: CefrLevel =
     prefs.targetLevel === 'A2' || prefs.targetLevel === 'B1' || prefs.targetLevel === 'B2'
       ? prefs.targetLevel
@@ -555,11 +573,7 @@ export interface UseStudioStateOptions {
 }
 
 export function useStudioState({ authEnabled = false }: UseStudioStateOptions = {}) {
-  const [state, dispatch] = useReducer(
-    studioReducer,
-    initialStudioState,
-    createInitialStudioState
-  );
+  const [state, dispatch] = useReducer(studioReducer, initialStudioState, createInitialStudioState);
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const speechRateRef = useRef<number>(1.0);
 
@@ -587,12 +601,7 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
             created_at?: string;
           }>;
         };
-        if (
-          !cancelled &&
-          data?.session &&
-          Array.isArray(data.turns) &&
-          data.turns.length > 0
-        ) {
+        if (!cancelled && data?.session && Array.isArray(data.turns) && data.turns.length > 0) {
           dispatch({
             type: 'RESTORE_SESSION',
             session: data.session,
@@ -702,6 +711,22 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
       speakWithOrb(customScenario.openingLine);
     },
     [state.userLevel, speakWithOrb]
+  );
+
+  const applyVacancy = useCallback(
+    (rawText: string) => {
+      const trimmed = rawText.trim();
+      if (!trimmed) return;
+      // Keep the interview the learner picked (its target words); lunch talk is not an interview.
+      const interviews = scenariosByModule.jobbintervju.filter((sc) =>
+        sc.id.startsWith('jobb-intervju-')
+      );
+      const base = interviews.find((sc) => sc.id === state.currentScenario.id) ?? interviews[0];
+      const scenario = buildVacancyScenario(trimmed, base);
+      dispatch({ type: 'APPLY_CUSTOM_SCENARIO', scenario });
+      speakWithOrb(scenario.openingLine);
+    },
+    [state.currentScenario, speakWithOrb]
   );
 
   const saveToGlossary = useCallback(
@@ -852,9 +877,7 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
         state.usedWords
       );
 
-      const nextUsedWords = Array.from(
-        new Set([...state.usedWords, ...newlyUsedLower])
-      );
+      const nextUsedWords = Array.from(new Set([...state.usedWords, ...newlyUsedLower]));
 
       if (newlyUsedDisplay.length > 0) {
         const toastMsg = `🎉 Использовано в речи: ${newlyUsedDisplay.join(', ')}`;
@@ -869,13 +892,11 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
         }, 4500);
       }
 
-      const historyPayload = [...state.chatHistory, userMsg]
-        .slice(-20)
-        .map((t) => ({
-          sender: t.sender,
-          norsk: t.norsk,
-          l1: t.l1
-        }));
+      const historyPayload = [...state.chatHistory, userMsg].slice(-20).map((t) => ({
+        sender: t.sender,
+        norsk: t.norsk,
+        l1: t.l1
+      }));
 
       await sendToCoach(cleanText, historyPayload, nextUsedWords);
     },
@@ -953,6 +974,7 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
     toggleBlurMode,
     restartSession,
     applyCustomSource,
+    applyVacancy,
     saveToGlossary,
     markWordUsed,
     handleUserSubmission,

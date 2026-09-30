@@ -54,7 +54,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
       'Jobbintervju på norsk'
     );
     expect(
-      getByText(/Intervju Case: Key Account Manager \/ Logistikk & AI-automasjon/)
+      getByText(/Intervju: fortell om deg selv og erfaring/)
     ).toBeTruthy();
 
     const pensumTab = container.querySelector('button[data-module="pensum"]') as HTMLButtonElement;

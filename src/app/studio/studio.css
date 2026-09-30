@@ -1625,3 +1625,33 @@ body {
 }
 
 
+
+/* CHAT AUTO-SCROLL (#44): keep scrolled-to messages clear of the sticky top bar and the mic dock */
+.chat-stream .msg,
+.chat-stream .daily-limit-card {
+  scroll-margin-top: 7.5rem;
+  scroll-margin-bottom: 12rem;
+}
+
+.new-messages-btn {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(11.5rem + var(--space-2) + env(safe-area-inset-bottom, 0rem));
+  z-index: 39;
+  min-height: 2.75rem;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-float);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

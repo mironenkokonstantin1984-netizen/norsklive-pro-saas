@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { Bookmark, Bot, Volume2, X } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { ArrowDown, Bookmark, Bot, Volume2, X } from 'lucide-react';
 import type { Correction } from '../../server/schemas';
 import type { LearnerMood } from '../../lib/prefs';
 import { formatCountRu } from '../../lib/plural';
 import { CorrectionCard } from './CorrectionCard';
+import { useChatAutoScroll } from './useChatAutoScroll';
 import type { ChatMessage, L1Language, QuotaExceededInfo } from './useStudioState';
 
 const REPLIKA_FORMS = { one: 'реплику', few: 'реплики', many: 'реплик' } as const;
@@ -85,11 +86,11 @@ export function ChatPanel({
   const streamRef = useRef<HTMLDivElement | null>(null);
   const [dismissedMoodTurn, setDismissedMoodTurn] = useState<number | null>(null);
 
-  useEffect(() => {
-    if (streamRef.current) {
-      streamRef.current.scrollTop = streamRef.current.scrollHeight;
-    }
-  }, [chatHistory, coachingHistory.length, quotaExceeded, limitCardDismissed]);
+  const { showNewMessages, announcement, jumpToNewest } = useChatAutoScroll({
+    streamRef,
+    chatHistory,
+    limitCardVisible: Boolean(quotaExceeded) && !limitCardDismissed
+  });
 
   let lastUserIndex = -1;
   let learnerTurnCount = 0;
@@ -231,7 +232,21 @@ export function ChatPanel({
           </div>
         </div>
       ) : null}
+
+      <div className="sr-only" aria-live="polite" data-testid="chatAnnouncer">
+        {announcement}
+      </div>
+
+      {showNewMessages ? (
+        <button
+          type="button"
+          className="btn-outline new-messages-btn t-callout"
+          onClick={jumpToNewest}
+        >
+          <ArrowDown size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          <span>Новые сообщения</span>
+        </button>
+      ) : null}
     </div>
   );
 }
-

@@ -324,7 +324,7 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
         coachingHistory: [corr, ...state.coachingHistory],
         hkdirScores: {
           cefr: corr.cefr_estimate || 'B1+',
-          gram: corr.v2_status || '✓ Korrekt V2',
+          gram: corr.v2_status || 'Korrekt V2',
           arg: corr.samhandling_status || 'Активный диалог'
         }
       };
@@ -494,10 +494,10 @@ export function buildCustomScenarioFromText(raw: string, userLevel: CefrLevel): 
 
   return {
     id: 'custom-' + Date.now(),
-    title: '⚡ Кастомный тренажёр: ' + raw.slice(0, 34) + '...',
+    title: 'Кастомный тренажёр: ' + raw.slice(0, 34) + '...',
     level: userLevel,
-    badge: '🛡️ Kopinor-Safe Custom',
-    avatar: '🎯',
+    badge: 'Kopinor-Safe Custom',
+    avatar: 'custom',
     partnerName: 'AI Sparringpartner (Персональный сценарий)',
     partnerRole: 'Динамический телесуфлёр по твоим словам и источнику',
     description: raw.slice(0, 130),
@@ -880,7 +880,7 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
       const nextUsedWords = Array.from(new Set([...state.usedWords, ...newlyUsedLower]));
 
       if (newlyUsedDisplay.length > 0) {
-        const toastMsg = `🎉 Использовано в речи: ${newlyUsedDisplay.join(', ')}`;
+        const toastMsg = `Использовано в речи: ${newlyUsedDisplay.join(', ')}`;
         dispatch({
           type: 'MARK_WORDS_USED',
           words: newlyUsedLower,

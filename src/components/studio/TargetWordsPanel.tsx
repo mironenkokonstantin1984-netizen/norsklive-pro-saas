@@ -72,7 +72,7 @@ export function TargetWordsPanel({
                 <span>{item.word}</span>
               </span>
               <span className="vocab-ru t-caption">
-                {isUsed ? '✓ BRUKT I TALE' : translation}
+                {isUsed ? 'BRUKT I TALE' : translation}
               </span>
             </div>
           );

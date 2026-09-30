@@ -449,6 +449,23 @@ body {
   flex-wrap: wrap;
 }
 
+.vacancy-meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  color: var(--muted);
+}
+
+.vacancy-meta p {
+  margin: 0;
+}
+
+.vacancy-count {
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
 .custom-loader-heading {
   display: inline-flex;
   align-items: center;

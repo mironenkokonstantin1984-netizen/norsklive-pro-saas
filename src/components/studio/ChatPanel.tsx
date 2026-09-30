@@ -24,6 +24,8 @@ export interface ChatPanelProps {
   l1Lang: L1Language;
   blurMode: boolean;
   subtitlesEnabled?: boolean;
+  /** Exam mode: no «Попробуйте» phrase under the correction. */
+  examMode?: boolean;
   activeSpeech?: { text: string; charIndex: number } | null;
   quotaExceeded?: QuotaExceededInfo | null;
   limitCardDismissed?: boolean;
@@ -85,6 +87,7 @@ export function ChatPanel({
   partnerName,
   l1Lang,
   blurMode,
+  examMode = false,
   subtitlesEnabled = true,
   activeSpeech = null,
   quotaExceeded = null,
@@ -147,7 +150,7 @@ export function ChatPanel({
                   {EXAMPLE_ANSWER_LABEL}
                 </div>
               ) : null}
-              <div className="msg-norsk t-speech">
+              <div className="msg-norsk t-speech" lang="nb">
                 {renderSpokenText(msg.norsk, subtitlesEnabled, activeSpeech)}
               </div>
               {l1Translation ? (
@@ -182,7 +185,7 @@ export function ChatPanel({
           <div key={key} className="user-turn-group">
             <div className="msg msg-user">
               <div className="msg-speaker t-caption">Du (Кандидат)</div>
-              <div className="msg-user-text t-speech">{msg.norsk}</div>
+              <div className="msg-user-text t-speech" lang="nb">{msg.norsk}</div>
             </div>
             {isLatestUserMsg && correctionIsExample ? (
               <div className="msg-example-label t-caption">{EXAMPLE_ANSWER_LABEL}</div>
@@ -191,6 +194,7 @@ export function ChatPanel({
               <CorrectionCard
                 correction={coachingHistory[0]}
                 olderCorrections={coachingHistory.slice(1)}
+                showTry={!examMode}
                 onSpeak={onSpeak}
               />
             ) : null}

@@ -244,7 +244,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     expect(sentBody.userText).toContain('Det er avgjørende å ta hensyn til');
   });
 
-  test('9 (e). Saying a target word in the phrase marks it "✓ BRUKT I TALE"', async () => {
+  test('9 (e). Saying a target word in the phrase marks it "BRUKT I TALE"', async () => {
     const fetchMock = vi.fn(async () => ({
       ok: true,
       status: 200,
@@ -266,7 +266,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
       const usedChips = container.querySelectorAll('#vocabBingoList .vocab-chip.used');
       expect(usedChips.length).toBeGreaterThanOrEqual(1);
       expect(usedChips[0]?.textContent).toContain('bærekraftig');
-      expect(usedChips[0]?.textContent).toContain('✓ BRUKT I TALE');
+      expect(usedChips[0]?.textContent).toContain('BRUKT I TALE');
     });
   });
 

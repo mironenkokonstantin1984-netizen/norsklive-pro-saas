@@ -164,7 +164,7 @@ export const jobbintervju: Scenario[] = [
     title: 'Uformell Lunsjprat & Kaffemaskin-simulator (Cultural Fit)',
     level: 'A2–B2',
     badge: 'Norsk Arbeidskultur (Lunsjprat)',
-    avatar: '☕',
+    avatar: 'coffee',
     partnerName: 'Marte (Kollega i lunsjpausen)',
     partnerRole: 'Sosial integrering på norsk arbeidsplass (Fredagslunsj & småprat)',
     description:

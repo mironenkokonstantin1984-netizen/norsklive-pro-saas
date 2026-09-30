@@ -39,10 +39,10 @@ export function ScenarioPanel({
 
   const leftPanelTitle =
     currentModule === 'norskprove'
-      ? '1. Norskprøve Muntlig (HK-dir)'
+      ? 'Norskprøve Muntlig (HK-dir)'
       : currentModule === 'jobbintervju'
-        ? '2. Jobbintervju på norsk'
-        : '3. CEFR Teleprompter';
+        ? 'Jobbintervju på norsk'
+        : 'CEFR Teleprompter';
 
   const customLoaderTitle =
     currentModule === 'norskprove'

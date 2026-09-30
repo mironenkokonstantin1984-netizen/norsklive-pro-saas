@@ -14,7 +14,11 @@ import {
   Square,
   Volume2
 } from 'lucide-react';
-import { MIC_RECORDING_HINT, useSpeechRecognition } from '../../lib/useSpeechRecognition';
+import {
+  MIC_MESSAGES,
+  MIC_RECORDING_HINT,
+  useSpeechRecognition
+} from '../../lib/useSpeechRecognition';
 import {
   DEFAULT_PRACTICE_PREFS,
   applyPracticePrefsToDocument,
@@ -215,6 +219,10 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
     : state.isThinking
       ? 'Экзаменатор отвечает'
       : state.micStatusText || DEFAULT_MIC_STATUS;
+  const micStatusIsError =
+    !state.isRecording &&
+    !state.isThinking &&
+    (Object.values(MIC_MESSAGES) as string[]).includes(state.micStatusText);
 
   return (
     <div className="studio-shell">
@@ -228,6 +236,9 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
       />
 
       <main className={`studio-layout ${materialsOpen ? 'materials-open' : ''}`}>
+        <h1 className="sr-only" id="studioHeading">
+          Практика
+        </h1>
         {/* CENTER CONVERSATION COLUMN (max 640px, calm reading flow) */}
         <section className="panel conversation-column">
           <CallHero
@@ -253,6 +264,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
             l1Lang={state.l1Lang}
             blurMode={state.blurMode}
             subtitlesEnabled={prefs.subtitles}
+            examMode={prefs.examMode}
             activeSpeech={state.activeSpeech}
             quotaExceeded={state.quotaExceeded}
             limitCardDismissed={state.limitCardDismissed}
@@ -306,8 +318,9 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
                   {liveText}
                 </p>
               ) : null}
-              <div className="voice-status-line t-caption" aria-live="polite">
-                <span id="micStatusText">
+              <div className="voice-status-line t-caption">
+                {/* Status changes are read politely; a microphone error is an alert. */}
+                <span id="micStatusText" role={micStatusIsError ? 'alert' : 'status'}>
                   {state.quotaExceeded ? 'Лимит на сегодня исчерпан' : displayMicStatus}
                 </span>
                 {state.usedWordsToast ? (
@@ -474,52 +487,59 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
                 </button>
               </div>
 
-              <div className="teleprompter-box">
-                <div className="teleprompter-header t-caption">
-                  <span className="teleprompter-title">
-                    <Lightbulb
-                      size={20}
-                      strokeWidth={1.75}
-                      color="currentColor"
-                      aria-hidden="true"
-                    />
-                    <span>Подсказки (Svar-forslag)</span>
-                  </span>
-                  <button
-                    type="button"
-                    id="speakHintBtn"
-                    className="mini-action-btn"
-                    onClick={speakLastAiReply}
-                  >
-                    <Volume2 size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
-                    <span>Повторить вопрос ИИ</span>
-                  </button>
-                </div>
-                <div className="hints-list" id="hintsContainer">
-                  {hints.map((h) => {
-                    const l1Hint = getL1Text(h, state.l1Lang, 'ru');
-                    return (
-                      <div
-                        key={`${h.label}-${h.norsk}`}
-                        className="hint-card"
-                        onClick={() => handleHintClick(h.norsk)}
-                      >
-                        <div className="hint-label t-caption">
-                          <Lightbulb
-                            size={20}
-                            strokeWidth={1.75}
-                            color="currentColor"
-                            aria-hidden="true"
-                          />
-                          <span>{h.label}</span>
+              {prefs.examMode ? null : (
+                <div className="teleprompter-box" id="hintsBox">
+                  <div className="teleprompter-header t-caption">
+                    <span className="teleprompter-title">
+                      <Lightbulb
+                        size={20}
+                        strokeWidth={1.75}
+                        color="currentColor"
+                        aria-hidden="true"
+                      />
+                      <span>Подсказки (Svar-forslag)</span>
+                    </span>
+                    <button
+                      type="button"
+                      id="speakHintBtn"
+                      className="mini-action-btn"
+                      onClick={speakLastAiReply}
+                    >
+                      <Volume2
+                        size={20}
+                        strokeWidth={1.75}
+                        color="currentColor"
+                        aria-hidden="true"
+                      />
+                      <span>Повторить вопрос ИИ</span>
+                    </button>
+                  </div>
+                  <div className="hints-list" id="hintsContainer">
+                    {hints.map((h) => {
+                      const l1Hint = getL1Text(h, state.l1Lang, 'ru');
+                      return (
+                        <div
+                          key={`${h.label}-${h.norsk}`}
+                          className="hint-card"
+                          onClick={() => handleHintClick(h.norsk)}
+                        >
+                          <div className="hint-label t-caption">
+                            <Lightbulb
+                              size={20}
+                              strokeWidth={1.75}
+                              color="currentColor"
+                              aria-hidden="true"
+                            />
+                            <span>{h.label}</span>
+                          </div>
+                          <div className="hint-norsk" lang="nb">{`«${h.norsk}»`}</div>
+                          <div className="hint-ru t-caption">{l1Hint}</div>
                         </div>
-                        <div className="hint-norsk">{`«${h.norsk}»`}</div>
-                        <div className="hint-ru t-caption">{l1Hint}</div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </section>
 

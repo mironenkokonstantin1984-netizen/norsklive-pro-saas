@@ -33,6 +33,7 @@
   --space-6: 24px;
   --space-8: 32px;
   --space-12: 48px;
+  --target-min: 2.75rem; /* 44 px: smallest touch target */
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 22px;

@@ -1,3 +1,5 @@
+import { applyDocumentLang } from '../documentLang';
+
 export type TargetCefrLevel = 'A2' | 'B1' | 'B2';
 export type PathL1 = 'ru' | 'uk' | 'en';
 
@@ -93,6 +95,7 @@ export function writePathPrefs(patch: Partial<PathPrefs>): PathPrefs {
       // Ignore storage errors
     }
   }
+  applyDocumentLang(next.l1);
 
   return next;
 }

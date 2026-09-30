@@ -175,7 +175,7 @@ body {
   border: 1px solid var(--line);
   color: var(--ink);
   padding: var(--space-1) var(--space-3);
-  min-height: 2.5rem;
+  min-height: var(--target-min);
   border-radius: var(--radius-md);
   font-size: 0.8125rem;
   font-weight: 600;
@@ -207,7 +207,7 @@ body {
   border: 1px solid transparent;
   color: var(--primary);
   padding: var(--space-1) var(--space-3);
-  min-height: 2.5rem;
+  min-height: var(--target-min);
   border-radius: var(--radius-md);
   font-size: 0.875rem;
   font-weight: 600;
@@ -766,7 +766,7 @@ body {
   font-size: 0.8125rem;
   font-weight: 600;
   padding: var(--space-1) var(--space-2);
-  min-height: 2rem;
+  min-height: var(--target-min);
   border-radius: var(--radius-sm);
   cursor: pointer;
   display: inline-flex;
@@ -979,7 +979,7 @@ body {
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   padding: var(--space-2) var(--space-3);
-  min-height: 2.5rem;
+  min-height: var(--target-min);
   color: var(--ink);
   font-size: 0.9375rem;
   font-family: var(--font-sans);
@@ -1278,7 +1278,7 @@ body {
 .correction-listen-btn,
 .correction-history-toggle,
 .correction-older-btn {
-  min-height: 2.5rem;
+  min-height: var(--target-min);
 }
 
 .correction-older-section,
@@ -1444,7 +1444,7 @@ body {
 }
 
 .mood-option-btn {
-  min-height: 2.5rem;
+  min-height: var(--target-min);
 }
 
 /* «Удобство» bottom sheet */
@@ -1659,6 +1659,12 @@ body {
   min-height: 2.75rem;
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-float);
+}
+
+/* One focus ring for every keyboard-focused control (design system §7). */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .sr-only {

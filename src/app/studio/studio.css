@@ -1689,3 +1689,13 @@ body {
   color: var(--muted);
   margin-bottom: var(--space-1);
 }
+
+/* VOICE RECORDING (#46): live text while recording, shown before anything is sent */
+.mic-live-text {
+  margin: 0;
+  max-width: 100%;
+  max-height: 6rem;
+  overflow-y: auto;
+  color: var(--ink);
+  text-align: center;
+}

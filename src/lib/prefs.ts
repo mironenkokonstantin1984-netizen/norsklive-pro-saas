@@ -7,6 +7,8 @@ export interface PracticePrefs {
   tempo: ExaminerTempo;
   subtitles: boolean;
   contrast: boolean;
+  /** Send the recognised text right after «Готово» instead of letting the learner edit it. */
+  autoSend: boolean;
   mood?: LearnerMood;
   timestamp?: string;
 }
@@ -17,7 +19,8 @@ export const DEFAULT_PRACTICE_PREFS: PracticePrefs = {
   textSize: 'sm',
   tempo: 1.0,
   subtitles: true,
-  contrast: false
+  contrast: false,
+  autoSend: false
 };
 
 export function loadPracticePrefs(): PracticePrefs {
@@ -43,6 +46,8 @@ export function loadPracticePrefs(): PracticePrefs {
       typeof parsed.contrast === 'boolean'
         ? parsed.contrast
         : DEFAULT_PRACTICE_PREFS.contrast;
+    const autoSend =
+      typeof parsed.autoSend === 'boolean' ? parsed.autoSend : DEFAULT_PRACTICE_PREFS.autoSend;
     const mood =
       parsed.mood === 'Спокойно' || parsed.mood === 'Нормально' || parsed.mood === 'Тревожно'
         ? parsed.mood
@@ -54,6 +59,7 @@ export function loadPracticePrefs(): PracticePrefs {
       tempo,
       subtitles,
       contrast,
+      autoSend,
       ...(mood ? { mood } : {}),
       ...(timestamp ? { timestamp } : {})
     };

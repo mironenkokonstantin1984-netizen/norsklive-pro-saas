@@ -185,7 +185,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     expect(hintsText).toContain('På den annen side fremmer dette inkludering.');
   });
 
-  test('6 (b). Server error shows error status and keeps user bubble', async () => {
+  test('6 (b). Server error keeps the user bubble and shows the «Повторить» card, with no canned correction', async () => {
     const fetchMock = vi.fn(async () => ({
       ok: false,
       status: 500,
@@ -202,14 +202,20 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     fireEvent.click(sendBtn);
 
     await waitFor(() => {
-      const statusText = container.querySelector('#micStatusText')?.textContent || '';
-      expect(statusText).toContain('Ошибка связи с сервером: HTTP 500');
+      expect(container.querySelector('[data-testid="coachErrorCard"]')).not.toBeNull();
     });
+    expect(container.querySelector('[data-testid="coachErrorCard"]')?.textContent).toContain(
+      'Не получилось получить ответ. Ваш ответ сохранён.'
+    );
+    expect(container.querySelector('#micStatusText')?.textContent || '').not.toContain('HTTP 500');
 
     const userBubbles = container.querySelectorAll('#chatStream .msg-user');
     expect(userBubbles.length).toBe(1);
     expect(userBubbles[0]?.textContent).toContain('Hei på deg!');
+    expect(container.querySelectorAll('#chatStream .msg-ai').length).toBe(1);
+    expect(container.querySelector('#chatStream .correction-card')).toBeNull();
   });
+
 
   test('7 (c). Response containing "<img src=x onerror=alert(1)>" in reply_norsk is rendered as literal text (no img element in DOM)', async () => {
     const xssPayload = '<img src=x onerror=alert(1)>';

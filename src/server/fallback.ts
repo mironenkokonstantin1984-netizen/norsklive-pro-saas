@@ -57,7 +57,7 @@ export function generateStrategicRAndDFallback({
       example: 'Vi trenger en bærekraftig modell.'
     };
 
-  // 1. Check exact benchmark phrase from the Strategic Report ("Jeg tenker at miljø er viktig")
+  // 1. Check the benchmark phrase used in tests ("Jeg tenker at miljø er viktig")
   const isSimpleMiljo = /miljø\s+er\s+viktig|tenker\s+at\s+miljø/i.test(userText);
 
   // 2. Check Norwegian V2 inversion error (e.g. "I dag jeg liker kaffe")
@@ -74,10 +74,10 @@ export function generateStrategicRAndDFallback({
   let b2Upgrade = '';
   let explanationL1 = '';
   let cefr = 'B1';
-  let v2Status = '✓ Korrekt V2-inversjon';
+  let v2Status = 'Korrekt V2-inversjon';
   const samhandlingStatus = askedQuestion
-    ? '★ Отличная инициатива (Samhandling B2!)'
-    : '⚠️ Не забудь задать встречный вопрос напарнику!';
+    ? 'Отличная инициатива (Samhandling B2!)'
+    : 'Не забудь задать встречный вопрос напарнику!';
 
   if (isSimpleMiljo) {
     cefr = 'A2';
@@ -86,13 +86,13 @@ export function generateStrategicRAndDFallback({
       'Det er avgjørende å ta hensyn til miljøet for å sikre en bærekraftig velferdsstat på lang sikt.';
     explanationL1 =
       l1 === 'ua'
-        ? '🎯 R&D Аналіз (A2 → B2): Фраза «Jeg tenker at miljø er viktig» звучить на рівні A2 (калька з «я думаю» + іменник без означеного артикля «miljøet»). На рівень B2 замінюємо на безособову конструкцію «Det er avgjørende å ta hensyn til miljøet...».'
+        ? 'Розбір (A2 → B2): Фраза «Jeg tenker at miljø er viktig» звучить на рівні A2 (калька з «я думаю» + іменник без означеного артикля «miljøet»). На рівень B2 замінюємо на безособову конструкцію «Det er avgjørende å ta hensyn til miljøet...».'
         : l1 === 'en'
-          ? '🎯 R&D Analysis (A2 → B2): The phrase "Jeg tenker at miljø er viktig" scores at A2 level (missing definite article "miljøet" and basic verb). To hit B2 on Norskprøve, upgrade to: "Det er avgjørende å ta hensyn til miljøet for å sikre en bærekraftig velferdsstat."'
-          : '🎯 R&D Разбор (A2 → B2): Фраза «Jeg tenker at miljø er viktig» оценивается экзаменатором HK-dir на уровень A2 (глагол «tenker» вместо «mener/synes» и пропуск определённого артикля «miljøet»). Для уровня B2 перестраиваем через инфинитивный оборот: «Det er avgjørende å ta hensyn til miljøet for å sikre en bærekraftig velferdsstat».';
+          ? 'Analysis (A2 → B2): The phrase "Jeg tenker at miljø er viktig" scores at A2 level (missing definite article "miljøet" and basic verb). To hit B2 on Norskprøve, upgrade to: "Det er avgjørende å ta hensyn til miljøet for å sikre en bærekraftig velferdsstat."'
+          : 'Разбор (A2 → B2): Фраза «Jeg tenker at miljø er viktig» оценивается экзаменатором HK-dir на уровень A2 (глагол «tenker» вместо «mener/synes» и пропуск определённого артикля «miljøet»). Для уровня B2 перестраиваем через инфинитивный оборот: «Det er avgjørende å ta hensyn til miljøet for å sikre en bærekraftig velferdsstat».';
   } else if (v2Mistake) {
     cefr = 'A2';
-    v2Status = '⚠️ Pass på V2-inversjon (V2-feil oppdaget)';
+    v2Status = 'Pass på V2-inversjon (V2-feil oppdaget)';
     const adverbial = v2Mistake[1];
     const subject = v2Mistake[2].toLowerCase();
     const verb = v2Mistake[3];
@@ -100,10 +100,10 @@ export function generateStrategicRAndDFallback({
     b2Upgrade = `${naturalBokmal.replace(/\.$/, '')}, og følgelig bør vi legge til rette for ${nextTarget.word}.`;
     explanationL1 =
       l1 === 'ua'
-        ? `⚠️ Правило V2 (Інверсія в норвезькій): після обставини «${adverbial}» дієслово «${verb}» обов’язково ставиться на 2-ге місце перед підметом «${subject}»!`
+        ? `Правило V2 (Інверсія в норвезькій): після обставини «${adverbial}» дієслово «${verb}» обов’язково ставиться на 2-ге місце перед підметом «${subject}»!`
         : l1 === 'en'
-          ? `⚠️ Norwegian V2 Inversion Rule: After the fronted adverbial "${adverbial}", the finite verb "${verb}" MUST come in 2nd position before the subject "${subject}"!`
-          : `⚠️ Правило V2 (Инверсия): после обстоятельства «${adverbial}» глагол «${verb}» в норвежском языке ОБЯЗАН стоять на 2-м месте перед подлежащим «${subject}»!`;
+          ? `Norwegian V2 Inversion Rule: After the fronted adverbial "${adverbial}", the finite verb "${verb}" MUST come in 2nd position before the subject "${subject}"!`
+          : `Правило V2 (Инверсия): после обстоятельства «${adverbial}» глагол «${verb}» в норвежском языке ОБЯЗАН стоять на 2-м месте перед подлежащим «${subject}»!`;
   } else {
     cefr = userText.split(/\s+/).length >= 12 ? 'B1+ / B2' : 'B1';
     b2Upgrade = `Det er avgjørende å understreke at ${
@@ -111,10 +111,10 @@ export function generateStrategicRAndDFallback({
     }, særlig når det gjelder ${nextTarget.word}.`;
     explanationL1 =
       l1 === 'ua'
-        ? `✅ Граматично правильно! Щоб підняти фразу до впевненого B2 та пройти Cultural Fit, додай цільове поняття «${nextTarget.word}» (${nextTarget.ua || nextTarget.translation}) і залучи співрозмовника питанням.`
+        ? `Граматично правильно! Щоб підняти фразу до впевненого B2 та пройти Cultural Fit, додай цільове поняття «${nextTarget.word}» (${nextTarget.ua || nextTarget.translation}) і залучи співрозмовника питанням.`
         : l1 === 'en'
-          ? `✅ Grammatically solid! To elevate this to B2 and score high on Samhandling / Cultural Fit, weave in "${nextTarget.word}" (${nextTarget.en || nextTarget.translation}) and ask your partner a follow-up question.`
-          : `✅ Грамматически верно! Чтобы поднять ответ до уверенного B2 (и учесть скандинавский Cultural Fit / Samhandling), добавь связку «Det er avgjørende å...» и термин «${nextTarget.word}» (${nextTarget.translation}).`;
+          ? `Grammatically solid! To elevate this to B2 and score high on Samhandling / Cultural Fit, weave in "${nextTarget.word}" (${nextTarget.en || nextTarget.translation}) and ask your partner a follow-up question.`
+          : `Грамматически верно! Чтобы поднять ответ до уверенного B2 (и учесть скандинавский Cultural Fit / Samhandling), добавь связку «Det er avgjørende å...» и термин «${nextTarget.word}» (${nextTarget.translation}).`;
   }
 
   let replyNorsk = '';

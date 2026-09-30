@@ -14,7 +14,11 @@ import {
   Square,
   Volume2
 } from 'lucide-react';
-import { MIC_RECORDING_HINT, useSpeechRecognition } from '../../lib/useSpeechRecognition';
+import {
+  MIC_MESSAGES,
+  MIC_RECORDING_HINT,
+  useSpeechRecognition
+} from '../../lib/useSpeechRecognition';
 import {
   DEFAULT_PRACTICE_PREFS,
   applyPracticePrefsToDocument,
@@ -215,6 +219,10 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
     : state.isThinking
       ? 'Экзаменатор отвечает'
       : state.micStatusText || DEFAULT_MIC_STATUS;
+  const micStatusIsError =
+    !state.isRecording &&
+    !state.isThinking &&
+    (Object.values(MIC_MESSAGES) as string[]).includes(state.micStatusText);
 
   return (
     <div className="studio-shell">
@@ -228,6 +236,9 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
       />
 
       <main className={`studio-layout ${materialsOpen ? 'materials-open' : ''}`}>
+        <h1 className="sr-only" id="studioHeading">
+          Практика
+        </h1>
         {/* CENTER CONVERSATION COLUMN (max 640px, calm reading flow) */}
         <section className="panel conversation-column">
           <CallHero
@@ -307,8 +318,9 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
                   {liveText}
                 </p>
               ) : null}
-              <div className="voice-status-line t-caption" aria-live="polite">
-                <span id="micStatusText">
+              <div className="voice-status-line t-caption">
+                {/* Status changes are read politely; a microphone error is an alert. */}
+                <span id="micStatusText" role={micStatusIsError ? 'alert' : 'status'}>
                   {state.quotaExceeded ? 'Лимит на сегодня исчерпан' : displayMicStatus}
                 </span>
                 {state.usedWordsToast ? (
@@ -520,7 +532,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
                             />
                             <span>{h.label}</span>
                           </div>
-                          <div className="hint-norsk">{`«${h.norsk}»`}</div>
+                          <div className="hint-norsk" lang="nb">{`«${h.norsk}»`}</div>
                           <div className="hint-ru t-caption">{l1Hint}</div>
                         </div>
                       );

@@ -4,6 +4,10 @@ import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, fireEvent, cleanup, waitFor } from '@testing-library/react';
 import { StudioPage } from '../src/components/studio/StudioPage';
 import { PREFS_STORAGE_KEY } from '../src/lib/prefs';
+import { uiLangFromL1 } from '../src/lib/documentLang';
+import { DocumentLang } from '../src/components/app/DocumentLang';
+import { writePathPrefs } from '../src/lib/path/storage';
+import { MIC_MESSAGES } from '../src/lib/useSpeechRecognition';
 
 const REPLY = {
   reply_norsk: 'Så fint! Hvor lenge har du bodd der?',
@@ -105,5 +109,47 @@ describe('#48 tab names (B4)', () => {
   test('no numbered module labels are left', () => {
     const { container } = render(<StudioPage />);
     expect(container.textContent).not.toMatch(/[123]\. (Norskprøve|Jobbintervju|CEFR)/);
+  });
+});
+
+describe('#48 accessibility basics (B10)', () => {
+  afterEach(() => {
+    cleanup();
+    window.localStorage.clear();
+    document.documentElement.lang = '';
+  });
+
+  test('<html lang> follows the L1 setting, ru by default', () => {
+    expect(uiLangFromL1(undefined)).toBe('ru');
+    expect(uiLangFromL1('ua')).toBe('uk');
+    expect(uiLangFromL1('uk')).toBe('uk');
+    expect(uiLangFromL1('en')).toBe('en');
+
+    render(<DocumentLang />);
+    expect(document.documentElement.lang).toBe('ru');
+
+    writePathPrefs({ l1: 'uk' });
+    expect(document.documentElement.lang).toBe('uk');
+    writePathPrefs({ l1: 'en' });
+    expect(document.documentElement.lang).toBe('en');
+  });
+
+  test('the studio has exactly one h1 and marks Norwegian text with lang="nb"', () => {
+    const { container } = render(<StudioPage />);
+    const headings = container.querySelectorAll('h1');
+    expect(headings).toHaveLength(1);
+    expect(headings[0].textContent).toBe('Практика');
+    expect(container.querySelector('#chatStream .msg-norsk')?.getAttribute('lang')).toBe('nb');
+    expect(container.querySelector('.vocab-word')?.getAttribute('lang')).toBe('nb');
+  });
+
+  test('the mic status is a polite status; a mic error becomes an alert', () => {
+    const { container } = render(<StudioPage />);
+    const status = container.querySelector('#micStatusText') as HTMLElement;
+    expect(status.getAttribute('role')).toBe('status');
+    // No speech recognition in jsdom: pressing the mic shows the «unsupported» message.
+    fireEvent.click(container.querySelector('#micToggleBtn') as HTMLButtonElement);
+    expect(status.textContent).toBe(MIC_MESSAGES.unsupported);
+    expect(status.getAttribute('role')).toBe('alert');
   });
 });

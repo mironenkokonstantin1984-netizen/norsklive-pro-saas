@@ -1661,6 +1661,12 @@ body {
   box-shadow: var(--shadow-float);
 }
 
+/* One focus ring for every keyboard-focused control (design system §7). */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

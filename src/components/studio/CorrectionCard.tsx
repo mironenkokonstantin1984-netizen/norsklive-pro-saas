@@ -54,9 +54,11 @@ export function CorrectionCard({
 
   return (
     <article className="correction-card" id="latestCorrectionCard" aria-label="Разбор ответа">
-      <div className="correction-meta t-caption">{correction.cefr_estimate || 'B1'}</div>
+      <div className="correction-meta t-caption">
+        {correction.cefr_estimate || 'B1'}
+      </div>
 
-      <div className="correction-utterance t-speech">
+      <div className="correction-utterance t-speech" lang="nb">
         {renderDiffInline(correction.original, correction.natural_bokmal)}
       </div>
 
@@ -70,7 +72,9 @@ export function CorrectionCard({
         <div className="correction-try" data-testid="correctionTry">
           <div className="correction-try-line t-body">
             <span className="correction-try-label t-callout">Попробуйте:</span>{' '}
-            <span className="correction-try-phrase">{correction.b2_upgrade}</span>
+            <span className="correction-try-phrase" lang="nb">
+              {correction.b2_upgrade}
+            </span>
           </div>
           <button
             type="button"
@@ -92,9 +96,19 @@ export function CorrectionCard({
             onClick={() => setExpanded((prev) => !prev)}
           >
             {expanded ? (
-              <ChevronUp size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+              <ChevronUp
+                size={20}
+                strokeWidth={1.75}
+                color="currentColor"
+                aria-hidden="true"
+              />
             ) : (
-              <ChevronDown size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+              <ChevronDown
+                size={20}
+                strokeWidth={1.75}
+                color="currentColor"
+                aria-hidden="true"
+              />
             )}
             <span>{`Предыдущие замечания (${olderCorrections.length})`}</span>
           </button>
@@ -103,8 +117,10 @@ export function CorrectionCard({
             <div className="correction-older-list">
               {olderCorrections.map((old, idx) => (
                 <div key={`${idx}-${old.original}`} className="correction-older-item">
-                  <div className="correction-meta t-caption">{old.cefr_estimate || 'B1'}</div>
-                  <div className="correction-utterance t-speech">
+                  <div className="correction-meta t-caption">
+                    {old.cefr_estimate || 'B1'}
+                  </div>
+                  <div className="correction-utterance t-speech" lang="nb">
                     {renderDiffInline(old.original, old.natural_bokmal)}
                   </div>
                   <div className="correction-rule t-callout">{old.grammar_rule_l1}</div>

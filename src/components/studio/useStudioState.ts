@@ -17,6 +17,7 @@ import {
 } from '../../lib/coachClient';
 import { speakNorwegian } from '../../lib/speech';
 import { readPathPrefs } from '../../lib/path/storage';
+import { applyDocumentLang } from '../../lib/documentLang';
 
 export type L1Language = 'ru' | 'ua' | 'en';
 export type CefrLevel = 'A2' | 'B1' | 'B2';
@@ -683,6 +684,7 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
 
   const setL1Lang = useCallback((l1Lang: L1Language) => {
     dispatch({ type: 'SET_L1_LANG', l1Lang });
+    applyDocumentLang(l1Lang);
   }, []);
 
   const setUserLevel = useCallback((userLevel: CefrLevel) => {

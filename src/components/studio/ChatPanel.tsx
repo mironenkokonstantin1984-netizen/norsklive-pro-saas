@@ -7,7 +7,12 @@ import type { LearnerMood } from '../../lib/prefs';
 import { formatCountRu } from '../../lib/plural';
 import { CorrectionCard } from './CorrectionCard';
 import { useChatAutoScroll } from './useChatAutoScroll';
-import type { ChatMessage, CoachErrorInfo, L1Language, QuotaExceededInfo } from './useStudioState';
+import type {
+  ChatMessage,
+  CoachErrorInfo,
+  L1Language,
+  QuotaExceededInfo
+} from './useStudioState';
 
 const REPLIKA_FORMS = { one: 'реплику', few: 'реплики', many: 'реплик' } as const;
 const ERROR_FORMS = { one: 'ошибку', few: 'ошибки', many: 'ошибок' } as const;
@@ -115,7 +120,9 @@ export function ChatPanel({
   }
 
   const showMoodCard =
-    learnerTurnCount > 0 && learnerTurnCount % 5 === 0 && dismissedMoodTurn !== learnerTurnCount;
+    learnerTurnCount > 0 &&
+    learnerTurnCount % 5 === 0 &&
+    dismissedMoodTurn !== learnerTurnCount;
 
   const handleMoodClick = (mood: LearnerMood) => {
     onSelectMood?.(mood);
@@ -130,7 +137,10 @@ export function ChatPanel({
           const l1Translation = msg.l1 || '';
 
           return (
-            <div key={key} className={`msg msg-ai ${blurMode ? 'blurred' : ''}`}>
+            <div
+              key={key}
+              className={`msg msg-ai ${blurMode ? 'blurred' : ''}`}
+            >
               <div className="msg-speaker t-caption">
                 <Bot size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
                 <span>{partnerName}</span>
@@ -140,7 +150,7 @@ export function ChatPanel({
                   {EXAMPLE_ANSWER_LABEL}
                 </div>
               ) : null}
-              <div className="msg-norsk t-speech">
+              <div className="msg-norsk t-speech" lang="nb">
                 {renderSpokenText(msg.norsk, subtitlesEnabled, activeSpeech)}
               </div>
               {l1Translation ? (
@@ -175,7 +185,7 @@ export function ChatPanel({
           <div key={key} className="user-turn-group">
             <div className="msg msg-user">
               <div className="msg-speaker t-caption">Du (Кандидат)</div>
-              <div className="msg-user-text t-speech">{msg.norsk}</div>
+              <div className="msg-user-text t-speech" lang="nb">{msg.norsk}</div>
             </div>
             {isLatestUserMsg && correctionIsExample ? (
               <div className="msg-example-label t-caption">{EXAMPLE_ANSWER_LABEL}</div>
@@ -208,12 +218,7 @@ export function ChatPanel({
       ) : null}
 
       {showMoodCard ? (
-        <div
-          className="mood-check-card"
-          id="moodCheckCard"
-          role="region"
-          aria-label="Как ощущения?"
-        >
+        <div className="mood-check-card" id="moodCheckCard" role="region" aria-label="Как ощущения?">
           <div className="mood-check-header">
             <span className="mood-check-title t-callout">Как ощущения?</span>
             <button
@@ -254,7 +259,10 @@ export function ChatPanel({
             {`Вы сделали ${formatCountRu(learnerTurnCount, REPLIKA_FORMS)} и разобрали ${formatCountRu(coachingHistory.length, ERROR_FORMS)}. Лимит бесплатного плана — ${quotaExceeded.limit} в день, завтра снова доступно.`}
           </p>
           <div className="daily-limit-actions">
-            <a href="/path#plans" className="btn-primary daily-limit-primary-btn t-callout">
+            <a
+              href="/path#plans"
+              className="btn-primary daily-limit-primary-btn t-callout"
+            >
               Посмотреть подписку
             </a>
             <button

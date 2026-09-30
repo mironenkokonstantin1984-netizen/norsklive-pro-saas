@@ -42,9 +42,13 @@ export function loadPracticePrefs(): PracticePrefs {
         : DEFAULT_PRACTICE_PREFS.textSize;
     const tempo: ExaminerTempo = parsed.tempo === 0.8 ? 0.8 : 1.0;
     const subtitles =
-      typeof parsed.subtitles === 'boolean' ? parsed.subtitles : DEFAULT_PRACTICE_PREFS.subtitles;
+      typeof parsed.subtitles === 'boolean'
+        ? parsed.subtitles
+        : DEFAULT_PRACTICE_PREFS.subtitles;
     const contrast =
-      typeof parsed.contrast === 'boolean' ? parsed.contrast : DEFAULT_PRACTICE_PREFS.contrast;
+      typeof parsed.contrast === 'boolean'
+        ? parsed.contrast
+        : DEFAULT_PRACTICE_PREFS.contrast;
     const autoSend =
       typeof parsed.autoSend === 'boolean' ? parsed.autoSend : DEFAULT_PRACTICE_PREFS.autoSend;
     const examMode =

@@ -3,7 +3,7 @@ import path from 'node:path';
 import { describe, test, expect } from 'vitest';
 
 /** Emoji and pictographic symbols used as decoration (🔴 🎯 ★ ⚠️ ✓ …). Plain arrows such as → stay allowed. */
-const DECORATION = /[\p{Extended_Pictographic}★☆✓✔✗✘️]/u;
+const DECORATION = /[\p{Extended_Pictographic}\u2605\u2606\u2713\u2714\u2717\u2718]|\uFE0F/u;
 
 function sourceFiles(dir: string): string[] {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {

@@ -92,7 +92,11 @@ export function PracticeSettingsSheet({
           {/* 1. Text size (3 steps segmented control) */}
           <div className="comfort-setting-row">
             <span className="t-callout">Размер текста</span>
-            <div className="module-tabs segmented-control" role="group" aria-label="Размер текста">
+            <div
+              className="module-tabs segmented-control"
+              role="group"
+              aria-label="Размер текста"
+            >
               <button
                 type="button"
                 data-size="sm"

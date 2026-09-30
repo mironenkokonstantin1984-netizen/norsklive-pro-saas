@@ -93,8 +93,7 @@ export function TopBar({
           type="button"
           role="tab"
           aria-selected={currentModule === 'norskprove'}
-          aria-label="1. Norskprøve Muntlig (HK-dir)"
-          title="1. Norskprøve Muntlig (HK-dir)"
+          aria-label="Norskprøve"
           className={`module-tab ${currentModule === 'norskprove' ? 'active' : ''}`}
           data-module="norskprove"
           onClick={() => onSwitchModule('norskprove')}
@@ -106,8 +105,7 @@ export function TopBar({
           type="button"
           role="tab"
           aria-selected={currentModule === 'jobbintervju'}
-          aria-label="2. Jobbintervju på norsk"
-          title="2. Jobbintervju på norsk"
+          aria-label="Jobbintervju"
           className={`module-tab ${currentModule === 'jobbintervju' ? 'active' : ''}`}
           data-module="jobbintervju"
           onClick={() => onSwitchModule('jobbintervju')}
@@ -119,8 +117,7 @@ export function TopBar({
           type="button"
           role="tab"
           aria-selected={currentModule === 'pensum'}
-          aria-label="3. CEFR Teleprompter"
-          title="3. CEFR Teleprompter"
+          aria-label="Pensum"
           className={`module-tab ${currentModule === 'pensum' ? 'active' : ''}`}
           data-module="pensum"
           onClick={() => onSwitchModule('pensum')}

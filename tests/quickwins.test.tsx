@@ -84,3 +84,26 @@ describe('#48 exam mode hides hints (B9)', () => {
     expect(container.querySelector('#hintsContainer')).toBeNull();
   });
 });
+
+describe('#48 tab names (B4)', () => {
+  afterEach(() => cleanup());
+
+  test('each module tab has an accessible name equal to its visible text', () => {
+    const { getAllByRole } = render(<StudioPage />);
+    const tabs = getAllByRole('tab');
+    expect(tabs.map((t) => t.textContent?.trim())).toEqual([
+      'Norskprøve',
+      'Jobbintervju',
+      'Pensum'
+    ]);
+    for (const tab of tabs) {
+      expect(tab.getAttribute('aria-label')).toBe(tab.textContent?.trim());
+      expect(tab.getAttribute('title')).toBeNull();
+    }
+  });
+
+  test('no numbered module labels are left', () => {
+    const { container } = render(<StudioPage />);
+    expect(container.textContent).not.toMatch(/[123]\. (Norskprøve|Jobbintervju|CEFR)/);
+  });
+});

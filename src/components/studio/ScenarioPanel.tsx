@@ -96,14 +96,13 @@ export function ScenarioPanel({
           )}
           {currentModule === 'jobbintervju' && (
             <span>
-              <strong>CV + Вакансия &amp; Cultural Fit:</strong> Спарринг под норвежский командный
-              стиль (lagspiller &amp; lunsjprat).
+              <strong>Собеседование:</strong> Тренировка ответов на частые вопросы работодателя.
             </span>
           )}
           {currentModule === 'pensum' && (
             <span>
-              <strong>Åndsverkloven &amp; Kopinor Safe:</strong> Авторские модули CEFR и
-              телесуфлёр на 10 слов.
+              <strong>Åndsverkloven &amp; Kopinor Safe:</strong> Авторские модули CEFR и телесуфлёр
+              на 10 слов.
             </span>
           )}
         </p>

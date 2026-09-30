@@ -1,13 +1,18 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { ArrowDown, Bookmark, Bot, Volume2, X } from 'lucide-react';
+import { ArrowDown, Bookmark, Bot, RotateCcw, Volume2, X } from 'lucide-react';
 import type { Correction } from '../../server/schemas';
 import type { LearnerMood } from '../../lib/prefs';
 import { formatCountRu } from '../../lib/plural';
 import { CorrectionCard } from './CorrectionCard';
 import { useChatAutoScroll } from './useChatAutoScroll';
-import type { ChatMessage, L1Language, QuotaExceededInfo } from './useStudioState';
+import type {
+  ChatMessage,
+  CoachErrorInfo,
+  L1Language,
+  QuotaExceededInfo
+} from './useStudioState';
 
 const REPLIKA_FORMS = { one: 'реплику', few: 'реплики', many: 'реплик' } as const;
 const ERROR_FORMS = { one: 'ошибку', few: 'ошибки', many: 'ошибок' } as const;
@@ -23,10 +28,16 @@ export interface ChatPanelProps {
   quotaExceeded?: QuotaExceededInfo | null;
   limitCardDismissed?: boolean;
   onDismissLimitCard?: () => void;
+  coachError?: CoachErrorInfo | null;
+  isThinking?: boolean;
+  onRetry?: () => void;
   onSpeak: (text: string) => void;
   onSaveToGlossary: (word: string, translation: string) => void;
   onSelectMood?: (mood: LearnerMood) => void;
 }
+
+export const EXAMPLE_ANSWER_LABEL = 'Пример ответа, ИИ не подключён';
+export const COACH_ERROR_TEXT = 'Не получилось получить ответ. Ваш ответ сохранён.';
 
 const MOOD_OPTIONS: LearnerMood[] = ['Спокойно', 'Нормально', 'Тревожно'];
 
@@ -79,6 +90,9 @@ export function ChatPanel({
   quotaExceeded = null,
   limitCardDismissed = false,
   onDismissLimitCard,
+  coachError = null,
+  isThinking = false,
+  onRetry,
   onSpeak,
   onSaveToGlossary,
   onSelectMood
@@ -89,7 +103,8 @@ export function ChatPanel({
   const { showNewMessages, announcement, jumpToNewest } = useChatAutoScroll({
     streamRef,
     chatHistory,
-    limitCardVisible: Boolean(quotaExceeded) && !limitCardDismissed
+    limitCardVisible: Boolean(quotaExceeded) && !limitCardDismissed,
+    errorCardVisible: Boolean(coachError)
   });
 
   let lastUserIndex = -1;
@@ -127,6 +142,11 @@ export function ChatPanel({
                 <Bot size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
                 <span>{partnerName}</span>
               </div>
+              {msg.isExample ? (
+                <div className="msg-example-label t-caption" data-testid="exampleAnswerLabel">
+                  {EXAMPLE_ANSWER_LABEL}
+                </div>
+              ) : null}
               <div className="msg-norsk t-speech">
                 {renderSpokenText(msg.norsk, subtitlesEnabled, activeSpeech)}
               </div>
@@ -156,6 +176,7 @@ export function ChatPanel({
         }
 
         const isLatestUserMsg = index === lastUserIndex && coachingHistory.length > 0;
+        const correctionIsExample = Boolean(chatHistory[index + 1]?.isExample);
 
         return (
           <div key={key} className="user-turn-group">
@@ -163,6 +184,9 @@ export function ChatPanel({
               <div className="msg-speaker t-caption">Du (Кандидат)</div>
               <div className="msg-user-text t-speech">{msg.norsk}</div>
             </div>
+            {isLatestUserMsg && correctionIsExample ? (
+              <div className="msg-example-label t-caption">{EXAMPLE_ANSWER_LABEL}</div>
+            ) : null}
             {isLatestUserMsg ? (
               <CorrectionCard
                 correction={coachingHistory[0]}
@@ -173,6 +197,21 @@ export function ChatPanel({
           </div>
         );
       })}
+
+      {coachError ? (
+        <div className="coach-error-card" role="alert" data-testid="coachErrorCard">
+          <p className="coach-error-text t-body">{COACH_ERROR_TEXT}</p>
+          <button
+            type="button"
+            className="btn-outline coach-retry-btn t-callout"
+            onClick={onRetry}
+            disabled={isThinking}
+          >
+            <RotateCcw size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+            <span>Повторить</span>
+          </button>
+        </div>
+      ) : null}
 
       {showMoodCard ? (
         <div className="mood-check-card" id="moodCheckCard" role="region" aria-label="Как ощущения?">

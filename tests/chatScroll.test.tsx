@@ -5,6 +5,9 @@ import { render, screen, fireEvent, cleanup, act } from '@testing-library/react'
 import { ChatPanel } from '../src/components/studio/ChatPanel';
 import type { ChatMessage } from '../src/components/studio/useStudioState';
 import { NEW_REPLY_ANNOUNCEMENT } from '../src/components/studio/useChatAutoScroll';
+import { scrollIntoViewClear } from '../src/lib/scrollIntoViewClear';
+
+vi.mock('../src/lib/scrollIntoViewClear', () => ({ scrollIntoViewClear: vi.fn() }));
 
 const greeting: ChatMessage = { sender: 'ai', norsk: 'Hei! Fortell litt om deg selv.' };
 const learner: ChatMessage = { sender: 'user', norsk: 'Jeg heter Anna.' };
@@ -26,7 +29,7 @@ function panel(chatHistory: ChatMessage[]) {
   );
 }
 
-let scrollIntoView: ReturnType<typeof vi.fn>;
+const scrollIntoView = vi.mocked(scrollIntoViewClear);
 let reducedMotion = false;
 let pageScrollY = 0;
 let pageScrollHeight = 0;
@@ -49,8 +52,7 @@ function learnerScrollsUp() {
 
 beforeEach(() => {
   vi.useFakeTimers();
-  scrollIntoView = vi.fn();
-  Element.prototype.scrollIntoView = scrollIntoView as unknown as Element['scrollIntoView'];
+  scrollIntoView.mockClear();
   reducedMotion = false;
   window.matchMedia = vi.fn().mockImplementation((query: string) => ({
     matches: query.includes('prefers-reduced-motion') ? reducedMotion : false,
@@ -77,9 +79,8 @@ afterEach(() => {
 });
 
 function lastCallTarget() {
-  const call = scrollIntoView.mock.instances[scrollIntoView.mock.instances.length - 1] as
-    HTMLElement | undefined;
-  return call;
+  const calls = scrollIntoView.mock.calls;
+  return calls[calls.length - 1]?.[0] as HTMLElement | undefined;
 }
 
 describe('Chat auto-scroll (#44)', () => {
@@ -93,7 +94,12 @@ describe('Chat auto-scroll (#44)', () => {
     rerender(panel([greeting, learner]));
     rerender(panel([greeting, learner, reply]));
 
-    expect(scrollIntoView).toHaveBeenLastCalledWith({ block: 'start', behavior: 'smooth' });
+    expect(scrollIntoView).toHaveBeenLastCalledWith(
+      expect.anything(),
+      'start',
+      'smooth',
+      expect.anything()
+    );
     expect(lastCallTarget()?.textContent).toContain('Hvor bor du?');
   });
 
@@ -103,14 +109,24 @@ describe('Chat auto-scroll (#44)', () => {
     rerender(panel([greeting, learner]));
     rerender(panel([greeting, learner, reply]));
 
-    expect(scrollIntoView).toHaveBeenLastCalledWith({ block: 'start', behavior: 'auto' });
+    expect(scrollIntoView).toHaveBeenLastCalledWith(
+      expect.anything(),
+      'start',
+      'auto',
+      expect.anything()
+    );
   });
 
   it('keeps the learner’s own message in view when it is sent', () => {
     const { rerender } = render(panel([greeting]));
     rerender(panel([greeting, learner]));
 
-    expect(scrollIntoView).toHaveBeenLastCalledWith({ block: 'nearest', behavior: 'smooth' });
+    expect(scrollIntoView).toHaveBeenLastCalledWith(
+      expect.anything(),
+      'nearest',
+      'smooth',
+      expect.anything()
+    );
     expect(lastCallTarget()?.textContent).toContain('Jeg heter Anna.');
   });
 
@@ -126,7 +142,12 @@ describe('Chat auto-scroll (#44)', () => {
     const button = screen.getByRole('button', { name: 'Новые сообщения' });
 
     fireEvent.click(button);
-    expect(scrollIntoView).toHaveBeenLastCalledWith({ block: 'start', behavior: 'smooth' });
+    expect(scrollIntoView).toHaveBeenLastCalledWith(
+      expect.anything(),
+      'start',
+      'smooth',
+      expect.anything()
+    );
     expect(lastCallTarget()?.textContent).toContain('Hvor bor du?');
     expect(screen.queryByRole('button', { name: 'Новые сообщения' })).toBeNull();
   });
@@ -143,7 +164,12 @@ describe('Chat auto-scroll (#44)', () => {
 
     scrollIntoView.mockClear();
     rerender(panel([greeting, learner, reply, learner2, reply2]));
-    expect(scrollIntoView).toHaveBeenLastCalledWith({ block: 'start', behavior: 'smooth' });
+    expect(scrollIntoView).toHaveBeenLastCalledWith(
+      expect.anything(),
+      'start',
+      'smooth',
+      expect.anything()
+    );
     expect(lastCallTarget()?.textContent).toContain('Hva jobber du med?');
   });
 

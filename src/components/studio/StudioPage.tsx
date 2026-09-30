@@ -61,6 +61,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
     saveToGlossary,
     handleUserSubmission,
     dismissLimitCard,
+    retryLastSubmission,
     exportReportAndGlossary,
     advanceExamPart,
     speakLastAiReply
@@ -222,6 +223,9 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
             quotaExceeded={state.quotaExceeded}
             limitCardDismissed={state.limitCardDismissed}
             onDismissLimitCard={dismissLimitCard}
+            coachError={state.coachError}
+            isThinking={state.isThinking}
+            onRetry={retryLastSubmission}
             onSpeak={speakWithOrb}
             onSaveToGlossary={saveToGlossary}
             onSelectMood={handleSelectMood}

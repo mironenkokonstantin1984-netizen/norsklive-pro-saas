@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type RefObject } from 'react';
 import type { ChatMessage } from './useStudioState';
+import { scrollIntoViewClear, type ClearBlock } from '../../lib/scrollIntoViewClear';
 
 /** How close (in px) to the bottom still counts as "at the bottom". */
 const NEAR_BOTTOM_PX = 160;
@@ -22,9 +23,12 @@ function scrollBehavior(): ScrollBehavior {
   return prefersReducedMotion() ? 'auto' : 'smooth';
 }
 
-function scrollElementIntoView(el: Element | null | undefined, block: ScrollLogicalPosition) {
-  if (el && typeof (el as HTMLElement).scrollIntoView === 'function') {
-    (el as HTMLElement).scrollIntoView({ block, behavior: scrollBehavior() });
+function scrollElementIntoView(el: Element | null | undefined, block: ClearBlock) {
+  if (el) {
+    scrollIntoViewClear(el, block, scrollBehavior(), {
+      topSelector: '.topbar',
+      bottomSelector: '.voice-dock'
+    });
   }
 }
 
@@ -46,6 +50,7 @@ interface Options {
   streamRef: RefObject<HTMLDivElement | null>;
   chatHistory: ChatMessage[];
   limitCardVisible: boolean;
+  errorCardVisible?: boolean;
 }
 
 /**
@@ -53,10 +58,16 @@ interface Options {
  * who scrolled up on purpose. Returns whether to show the «Новые сообщения» button and the text
  * for a polite live region.
  */
-export function useChatAutoScroll({ streamRef, chatHistory, limitCardVisible }: Options) {
+export function useChatAutoScroll({
+  streamRef,
+  chatHistory,
+  limitCardVisible,
+  errorCardVisible = false
+}: Options) {
   const followRef = useRef(true);
   const prevLengthRef = useRef(chatHistory.length);
   const prevLimitRef = useRef(limitCardVisible);
+  const prevErrorRef = useRef(errorCardVisible);
   const lastUserInputRef = useRef(0);
   const lastScrollTopRef = useRef(0);
   const [showNewMessages, setShowNewMessages] = useState(false);
@@ -65,8 +76,13 @@ export function useChatAutoScroll({ streamRef, chatHistory, limitCardVisible }: 
   const scrollToNewest = useCallback(() => {
     const stream = streamRef.current;
     if (!stream) return;
+    const errorCard = stream.querySelector('.coach-error-card');
     const limitCard = stream.querySelector('.daily-limit-card');
     const replies = stream.querySelectorAll('.msg-ai');
+    if (errorCard) {
+      scrollElementIntoView(errorCard, 'nearest');
+      return;
+    }
     scrollElementIntoView(limitCard ?? replies[replies.length - 1], 'start');
   }, [streamRef]);
 
@@ -148,6 +164,18 @@ export function useChatAutoScroll({ streamRef, chatHistory, limitCardVisible }: 
       setShowNewMessages(true);
     }
   }, [limitCardVisible, scrollToNewest]);
+
+  // The «Не получилось получить ответ» card must be seen, since it holds the retry button.
+  useEffect(() => {
+    const wasVisible = prevErrorRef.current;
+    prevErrorRef.current = errorCardVisible;
+    if (!errorCardVisible || wasVisible) return;
+    if (followRef.current) {
+      scrollToNewest();
+    } else {
+      setShowNewMessages(true);
+    }
+  }, [errorCardVisible, scrollToNewest]);
 
   const jumpToNewest = useCallback(() => {
     followRef.current = true;

@@ -11,7 +11,7 @@ import {
   type RateLimitOptions
 } from './rateLimit';
 import { getSessionUser, isAuthEnabled } from './auth';
-import { checkAndCountAiCall, type QuotaCheckResult } from './quota';
+import { checkAiQuota, countAiCall, type QuotaCheckResult } from './quota';
 import {
   appendTurns,
   getOrCreateSession,
@@ -29,6 +29,9 @@ export interface CoachHandlerDeps {
   getUser?: () => Promise<{ id: string } | null>;
   authEnabled?: () => boolean;
   quota?: (userId: string) => Promise<QuotaCheckResult>;
+  countCall?: (userId: string) => Promise<void>;
+  /** Overrides `COACH_ALLOW_FALLBACK` (dev and tests only). */
+  allowFallback?: () => boolean;
   getOrCreateSession?: (
     userId: string,
     params: SessionParams
@@ -54,7 +57,13 @@ export function createCoachHandler(
     deps.getUser ?? getSessionUser;
 
   const checkQuota: (userId: string) => Promise<QuotaCheckResult> =
-    deps.quota ?? ((userId: string) => checkAndCountAiCall(userId));
+    deps.quota ?? ((userId: string) => checkAiQuota(userId));
+
+  const recordAiCall: (userId: string) => Promise<void> =
+    deps.countCall ?? ((userId: string) => countAiCall(userId));
+
+  const fallbackAllowed: () => boolean =
+    deps.allowFallback ?? (() => process.env.COACH_ALLOW_FALLBACK === 'true');
 
   const resolveSession: (
     userId: string,
@@ -208,11 +217,20 @@ export function createCoachHandler(
 
           const parsedOutput = JSON.parse(rawJson);
           const validated = CoachResponseSchema.parse(parsedOutput);
+          if (authedUser) {
+            await recordAiCall(authedUser.id);
+          }
           await persistReply(validated);
           return Response.json(validated, { status: 200 });
         } catch {
-          // Fall through to deterministic rule-based fallback on any Gemini error/timeout
+          // Gemini failed, timed out or returned an invalid answer: handled below.
         }
+      }
+
+      // Never show canned text as if the AI had answered. The fallback exists only for local
+      // development and tests, behind COACH_ALLOW_FALLBACK=true, and is marked as an example.
+      if (!fallbackAllowed()) {
+        return Response.json({ error: 'coach_unavailable' }, { status: 503 });
       }
 
       const fallbackFn = deps.fallbackImpl || generateStrategicRAndDFallback;
@@ -225,8 +243,10 @@ export function createCoachHandler(
         usedWords,
         customScenario
       });
-      const validatedFallback = CoachResponseSchema.parse(fallbackResult);
-      await persistReply(validatedFallback);
+      const validatedFallback = CoachResponseSchema.parse({
+        ...fallbackResult,
+        source: 'fallback'
+      });
       return Response.json(validatedFallback, { status: 200 });
     } catch {
       return Response.json({ error: 'Internal error' }, { status: 500 });

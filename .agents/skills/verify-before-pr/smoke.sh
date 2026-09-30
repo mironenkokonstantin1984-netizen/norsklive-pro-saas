@@ -24,14 +24,22 @@ echo "OK: GET /index.html -> 404"
 
 VALID_BODY='{"module":"norskprove","scenarioId":"np-b1b2-velferd-hjemmekontor","level":"B1","l1":"ru","persona":"standard","userText":"I dag jeg liker kaffe"}'
 
-code_valid="$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE_URL/api/coach" \
+# With a Gemini key (or COACH_ALLOW_FALLBACK=true) the coach answers 200. Without either it must
+# answer an honest 503 {"error":"coach_unavailable"} and never a canned reply (#45).
+valid_body_out="$(mktemp)"
+code_valid="$(curl -s -o "$valid_body_out" -w '%{http_code}' -X POST "$BASE_URL/api/coach" \
   -H 'Content-Type: application/json' \
   -d "$VALID_BODY")"
-if [ "$code_valid" != "200" ]; then
-  echo "FAIL: POST /api/coach valid body returned $code_valid (expected 200)"
+if [ "$code_valid" = "200" ]; then
+  echo "OK: POST /api/coach valid body -> 200"
+elif [ "$code_valid" = "503" ] && grep -q '"error":"coach_unavailable"' "$valid_body_out"; then
+  echo "OK: POST /api/coach valid body -> 503 coach_unavailable (no AI key configured)"
+else
+  echo "FAIL: POST /api/coach valid body returned $code_valid (expected 200, or 503 coach_unavailable)"
+  rm -f "$valid_body_out"
   exit 1
 fi
-echo "OK: POST /api/coach valid body -> 200"
+rm -f "$valid_body_out"
 
 code_empty="$(curl -s -o /dev/null -w '%{http_code}' -X POST "$BASE_URL/api/coach" \
   -H 'Content-Type: application/json' \

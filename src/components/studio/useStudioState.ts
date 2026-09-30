@@ -9,7 +9,12 @@ import {
   type TargetWord
 } from '../../content/scenarios';
 import type { Correction, Hint } from '../../server/schemas';
-import { AuthRequiredError, QuotaExceededError, postCoach } from '../../lib/coachClient';
+import {
+  AuthRequiredError,
+  CoachUnavailableError,
+  QuotaExceededError,
+  postCoach
+} from '../../lib/coachClient';
 import { speakNorwegian } from '../../lib/speech';
 import { readPathPrefs } from '../../lib/path/storage';
 
@@ -28,6 +33,13 @@ export interface ChatMessage {
   norsk: string;
   l1?: string;
   time?: string;
+  /** Canned example answer (COACH_ALLOW_FALLBACK), not a real AI reply. */
+  isExample?: boolean;
+}
+
+/** The coach could not answer the learner's last message; the message stays in the chat. */
+export interface CoachErrorInfo {
+  text: string;
 }
 
 export interface HkdirScores {
@@ -65,6 +77,7 @@ export interface StudioState {
   activeSpeech: { text: string; charIndex: number } | null;
   quotaExceeded: QuotaExceededInfo | null;
   limitCardDismissed: boolean;
+  coachError: CoachErrorInfo | null;
 }
 
 export const DEFAULT_MIC_STATUS = 'Нажмите и говорите';
@@ -162,7 +175,9 @@ export type StudioAction =
       }>;
     }
   | { type: 'SET_QUOTA_EXCEEDED'; limit: number; plan: string }
-  | { type: 'DISMISS_LIMIT_CARD' };
+  | { type: 'DISMISS_LIMIT_CARD' }
+  | { type: 'SET_COACH_ERROR'; text: string }
+  | { type: 'CLEAR_COACH_ERROR' };
 
 const firstScenario = scenariosByModule.norskprove[0];
 
@@ -193,7 +208,8 @@ export const initialStudioState: StudioState = {
   hkdirScores: { ...DEFAULT_HKDIR_SCORES },
   activeSpeech: null,
   quotaExceeded: null,
-  limitCardDismissed: false
+  limitCardDismissed: false,
+  coachError: null
 };
 
 function resetForScenario(
@@ -215,7 +231,8 @@ function resetForScenario(
     micStatusText: DEFAULT_MIC_STATUS,
     usedWordsToast: '',
     hkdirScores: { ...DEFAULT_HKDIR_SCORES },
-    activeSpeech: null
+    activeSpeech: null,
+    coachError: null
   };
 }
 
@@ -406,6 +423,18 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
       return {
         ...state,
         limitCardDismissed: true
+      };
+    case 'SET_COACH_ERROR':
+      return {
+        ...state,
+        isThinking: false,
+        coachError: { text: action.text },
+        micStatusText: DEFAULT_MIC_STATUS
+      };
+    case 'CLEAR_COACH_ERROR':
+      return {
+        ...state,
+        coachError: null
       };
     default:
       return state;
@@ -696,67 +725,16 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
     dispatch({ type: 'MARK_WORD_USED', word });
   }, []);
 
-  const handleUserSubmission = useCallback(
-    async (rawText: string) => {
-      const cleanText = (rawText || '').trim();
-      if (!cleanText) return;
-
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        try {
-          window.speechSynthesis.cancel();
-        } catch {
-          // Ignore
-        }
-      }
-
-      const nowTime = new Date().toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-
-      const userMsg: ChatMessage = {
-        sender: 'user',
-        norsk: cleanText,
-        l1: '',
-        time: nowTime
-      };
-
-      dispatch({ type: 'APPEND_MESSAGE', message: userMsg });
-
+  /** Sends one learner message to the coach and applies the answer, or shows the error card. */
+  const sendToCoach = useCallback(
+    async (
+      cleanText: string,
+      historyPayload: { sender: 'user' | 'ai'; norsk: string; l1?: string }[],
+      usedWordsPayload: string[]
+    ) => {
       const sc = state.currentScenario;
-      const { newlyUsedDisplay, newlyUsedLower } = detectSpokenTargetWords(
-        cleanText,
-        sc?.targetWords || [],
-        state.usedWords
-      );
-
-      const nextUsedWords = Array.from(
-        new Set([...state.usedWords, ...newlyUsedLower])
-      );
-
-      if (newlyUsedDisplay.length > 0) {
-        const toastMsg = `🎉 Использовано в речи: ${newlyUsedDisplay.join(', ')}`;
-        dispatch({
-          type: 'MARK_WORDS_USED',
-          words: newlyUsedLower,
-          toast: toastMsg
-        });
-        if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
-        toastTimeoutRef.current = setTimeout(() => {
-          dispatch({ type: 'CLEAR_USED_WORDS_TOAST' });
-        }, 4500);
-      }
-
       dispatch({ type: 'SET_THINKING', isThinking: true });
       dispatch({ type: 'SET_MIC_STATUS', text: THINKING_MIC_STATUS });
-
-      const historyPayload = [...state.chatHistory, userMsg]
-        .slice(-20)
-        .map((t) => ({
-          sender: t.sender,
-          norsk: t.norsk,
-          l1: t.l1
-        }));
 
       try {
         const result = await postCoach({
@@ -767,7 +745,7 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
           persona: state.agentPersona,
           userText: cleanText,
           history: historyPayload,
-          usedWords: nextUsedWords,
+          usedWords: usedWordsPayload,
           customScenario:
             sc && String(sc.id).startsWith('custom-')
               ? {
@@ -794,7 +772,8 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
             time: new Date().toLocaleTimeString([], {
               hour: '2-digit',
               minute: '2-digit'
-            })
+            }),
+            ...(result.source === 'fallback' ? { isExample: true } : {})
           }
         });
 
@@ -821,18 +800,15 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
           });
           return;
         }
-        const message = err instanceof Error ? err.message : String(err);
-        dispatch({ type: 'SET_THINKING', isThinking: false });
-        dispatch({
-          type: 'SET_MIC_STATUS',
-          text: `Ошибка связи с сервером: ${message}`
-        });
+        // Coach unavailable or any other failure: keep the learner's message and offer a retry.
+        if (!(err instanceof CoachUnavailableError)) {
+          console.error('Coach request failed.');
+        }
+        dispatch({ type: 'SET_COACH_ERROR', text: cleanText });
       }
     },
     [
       state.currentScenario,
-      state.usedWords,
-      state.chatHistory,
       state.currentModule,
       state.userLevel,
       state.l1Lang,
@@ -840,6 +816,84 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
       speakWithOrb
     ]
   );
+
+  const handleUserSubmission = useCallback(
+    async (rawText: string) => {
+      const cleanText = (rawText || '').trim();
+      if (!cleanText) return;
+
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        try {
+          window.speechSynthesis.cancel();
+        } catch {
+          // Ignore
+        }
+      }
+
+      const nowTime = new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      const userMsg: ChatMessage = {
+        sender: 'user',
+        norsk: cleanText,
+        l1: '',
+        time: nowTime
+      };
+
+      dispatch({ type: 'CLEAR_COACH_ERROR' });
+      dispatch({ type: 'APPEND_MESSAGE', message: userMsg });
+
+      const sc = state.currentScenario;
+      const { newlyUsedDisplay, newlyUsedLower } = detectSpokenTargetWords(
+        cleanText,
+        sc?.targetWords || [],
+        state.usedWords
+      );
+
+      const nextUsedWords = Array.from(
+        new Set([...state.usedWords, ...newlyUsedLower])
+      );
+
+      if (newlyUsedDisplay.length > 0) {
+        const toastMsg = `🎉 Использовано в речи: ${newlyUsedDisplay.join(', ')}`;
+        dispatch({
+          type: 'MARK_WORDS_USED',
+          words: newlyUsedLower,
+          toast: toastMsg
+        });
+        if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+        toastTimeoutRef.current = setTimeout(() => {
+          dispatch({ type: 'CLEAR_USED_WORDS_TOAST' });
+        }, 4500);
+      }
+
+      const historyPayload = [...state.chatHistory, userMsg]
+        .slice(-20)
+        .map((t) => ({
+          sender: t.sender,
+          norsk: t.norsk,
+          l1: t.l1
+        }));
+
+      await sendToCoach(cleanText, historyPayload, nextUsedWords);
+    },
+    [state.currentScenario, state.usedWords, state.chatHistory, sendToCoach]
+  );
+
+  /** Re-sends the message that failed, without adding it to the chat a second time. */
+  const retryLastSubmission = useCallback(async () => {
+    const failed = state.coachError;
+    if (!failed) return;
+    dispatch({ type: 'CLEAR_COACH_ERROR' });
+    const historyPayload = state.chatHistory.slice(-20).map((t) => ({
+      sender: t.sender,
+      norsk: t.norsk,
+      l1: t.l1
+    }));
+    await sendToCoach(failed.text, historyPayload, state.usedWords);
+  }, [state.coachError, state.chatHistory, state.usedWords, sendToCoach]);
 
   const dismissLimitCard = useCallback(() => {
     dispatch({ type: 'DISMISS_LIMIT_CARD' });
@@ -903,6 +957,7 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
     markWordUsed,
     handleUserSubmission,
     dismissLimitCard,
+    retryLastSubmission,
     exportReportAndGlossary,
     advanceExamPart,
     speakLastAiReply

@@ -54,7 +54,9 @@ describe('M1b-2a Auth & Login tests', () => {
     try {
       const handler = createCoachHandler({
         authEnabled: () => true,
-        getUser: async () => ({ id: '00000000-0000-0000-0000-000000000001' })
+        getUser: async () => ({ id: '00000000-0000-0000-0000-000000000001' }),
+        quota: async () => ({ allowed: true, used: 0, limit: 20, plan: 'free' }),
+        allowFallback: () => true
       });
 
       const res = await handler(makeCoachRequest());
@@ -75,7 +77,8 @@ describe('M1b-2a Auth & Login tests', () => {
     try {
       const handler = createCoachHandler({
         authEnabled: () => false,
-        getUser: async () => null
+        getUser: async () => null,
+        allowFallback: () => true
       });
 
       const res = await handler(makeCoachRequest());

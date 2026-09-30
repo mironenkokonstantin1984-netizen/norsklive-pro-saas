@@ -2,32 +2,47 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   DAILY_LIMITS,
-  checkAndCountAiCall,
+  checkAiQuota,
+  countAiCall,
   type QuotaAdminClientLike,
   type SubscriptionPlan
 } from '../src/server/quota';
 import { createCoachHandler } from '../src/server/coachHandler';
 import { QuotaExceededError, postCoach } from '../src/lib/coachClient';
 
+function chain(result: { data: unknown; error: Error | null }) {
+  const builder: Record<string, unknown> = {};
+  builder.select = vi.fn().mockReturnValue(builder);
+  builder.eq = vi.fn().mockReturnValue(builder);
+  builder.maybeSingle = vi.fn().mockResolvedValue(result);
+  return builder;
+}
+
 function makeMockAdminClient(options: {
   plan?: SubscriptionPlan | null;
   subError?: Error | null;
-  usedCalls?: number;
+  /** Calls already made today, as stored in public.usage (null = no row yet). */
+  usedCalls?: number | null;
+  usageError?: Error | null;
   rpcError?: Error | null;
 }): QuotaAdminClientLike {
   return {
-    from: vi.fn().mockReturnValue({
-      select: vi.fn().mockReturnValue({
-        eq: vi.fn().mockReturnValue({
-          maybeSingle: vi.fn().mockResolvedValue({
+    from: vi.fn().mockImplementation((table: string) =>
+      table === 'subscriptions'
+        ? chain({
             data: options.plan ? { plan: options.plan } : null,
             error: options.subError ?? null
           })
-        })
-      })
-    }) as unknown as QuotaAdminClientLike['from'],
+        : chain({
+            data:
+              options.usedCalls === null || options.usedCalls === undefined
+                ? null
+                : { ai_calls: options.usedCalls },
+            error: options.usageError ?? null
+          })
+    ) as unknown as QuotaAdminClientLike['from'],
     rpc: vi.fn().mockResolvedValue({
-      data: options.usedCalls ?? 1,
+      data: (options.usedCalls ?? 0) + 1,
       error: options.rpcError ?? null
     }) as unknown as QuotaAdminClientLike['rpc']
   };
@@ -44,45 +59,48 @@ const VALID_COACH_BODY = {
   usedWords: []
 };
 
+function coachRequest() {
+  return new Request('http://localhost:3000/api/coach', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(VALID_COACH_BODY)
+  });
+}
+
 describe('M1b-2b-1 Daily AI quota unit tests', () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it('1. free under the limit (20) -> allowed', async () => {
-    const mockClient = makeMockAdminClient({ plan: 'free', usedCalls: 20 });
-    const result = await checkAndCountAiCall('user-1', {
+  it('1. free with 19 calls used -> allowed, and checking does not count a call', async () => {
+    const mockClient = makeMockAdminClient({ plan: 'free', usedCalls: 19 });
+    const result = await checkAiQuota('user-1', {
       getAdminClient: () => mockClient,
       now: new Date('2026-09-28T10:00:00Z')
     });
 
     expect(result).toEqual({
       allowed: true,
-      used: 20,
+      used: 19,
       limit: DAILY_LIMITS.free,
       plan: 'free'
     });
+    expect(mockClient.rpc).not.toHaveBeenCalled();
   });
 
-  it('2. free at 21 -> 402 from the handler with { error: "quota_exceeded", limit: 20, plan: "free" }', async () => {
-    const mockClient = makeMockAdminClient({ plan: 'free', usedCalls: 21 });
+  it('2. free with 20 calls used -> 402 from the handler with { error: "quota_exceeded", limit: 20, plan: "free" }', async () => {
+    const mockClient = makeMockAdminClient({ plan: 'free', usedCalls: 20 });
     const handler = createCoachHandler({
       authEnabled: () => true,
-      getUser: async () => ({ id: 'user-free-21' }),
+      getUser: async () => ({ id: 'user-free-20' }),
       quota: (uid) =>
-        checkAndCountAiCall(uid, {
+        checkAiQuota(uid, {
           getAdminClient: () => mockClient,
           now: new Date('2026-09-28T10:00:00Z')
         })
     });
 
-    const req = new Request('http://localhost:3000/api/coach', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(VALID_COACH_BODY)
-    });
-
-    const res = await handler(req);
+    const res = await handler(coachRequest());
     expect(res.status).toBe(402);
     const body = await res.json();
     expect(body).toEqual({
@@ -92,60 +110,42 @@ describe('M1b-2b-1 Daily AI quota unit tests', () => {
     });
   });
 
-  it('3. monthly at 300 -> allowed (200); monthly at 301 -> 402 from the handler', async () => {
+  it('3. monthly with 299 used -> allowed; monthly with 300 used -> 402 from the handler', async () => {
+    const clientAt299 = makeMockAdminClient({ plan: 'monthly', usedCalls: 299 });
+    const handler299 = createCoachHandler({
+      authEnabled: () => true,
+      getUser: async () => ({ id: 'user-monthly' }),
+      allowFallback: () => true,
+      countCall: async () => {},
+      quota: (uid) => checkAiQuota(uid, { getAdminClient: () => clientAt299 })
+    });
+    expect((await handler299(coachRequest())).status).toBe(200);
+
     const clientAt300 = makeMockAdminClient({ plan: 'monthly', usedCalls: 300 });
     const handler300 = createCoachHandler({
       authEnabled: () => true,
       getUser: async () => ({ id: 'user-monthly' }),
-      quota: (uid) =>
-        checkAndCountAiCall(uid, {
-          getAdminClient: () => clientAt300
-        })
+      quota: (uid) => checkAiQuota(uid, { getAdminClient: () => clientAt300 })
     });
 
-    const res300 = await handler300(
-      new Request('http://localhost:3000/api/coach', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(VALID_COACH_BODY)
-      })
-    );
-    expect(res300.status).toBe(200);
-
-    const clientAt301 = makeMockAdminClient({ plan: 'monthly', usedCalls: 301 });
-    const handler301 = createCoachHandler({
-      authEnabled: () => true,
-      getUser: async () => ({ id: 'user-monthly' }),
-      quota: (uid) =>
-        checkAndCountAiCall(uid, {
-          getAdminClient: () => clientAt301
-        })
-    });
-
-    const res301 = await handler301(
-      new Request('http://localhost:3000/api/coach', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(VALID_COACH_BODY)
-      })
-    );
-    expect(res301.status).toBe(402);
-    expect(await res301.json()).toEqual({
+    const res300 = await handler300(coachRequest());
+    expect(res300.status).toBe(402);
+    expect(await res300.json()).toEqual({
       error: 'quota_exceeded',
       limit: 300,
       plan: 'monthly'
     });
   });
 
-  it('4. missing subscription row defaults to free plan (limit 20)', async () => {
-    const mockClient = makeMockAdminClient({ plan: null, usedCalls: 5 });
-    const result = await checkAndCountAiCall('user-no-sub', {
+  it('4. missing subscription row defaults to free plan (limit 20); no usage row means 0 used', async () => {
+    const mockClient = makeMockAdminClient({ plan: null, usedCalls: null });
+    const result = await checkAiQuota('user-no-sub', {
       getAdminClient: () => mockClient
     });
 
     expect(result).toEqual({
       allowed: true,
-      used: 5,
+      used: 0,
       limit: 20,
       plan: 'free'
     });
@@ -158,7 +158,7 @@ describe('M1b-2b-1 Daily AI quota unit tests', () => {
     });
 
     const sensitiveUserId = 'secret-user-uuid-999';
-    const result = await checkAndCountAiCall(sensitiveUserId, {
+    const result = await checkAiQuota(sensitiveUserId, {
       getAdminClient: () => mockClient
     });
 
@@ -168,10 +168,30 @@ describe('M1b-2b-1 Daily AI quota unit tests', () => {
     expect(loggedMessage).not.toContain(sensitiveUserId);
   });
 
+  it('5b. countAiCall calls increment_ai_calls with the Oslo date and never throws', async () => {
+    const mockClient = makeMockAdminClient({ plan: 'free', usedCalls: 3 });
+    await countAiCall('user-1', {
+      getAdminClient: () => mockClient,
+      now: new Date('2026-09-28T23:30:00Z')
+    });
+    expect(mockClient.rpc).toHaveBeenCalledWith('increment_ai_calls', {
+      uid: 'user-1',
+      d: '2026-09-29'
+    });
+
+    const errSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const failing = makeMockAdminClient({ rpcError: new Error('boom') });
+    await expect(
+      countAiCall('user-2', { getAdminClient: () => failing })
+    ).resolves.toBeUndefined();
+    expect(errSpy).toHaveBeenCalledTimes(1);
+  });
+
   it('6. auth off -> quota check is never called', async () => {
     const quotaSpy = vi.fn();
     const handler = createCoachHandler({
       authEnabled: () => false,
+      allowFallback: () => true,
       quota: quotaSpy
     });
 

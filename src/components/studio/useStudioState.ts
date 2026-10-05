@@ -8,7 +8,7 @@ import {
   type ScenariosByModule,
   type TargetWord
 } from '../../content/scenarios';
-import type { Correction, Hint } from '../../server/schemas';
+import type { CoachFeedback, Correction, Hint } from '../../server/schemas';
 import {
   AuthRequiredError,
   CoachUnavailableError,
@@ -67,7 +67,7 @@ export interface StudioState {
   blurMode: boolean;
   timerSeconds: number;
   chatHistory: ChatMessage[];
-  coachingHistory: Correction[];
+  coachingHistory: Array<CoachFeedback | Correction>;
   hints: Hint[];
   isRecording: boolean;
   isSpeaking: boolean;
@@ -117,10 +117,15 @@ export function buildReportMarkdown(state: StudioState): string {
     `**Активный словарь (Bingo):** ${state.usedWords.length} из ${(sc && sc.targetWords.length) || 0}`,
     ``,
     `## 1. Трансформация фраз (A2 → B2) и L1 Микро-коррекции`,
-    ...state.coachingHistory.map(
-      (c, i) =>
-        `### Реплика ${i + 1}\n- **Что сказал кандидат (${c.cefr_estimate}):** ${c.original}\n- **Naturlig Bokmål:** ${c.natural_bokmal}\n- **B2-Oppgradering:** ${c.b2_upgrade}\n- **L1 Разбор & Samhandling:** ${c.grammar_rule_l1}\n`
-    ),
+    ...state.coachingHistory.map((c, i) => {
+      if ('status' in c) {
+        const errList = c.errors
+          .map((e) => `${e.quote} -> ${e.fix} (${e.rule_name_l1})`)
+          .join(', ');
+        return `### Реплика ${i + 1}\n- **Уровень:** ${c.level_estimate}\n- **Статус:** ${c.status === 'ok' ? 'Хорошо' : 'Есть ошибки'}\n- **Ошибки:** ${errList || 'Нет'}\n- **Похвала:** ${c.praise_l1}\n`;
+      }
+      return `### Реплика ${i + 1}\n- **Что сказал кандидат (${c.cefr_estimate}):** ${c.original}\n- **Naturlig Bokmål:** ${c.natural_bokmal}\n- **B2-Oppgradering:** ${c.b2_upgrade}\n- **L1 Разбор & Samhandling:** ${c.grammar_rule_l1}\n`;
+    }),
     `## 2. Личный словарь (Min Ordbok)`,
     ...state.savedGlossary.map(
       (g) => `- **${g.word}** — ${g.translation} (*«${g.example || ''}»*)`
@@ -152,7 +157,7 @@ export type StudioAction =
   | { type: 'MARK_WORDS_USED'; words: string[]; toast: string }
   | { type: 'CLEAR_USED_WORDS_TOAST' }
   | { type: 'APPEND_MESSAGE'; message: ChatMessage }
-  | { type: 'ADD_COACHING_CARD'; correction: Correction }
+  | { type: 'ADD_COACHING_CARD'; feedback?: CoachFeedback; correction?: Correction }
   | { type: 'SET_HINTS'; hints: Hint[] }
   | { type: 'SET_RECORDING'; isRecording: boolean }
   | { type: 'SET_SPEAKING'; isSpeaking: boolean }
@@ -319,14 +324,28 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
         chatHistory: [...state.chatHistory, action.message]
       };
     case 'ADD_COACHING_CARD': {
+      const fb = action.feedback;
       const corr = action.correction;
+      const card = fb || corr;
+      if (!card) return state;
+
+      const cefr = fb ? fb.level_estimate : corr?.cefr_estimate || 'B1+';
+      const gram = fb
+        ? fb.status === 'ok'
+          ? 'Korrekt V2'
+          : 'Pass på V2-inversjon'
+        : corr?.v2_status || 'Korrekt V2';
+      const arg = fb
+        ? fb.samhandling_l1 || 'Активный диалог'
+        : corr?.samhandling_status || 'Активный диалог';
+
       return {
         ...state,
-        coachingHistory: [corr, ...state.coachingHistory],
+        coachingHistory: [card, ...state.coachingHistory],
         hkdirScores: {
-          cefr: corr.cefr_estimate || 'B1+',
-          gram: corr.v2_status || 'Korrekt V2',
-          arg: corr.samhandling_status || 'Активный диалог'
+          cefr,
+          gram,
+          arg
         }
       };
     }
@@ -369,21 +388,33 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
         }))
       ];
 
-      const restoredCorrections: Correction[] = [];
+      const restoredCorrections: Array<CoachFeedback | Correction> = [];
       for (const t of action.turns) {
         if (t.role === 'ai' && t.correction_json && typeof t.correction_json === 'object') {
-          restoredCorrections.unshift(t.correction_json as Correction);
+          restoredCorrections.unshift(t.correction_json as CoachFeedback | Correction);
         }
       }
 
       const latestCorr = restoredCorrections[0];
-      const nextScores: HkdirScores = latestCorr
-        ? {
-            cefr: latestCorr.cefr_estimate || state.hkdirScores.cefr,
-            gram: latestCorr.v2_status || state.hkdirScores.gram,
-            arg: latestCorr.samhandling_status || state.hkdirScores.arg
-          }
-        : state.hkdirScores;
+      let nextScores: HkdirScores = state.hkdirScores;
+      if (latestCorr) {
+        if ('status' in latestCorr) {
+          nextScores = {
+            cefr: (latestCorr as CoachFeedback).level_estimate || state.hkdirScores.cefr,
+            gram:
+              (latestCorr as CoachFeedback).status === 'ok'
+                ? 'Korrekt V2'
+                : 'Pass på V2-inversjon',
+            arg: (latestCorr as CoachFeedback).samhandling_l1 || 'Активный диалог'
+          };
+        } else {
+          nextScores = {
+            cefr: (latestCorr as Correction).cefr_estimate || state.hkdirScores.cefr,
+            gram: (latestCorr as Correction).v2_status || state.hkdirScores.gram,
+            arg: (latestCorr as Correction).samhandling_status || state.hkdirScores.arg
+          };
+        }
+      }
 
       return {
         ...state,
@@ -786,8 +817,12 @@ export function useStudioState({ authEnabled = false }: UseStudioStateOptions = 
               : undefined
         });
 
-        if (result.correction) {
-          dispatch({ type: 'ADD_COACHING_CARD', correction: result.correction });
+        if (result.feedback || result.correction) {
+          dispatch({
+            type: 'ADD_COACHING_CARD',
+            feedback: result.feedback,
+            correction: result.correction
+          });
         }
 
         dispatch({

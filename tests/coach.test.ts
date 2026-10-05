@@ -476,6 +476,77 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
       const networkFailRes = await handlerNetworkFail(makeCoachRequest(validBody));
       expect(networkFailRes.status).toBe(503);
       expect(await networkFailRes.json()).toEqual({ error: 'coach_unavailable' });
+
+      // 5. Invalid JSON on attempt 1, valid JSON on attempt 2 (retry succeeds) -> 200
+      let callCount = 0;
+      const handlerRetrySuccess = createCoachHandler({
+        fetchImpl: (async () => {
+          callCount++;
+          if (callCount === 1) {
+            return {
+              ok: true,
+              status: 200,
+              json: async () => ({
+                candidates: [{ content: { parts: [{ text: '{ invalid json...' }] } }]
+              })
+            } as Response;
+          }
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({
+              candidates: [{ content: { parts: [{ text: JSON.stringify(mockModelOutput) }] } }]
+            })
+          } as Response;
+        }) as unknown as typeof globalThis.fetch
+      });
+
+      const retryRes = await handlerRetrySuccess(makeCoachRequest(validBody));
+      expect(retryRes.status).toBe(200);
+      expect(callCount).toBe(2);
+
+      // 6. Invented quotes in feedback are dropped by server before response goes out
+      const outputWithInvented = {
+        ...mockModelOutput,
+        feedback: {
+          status: 'has_errors',
+          errors: [
+            {
+              quote: 'I dag jeg liker',
+              fix: 'I dag liker jeg',
+              type: 'word_order',
+              rule_name_l1: 'V2',
+              explanation_l1: 'Inversjon'
+            },
+            {
+              quote: 'invented hallucinated quote',
+              fix: 'something',
+              type: 'spelling',
+              rule_name_l1: 'Feil',
+              explanation_l1: 'Finnes ikke'
+            }
+          ],
+          praise_l1: 'Bra!',
+          level_estimate: 'B1'
+        }
+      };
+
+      const handlerQuoteSanitize = createCoachHandler({
+        fetchImpl: (async () =>
+          ({
+            ok: true,
+            status: 200,
+            json: async () => ({
+              candidates: [{ content: { parts: [{ text: JSON.stringify(outputWithInvented) }] } }]
+            })
+          }) as Response) as unknown as typeof globalThis.fetch
+      });
+
+      const quoteRes = await handlerQuoteSanitize(makeCoachRequest(validBody));
+      expect(quoteRes.status).toBe(200);
+      const quoteData = await quoteRes.json();
+      expect(quoteData.feedback.errors).toHaveLength(1);
+      expect(quoteData.feedback.errors[0].quote).toBe('I dag jeg liker');
     } finally {
       if (prevKey !== undefined) {
         process.env.GEMINI_API_KEY = prevKey;

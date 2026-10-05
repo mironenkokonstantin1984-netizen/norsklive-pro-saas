@@ -18,6 +18,7 @@ import {
 } from '../src/lib/words/scheduler';
 import {
   buildDailySession,
+  countDueToday,
   countKnownWords,
   createDefaultWordsProgress,
   readWordsProgress,
@@ -178,7 +179,43 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
     expect(isWordKnown({ stage: 3, contextPassed: false })).toBe(false);
     expect(isWordKnown({ stage: 4, contextPassed: false })).toBe(false);
     expect(isWordKnown({ stage: 4, contextPassed: true })).toBe(true);
-    expect(isWordKnown({ stage: 5 as never, contextPassed: true })).toBe(true);
+    expect(isWordKnown({ stage: 5, contextPassed: true })).toBe(true);
+  });
+
+  it('4b. contextPassed is set only by a correct stage-4 answer; countDueToday counts visible ids only', () => {
+    const now = new Date('2026-09-28T10:00:00Z');
+    const stage3 = { ...createInitialCardState('w-001', now), stage: 3 as const };
+
+    // 3 -> 4 via «Нормально» does not make the word known
+    const reached4 = gradeWordCard(stage3, 'good', now, { typedCorrect: true });
+    expect(reached4.stage).toBe(4);
+    expect(reached4.contextPassed).toBe(false);
+    expect(isWordKnown(reached4)).toBe(false);
+
+    // wrong stage-4 answer keeps it unknown and drops the stage
+    const wrong4 = gradeWordCard(reached4, 'good', now, { typedCorrect: false, clozeIndex: 0, totalClozeCount: 2 });
+    expect(wrong4.contextPassed).toBe(false);
+    expect(wrong4.stage).toBe(3);
+
+    // correct stage-4 answer sets contextPassed and records the cloze as seen
+    const right4 = gradeWordCard(reached4, 'good', now, { typedCorrect: true, clozeIndex: 0, totalClozeCount: 2 });
+    expect(right4.contextPassed).toBe(true);
+    expect(isWordKnown(right4)).toBe(true);
+    expect(right4.seenClozeIndices).toEqual([0]);
+    expect(right4.clozeIndex).toBe(1);
+
+    // countDueToday: only visible ids, new ones capped by newPerDay, due cards counted
+    const progress = createDefaultWordsProgress();
+    progress.adaptive.newPerDay = 2;
+    progress.cards['w-due'] = { ...createInitialCardState('w-due', now), stage: 2 };
+    progress.cards['w-later'] = {
+      ...createInitialCardState('w-later', now),
+      stage: 2,
+      fsrsCard: { ...createInitialCardState('w-later', now).fsrsCard, due: '2026-10-10T00:00:00Z' }
+    };
+    expect(countDueToday(now, [], progress)).toBe(0);
+    expect(countDueToday(now, ['w-due', 'w-later', 'n1', 'n2', 'n3'], progress)).toBe(3);
+    expect(countKnownWords({ ...progress, cards: { a: right4 } }, ['other'])).toBe(0);
   });
 
   it('5. answer checking handles case, extra spaces, noun articles at stage 3, and enforces exact inflected form at stage 4', () => {
@@ -323,7 +360,7 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
     render(<WordsSession catalog={[]} showDrafts={false} />);
     expect(screen.getByTestId('wordsEmptyState')).toBeTruthy();
     expect(screen.getByText('Слова сейчас проверяет преподаватель. Скоро они появятся здесь')).toBeTruthy();
-    const link = screen.getByRole('link', { name: 'Мой путь' });
+    const link = within(screen.getByTestId('wordsEmptyState')).getByRole('link', { name: 'Мой путь' });
     expect(link.getAttribute('href')).toBe('/path');
   });
 

@@ -25,10 +25,12 @@ export interface PathHomeProps {
   visibleWordIds?: readonly string[];
 }
 
+const DEFAULT_VISIBLE_WORD_IDS: readonly string[] = [];
+
 export function PathHome({
   authEnabled = false,
   userEmail = null,
-  visibleWordIds = []
+  visibleWordIds = DEFAULT_VISIBLE_WORD_IDS
 }: PathHomeProps = {}) {
   const [prefs, setPrefs] = useState<PathPrefs>(() => readPathPrefs());
   const [savedWordsCount, setSavedWordsCount] = useState<number>(() => readSavedWordsCount());
@@ -42,13 +44,15 @@ export function PathHome({
   });
   const dateInputRef = useRef<HTMLInputElement | null>(null);
 
+  const wordIdsKey = visibleWordIds.join(',');
+
   useEffect(() => {
     setPrefs(readPathPrefs());
     setSavedWordsCount(readSavedWordsCount());
     const progress = readWordsProgress();
     setDueTodayWordsCount(countDueToday(new Date(), visibleWordIds, progress));
     setKnownWordsCount(countKnownWords(progress, visibleWordIds));
-  }, [visibleWordIds]);
+  }, [wordIdsKey]);
 
   const situation = nextSituation([]);
   const daysLeft = prefs.examDate ? daysUntilExam(prefs.examDate) : null;

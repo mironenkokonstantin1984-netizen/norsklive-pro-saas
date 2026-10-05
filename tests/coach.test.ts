@@ -4,7 +4,12 @@ import { describe, test, expect, vi } from 'vitest';
 import nextConfig from '../next.config';
 import { createCoachHandler } from '../src/server/coachHandler';
 import { createRateLimiter } from '../src/server/rateLimit';
-import { CoachResponseSchema } from '../src/server/schemas';
+import {
+  CoachResponseSchema,
+  CoachFeedbackSchema,
+  filterFeedbackErrorsByLearnerText,
+  type CoachFeedback
+} from '../src/server/schemas';
 import { generateStrategicRAndDFallback } from '../src/server/fallback';
 import { buildGeminiCoachPayload } from '../src/server/prompts/coach';
 import { POST as catchAllPost } from '../src/app/api/[...slug]/route';
@@ -372,6 +377,20 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
     const mockModelOutput = {
       reply_norsk: 'Interessant poeng! Hvordan påvirker dette bærekraft i arbeidslivet?',
       reply_l1: 'Интересная мысль! Как это влияет на устойчивость в рабочей среде?',
+      feedback: {
+        status: 'has_errors',
+        errors: [
+          {
+            quote: 'I dag jeg liker',
+            fix: 'I dag liker jeg',
+            type: 'word_order',
+            rule_name_l1: 'Правило V2',
+            explanation_l1: 'После обстоятельства «I dag» глагол стоит на 2-м месте (V2).'
+          }
+        ],
+        praise_l1: 'Хорошая попытка!',
+        level_estimate: 'B1'
+      },
       correction: {
         original: 'I dag jeg liker kaffe',
         natural_bokmal: 'I dag liker jeg kaffe veldig godt.',
@@ -460,5 +479,99 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
         delete process.env.GEMINI_API_KEY;
       }
     }
+  });
+
+  test('10. CoachFeedbackSchema superRefine rules and filterFeedbackErrorsByLearnerText quote dropping', () => {
+    // 1. status: 'ok' with empty errors is valid
+    const validOk = CoachFeedbackSchema.safeParse({
+      status: 'ok',
+      errors: [],
+      praise_l1: 'Veldig bra uttale og god struktur!',
+      level_estimate: 'B1'
+    });
+    expect(validOk.success).toBe(true);
+
+    // 2. status: 'ok' with errors fails superRefine
+    const invalidOk = CoachFeedbackSchema.safeParse({
+      status: 'ok',
+      errors: [
+        {
+          quote: 'feil',
+          fix: 'riktig',
+          type: 'spelling',
+          rule_name_l1: 'Stavefeil',
+          explanation_l1: 'Bokstaven mangler'
+        }
+      ],
+      praise_l1: 'Bra',
+      level_estimate: 'B1'
+    });
+    expect(invalidOk.success).toBe(false);
+    if (!invalidOk.success) {
+      expect(invalidOk.error.issues[0].message).toMatch(/errors must be empty when status is ok/i);
+    }
+
+    // 3. status: 'has_errors' with empty errors fails superRefine
+    const invalidHasErrors = CoachFeedbackSchema.safeParse({
+      status: 'has_errors',
+      errors: [],
+      praise_l1: 'Bra',
+      level_estimate: 'A2'
+    });
+    expect(invalidHasErrors.success).toBe(false);
+    if (!invalidHasErrors.success) {
+      expect(invalidHasErrors.error.issues[0].message).toMatch(
+        /errors must not be empty when status is has_errors/i
+      );
+    }
+
+    // 4. filterFeedbackErrorsByLearnerText drops invented quotes and updates status
+    const learnerText = 'I går spiste jeg et eple';
+    const feedbackWithInvented: CoachFeedback = {
+      status: 'has_errors',
+      errors: [
+        {
+          quote: 'spiste jeg',
+          fix: 'spiste jeg',
+          type: 'word_order',
+          rule_name_l1: 'V2',
+          explanation_l1: 'Korrekt'
+        },
+        {
+          quote: 'invented hallucination',
+          fix: 'noe',
+          type: 'vocabulary',
+          rule_name_l1: 'Ordvalg',
+          explanation_l1: 'Finnes ikke'
+        }
+      ],
+      praise_l1: 'Fint!',
+      level_estimate: 'A2'
+    };
+
+    const sanitized = filterFeedbackErrorsByLearnerText(feedbackWithInvented, learnerText);
+    expect(sanitized.errors).toHaveLength(1);
+    expect(sanitized.errors[0].quote).toBe('spiste jeg');
+    expect(sanitized.status).toBe('has_errors');
+
+    // 5. If ALL quotes are invented, status flips to 'ok' and errors is empty
+    const allInvented: CoachFeedback = {
+      status: 'has_errors',
+      errors: [
+        {
+          quote: 'not in text at all',
+          fix: 'fix',
+          type: 'other',
+          rule_name_l1: 'Annet',
+          explanation_l1: 'Mangler'
+        }
+      ],
+      praise_l1: 'Fint!',
+      level_estimate: 'A2'
+    };
+    const sanitizedAllInvented = filterFeedbackErrorsByLearnerText(allInvented, learnerText);
+    expect(sanitizedAllInvented.status).toBe('ok');
+    expect(sanitizedAllInvented.errors).toHaveLength(0);
+    expect(CoachFeedbackSchema.safeParse(sanitizedAllInvented).success).toBe(true);
   });
 });

@@ -17,6 +17,12 @@ const BODY = {
 const MODEL_REPLY = {
   reply_norsk: 'Så fint! Hvor lenge har du bodd der?',
   reply_l1: 'Как здорово! Как долго ты там живёшь?',
+  feedback: {
+    status: 'ok',
+    errors: [],
+    praise_l1: 'Всё верно.',
+    level_estimate: 'A2'
+  },
   correction: {
     original: 'Jeg bor i Bergen.',
     natural_bokmal: 'Jeg bor i Bergen.',

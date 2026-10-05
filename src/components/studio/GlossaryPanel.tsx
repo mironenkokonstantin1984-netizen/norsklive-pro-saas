@@ -1,7 +1,7 @@
 'use client';
 
 import { Bookmark, Download, FileText, GraduationCap } from 'lucide-react';
-import type { Correction } from '../../server/schemas';
+import type { CoachFeedback, Correction } from '../../server/schemas';
 import { CoachingPanel } from './CoachingPanel';
 import {
   DEFAULT_HKDIR_SCORES,
@@ -14,7 +14,7 @@ export interface GlossaryPanelProps {
   savedGlossary: GlossaryItem[];
   usedWordsCount: number;
   totalTargetWords: number;
-  coachingHistory?: Correction[];
+  coachingHistory?: Array<CoachFeedback | Correction>;
   hkdirScores?: HkdirScores;
   l1Lang?: L1Language;
   onSpeak: (text: string) => void;

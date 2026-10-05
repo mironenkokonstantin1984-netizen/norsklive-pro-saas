@@ -1,4 +1,10 @@
-import { CoachRequestSchema, CoachResponseSchema, type CoachResponse } from './schemas';
+import {
+  CoachRequestSchema,
+  CoachResponseSchema,
+  filterFeedbackErrorsByLearnerText,
+  type CoachFeedback,
+  type CoachResponse
+} from './schemas';
 import { buildGeminiCoachPayload } from './prompts/coach';
 import {
   generateStrategicRAndDFallback,
@@ -163,7 +169,7 @@ export function createCoachHandler(
             {
               role: 'ai',
               text: reply.reply_norsk,
-              correction_json: reply.correction
+              correction_json: reply.feedback ?? reply.correction
             }
           ]);
         } catch {
@@ -176,54 +182,74 @@ export function createCoachHandler(
       const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 
       if (apiKey && apiKey.trim().length > 0) {
-        try {
-          const payload = buildGeminiCoachPayload({
-            scenario,
-            level,
-            l1,
-            persona,
-            userText,
-            history,
-            usedWords
-          });
+        const payload = buildGeminiCoachPayload({
+          scenario,
+          level,
+          l1,
+          persona,
+          userText,
+          history,
+          usedWords
+        });
 
-          const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
-            modelName
-          )}:generateContent?key=${encodeURIComponent(apiKey.trim())}`;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
+          modelName
+        )}:generateContent?key=${encodeURIComponent(apiKey.trim())}`;
 
-          const fetchFn = deps.fetchImpl || globalThis.fetch;
-          const response = await fetchFn(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-            signal: AbortSignal.timeout(20000)
-          });
+        const fetchFn = deps.fetchImpl || globalThis.fetch;
 
-          if (!response.ok) {
-            throw new Error(`Gemini HTTP ${response.status}`);
+        // Try up to 2 times (retry once on invalid JSON / schema error)
+        for (let attempt = 1; attempt <= 2; attempt++) {
+          try {
+            const response = await fetchFn(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+              signal: AbortSignal.timeout(20000)
+            });
+
+            if (!response.ok) {
+              throw new Error(`Gemini HTTP ${response.status}`);
+            }
+
+            const data = (await response.json()) as {
+              candidates?: Array<{
+                content?: {
+                  parts?: Array<{ text?: string }>;
+                };
+              }>;
+            };
+            const rawJson = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!rawJson) {
+              throw new Error('Empty Gemini response');
+            }
+
+            const parsedOutput = JSON.parse(rawJson);
+
+            // Drop errors whose quote is not in the learner's text (case-insensitive)
+            if (
+              parsedOutput &&
+              typeof parsedOutput === 'object' &&
+              'feedback' in parsedOutput &&
+              parsedOutput.feedback &&
+              typeof parsedOutput.feedback === 'object'
+            ) {
+              parsedOutput.feedback = filterFeedbackErrorsByLearnerText(
+                parsedOutput.feedback as CoachFeedback,
+                userText
+              );
+            }
+
+            const validated = CoachResponseSchema.parse(parsedOutput);
+            if (authedUser) {
+              await recordAiCall(authedUser.id);
+            }
+            await persistReply(validated);
+            return Response.json(validated, { status: 200 });
+          } catch {
+            // On failure or invalid JSON, loop will retry once. If attempt 2 fails,
+            // execution falls through to coach_unavailable below.
           }
-
-          const data = (await response.json()) as {
-            candidates?: Array<{
-              content?: {
-                parts?: Array<{ text?: string }>;
-              };
-            }>;
-          };
-          const rawJson = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (!rawJson) {
-            throw new Error('Empty Gemini response');
-          }
-
-          const parsedOutput = JSON.parse(rawJson);
-          const validated = CoachResponseSchema.parse(parsedOutput);
-          if (authedUser) {
-            await recordAiCall(authedUser.id);
-          }
-          await persistReply(validated);
-          return Response.json(validated, { status: 200 });
-        } catch {
-          // Gemini failed, timed out or returned an invalid answer: handled below.
         }
       }
 

@@ -11,11 +11,11 @@ import {
   Users,
   Volume2
 } from 'lucide-react';
-import type { Correction } from '../../server/schemas';
+import type { CoachFeedback, Correction } from '../../server/schemas';
 import type { HkdirScores, L1Language } from './useStudioState';
 
 export interface CoachingPanelProps {
-  coachingHistory: Correction[];
+  coachingHistory: Array<CoachFeedback | Correction>;
   hkdirScores: HkdirScores;
   usedWordsCount: number;
   totalTargetWords: number;
@@ -122,7 +122,21 @@ export function CoachingPanel({
               </div>
             </div>
           ) : (
-            coachingHistory.map((corr, idx) => (
+            coachingHistory.map((item, idx) => {
+              const corr: Correction =
+                'original' in item
+                  ? item
+                  : {
+                      original: item.errors[0]?.quote || item.praise_l1,
+                      natural_bokmal: item.errors[0]?.fix || item.praise_l1,
+                      b2_upgrade: item.better_version || item.praise_l1,
+                      grammar_rule_l1: item.errors[0]?.rule_name_l1
+                        ? `${item.errors[0].rule_name_l1}: ${item.errors[0].explanation_l1}`
+                        : item.praise_l1,
+                      cefr_estimate: item.level_estimate,
+                      v2_status: item.status === 'ok' ? 'Korrekt V2' : 'Pass på V2-inversjon'
+                    };
+              return (
               <div key={`${idx}-${corr.original}`} className="coaching-card">
                 <div className="coaching-row">
                   <span className="coaching-tag tag-said t-caption">
@@ -207,8 +221,8 @@ export function CoachingPanel({
                   </button>
                 </div>
               </div>
-            ))
-          )}
+            );
+          }))}
         </div>
       </div>
     </>

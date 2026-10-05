@@ -1,0 +1,31 @@
+id,level,l1,learner_text,has_error,expected_error_quote,expected_fix,rule,notes,status
+c-01,A2,ru,"Jeg bor i Oslo og trives godt her.",false,"","","","Correct A2 sentence",draft
+c-02,A2,ru,"Jeg tenker at miljø er viktig fordi jeg bor i Oslo.",false,"","","","Acceptance criterion baseline sentence",draft
+c-03,B1,ru,"I dag har jeg jobbet på kontoret i fem timer.",false,"","","","Correct V2 with time adverbial",draft
+c-04,A2,ru,"Hver morgen spiser jeg frokost klokka sju.",false,"","","","Correct V2 with frequency adverbial",draft
+c-05,B1,ru,"Selv om det regner ute, vil jeg gå en tur i parken.",false,"","","","Correct subclause and main clause inversion",draft
+c-06,A2,uk,"Jeg liker å lære norsk sammen med venner.",false,"","","","Correct infinitive with å",draft
+c-07,B1,uk,"På fritiden pleier jeg å lese bøker og se på nyheter.",false,"","","","Correct V2 and prepositions",draft
+c-08,A2,en,"Vi har bodd i Norge i tre år.",false,"","","","Correct present perfect and preposition i",draft
+c-09,B1,en,"Etter at vi flyttet til Bergen, har vi fått mange nye naboer.",false,"","","","Correct subordinate clause word order",draft
+c-10,B1,ru,"Det er mange fordeler med å ha en fleksibel arbeidstid.",false,"","","","Correct formal subject construction",draft
+e-01,A2,ru,"I dag jeg liker kaffe.",true,"I dag jeg liker","I dag liker jeg",word_order,"V2 error: fronted adverbial without verb inversion",draft
+e-02,A2,ru,"I går jeg gikk på norskkurs.",true,"I går jeg gikk","I går gikk jeg",word_order,"V2 error: past time adverbial without inversion",draft
+e-03,B1,ru,"Derfor vi må spare mer energi i hverdagen.",true,"Derfor vi må","Derfor må vi",word_order,"V2 error: derfor triggers inversion",draft
+e-04,A2,uk,"Nå jeg forstår grammatikken mye bedre.",true,"Nå jeg forstår","Nå forstår jeg",word_order,"V2 error: nå triggers inversion",draft
+e-05,B1,en,"På mandag vi skal ha et viktig møte.",true,"På mandag vi skal","På mandag skal vi",word_order,"V2 error: prepositional time phrase triggers inversion",draft
+e-06,A2,ru,"Jeg har kjøpt en hus i fjor.",true,"en hus","et hus",article,"Article gender error: hus is neuter (et hus)",draft
+e-07,A2,ru,"Kan du gi meg et kopp med te?",true,"et kopp","en kopp",article,"Article gender error: kopp is masculine (en kopp)",draft
+e-08,A2,uk,"Hun leste en spennende brev fra kommunen.",true,"en spennende brev","et spennende brev",article,"Article gender error: brev is neuter (et brev)",draft
+e-09,B1,en,"Vi spiste på en koselig kafé og drakk et god kaffe.",true,"et god kaffe","en god kaffe",article,"Article gender error: kaffe is masculine",draft
+e-10,A2,ru,"Dette er et stor problem for mange familier.",true,"et stor problem","et stort problem",article,"Article/adjective agreement: neuter requires stort",draft
+e-11,A2,ru,"I fjor jeg har bodd i Tromsø.",true,"har bodd","bodde",verb_form,"Verb tense error: specific past time i fjor requires preteritum",draft
+e-12,A2,ru,"Han like å spille fotball i helgen.",true,"like","liker",verb_form,"Verb form error: present tense missing -r",draft
+e-13,B1,uk,"Vi har spiste middag allerede.",true,"har spiste","har spist",verb_form,"Verb form error: supine form after ha is spist",draft
+e-14,A2,en,"Hun kan snakker flytende norsk nå.",true,"kan snakker","kan snakke",verb_form,"Verb form error: modal auxiliary kan requires bare infinitive",draft
+e-15,B1,ru,"I går jeg skrevet en e-post til sjefen.",true,"skrevet","skrev",verb_form,"Verb form error: preteritum required without auxiliary",draft
+e-16,A2,ru,"Jeg jobber på et sykehus og trives i jobben.",true,"i jobben","på jobben",preposition,"Preposition error: på jobben, not i jobben",draft
+e-17,B1,ru,"Vi venter på bussen i mandag morgen.",true,"i mandag morgen","på mandag morgen",preposition,"Preposition error: på mandag, not i mandag",draft
+e-18,A2,uk,"Jeg er interessert av norsk kultur og historie.",true,"interessert av","interessert i",preposition,"Preposition error: interessert i, not interessert av",draft
+e-19,B1,en,"De diskuterte om saken i flere timer.",true,"diskuterte om","diskuterte",preposition,"Preposition error: diskutere is transitive",draft
+e-20,A2,ru,"Jeg gifter meg med kjæresten på sommeren.",true,"på sommeren","om sommeren",preposition,"Preposition error: seasonal time expression om sommeren",draft

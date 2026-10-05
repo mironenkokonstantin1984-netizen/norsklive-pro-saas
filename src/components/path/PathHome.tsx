@@ -9,6 +9,12 @@ import {
   type PathPrefs
 } from '../../lib/path/storage';
 import { nextSituation } from '../../lib/path/situations';
+import { formatCountRu } from '../../lib/plural';
+import {
+  countDueToday,
+  countKnownWords,
+  readWordsProgress
+} from '../../lib/words/progress';
 import { Nora } from '../companion/Nora';
 import { FirstRun } from './FirstRun';
 import './path.css';
@@ -16,17 +22,37 @@ import './path.css';
 export interface PathHomeProps {
   authEnabled?: boolean;
   userEmail?: string | null;
+  visibleWordIds?: readonly string[];
 }
 
-export function PathHome({ authEnabled = false, userEmail = null }: PathHomeProps = {}) {
+const DEFAULT_VISIBLE_WORD_IDS: readonly string[] = [];
+
+export function PathHome({
+  authEnabled = false,
+  userEmail = null,
+  visibleWordIds = DEFAULT_VISIBLE_WORD_IDS
+}: PathHomeProps = {}) {
   const [prefs, setPrefs] = useState<PathPrefs>(() => readPathPrefs());
   const [savedWordsCount, setSavedWordsCount] = useState<number>(() => readSavedWordsCount());
+  const [dueTodayWordsCount, setDueTodayWordsCount] = useState<number>(() => {
+    const progress = readWordsProgress();
+    return countDueToday(new Date(), visibleWordIds, progress);
+  });
+  const [knownWordsCount, setKnownWordsCount] = useState<number>(() => {
+    const progress = readWordsProgress();
+    return countKnownWords(progress, visibleWordIds);
+  });
   const dateInputRef = useRef<HTMLInputElement | null>(null);
+
+  const wordIdsKey = visibleWordIds.join(',');
 
   useEffect(() => {
     setPrefs(readPathPrefs());
     setSavedWordsCount(readSavedWordsCount());
-  }, []);
+    const progress = readWordsProgress();
+    setDueTodayWordsCount(countDueToday(new Date(), visibleWordIds, progress));
+    setKnownWordsCount(countKnownWords(progress, visibleWordIds));
+  }, [wordIdsKey]);
 
   const situation = nextSituation([]);
   const daysLeft = prefs.examDate ? daysUntilExam(prefs.examDate) : null;
@@ -99,16 +125,26 @@ export function PathHome({ authEnabled = false, userEmail = null }: PathHomeProp
         </section>
 
         {/* Card 3: Мои слова */}
-        <section className="path-card" aria-labelledby="pathWordsHeading">
+        <section className="path-card" id="pathWordsCard" aria-labelledby="pathWordsHeading">
           <h2 id="pathWordsHeading" className="path-card-title t-callout">
             Мои слова
           </h2>
-          <p className="path-words-count t-speech" data-testid="savedWordsCount">
-            {`Сохранено слов: ${savedWordsCount}`}
-          </p>
-          <p className="path-card-text t-body">
-            Слова, на которых вы споткнулись, появятся здесь
-          </p>
+          <div className="path-words-stats t-num">
+            <p className="path-words-count t-speech" data-testid="wordsTodayCount">
+              {`На сегодня: ${formatCountRu(dueTodayWordsCount, { one: 'слово', few: 'слова', many: 'слов' })}`}
+            </p>
+            <p className="path-card-text t-body" data-testid="wordsKnownCount">
+              {`Знаю: ${knownWordsCount}`}
+            </p>
+            <p className="path-card-text t-caption" data-testid="savedWordsCount">
+              {`Сохранено слов: ${savedWordsCount}`}
+            </p>
+          </div>
+          <div className="path-actions">
+            <a href="/words" className="path-outline-link t-callout">
+              Повторить
+            </a>
+          </div>
         </section>
 
         {/* Card 4: Экзамен */}

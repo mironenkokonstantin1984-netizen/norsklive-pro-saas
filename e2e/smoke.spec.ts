@@ -58,3 +58,41 @@ test('main studio flow: skip first-run on /, open /studio via Начать пр�
   // 4. No console errors during the run
   expect(consoleErrors).toEqual([]);
 });
+
+test('/words daily review flow: one new word goes through stage 1 -> stage 2 -> summary', async ({
+  page
+}) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem(
+      'norsklive_words',
+      JSON.stringify({
+        cards: {},
+        adaptive: {
+          newPerDay: 1,
+          recentOutcomes: [],
+          hintFadeStepOffset: 0
+        }
+      })
+    );
+  });
+
+  await page.goto('/words');
+
+  // Stage 1: Intro
+  await expect(page.getByTestId('wordsStage1')).toBeVisible();
+  await page.getByRole('button', { name: 'Дальше' }).click();
+
+  // Stage 2: Recall the meaning
+  await expect(page.getByTestId('wordsStage2')).toBeVisible();
+  await page.getByRole('button', { name: 'Показать ответ' }).click();
+  await expect(page.getByTestId('stage2AnswerBox')).toBeVisible();
+  await page.getByRole('button', { name: 'Нормально' }).click();
+
+  // Summary screen
+  await expect(page.getByTestId('wordsSummary')).toBeVisible();
+  await expect(page.getByTestId('wordsSummaryLine')).toContainText(
+    'Новых: 1 · Повторено: 1'
+  );
+  await expect(page.getByRole('link', { name: 'Вернуться на главную' })).toBeVisible();
+});
+

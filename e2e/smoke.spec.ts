@@ -91,7 +91,7 @@ test('/words daily review flow: one new word goes through stage 1 -> stage 2 -> 
   // Summary screen
   await expect(page.getByTestId('wordsSummary')).toBeVisible();
   await expect(page.getByTestId('wordsSummaryLine')).toContainText(
-    'Сегодня: 1 новых, 1 повторено'
+    'Новых: 1 · Повторено: 1'
   );
   await expect(page.getByRole('link', { name: 'Вернуться на главную' })).toBeVisible();
 });

@@ -57,6 +57,14 @@ export function PracticeSettingsSheet({
     onChangePrefs({ ...prefs, contrast: !prefs.contrast });
   };
 
+  const toggleAutoSend = () => {
+    onChangePrefs({ ...prefs, autoSend: !prefs.autoSend });
+  };
+
+  const toggleExamMode = () => {
+    onChangePrefs({ ...prefs, examMode: !prefs.examMode });
+  };
+
   return (
     <div className="comfort-sheet-backdrop" data-testid="comfortSheetScrim" onClick={onClose}>
       <div
@@ -185,6 +193,48 @@ export function PracticeSettingsSheet({
                 <span className="comfort-switch-thumb" />
               </span>
               <span className="t-caption">{prefs.contrast ? 'Вкл' : 'Выкл'}</span>
+            </button>
+          </div>
+
+          {/* 5. Send right after «Готово» (off: the learner reviews the text first) */}
+          <div className="comfort-setting-row comfort-switch-row">
+            <span className="t-callout" id="autoSendSwitchLabel">
+              Отправлять сразу после «Готово»
+            </span>
+            <button
+              type="button"
+              role="switch"
+              id="autoSendSwitch"
+              aria-labelledby="autoSendSwitchLabel"
+              aria-checked={prefs.autoSend}
+              className={`comfort-switch ${prefs.autoSend ? 'is-on' : ''}`}
+              onClick={toggleAutoSend}
+            >
+              <span className="comfort-switch-track" aria-hidden="true">
+                <span className="comfort-switch-thumb" />
+              </span>
+              <span className="t-caption">{prefs.autoSend ? 'Вкл' : 'Выкл'}</span>
+            </button>
+          </div>
+
+          {/* 6. Exam mode: no hints, as in the real exam */}
+          <div className="comfort-setting-row comfort-switch-row">
+            <span className="t-callout" id="examModeSwitchLabel">
+              Режим экзамена (без подсказок)
+            </span>
+            <button
+              type="button"
+              role="switch"
+              id="examModeSwitch"
+              aria-labelledby="examModeSwitchLabel"
+              aria-checked={prefs.examMode}
+              className={`comfort-switch ${prefs.examMode ? 'is-on' : ''}`}
+              onClick={toggleExamMode}
+            >
+              <span className="comfort-switch-track" aria-hidden="true">
+                <span className="comfort-switch-thumb" />
+              </span>
+              <span className="t-caption">{prefs.examMode ? 'Вкл' : 'Выкл'}</span>
             </button>
           </div>
         </div>

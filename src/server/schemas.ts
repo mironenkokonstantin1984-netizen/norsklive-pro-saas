@@ -59,7 +59,9 @@ export const CoachResponseSchema = z.object({
   reply_norsk: z.string(),
   reply_l1: z.string(),
   correction: CorrectionSchema,
-  next_hints: z.array(HintSchema)
+  next_hints: z.array(HintSchema),
+  /** Present only on canned example answers (COACH_ALLOW_FALLBACK=true). */
+  source: z.literal('fallback').optional()
 });
 
 export type HistoryTurn = z.infer<typeof HistoryTurnSchema>;

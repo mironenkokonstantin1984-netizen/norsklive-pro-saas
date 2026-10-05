@@ -215,6 +215,38 @@ describe('/api/coach and /api/sessions/current session wiring unit tests', () =>
     usedWords: []
   });
 
+  const geminiReply = {
+    reply_norsk: 'Hvorfor liker du å jobbe hjemmefra?',
+    reply_l1: 'Почему тебе нравится работать из дома?',
+    correction: {
+      original: 'Jeg mener at hjemmekontor gir fleksibilitet.',
+      natural_bokmal: 'Jeg mener at hjemmekontor gir fleksibilitet.',
+      b2_upgrade: 'Jeg mener at hjemmekontor gir stor fleksibilitet.',
+      grammar_rule_l1: 'Фраза построена верно.',
+      cefr_estimate: 'B1',
+      v2_status: 'Korrekt V2'
+    },
+    next_hints: []
+  };
+  const geminiFetch = (async () =>
+    ({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        candidates: [{ content: { parts: [{ text: JSON.stringify(geminiReply) }] } }]
+      })
+    }) as Response) as unknown as typeof globalThis.fetch;
+
+  let prevKey: string | undefined;
+  beforeAll(() => {
+    prevKey = process.env.GEMINI_API_KEY;
+    process.env.GEMINI_API_KEY = 'test-key';
+  });
+  afterAll(() => {
+    if (prevKey !== undefined) process.env.GEMINI_API_KEY = prevKey;
+    else delete process.env.GEMINI_API_KEY;
+  });
+
   it('/api/coach writes turns when auth is on, does not write when auth is off, and still returns 200 without leaking user text when write fails', async () => {
     const getOrCreateSpy = vi.fn().mockResolvedValue({
       id: 'sess-123',
@@ -231,6 +263,8 @@ describe('/api/coach and /api/sessions/current session wiring unit tests', () =>
       authEnabled: () => true,
       getUser: async () => ({ id: 'user-a' }),
       quota: async () => ({ allowed: true, used: 1, limit: 20, plan: 'free' }),
+      countCall: async () => {},
+      fetchImpl: geminiFetch,
       getOrCreateSession: getOrCreateSpy,
       appendTurns: appendTurnsSpy
     });
@@ -255,6 +289,7 @@ describe('/api/coach and /api/sessions/current session wiring unit tests', () =>
     appendTurnsSpy.mockClear();
     const anonHandler = createCoachHandler({
       authEnabled: () => false,
+      fetchImpl: geminiFetch,
       getOrCreateSession: getOrCreateSpy,
       appendTurns: appendTurnsSpy
     });
@@ -274,6 +309,8 @@ describe('/api/coach and /api/sessions/current session wiring unit tests', () =>
       authEnabled: () => true,
       getUser: async () => ({ id: 'secret-user-id-999' }),
       quota: async () => ({ allowed: true, used: 1, limit: 20, plan: 'free' }),
+      countCall: async () => {},
+      fetchImpl: geminiFetch,
       getOrCreateSession: async () => {
         throw new Error('DB connection error');
       }

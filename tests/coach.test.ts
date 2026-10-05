@@ -172,11 +172,28 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
     expect(CoachResponseSchema.safeParse(miljoResult).success).toBe(true);
   });
 
-  test('5. POST /api/coach without GEMINI_API_KEY returns 200 with schema-valid fallback result', async () => {
+  test('5. POST /api/coach without GEMINI_API_KEY returns 503 coach_unavailable by default, and a labelled example only with COACH_ALLOW_FALLBACK', async () => {
     const prevKey = process.env.GEMINI_API_KEY;
+    const prevAllow = process.env.COACH_ALLOW_FALLBACK;
     delete process.env.GEMINI_API_KEY;
+    delete process.env.COACH_ALLOW_FALLBACK;
 
     try {
+      const productionHandler = createCoachHandler();
+      const unavailable = await productionHandler(
+        makeCoachRequest({
+          module: 'norskprove',
+          scenarioId: 'np-b1b2-velferd-hjemmekontor',
+          level: 'B1',
+          l1: 'ru',
+          persona: 'standard',
+          userText: 'I dag jeg liker kaffe'
+        })
+      );
+      expect(unavailable.status).toBe(503);
+      expect(await unavailable.json()).toEqual({ error: 'coach_unavailable' });
+
+      process.env.COACH_ALLOW_FALLBACK = 'true';
       const handler = createCoachHandler();
       const res = await handler(
         makeCoachRequest({
@@ -194,8 +211,11 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
       const parsed = CoachResponseSchema.safeParse(body);
       expect(parsed.success).toBe(true);
       expect(body.correction.natural_bokmal).toBe('I dag liker jeg kaffe');
+      expect(body.source).toBe('fallback');
     } finally {
       if (prevKey !== undefined) process.env.GEMINI_API_KEY = prevKey;
+      if (prevAllow !== undefined) process.env.COACH_ALLOW_FALLBACK = prevAllow;
+      else delete process.env.COACH_ALLOW_FALLBACK;
     }
   });
 
@@ -221,7 +241,7 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
   });
 
   test('7. Rate limiter keys by X-Forwarded-For: 31st request from same IP gets 429, other IPs get 200, and expired entries are swept after window', async () => {
-    const handler = createCoachHandler();
+    const handler = createCoachHandler({ allowFallback: () => true });
     const validBody = {
       module: 'norskprove',
       scenarioId: 'np-b1b2-velferd-hjemmekontor',
@@ -258,7 +278,7 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
       vi.setSystemTime(startTime);
 
       const limiter = createRateLimiter({ max: 2, windowMs: 60_000, sweepInterval: 2 });
-      const timedHandler = createCoachHandler({ rateLimit: limiter });
+      const timedHandler = createCoachHandler({ rateLimit: limiter, allowFallback: () => true });
 
       // Stale client makes 1 request
       const staleIp = '203.0.113.50';
@@ -311,6 +331,7 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
 
     try {
       const handler = createCoachHandler({
+        allowFallback: () => true,
         fallbackImpl: () => {
           throw new Error('Unexpected internal explosion');
         }
@@ -335,7 +356,7 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
     }
   });
 
-  test('9. POST /api/coach Gemini path: returns model output on valid JSON, and falls back on invalid schema or network rejection', async () => {
+  test('9. POST /api/coach Gemini path: returns model output on valid JSON, and 503 coach_unavailable (never canned text) on invalid schema, HTTP error or network rejection', async () => {
     const prevKey = process.env.GEMINI_API_KEY;
     process.env.GEMINI_API_KEY = 'test';
 
@@ -392,7 +413,7 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
       expect(validRes.status).toBe(200);
       expect(await validRes.json()).toEqual(mockModelOutput);
 
-      // 2. Model returns JSON that fails CoachResponseSchema -> 200 with fallback result
+      // 2. Model returns JSON that fails CoachResponseSchema -> 503, no canned correction
       const handlerInvalidSchema = createCoachHandler({
         fetchImpl: (async () =>
           ({
@@ -411,11 +432,18 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
       });
 
       const invalidSchemaRes = await handlerInvalidSchema(makeCoachRequest(validBody));
-      expect(invalidSchemaRes.status).toBe(200);
-      const invalidSchemaBody = await invalidSchemaRes.json();
-      expect(invalidSchemaBody.correction.natural_bokmal).toBe('I dag liker jeg kaffe');
+      expect(invalidSchemaRes.status).toBe(503);
+      expect(await invalidSchemaRes.json()).toEqual({ error: 'coach_unavailable' });
 
-      // 3. fetchImpl rejects (timeout/network) -> 200 with fallback result
+      // 3. Gemini answers HTTP 500 -> 503
+      const handlerHttpError = createCoachHandler({
+        fetchImpl: (async () =>
+          ({ ok: false, status: 500, json: async () => ({}) }) as Response) as unknown as typeof globalThis.fetch
+      });
+      const httpErrorRes = await handlerHttpError(makeCoachRequest(validBody));
+      expect(httpErrorRes.status).toBe(503);
+
+      // 4. fetchImpl rejects (timeout/network) -> 503
       const handlerNetworkFail = createCoachHandler({
         fetchImpl: (async () => {
           throw new Error('AbortError: The operation was aborted');
@@ -423,9 +451,8 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
       });
 
       const networkFailRes = await handlerNetworkFail(makeCoachRequest(validBody));
-      expect(networkFailRes.status).toBe(200);
-      const networkFailBody = await networkFailRes.json();
-      expect(networkFailBody.correction.natural_bokmal).toBe('I dag liker jeg kaffe');
+      expect(networkFailRes.status).toBe(503);
+      expect(await networkFailRes.json()).toEqual({ error: 'coach_unavailable' });
     } finally {
       if (prevKey !== undefined) {
         process.env.GEMINI_API_KEY = prevKey;

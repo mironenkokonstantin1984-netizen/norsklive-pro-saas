@@ -40,7 +40,7 @@ export function ExamStage({
         <Clock size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
         <span>{stageLabel}</span>
       </div>
-      <div className="exam-prompt-text t-speech" id="examPromptText">
+      <div className="exam-prompt-text t-speech" id="examPromptText" lang="nb">
         {promptText}
       </div>
     </div>

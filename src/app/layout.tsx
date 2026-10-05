@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Manrope } from 'next/font/google';
 import '../styles/tokens.css';
 import './studio/studio.css';
+import { DocumentLang } from '../components/app/DocumentLang';
 
 const manrope = Manrope({
   subsets: ['latin', 'cyrillic'],
@@ -18,8 +19,11 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="nb-NO" className={manrope.variable}>
-      <body>{children}</body>
+    <html lang="ru" className={manrope.variable}>
+      <body>
+        <DocumentLang />
+        {children}
+      </body>
     </html>
   );
 }

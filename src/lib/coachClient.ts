@@ -24,12 +24,25 @@ export class QuotaExceededError extends Error {
   }
 }
 
+/** The coach could not answer: no AI configured, the AI failed or timed out, or no network. */
+export class CoachUnavailableError extends Error {
+  constructor(message = 'Coach unavailable') {
+    super(message);
+    this.name = 'CoachUnavailableError';
+  }
+}
+
 export async function postCoach(body: CoachRequest): Promise<CoachResponse> {
-  const response = await fetch('/api/coach', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
+  let response: Response;
+  try {
+    response = await fetch('/api/coach', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+  } catch {
+    throw new CoachUnavailableError('Network error');
+  }
 
   if (response.status === 401) {
     throw new AuthRequiredError();
@@ -57,6 +70,10 @@ export async function postCoach(body: CoachRequest): Promise<CoachResponse> {
       // keep fallback limit and plan
     }
     throw new QuotaExceededError(limit, plan);
+  }
+
+  if (response.status >= 500) {
+    throw new CoachUnavailableError(`HTTP ${response.status}`);
   }
 
   if (!response.ok) {

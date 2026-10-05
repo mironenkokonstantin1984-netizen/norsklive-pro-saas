@@ -40,9 +40,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
   test('1. Switching module shows that module’s scenarios', () => {
     const { container, getByText } = render(<StudioPage />);
 
-    expect(container.querySelector('#leftPanelTitle')?.textContent).toContain(
-      'Norskprøve Muntlig'
-    );
+    expect(container.querySelector('#leftPanelTitle')?.textContent).toContain('Norskprøve Muntlig');
     expect(
       getByText(/Eksamen #1: Digitalisering, hjemmekontor og bærekraftig velferdsstat/)
     ).toBeTruthy();
@@ -56,20 +54,14 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
       'Jobbintervju på norsk'
     );
     expect(
-      getByText(/Intervju Case: Key Account Manager \/ Logistikk & AI-automasjon/)
+      getByText(/Intervju: fortell om deg selv og erfaring/)
     ).toBeTruthy();
 
-    const pensumTab = container.querySelector(
-      'button[data-module="pensum"]'
-    ) as HTMLButtonElement;
+    const pensumTab = container.querySelector('button[data-module="pensum"]') as HTMLButtonElement;
     fireEvent.click(pensumTab);
 
-    expect(container.querySelector('#leftPanelTitle')?.textContent).toContain(
-      'CEFR Teleprompter'
-    );
-    expect(
-      getByText(/CEFR B1 Modul: Fastlege, egenmelding og helsesystemet/)
-    ).toBeTruthy();
+    expect(container.querySelector('#leftPanelTitle')?.textContent).toContain('CEFR Teleprompter');
+    expect(getByText(/CEFR B1 Modul: Fastlege, egenmelding og helsesystemet/)).toBeTruthy();
   });
 
   test('2. Selecting a scenario renders its target words', () => {
@@ -89,12 +81,8 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
   test('3. Applying custom text of "alpha beta gamma delta" creates target words', () => {
     const { container } = render(<StudioPage />);
 
-    const textarea = container.querySelector(
-      '#customSourceTextarea'
-    ) as HTMLTextAreaElement;
-    const applyBtn = container.querySelector(
-      '#applyCustomSourceBtn'
-    ) as HTMLButtonElement;
+    const textarea = container.querySelector('#customSourceTextarea') as HTMLTextAreaElement;
+    const applyBtn = container.querySelector('#applyCustomSourceBtn') as HTMLButtonElement;
 
     fireEvent.change(textarea, { target: { value: 'alpha beta gamma delta' } });
     fireEvent.click(applyBtn);
@@ -104,17 +92,13 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     expect(bingoText).toContain('beta');
     expect(bingoText).toContain('gamma');
     expect(bingoText).toContain('delta');
-    expect(container.querySelector('#vocabProgressText')?.textContent).toContain(
-      '0 / 4 brukt'
-    );
+    expect(container.querySelector('#vocabProgressText')?.textContent).toContain('0 / 4 brukt');
   });
 
   test('4. Saving a glossary item writes norsklive_glossary to localStorage', () => {
     const { container } = render(<StudioPage />);
 
-    const firstChip = container.querySelector(
-      '#vocabBingoList .vocab-chip'
-    ) as HTMLElement;
+    const firstChip = container.querySelector('#vocabBingoList .vocab-chip') as HTMLElement;
     expect(firstChip).toBeTruthy();
     fireEvent.click(firstChip);
 
@@ -147,10 +131,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
       expect(fetchMock).toHaveBeenCalledTimes(1);
     });
 
-    const [calledUrl, calledInit] = fetchMock.mock.calls[0] as unknown as [
-      string,
-      RequestInit
-    ];
+    const [calledUrl, calledInit] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
     expect(calledUrl).toBe('/api/coach');
     expect(calledInit.method).toBe('POST');
     const sentBody = JSON.parse(String(calledInit.body));
@@ -171,21 +152,17 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
       expect(chatText).toContain(MOCK_COACH_RESPONSE.reply_l1);
     });
 
-    const coachingCards = container.querySelectorAll(
-      '#coachingCardsList .coaching-card'
-    );
+    const coachingCards = container.querySelectorAll('#coachingCardsList .coaching-card');
     expect(coachingCards.length).toBe(1);
     expect(coachingCards[0]?.textContent).toContain('I dag liker jeg kaffe');
-    expect(coachingCards[0]?.textContent).toContain(
-      MOCK_COACH_RESPONSE.correction.b2_upgrade
-    );
+    expect(coachingCards[0]?.textContent).toContain(MOCK_COACH_RESPONSE.correction.b2_upgrade);
 
     const hintsText = container.querySelector('#hintsContainer')?.textContent || '';
     expect(hintsText).toContain('Новая B2-подсказка');
     expect(hintsText).toContain('På den annen side fremmer dette inkludering.');
   });
 
-  test('6 (b). Server error shows error status and keeps user bubble', async () => {
+  test('6 (b). Server error keeps the user bubble and shows the «Повторить» card, with no canned correction', async () => {
     const fetchMock = vi.fn(async () => ({
       ok: false,
       status: 500,
@@ -202,13 +179,18 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     fireEvent.click(sendBtn);
 
     await waitFor(() => {
-      const statusText = container.querySelector('#micStatusText')?.textContent || '';
-      expect(statusText).toContain('Ошибка связи с сервером: HTTP 500');
+      expect(container.querySelector('[data-testid="coachErrorCard"]')).not.toBeNull();
     });
+    expect(container.querySelector('[data-testid="coachErrorCard"]')?.textContent).toContain(
+      'Не получилось получить ответ. Ваш ответ сохранён.'
+    );
+    expect(container.querySelector('#micStatusText')?.textContent || '').not.toContain('HTTP 500');
 
     const userBubbles = container.querySelectorAll('#chatStream .msg-user');
     expect(userBubbles.length).toBe(1);
     expect(userBubbles[0]?.textContent).toContain('Hei på deg!');
+    expect(container.querySelectorAll('#chatStream .msg-ai').length).toBe(1);
+    expect(container.querySelector('#chatStream .correction-card')).toBeNull();
   });
 
   test('7 (c). Response containing "<img src=x onerror=alert(1)>" in reply_norsk is rendered as literal text (no img element in DOM)', async () => {
@@ -249,9 +231,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
 
     const { container } = render(<StudioPage />);
 
-    const firstHint = container.querySelector(
-      '#hintsContainer .hint-card'
-    ) as HTMLElement;
+    const firstHint = container.querySelector('#hintsContainer .hint-card') as HTMLElement;
     expect(firstHint).toBeTruthy();
     fireEvent.click(firstHint);
 
@@ -264,7 +244,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     expect(sentBody.userText).toContain('Det er avgjørende å ta hensyn til');
   });
 
-  test('9 (e). Saying a target word in the phrase marks it "✓ BRUKT I TALE"', async () => {
+  test('9 (e). Saying a target word in the phrase marks it "BRUKT I TALE"', async () => {
     const fetchMock = vi.fn(async () => ({
       ok: true,
       status: 200,
@@ -286,11 +266,11 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
       const usedChips = container.querySelectorAll('#vocabBingoList .vocab-chip.used');
       expect(usedChips.length).toBeGreaterThanOrEqual(1);
       expect(usedChips[0]?.textContent).toContain('bærekraftig');
-      expect(usedChips[0]?.textContent).toContain('✓ BRUKT I TALE');
+      expect(usedChips[0]?.textContent).toContain('BRUKT I TALE');
     });
   });
 
-  test('10 (M1c-1). MicButton label changes with recording and processing state ("Snakk" -> "Слушаю" -> "Думаю")', async () => {
+  test('10 (M1c-1, #46). MicButton label changes with recording state ("Snakk" -> "Готово" -> "Snakk")', async () => {
     class MockSpeechRecognition {
       lang = 'nb-NO';
       interimResults = true;
@@ -306,8 +286,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
         this.onend?.();
       }
     }
-    (window as unknown as { SpeechRecognition: unknown }).SpeechRecognition =
-      MockSpeechRecognition;
+    (window as unknown as { SpeechRecognition: unknown }).SpeechRecognition = MockSpeechRecognition;
 
     const { container } = render(<StudioPage />);
     const micBtn = container.querySelector('#micToggleBtn') as HTMLButtonElement;
@@ -321,8 +300,10 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
 
     fireEvent.click(micBtn);
     expect(micBtn.getAttribute('aria-pressed')).toBe('true');
-    expect(micBtn.textContent).toContain('Слушаю');
-    expect(statusEl.textContent).toBe('0:00 / 2:00');
+    expect(micBtn.textContent).toContain('Готово');
+    expect(micBtn.getAttribute('aria-label')).toBe('Готово');
+    expect(statusEl.textContent).toBe('Говорите. Нажмите «Готово», когда закончите.');
+    expect(container.querySelector('#micRecordingTimer')?.textContent).toBe('0:00 / 2:00');
     expect(container.querySelector('#micRecordingTimer')).toBeTruthy();
 
     fireEvent.click(micBtn);
@@ -336,9 +317,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
   test('11 (M1c-1). Clicking "Материалы" button toggles materials drawer and aria-expanded', () => {
     const { container } = render(<StudioPage />);
 
-    const materialsBtn = container.querySelector(
-      '#materialsToggleBtn'
-    ) as HTMLButtonElement;
+    const materialsBtn = container.querySelector('#materialsToggleBtn') as HTMLButtonElement;
     const drawer = container.querySelector('#materialsDrawer') as HTMLElement;
 
     expect(materialsBtn).toBeTruthy();

@@ -1,12 +1,18 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { Bookmark, Bot, Volume2, X } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { ArrowDown, Bookmark, Bot, RotateCcw, Volume2, X } from 'lucide-react';
 import type { Correction } from '../../server/schemas';
 import type { LearnerMood } from '../../lib/prefs';
 import { formatCountRu } from '../../lib/plural';
 import { CorrectionCard } from './CorrectionCard';
-import type { ChatMessage, L1Language, QuotaExceededInfo } from './useStudioState';
+import { useChatAutoScroll } from './useChatAutoScroll';
+import type {
+  ChatMessage,
+  CoachErrorInfo,
+  L1Language,
+  QuotaExceededInfo
+} from './useStudioState';
 
 const REPLIKA_FORMS = { one: 'реплику', few: 'реплики', many: 'реплик' } as const;
 const ERROR_FORMS = { one: 'ошибку', few: 'ошибки', many: 'ошибок' } as const;
@@ -18,14 +24,22 @@ export interface ChatPanelProps {
   l1Lang: L1Language;
   blurMode: boolean;
   subtitlesEnabled?: boolean;
+  /** Exam mode: no «Попробуйте» phrase under the correction. */
+  examMode?: boolean;
   activeSpeech?: { text: string; charIndex: number } | null;
   quotaExceeded?: QuotaExceededInfo | null;
   limitCardDismissed?: boolean;
   onDismissLimitCard?: () => void;
+  coachError?: CoachErrorInfo | null;
+  isThinking?: boolean;
+  onRetry?: () => void;
   onSpeak: (text: string) => void;
   onSaveToGlossary: (word: string, translation: string) => void;
   onSelectMood?: (mood: LearnerMood) => void;
 }
+
+export const EXAMPLE_ANSWER_LABEL = 'Пример ответа, ИИ не подключён';
+export const COACH_ERROR_TEXT = 'Не получилось получить ответ. Ваш ответ сохранён.';
 
 const MOOD_OPTIONS: LearnerMood[] = ['Спокойно', 'Нормально', 'Тревожно'];
 
@@ -73,11 +87,15 @@ export function ChatPanel({
   partnerName,
   l1Lang,
   blurMode,
+  examMode = false,
   subtitlesEnabled = true,
   activeSpeech = null,
   quotaExceeded = null,
   limitCardDismissed = false,
   onDismissLimitCard,
+  coachError = null,
+  isThinking = false,
+  onRetry,
   onSpeak,
   onSaveToGlossary,
   onSelectMood
@@ -85,11 +103,12 @@ export function ChatPanel({
   const streamRef = useRef<HTMLDivElement | null>(null);
   const [dismissedMoodTurn, setDismissedMoodTurn] = useState<number | null>(null);
 
-  useEffect(() => {
-    if (streamRef.current) {
-      streamRef.current.scrollTop = streamRef.current.scrollHeight;
-    }
-  }, [chatHistory, coachingHistory.length, quotaExceeded, limitCardDismissed]);
+  const { showNewMessages, announcement, jumpToNewest } = useChatAutoScroll({
+    streamRef,
+    chatHistory,
+    limitCardVisible: Boolean(quotaExceeded) && !limitCardDismissed,
+    errorCardVisible: Boolean(coachError)
+  });
 
   let lastUserIndex = -1;
   let learnerTurnCount = 0;
@@ -126,7 +145,12 @@ export function ChatPanel({
                 <Bot size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
                 <span>{partnerName}</span>
               </div>
-              <div className="msg-norsk t-speech">
+              {msg.isExample ? (
+                <div className="msg-example-label t-caption" data-testid="exampleAnswerLabel">
+                  {EXAMPLE_ANSWER_LABEL}
+                </div>
+              ) : null}
+              <div className="msg-norsk t-speech" lang="nb">
                 {renderSpokenText(msg.norsk, subtitlesEnabled, activeSpeech)}
               </div>
               {l1Translation ? (
@@ -155,23 +179,43 @@ export function ChatPanel({
         }
 
         const isLatestUserMsg = index === lastUserIndex && coachingHistory.length > 0;
+        const correctionIsExample = Boolean(chatHistory[index + 1]?.isExample);
 
         return (
           <div key={key} className="user-turn-group">
             <div className="msg msg-user">
               <div className="msg-speaker t-caption">Du (Кандидат)</div>
-              <div className="msg-user-text t-speech">{msg.norsk}</div>
+              <div className="msg-user-text t-speech" lang="nb">{msg.norsk}</div>
             </div>
+            {isLatestUserMsg && correctionIsExample ? (
+              <div className="msg-example-label t-caption">{EXAMPLE_ANSWER_LABEL}</div>
+            ) : null}
             {isLatestUserMsg ? (
               <CorrectionCard
                 correction={coachingHistory[0]}
                 olderCorrections={coachingHistory.slice(1)}
+                showTry={!examMode}
                 onSpeak={onSpeak}
               />
             ) : null}
           </div>
         );
       })}
+
+      {coachError ? (
+        <div className="coach-error-card" role="alert" data-testid="coachErrorCard">
+          <p className="coach-error-text t-body">{COACH_ERROR_TEXT}</p>
+          <button
+            type="button"
+            className="btn-outline coach-retry-btn t-callout"
+            onClick={onRetry}
+            disabled={isThinking}
+          >
+            <RotateCcw size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+            <span>Повторить</span>
+          </button>
+        </div>
+      ) : null}
 
       {showMoodCard ? (
         <div className="mood-check-card" id="moodCheckCard" role="region" aria-label="Как ощущения?">
@@ -231,7 +275,21 @@ export function ChatPanel({
           </div>
         </div>
       ) : null}
+
+      <div className="sr-only" aria-live="polite" data-testid="chatAnnouncer">
+        {announcement}
+      </div>
+
+      {showNewMessages ? (
+        <button
+          type="button"
+          className="btn-outline new-messages-btn t-callout"
+          onClick={jumpToNewest}
+        >
+          <ArrowDown size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+          <span>Новые сообщения</span>
+        </button>
+      ) : null}
     </div>
   );
 }
-

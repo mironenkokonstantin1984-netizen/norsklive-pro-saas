@@ -53,7 +53,7 @@ export function TargetWordsPanel({
               title={`Пример: ${item.example}`}
               onClick={() => onSaveToGlossary(item.word, translation, item.example)}
             >
-              <span className="vocab-word">
+              <span className="vocab-word" lang="nb">
                 {isUsed ? (
                   <CheckCircle2
                     size={20}
@@ -72,7 +72,7 @@ export function TargetWordsPanel({
                 <span>{item.word}</span>
               </span>
               <span className="vocab-ru t-caption">
-                {isUsed ? '✓ BRUKT I TALE' : translation}
+                {isUsed ? 'BRUKT I TALE' : translation}
               </span>
             </div>
           );

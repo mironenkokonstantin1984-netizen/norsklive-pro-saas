@@ -341,4 +341,61 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     const cssContent = fs.readFileSync(cssPath, 'utf8');
     expect(cssContent).not.toMatch(/#[0-9a-fA-F]{3,8}|rgb|font-size: *[0-9]+px/);
   });
+
+  test('13 (#49). Submitting a correct sentence renders status: ok, praise, no strike-through, and keeps input enabled', async () => {
+    const mockOkResponse = {
+      reply_norsk: 'Det er et godt synspunkt! Hva gjør du selv for miljøet i hverdagen?',
+      reply_l1: 'Это хорошая точка зрения! А что ты сам делаешь для экологии в повседневной жизни?',
+      feedback: {
+        status: 'ok',
+        errors: [],
+        praise_l1: 'Kjempebra! Setningen er grammatisk helt korrekt.',
+        level_estimate: 'A2'
+      },
+      next_hints: [
+        {
+          label: 'Følge opp (A2)',
+          norsk: 'Jeg prøver å kildesortere og ta bussen.',
+          ru: 'Я стараюсь сортировать мусор и ездить на автобусе.'
+        }
+      ]
+    };
+
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => mockOkResponse
+    } as unknown as Response);
+
+    const { container } = render(<StudioPage />);
+
+    const input = container.querySelector('#userSpeechInput') as HTMLInputElement;
+    const sendBtn = container.querySelector('#sendSpeechBtn') as HTMLButtonElement;
+
+    const sentence = 'Jeg tenker at miljø er viktig fordi jeg bor i Oslo.';
+    fireEvent.change(input, { target: { value: sentence } });
+    fireEvent.click(sendBtn);
+
+    // User bubble appears in chatStream
+    await waitFor(() => {
+      const chatText = container.querySelector('#chatStream')?.textContent || '';
+      expect(chatText).toContain(sentence);
+      expect(chatText).toContain('Det er et godt synspunkt!');
+    });
+
+    // Coach card shows «Хорошо!» with praise
+    await waitFor(() => {
+      expect(container.querySelector('[data-testid="correctionOk"]')?.textContent).toBe('Хорошо!');
+      expect(container.querySelector('.correction-praise')?.textContent).toBe(
+        'Kjempebra! Setningen er grammatisk helt korrekt.'
+      );
+    });
+
+    // Zero struck-out text (no <del> tags anywhere in container)
+    const delTags = container.querySelectorAll('del');
+    expect(delTags.length).toBe(0);
+
+    // Input stays enabled for next turn
+    expect(input.disabled).toBe(false);
+    expect(sendBtn.disabled).toBe(false);
+  });
 });

@@ -243,6 +243,10 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
     expect(parts.length).toBe(2);
     expect(parts[0].text.includes(secretInjection)).toBe(false);
     expect(parts[1].text).toBe(secretInjection);
+    expect(payload.generationConfig.temperature).toBe(0.2);
+    expect(payload.generationConfig.responseMimeType).toBe('application/json');
+    expect(payload.generationConfig.responseSchema).toBeDefined();
+    expect(payload.generationConfig.responseSchema?.properties?.feedback).toBeDefined();
   });
 
   test('7. Rate limiter keys by X-Forwarded-For: 31st request from same IP gets 429, other IPs get 200, and expired entries are swept after window', async () => {

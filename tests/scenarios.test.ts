@@ -111,4 +111,81 @@ describe('ExamScenarioSchema zod validation (Issue #50)', () => {
     };
     expect(ExamScenarioSchema.safeParse(badTopic).success).toBe(false);
   });
+
+  it('validates all 21 A2 scenarios from a2.ts', async () => {
+    const { a2Scenarios } = await import('../src/content/scenarios/a2');
+    expect(a2Scenarios).toHaveLength(21);
+
+    const ids = new Set<string>();
+    for (const sc of a2Scenarios) {
+      expect(ids.has(sc.id)).toBe(false);
+      ids.add(sc.id);
+
+      const parsed = ExamScenarioSchema.safeParse(sc);
+      expect(parsed.success, `Scenario ${sc.id} should match ExamScenarioSchema: ${JSON.stringify(parsed.error?.issues)}`).toBe(true);
+
+      // Check opening line for conversation part <= 25 words
+      if (sc.part === 'conversation') {
+        const wordCount = sc.openingLine.trim().split(/\s+/).length;
+        expect(wordCount).toBeLessThanOrEqual(25);
+      }
+    }
+  });
+
+  it('validates all 21 B1 scenarios from b1.ts', async () => {
+    const { b1Scenarios } = await import('../src/content/scenarios/b1');
+    expect(b1Scenarios).toHaveLength(21);
+
+    const ids = new Set<string>();
+    for (const sc of b1Scenarios) {
+      expect(ids.has(sc.id)).toBe(false);
+      ids.add(sc.id);
+
+      const parsed = ExamScenarioSchema.safeParse(sc);
+      expect(parsed.success, `Scenario ${sc.id} should match ExamScenarioSchema: ${JSON.stringify(parsed.error?.issues)}`).toBe(true);
+
+      // Check opening line for conversation part <= 25 words
+      if (sc.part === 'conversation') {
+        const wordCount = sc.openingLine.trim().split(/\s+/).length;
+        expect(wordCount).toBeLessThanOrEqual(25);
+      }
+    }
+  });
+
+  it('verifies 42 scenarios total, unique IDs, all 7 topics, and no forbidden B2 words in A2', async () => {
+    const { a2Scenarios } = await import('../src/content/scenarios/a2');
+    const { b1Scenarios } = await import('../src/content/scenarios/b1');
+    const all = [...a2Scenarios, ...b1Scenarios];
+
+    expect(all).toHaveLength(42);
+
+    const allIds = new Set(all.map((s) => s.id));
+    expect(allIds.size).toBe(42);
+
+    const topics = ['arbeid', 'bolig', 'helse', 'familie', 'handel', 'transport', 'fritid'] as const;
+    const parts = ['presentation', 'picture', 'conversation'] as const;
+
+    for (const lvl of ['A2', 'B1'] as const) {
+      const byLvl = all.filter((s) => s.level === lvl);
+      expect(byLvl).toHaveLength(21);
+      for (const t of topics) {
+        for (const p of parts) {
+          const match = byLvl.find((s) => s.topic === t && s.part === p);
+          expect(match, `Missing scenario for ${lvl} ${t} ${p}`).toBeDefined();
+        }
+      }
+    }
+
+    // Check no forbidden B2 words in A2 target words or text
+    const forbiddenB2Words = ['velferdsstat', 'digitalisering', 'bærekraftig', 'sysselsetting', 'følgelig'];
+    for (const a2 of a2Scenarios) {
+      for (const forbidden of forbiddenB2Words) {
+        const inWords = a2.targetWords.some((tw) => tw.word.toLowerCase().includes(forbidden));
+        expect(inWords, `A2 scenario ${a2.id} must not contain B2 word "${forbidden}"`).toBe(false);
+        expect(a2.openingLine.toLowerCase()).not.toContain(forbidden);
+      }
+    }
+  });
 });
+
+

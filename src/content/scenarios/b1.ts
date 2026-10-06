@@ -439,7 +439,7 @@ export const b1Scenarios: ExamScenario[] = [
     avatar: 'exam',
     partnerName: 'Medkandidat Jonas',
     partnerRole: 'Medkandidat på muntlig prøve',
-    description: 'Diskuter hverdagslogistikk og fordeling av oppgaver i familien.',
+    description: 'Diskuter organisering i hverdagen og fordeling av oppgaver i familien.',
     sourceText: 'Drøft sammen hvordan foreldre kan kombinere karriere med omsorg for barn.',
     targetWords: [
       { word: 'tidsklemme', translation: 'нехватка времени, цейтнот', ua: 'брак часу, цейтнот', en: 'time crunch' },

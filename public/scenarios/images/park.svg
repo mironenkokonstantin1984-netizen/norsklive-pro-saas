@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%" role="img" aria-label="Offentlig park">
+  <!-- Himmel og sol -->
+  <rect width="400" height="300" fill="var(--primary-soft)" opacity="0.6" />
+  <circle cx="340" cy="50" r="24" fill="var(--hint)" opacity="0.85" />
+  <!-- Liten sky -->
+  <ellipse cx="110" cy="55" rx="25" ry="12" fill="var(--surface)" />
+  <ellipse cx="130" cy="50" rx="20" ry="14" fill="var(--surface)" />
+
+  <!-- Bakke og gress -->
+  <path d="M 0 170 Q 180 130 400 165 L 400 300 L 0 300 Z" fill="var(--success-soft)" />
+  <path d="M 0 200 Q 200 170 400 200 L 400 300 L 0 300 Z" fill="var(--success)" opacity="0.85" />
+
+  <!-- Grussti / gangvei -->
+  <path d="M 120 300 Q 220 240 280 175 L 310 175 Q 260 240 210 300 Z" fill="var(--hint-soft)" />
+
+  <!-- Stort tre til venstre -->
+  <rect x="52" y="110" width="16" height="95" rx="3" fill="var(--hint)" />
+  <!-- Krone -->
+  <circle cx="60" cy="85" r="35" fill="var(--success)" />
+  <circle cx="45" cy="70" r="25" fill="var(--success)" opacity="0.9" />
+  <circle cx="75" cy="70" r="25" fill="var(--success)" opacity="0.9" />
+
+  <!-- Liten tre i bakgrunnen -->
+  <rect x="330" y="130" width="10" height="45" rx="2" fill="var(--hint)" />
+  <circle cx="335" cy="115" r="22" fill="var(--success)" opacity="0.75" />
+
+  <!-- Parkbenk -->
+  <rect x="150" y="195" width="70" height="8" rx="2" fill="var(--hint)" />
+  <rect x="150" y="183" width="70" height="8" rx="2" fill="var(--hint)" />
+  <!-- Benkeben -->
+  <line x1="160" y1="195" x2="160" y2="230" stroke="var(--ink)" stroke-width="3" />
+  <line x1="210" y1="195" x2="210" y2="230" stroke="var(--ink)" stroke-width="3" />
+  <line x1="160" y1="183" x2="160" y2="195" stroke="var(--ink)" stroke-width="3" />
+  <line x1="210" y1="183" x2="210" y2="195" stroke="var(--ink)" stroke-width="3" />
+
+  <!-- Sykkel parkert ved stien -->
+  <!-- Hjul -->
+  <circle cx="270" cy="245" r="14" fill="none" stroke="var(--ink)" stroke-width="2.5" />
+  <circle cx="305" cy="245" r="14" fill="none" stroke="var(--ink)" stroke-width="2.5" />
+  <!-- Ramme -->
+  <polyline points="270,245 285,245 298,230 282,230 270,245" fill="none" stroke="var(--primary)" stroke-width="2.5" />
+  <line x1="285" y1="245" x2="282" y2="225" stroke="var(--primary)" stroke-width="2.5" />
+  <line x1="298" y1="230" x2="305" y2="245" stroke="var(--primary)" stroke-width="2.5" />
+  <!-- Styre og sete -->
+  <line x1="298" y1="223" x2="303" y2="223" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" />
+  <line x1="278" y1="225" x2="286" y2="225" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Blomster i gresset -->
+  <circle cx="85" cy="240" r="4" fill="var(--error)" />
+  <circle cx="100" cy="255" r="4" fill="var(--hint)" />
+  <circle cx="115" cy="245" r="4" fill="var(--error)" />
+  <circle cx="240" cy="265" r="4" fill="var(--hint-soft)" />
+
+  <!-- Liten søppelkasse -->
+  <rect x="235" y="200" width="12" height="18" rx="2" fill="var(--line-strong)" stroke="var(--ink)" stroke-width="1.5" />
+</svg>

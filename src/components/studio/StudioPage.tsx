@@ -47,9 +47,14 @@ import {
 export interface StudioPageProps {
   authEnabled?: boolean;
   userEmail?: string | null;
+  showDrafts?: boolean;
 }
 
-export function StudioPage({ authEnabled = false, userEmail = null }: StudioPageProps = {}) {
+export function StudioPage({
+  authEnabled = false,
+  userEmail = null,
+  showDrafts
+}: StudioPageProps = {}) {
   const {
     state,
     dispatch,
@@ -552,6 +557,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
             onApplyCustomSource={applyCustomSource}
             onApplyVacancy={applyVacancy}
             targetLevel={state.userLevel}
+            showDrafts={showDrafts}
           >
             <TargetWordsPanel
               targetWords={currentScenario.targetWords || []}

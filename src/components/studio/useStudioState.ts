@@ -180,7 +180,14 @@ export type StudioAction =
   | { type: 'SET_COACH_ERROR'; text: string }
   | { type: 'CLEAR_COACH_ERROR' };
 
-const firstScenario = scenariosByModule.norskprove[0];
+const defaultB1Presentation =
+  scenariosByModule.norskprove.find(
+    (s) => s.level === 'B1' && s.part === 'presentation'
+  ) ||
+  scenariosByModule.norskprove.find(
+    (s) => s.level === 'A2' && s.part === 'presentation'
+  ) ||
+  scenariosByModule.norskprove[0];
 
 export const initialStudioState: StudioState = {
   currentModule: 'norskprove',
@@ -189,7 +196,7 @@ export const initialStudioState: StudioState = {
     jobbintervju: [...scenariosByModule.jobbintervju],
     pensum: [...scenariosByModule.pensum]
   },
-  currentScenario: firstScenario,
+  currentScenario: defaultB1Presentation,
   l1Lang: 'ru',
   userLevel: 'B1',
   agentPersona: 'standard',
@@ -198,9 +205,9 @@ export const initialStudioState: StudioState = {
   savedGlossary: [],
   blurMode: false,
   timerSeconds: 0,
-  chatHistory: createInitialChat(firstScenario, 'ru'),
+  chatHistory: createInitialChat(defaultB1Presentation, 'ru'),
   coachingHistory: [],
-  hints: [...(firstScenario.hints || [])],
+  hints: [...(defaultB1Presentation.hints || [])],
   isRecording: false,
   isSpeaking: false,
   isThinking: false,
@@ -258,8 +265,19 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
         chatHistory: updatedChat
       };
     }
-    case 'SET_USER_LEVEL':
+    case 'SET_USER_LEVEL': {
+      if (state.currentModule === 'norskprove') {
+        const nextScenario =
+          scenariosByModule.norskprove.find(
+            (s) => s.level === action.userLevel && s.part === 'presentation'
+          ) || state.currentScenario;
+        if (nextScenario.id !== state.currentScenario.id) {
+          const resetState = resetForScenario(state, nextScenario);
+          return { ...resetState, userLevel: action.userLevel };
+        }
+      }
       return { ...state, userLevel: action.userLevel };
+    }
     case 'SET_AGENT_PERSONA':
       return { ...state, agentPersona: action.agentPersona };
     case 'TOGGLE_BLUR_MODE':
@@ -558,14 +576,25 @@ function createInitialStudioState(base: StudioState): StudioState {
     prefs.targetLevel === 'A2' || prefs.targetLevel === 'B1' || prefs.targetLevel === 'B2'
       ? prefs.targetLevel
       : base.userLevel;
-  if (l1Lang === base.l1Lang && userLevel === base.userLevel) {
+  const chosenScenario =
+    scenariosByModule.norskprove.find(
+      (s) => s.level === userLevel && s.part === 'presentation'
+    ) ||
+    scenariosByModule.norskprove.find(
+      (s) => s.part === 'presentation'
+    ) ||
+    base.currentScenario;
+
+  if (l1Lang === base.l1Lang && userLevel === base.userLevel && chosenScenario.id === base.currentScenario.id) {
     return base;
   }
   return {
     ...base,
     l1Lang,
     userLevel,
-    chatHistory: createInitialChat(base.currentScenario, l1Lang)
+    currentScenario: chosenScenario,
+    hints: [...(chosenScenario.hints || [])],
+    chatHistory: createInitialChat(chosenScenario, l1Lang)
   };
 }
 

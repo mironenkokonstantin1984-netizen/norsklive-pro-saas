@@ -186,6 +186,98 @@ describe('ExamScenarioSchema zod validation (Issue #50)', () => {
       }
     }
   });
+
+  it('hides drafts in production and respects SCENARIOS_SHOW_DRAFTS', async () => {
+    const { shouldShowDraftScenarios, getVisibleScenarios, DRAFT_SCENARIO_LABEL } = await import(
+      '../src/content/scenarios/visibility'
+    );
+    expect(DRAFT_SCENARIO_LABEL).toBe('Черновик, проверяется преподавателем');
+
+    expect(
+      shouldShowDraftScenarios({
+        NODE_ENV: 'production',
+        VERCEL_ENV: 'production',
+        SCENARIOS_SHOW_DRAFTS: 'true'
+      })
+    ).toBe(false);
+
+    expect(
+      shouldShowDraftScenarios({
+        NODE_ENV: 'production',
+        VERCEL_ENV: 'preview',
+        SCENARIOS_SHOW_DRAFTS: 'true'
+      })
+    ).toBe(true);
+
+    expect(
+      shouldShowDraftScenarios({
+        NODE_ENV: 'development',
+        SCENARIOS_SHOW_DRAFTS: 'false'
+      })
+    ).toBe(false);
+
+    const sampleReviewed: any = { id: 's-rev', title: 'Reviewed', status: 'reviewed' };
+    const sampleDraft: any = { id: 's-draft', title: 'Draft', status: 'draft' };
+    const items = [sampleReviewed, sampleDraft];
+
+    const prodVisible = getVisibleScenarios({
+      items,
+      env: { NODE_ENV: 'production', VERCEL_ENV: 'production' }
+    });
+    expect(prodVisible.map((i) => i.id)).toEqual(['s-rev']);
+
+    const previewVisible = getVisibleScenarios({
+      items,
+      env: { NODE_ENV: 'production', VERCEL_ENV: 'preview', SCENARIOS_SHOW_DRAFTS: 'true' }
+    });
+    expect(previewVisible.map((i) => i.id)).toEqual(['s-rev', 's-draft']);
+  });
+
+  it('verifies docs/scenarios-review.csv exists and contains 42 scenarios with correct headers', async () => {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+    const csvPath = path.resolve(process.cwd(), 'docs/scenarios-review.csv');
+
+    expect(fs.existsSync(csvPath), 'docs/scenarios-review.csv must exist').toBe(true);
+    const content = fs.readFileSync(csvPath, 'utf8');
+    const lines = content.trim().split('\n');
+
+    expect(lines[0]).toBe('id,level,part,topic,openingLine,guidingQuestions,status');
+    // Header + 42 scenarios = 43 lines
+    expect(lines.length).toBe(43);
+
+    expect(content).toContain('np-a2-presentation-arbeid');
+    expect(content).toContain('np-b1-picture-arbeid');
+  });
+
+  it('verifies 7 picture task SVG files exist in public/scenarios/images and use vector elements only', async () => {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+    const images = [
+      'workplace.svg',
+      'flat.svg',
+      'doctor.svg',
+      'family.svg',
+      'shop.svg',
+      'bus-stop.svg',
+      'park.svg'
+    ];
+
+    for (const img of images) {
+      const publicPath = path.resolve(process.cwd(), 'public/scenarios/images', img);
+      expect(fs.existsSync(publicPath), `public/scenarios/images/${img} must exist`).toBe(true);
+
+      const svgContent = fs.readFileSync(publicPath, 'utf8');
+      expect(svgContent).toContain('<svg');
+      expect(svgContent).toContain('</svg>');
+      // Must not contain bitmap images or external links
+      expect(svgContent).not.toContain('<image');
+      expect(svgContent).not.toContain('data:image/');
+      const nonXmlns = svgContent.replaceAll('http://www.w3.org/2000/svg', '');
+      expect(nonXmlns).not.toContain('http://');
+      expect(nonXmlns).not.toContain('https://');
+    }
+  });
 });
 
 

@@ -17,6 +17,8 @@ import type {
 const REPLIKA_FORMS = { one: 'реплику', few: 'реплики', many: 'реплик' } as const;
 const ERROR_FORMS = { one: 'ошибку', few: 'ошибки', many: 'ошибок' } as const;
 
+import type { ScenarioImage } from '../../content/scenarios/types';
+
 export interface ChatPanelProps {
   chatHistory: ChatMessage[];
   coachingHistory?: Correction[];
@@ -26,6 +28,7 @@ export interface ChatPanelProps {
   subtitlesEnabled?: boolean;
   /** Exam mode: no «Попробуйте» phrase under the correction. */
   examMode?: boolean;
+  scenarioImage?: ScenarioImage;
   activeSpeech?: { text: string; charIndex: number } | null;
   quotaExceeded?: QuotaExceededInfo | null;
   limitCardDismissed?: boolean;
@@ -85,10 +88,11 @@ export function ChatPanel({
   chatHistory,
   coachingHistory = [],
   partnerName,
-  l1Lang,
+  l1Lang = 'ru',
   blurMode,
   examMode = false,
   subtitlesEnabled = true,
+  scenarioImage,
   activeSpeech = null,
   quotaExceeded = null,
   limitCardDismissed = false,
@@ -141,6 +145,17 @@ export function ChatPanel({
               key={key}
               className={`msg msg-ai ${blurMode ? 'blurred' : ''}`}
             >
+              {index === 0 && scenarioImage ? (
+                <div className="scenario-image-wrapper" data-testid="scenarioImageWrapper">
+                  <img
+                    src={scenarioImage.src}
+                    alt={scenarioImage.alt_nb}
+                    className="scenario-image"
+                    width={400}
+                    height={300}
+                  />
+                </div>
+              ) : null}
               <div className="msg-speaker t-caption">
                 <Bot size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
                 <span>{partnerName}</span>

@@ -265,6 +265,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
             blurMode={state.blurMode}
             subtitlesEnabled={prefs.subtitles}
             examMode={prefs.examMode}
+            scenarioImage={currentScenario.image}
             activeSpeech={state.activeSpeech}
             quotaExceeded={state.quotaExceeded}
             limitCardDismissed={state.limitCardDismissed}
@@ -550,6 +551,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
             onSelectScenario={selectScenario}
             onApplyCustomSource={applyCustomSource}
             onApplyVacancy={applyVacancy}
+            targetLevel={state.userLevel}
           >
             <TargetWordsPanel
               targetWords={currentScenario.targetWords || []}

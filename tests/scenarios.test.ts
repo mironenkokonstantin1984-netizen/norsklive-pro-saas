@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import {
   ExamScenarioSchema,
-  type ExamScenario
+  type ExamScenario,
+  type Scenario
 } from '../src/content/scenarios/types';
 
 describe('ExamScenarioSchema zod validation (Issue #50)', () => {
@@ -216,8 +217,8 @@ describe('ExamScenarioSchema zod validation (Issue #50)', () => {
       })
     ).toBe(false);
 
-    const sampleReviewed: any = { id: 's-rev', title: 'Reviewed', status: 'reviewed' };
-    const sampleDraft: any = { id: 's-draft', title: 'Draft', status: 'draft' };
+    const sampleReviewed = { id: 's-rev', title: 'Reviewed', status: 'reviewed' } as unknown as Scenario;
+    const sampleDraft = { id: 's-draft', title: 'Draft', status: 'draft' } as unknown as Scenario;
     const items = [sampleReviewed, sampleDraft];
 
     const prodVisible = getVisibleScenarios({

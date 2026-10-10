@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%" role="img" aria-label="Arbeidsplass">
+  <!-- Bakgrunn og gulv -->
+  <rect width="400" height="300" fill="var(--surface-2)" />
+  <rect y="230" width="400" height="70" fill="var(--line)" />
+
+  <!-- Vindu -->
+  <rect x="30" y="30" width="100" height="90" rx="4" fill="var(--primary-soft)" stroke="var(--line-strong)" stroke-width="3" />
+  <line x1="80" y1="30" x2="80" y2="120" stroke="var(--line-strong)" stroke-width="2" />
+  <line x1="30" y1="75" x2="130" y2="75" stroke="var(--line-strong)" stroke-width="2" />
+
+  <!-- Veggklokke -->
+  <circle cx="200" cy="50" r="22" fill="var(--surface)" stroke="var(--ink)" stroke-width="2" />
+  <line x1="200" y1="50" x2="200" y2="36" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" />
+  <line x1="200" y1="50" x2="212" y2="50" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" />
+  <circle cx="200" cy="50" r="2.5" fill="var(--ink)" />
+
+  <!-- Skrivepult -->
+  <rect x="140" y="150" width="220" height="14" rx="3" fill="var(--primary)" />
+  <rect x="155" y="164" width="10" height="76" fill="var(--line-strong)" />
+  <rect x="335" y="164" width="10" height="76" fill="var(--line-strong)" />
+
+  <!-- Datamaskin / skjerm -->
+  <rect x="180" y="90" width="80" height="50" rx="4" fill="var(--surface)" stroke="var(--ink)" stroke-width="2" />
+  <rect x="188" y="98" width="64" height="34" fill="var(--primary-soft)" />
+  <rect x="215" y="140" width="10" height="10" fill="var(--ink)" />
+  <rect x="200" y="148" width="40" height="3" rx="1.5" fill="var(--ink)" />
+
+  <!-- Kaffekopp -->
+  <rect x="275" y="137" width="15" height="13" rx="2" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5" />
+  <path d="M 290 140 Q 295 144 290 148" fill="none" stroke="var(--ink)" stroke-width="1.5" />
+
+  <!-- Blomsterpotte / plante -->
+  <polygon points="318,150 338,150 334,133 322,133" fill="var(--hint)" />
+  <circle cx="328" cy="122" r="14" fill="var(--success)" />
+  <circle cx="322" cy="116" r="10" fill="var(--success)" opacity="0.85" />
+  <circle cx="334" cy="116" r="10" fill="var(--success)" opacity="0.85" />
+
+  <!-- Kontorstol -->
+  <rect x="80" y="135" width="50" height="45" rx="6" fill="var(--ink)" />
+  <rect x="80" y="176" width="50" height="12" rx="3" fill="var(--ink)" />
+  <line x1="105" y1="188" x2="105" y2="235" stroke="var(--ink)" stroke-width="6" stroke-linecap="round" />
+  <line x1="90" y1="235" x2="120" y2="235" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" />
+  <circle cx="88" cy="237" r="3" fill="var(--ink)" />
+  <circle cx="122" cy="237" r="3" fill="var(--ink)" />
+</svg>

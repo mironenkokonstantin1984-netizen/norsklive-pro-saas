@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%" role="img" aria-label="Familiemiddag ved spisebordet">
+  <!-- Bakgrunn og gulv -->
+  <rect width="400" height="300" fill="var(--surface-2)" />
+  <rect y="230" width="400" height="70" fill="var(--line)" />
+
+  <!-- Vindu i bakgrunnen med gardiner -->
+  <rect x="135" y="30" width="130" height="95" rx="3" fill="var(--primary-soft)" stroke="var(--line-strong)" stroke-width="2" />
+  <line x1="200" y1="30" x2="200" y2="125" stroke="var(--line-strong)" stroke-width="2" />
+  <line x1="135" y1="78" x2="265" y2="78" stroke="var(--line-strong)" stroke-width="2" />
+  <!-- Gardiner -->
+  <path d="M 135 30 Q 148 75 140 125 L 135 125 Z" fill="var(--hint)" />
+  <path d="M 265 30 Q 252 75 260 125 L 265 125 Z" fill="var(--hint)" />
+
+  <!-- Taklampe -->
+  <line x1="200" y1="0" x2="200" y2="55" stroke="var(--ink)" stroke-width="2" />
+  <polygon points="175,80 225,80 215,55 185,55" fill="var(--surface)" stroke="var(--ink)" stroke-width="2" />
+  <ellipse cx="200" cy="80" rx="25" ry="6" fill="var(--hint-soft)" />
+
+  <!-- Venstre stol -->
+  <rect x="65" y="165" width="30" height="30" rx="3" fill="var(--surface)" stroke="var(--ink)" stroke-width="2" />
+  <rect x="65" y="130" width="8" height="35" rx="2" fill="var(--ink)" />
+  <line x1="72" y1="195" x2="70" y2="245" stroke="var(--ink)" stroke-width="3" />
+  <line x1="90" y1="195" x2="92" y2="245" stroke="var(--ink)" stroke-width="3" />
+
+  <!-- Høyre stol -->
+  <rect x="305" y="165" width="30" height="30" rx="3" fill="var(--surface)" stroke="var(--ink)" stroke-width="2" />
+  <rect x="327" y="130" width="8" height="35" rx="2" fill="var(--ink)" />
+  <line x1="310" y1="195" x2="308" y2="245" stroke="var(--ink)" stroke-width="3" />
+  <line x1="328" y1="195" x2="330" y2="245" stroke="var(--ink)" stroke-width="3" />
+
+  <!-- Spisebord -->
+  <ellipse cx="200" cy="185" rx="125" ry="32" fill="var(--primary)" stroke="var(--primary-hover)" stroke-width="3" />
+  <!-- Bordben -->
+  <rect x="110" y="200" width="12" height="50" rx="2" fill="var(--ink)" />
+  <rect x="278" y="200" width="12" height="50" rx="2" fill="var(--ink)" />
+
+  <!-- Tallerkener -->
+  <ellipse cx="140" cy="180" rx="18" ry="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="1.5" />
+  <ellipse cx="260" cy="180" rx="18" ry="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="1.5" />
+  <ellipse cx="200" cy="200" rx="18" ry="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="1.5" />
+
+  <!-- Drikkeglass -->
+  <rect x="165" y="168" width="8" height="12" rx="1.5" fill="var(--primary-soft)" stroke="var(--line-strong)" stroke-width="1" />
+  <rect x="228" y="168" width="8" height="12" rx="1.5" fill="var(--primary-soft)" stroke="var(--line-strong)" stroke-width="1" />
+
+  <!-- Fruktskål i midten -->
+  <ellipse cx="200" cy="175" rx="24" ry="10" fill="var(--hint-soft)" stroke="var(--hint)" stroke-width="1.5" />
+  <!-- Epler og appelsiner -->
+  <circle cx="193" cy="170" r="6" fill="var(--error)" />
+  <circle cx="207" cy="170" r="6" fill="var(--hint)" />
+  <circle cx="200" cy="165" r="5" fill="var(--success)" />
+</svg>

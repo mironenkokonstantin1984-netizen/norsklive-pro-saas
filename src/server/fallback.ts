@@ -4,6 +4,9 @@ import type { CoachResponse, CustomScenario, TargetWord } from './schemas';
 export interface ScenarioRecord {
   id?: string;
   title?: string;
+  level?: string;
+  part?: 'presentation' | 'picture' | 'conversation';
+  topic?: string;
   partnerName?: string;
   partnerRole?: string;
   sourceText?: string;
@@ -29,6 +32,9 @@ export interface FallbackInput {
   userText: string;
   module?: string;
   scenarioId?: string;
+  level?: 'A2' | 'B1' | 'B2';
+  part?: 'presentation' | 'picture' | 'conversation';
+  scenarioText?: string;
   l1?: 'ru' | 'ua' | 'en';
   persona?: 'standard' | 'interrupting' | 'passive';
   usedWords?: string[];
@@ -39,12 +45,16 @@ export function generateStrategicRAndDFallback({
   userText,
   module = 'norskprove',
   scenarioId = 'np-b1b2-velferd-hjemmekontor',
+  level: _level,
+  part,
+  scenarioText: _scenarioText,
   l1 = 'ru',
   persona = 'standard',
   usedWords = [],
   customScenario = null
 }: FallbackInput): CoachResponse {
   const sc = findScenario(module, scenarioId, customScenario);
+  const effectivePart = part || sc.part;
   const usedSet = new Set((usedWords || []).map((w) => w.toLowerCase()));
   const targetWords = sc.targetWords || [];
   const unused = targetWords.filter((w) => !usedSet.has(w.word.toLowerCase()));
@@ -136,13 +146,31 @@ export function generateStrategicRAndDFallback({
       ? `[Агент: Пассивный Medkandidat вовлечён!] О, спасибо, что спросил меня! Я немного сомневался, но согласен с тобой насчёт «${nextTarget.word}». Как думаешь, что нужно сделать в первую очередь?`
       : `[Агент: Пассивный Medkandidat молчит] Да... даже не знаю, может быть. (Подсказка экзаменатора HK-dir: Твой напарник пассивен! Задай ему прямой вопрос «Hva tenker du om dette?», чтобы заработать балл за Samhandling!)`;
   } else {
-    replyNorsk = `Takk for et godt resonnement! Hvis vi knytter dette til «${nextTarget.word}» — hvilke konkrete konsekvenser tror du det får på lang sikt?`;
-    replyL1 =
-      l1 === 'ua'
-        ? `Дякую за гарний аргумент! Якщо пов’язати це з поняттям «${nextTarget.word}» (${nextTarget.ua || nextTarget.translation}) — які конкретні наслідки це матиме в довгостроковій перспективі?`
-        : l1 === 'en'
-          ? `Thank you for a strong argument! If we link this to "${nextTarget.word}" (${nextTarget.en || nextTarget.translation}) — what concrete consequences will it have long-term?`
-          : `Спасибо за хорошее рассуждение! Если связать это с понятием «${nextTarget.word}» (${nextTarget.translation}) — какие конкретные последствия это даст в долгосрочной перспективе?`;
+    if (effectivePart === 'presentation') {
+      replyNorsk = `Takk for en fin presentasjon! Kan du fortelle litt mer om «${nextTarget.word}»? Hva tenker du er viktigst der?`;
+      replyL1 =
+        l1 === 'ua'
+          ? `Дякую за гарну презентацію! Чи можете розповісти докладніше про «${nextTarget.word}»? Що ви вважаєте найважливішим тут?`
+          : l1 === 'en'
+            ? `Thank you for a great presentation! Can you elaborate on "${nextTarget.word}"? What do you consider most important there?`
+            : `Спасибо за хорошую презентацию! Можете подробнее рассказать о «${nextTarget.word}»? Что вы считаете самым важным здесь?`;
+    } else if (effectivePart === 'picture') {
+      replyNorsk = `Takk for beskrivelsen! Hva ser du ellers på bildet som du ikke har nevnt ennå, for eksempel rundt «${nextTarget.word}»?`;
+      replyL1 =
+        l1 === 'ua'
+          ? `Дякую за опис! Що ще ви бачите на малюнку, про що ще не згадали, наприклад навколо «${nextTarget.word}»?`
+          : l1 === 'en'
+            ? `Thank you for the description! What else do you see in the picture that you haven't mentioned yet, for example around "${nextTarget.word}"?`
+            : `Спасибо за описание! Что еще вы видите на картинке, о чем еще не сказали, например вокруг «${nextTarget.word}»?`;
+    } else {
+      replyNorsk = `Takk for et godt resonnement! Hvis vi knytter dette til «${nextTarget.word}» — hvilke konkrete konsekvenser tror du det får på lang sikt?`;
+      replyL1 =
+        l1 === 'ua'
+          ? `Дякую за гарний аргумент! Якщо пов’язати це з поняттям «${nextTarget.word}» (${nextTarget.ua || nextTarget.translation}) — які конкретні наслідки це матиме в довгостроковій перспективі?`
+          : l1 === 'en'
+            ? `Thank you for a strong argument! If we link this to "${nextTarget.word}" (${nextTarget.en || nextTarget.translation}) — what concrete consequences will it have long-term?`
+            : `Спасибо за хорошее рассуждение! Если связать это с понятием «${nextTarget.word}» (${nextTarget.translation}) — какие конкретные последствия это даст в долгосрочной перспективе?`;
+    }
   }
 
   const exampleSentence = nextTarget.example || `Vi bør satse på ${nextTarget.word}.`;

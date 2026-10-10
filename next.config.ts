@@ -1,6 +1,10 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  env: {
+    NEXT_PUBLIC_SCENARIOS_SHOW_DRAFTS: process.env.SCENARIOS_SHOW_DRAFTS || '',
+    SCENARIOS_SHOW_DRAFTS: process.env.SCENARIOS_SHOW_DRAFTS || ''
+  },
   eslint: {
     ignoreDuringBuilds: true
   },

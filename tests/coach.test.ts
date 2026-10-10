@@ -461,4 +461,81 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
       }
     }
   });
+
+  test('9. Level- and part-aware examiner prompt and fallback behavior (Issue #50)', async () => {
+    const { buildGeminiCoachPayload, getPartInstruction } = await import(
+      '../src/server/prompts/coach'
+    );
+
+    // Verify part instructions
+    expect(getPartInstruction('presentation')).toContain('Del 1 - Presentasjon');
+    expect(getPartInstruction('presentation')).toContain('1-2 korte oppfølgingsspørsmål');
+    expect(getPartInstruction('picture')).toContain('Del 2 - Bildebeskrivelse');
+    expect(getPartInstruction('picture')).toContain('detaljer eller gjenstander på bildet');
+    expect(getPartInstruction('conversation')).toContain('Del 3 - Samtale');
+
+    const dummyScenario = {
+      id: 'test-scenario',
+      partnerName: 'Sensor Kari',
+      partnerRole: 'Eksaminator ved HK-dir',
+      sourceText: 'Kontekst om arbeid',
+      targetWords: [
+        { word: 'kollega', translation: 'коллега', ua: 'колега', en: 'colleague' }
+      ]
+    };
+
+    const payloadPres = buildGeminiCoachPayload({
+      scenario: dummyScenario,
+      level: 'A2',
+      l1: 'ru',
+      persona: 'standard',
+      userText: 'Jeg jobber som kokk.',
+      part: 'presentation'
+    });
+    const promptTextPres = (payloadPres.contents[0].parts[0] as { text: string }).text;
+    expect(promptTextPres).toContain('Brukerens mål-nivå: A2');
+    expect(promptTextPres).toContain('Eksamensdel: presentation');
+    expect(promptTextPres).toContain('1-2 korte oppfølgingsspørsmål');
+
+    const payloadPic = buildGeminiCoachPayload({
+      scenario: dummyScenario,
+      level: 'B1',
+      l1: 'en',
+      persona: 'standard',
+      userText: 'På bildet ser jeg et kontor.',
+      part: 'picture'
+    });
+    const promptTextPic = (payloadPic.contents[0].parts[0] as { text: string }).text;
+    expect(promptTextPic).toContain('Brukerens mål-nivå: B1');
+    expect(promptTextPic).toContain('Eksamensdel: picture');
+    expect(promptTextPic).toContain('detaljer eller gjenstander på bildet');
+
+    // Test offline fallback fixtures
+    const fallbackPres = generateStrategicRAndDFallback({
+      userText: 'Jeg jobber på sykehus.',
+      scenarioId: 'np-a2-presentation-arbeid',
+      part: 'presentation',
+      level: 'A2'
+    });
+    expect(fallbackPres.reply_norsk).toContain('Takk for en fin presentasjon!');
+    expect(fallbackPres.reply_norsk).toContain('Hva tenker du er viktigst der?');
+
+    const fallbackPic = generateStrategicRAndDFallback({
+      userText: 'I stua står det en sofa.',
+      scenarioId: 'np-a2-picture-bolig',
+      part: 'picture',
+      level: 'A2'
+    });
+    expect(fallbackPic.reply_norsk).toContain('Takk for beskrivelsen!');
+    expect(fallbackPic.reply_norsk).toContain('Hva ser du ellers på bildet som du ikke har nevnt ennå');
+
+    const fallbackConv = generateStrategicRAndDFallback({
+      userText: 'Jeg liker å reise med buss.',
+      scenarioId: 'np-a2-conversation-transport',
+      part: 'conversation',
+      level: 'A2'
+    });
+    expect(fallbackConv.reply_norsk).toContain('Takk for et godt resonnement!');
+  });
 });
+

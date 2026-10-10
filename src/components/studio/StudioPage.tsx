@@ -47,9 +47,14 @@ import {
 export interface StudioPageProps {
   authEnabled?: boolean;
   userEmail?: string | null;
+  showDrafts?: boolean;
 }
 
-export function StudioPage({ authEnabled = false, userEmail = null }: StudioPageProps = {}) {
+export function StudioPage({
+  authEnabled = false,
+  userEmail = null,
+  showDrafts
+}: StudioPageProps = {}) {
   const {
     state,
     dispatch,
@@ -265,6 +270,7 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
             blurMode={state.blurMode}
             subtitlesEnabled={prefs.subtitles}
             examMode={prefs.examMode}
+            scenarioImage={currentScenario.image}
             activeSpeech={state.activeSpeech}
             quotaExceeded={state.quotaExceeded}
             limitCardDismissed={state.limitCardDismissed}
@@ -550,6 +556,8 @@ export function StudioPage({ authEnabled = false, userEmail = null }: StudioPage
             onSelectScenario={selectScenario}
             onApplyCustomSource={applyCustomSource}
             onApplyVacancy={applyVacancy}
+            targetLevel={state.userLevel}
+            showDrafts={showDrafts}
           >
             <TargetWordsPanel
               targetWords={currentScenario.targetWords || []}

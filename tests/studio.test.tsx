@@ -42,7 +42,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
 
     expect(container.querySelector('#leftPanelTitle')?.textContent).toContain('Norskprøve Muntlig');
     expect(
-      getByText(/Eksamen #1: Digitalisering, hjemmekontor og bærekraftig velferdsstat/)
+      getByText(/Presentasjon: Arbeidserfaring og yrkesvalg/)
     ).toBeTruthy();
 
     const jobbTab = container.querySelector(
@@ -68,14 +68,14 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     const { container, getByText } = render(<StudioPage />);
 
     const scenario2 = getByText(
-      /Eksamen #2 \(UDI A2\/B1-krav\): Miljø, nærmiljø og frivillighet \(Dugnad\)/
+      /Bildebeskrivelse: Arbeidsplassen og trivsel/
     );
     fireEvent.click(scenario2);
 
     const bingoText = container.querySelector('#vocabBingoList')?.textContent || '';
-    expect(bingoText).toContain('kildesortering');
-    expect(bingoText).toContain('kollektivtransport');
-    expect(bingoText).toContain('lokalsamfunn');
+    expect(bingoText).toContain('belysning');
+    expect(bingoText).toContain('utstyr');
+    expect(bingoText).toContain('ergonomi');
   });
 
   test('3. Applying custom text of "alpha beta gamma delta" creates target words', () => {
@@ -107,7 +107,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     const parsed = JSON.parse(rawStored || '[]');
     expect(Array.isArray(parsed)).toBe(true);
     expect(parsed.length).toBe(1);
-    expect(parsed[0].word).toBe('å ta hensyn til');
+    expect(parsed[0].word).toBe('yrkeserfaring');
     expect(container.querySelector('#savedWordsCount')?.textContent).toBe('1');
   });
 
@@ -137,7 +137,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     const sentBody = JSON.parse(String(calledInit.body));
     expect(sentBody).toMatchObject({
       module: 'norskprove',
-      scenarioId: 'np-b1b2-velferd-hjemmekontor',
+      scenarioId: 'np-b1-presentation-arbeid',
       level: 'B1',
       l1: 'ru',
       persona: 'standard',
@@ -241,7 +241,7 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
 
     const [, calledInit] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
     const sentBody = JSON.parse(String(calledInit.body));
-    expect(sentBody.userText).toContain('Det er avgjørende å ta hensyn til');
+    expect(sentBody.userText).toContain('Jeg valgte dette yrket fordi jeg liker å ha ansvar');
   });
 
   test('9 (e). Saying a target word in the phrase marks it "BRUKT I TALE"', async () => {
@@ -258,14 +258,14 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     const sendBtn = container.querySelector('#sendSpeechBtn') as HTMLButtonElement;
 
     fireEvent.change(input, {
-      target: { value: 'Vi må ha en bærekraftig utvikling i samfunnet.' }
+      target: { value: 'Jeg har mye yrkeserfaring fra hjemlandet.' }
     });
     fireEvent.click(sendBtn);
 
     await waitFor(() => {
       const usedChips = container.querySelectorAll('#vocabBingoList .vocab-chip.used');
       expect(usedChips.length).toBeGreaterThanOrEqual(1);
-      expect(usedChips[0]?.textContent).toContain('bærekraftig');
+      expect(usedChips[0]?.textContent).toContain('yrkeserfaring');
       expect(usedChips[0]?.textContent).toContain('BRUKT I TALE');
     });
   });

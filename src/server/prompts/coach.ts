@@ -17,6 +17,18 @@ export function getPersonaInstruction(persona: string, scenario: ScenarioRecord)
   return `Du spiller ${scenario.partnerName || 'Sensor Kari'} (${scenario.partnerRole || 'Eksaminator ved HK-dir'}).`;
 }
 
+export function getPartInstruction(
+  part?: 'presentation' | 'picture' | 'conversation'
+): string {
+  if (part === 'presentation') {
+    return 'Eksaminator-adferd (Del 1 - Presentasjon): Still 1-2 korte oppfølgingsspørsmål om det kandidaten presenterte. Hold replikken kort og still ett spørsmål om gangen.';
+  }
+  if (part === 'picture') {
+    return 'Eksaminator-adferd (Del 2 - Bildebeskrivelse): Still spørsmål om detaljer eller gjenstander på bildet som kandidaten ikke har nevnt ennå. Hold replikken kort og still ett spørsmål om gangen.';
+  }
+  return 'Eksaminator-adferd (Del 3 - Samtale): Reager naturlig på det kandidaten sa, og still et åpent spørsmål for å føre samtalen videre. Still ett spørsmål om gangen.';
+}
+
 export interface BuildGeminiCoachPayloadInput {
   scenario: ScenarioRecord;
   level: string;
@@ -25,6 +37,8 @@ export interface BuildGeminiCoachPayloadInput {
   userText: string;
   history?: HistoryTurn[];
   usedWords?: string[];
+  part?: 'presentation' | 'picture' | 'conversation';
+  scenarioText?: string;
 }
 
 /**
@@ -40,10 +54,15 @@ export function buildGeminiCoachPayload({
   persona,
   userText,
   history = [],
-  usedWords = []
+  usedWords = [],
+  part,
+  scenarioText
 }: BuildGeminiCoachPayloadInput) {
   const langName = getLanguageName(l1);
   const personaInstruction = getPersonaInstruction(persona, scenario);
+  const effectivePart = part || scenario.part || 'conversation';
+  const effectiveScenarioText = scenarioText || scenario.sourceText || '';
+  const partInstruction = getPartInstruction(effectivePart);
   const usedSet = new Set((usedWords || []).map((w) => w.toLowerCase()));
   const unusedWords = (scenario.targetWords || [])
     .filter((w) => !usedSet.has(w.word.toLowerCase()))
@@ -56,11 +75,14 @@ export function buildGeminiCoachPayload({
 
   const instructionPart = `${personaInstruction}
 Brukerens mål-nivå: ${level}.
+Eksamensdel: ${effectivePart}.
+${partInstruction}
 Brukerens morsmål (L1) for grammatiske forklaringer: ${langName}.
-Kontekst / Kilde: ${scenario.sourceText || ''}
+Kontekst / Kilde: ${effectiveScenarioText}
 Målord som brukeren ennå IKKE har brukt i samtalen: ${unusedWords.join(', ')}.
 ${recentTurnsSummary ? `Tidligere replikker i samtalen:\n${recentTurnsSummary}\n` : ''}
 Analyser brukerens neste uttalelse (sendt som en egen meldingsdel nedenfor) som rå tale uten å overse grammatiske feil (som V2-inversjon).
+Eksaminator-replikk: Hold replikken kort (maks 25 ord), ett spørsmål om gangen.
 Returner KUN gyldig JSON med følgende nøkler:
 {
   "reply_norsk": "Svar på norsk Bokmål (2-3 setninger) + åpent oppfølgingsspørsmål",

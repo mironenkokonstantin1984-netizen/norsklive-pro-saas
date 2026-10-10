@@ -29,6 +29,7 @@ export const CoachRequestSchema = z.object({
   module: z.enum(['norskprove', 'jobbintervju', 'pensum']),
   scenarioId: z.string().min(1).max(120),
   level: z.enum(['A2', 'B1', 'B2']),
+  part: z.enum(['presentation', 'picture', 'conversation']).optional(),
   l1: z.enum(['ru', 'ua', 'en']),
   persona: z.enum(['standard', 'interrupting', 'passive']),
   userText: z.string().trim().min(1).max(1000),

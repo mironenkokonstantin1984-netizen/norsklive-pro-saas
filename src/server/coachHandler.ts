@@ -198,14 +198,21 @@ export function createCoachHandler(
 
         const fetchFn = deps.fetchImpl || globalThis.fetch;
 
-        // Try up to 2 times (retry once on invalid JSON / schema error)
+        const overallDeadline = Date.now() + 25000;
+
+        // Try up to 2 times (retry once on invalid JSON / schema error, not on timeouts)
         for (let attempt = 1; attempt <= 2; attempt++) {
+          const remainingMs = overallDeadline - Date.now();
+          if (remainingMs <= 1000) {
+            break;
+          }
+          const timeoutMs = Math.min(20000, remainingMs);
           try {
             const response = await fetchFn(url, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload),
-              signal: AbortSignal.timeout(20000)
+              signal: AbortSignal.timeout(timeoutMs)
             });
 
             if (!response.ok) {
@@ -226,7 +233,7 @@ export function createCoachHandler(
 
             const parsedOutput = JSON.parse(rawJson);
 
-            // Drop errors whose quote is not in the learner's text (case-insensitive)
+            // Drop errors whose quote is not in the learner's text (normalized comparison)
             if (
               parsedOutput &&
               typeof parsedOutput === 'object' &&
@@ -246,9 +253,15 @@ export function createCoachHandler(
             }
             await persistReply(validated);
             return Response.json(validated, { status: 200 });
-          } catch {
-            // On failure or invalid JSON, loop will retry once. If attempt 2 fails,
-            // execution falls through to coach_unavailable below.
+          } catch (err) {
+            // Do not retry on timeouts or if overall deadline has passed
+            const isTimeout =
+              err instanceof Error &&
+              (err.name === 'TimeoutError' || err.message.toLowerCase().includes('timeout'));
+            if (isTimeout || attempt >= 2 || Date.now() >= overallDeadline - 2000) {
+              break;
+            }
+            // Otherwise (e.g. JSON parse or schema validation error), retry once
           }
         }
       }

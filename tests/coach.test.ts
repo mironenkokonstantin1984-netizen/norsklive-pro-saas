@@ -629,7 +629,47 @@ describe('NorskLive Pro M1a-1 Next.js Server & /api/coach', () => {
     expect(sanitized.errors[0].quote).toBe('spiste jeg');
     expect(sanitized.status).toBe('has_errors');
 
-    // 5. If ALL quotes are invented, status flips to 'ok' and errors is empty
+    // 5. Normalized quote matching: real error with extra whitespace / surrounding punctuation is kept
+    const feedbackWithWhitespaceQuote: CoachFeedback = {
+      status: 'has_errors',
+      errors: [
+        {
+          quote: '  spiste   jeg.  ',
+          fix: 'spiste jeg',
+          type: 'word_order',
+          rule_name_l1: 'V2',
+          explanation_l1: 'Whitespace normalized'
+        },
+        {
+          quote: '«spiste jeg»',
+          fix: 'spiste jeg',
+          type: 'word_order',
+          rule_name_l1: 'V2',
+          explanation_l1: 'Quotes normalized'
+        },
+        {
+          quote: 'helt oppdiktet feil',
+          fix: 'noe',
+          type: 'vocabulary',
+          rule_name_l1: 'Ordvalg',
+          explanation_l1: 'Finnes ikke'
+        }
+      ],
+      praise_l1: 'Fint!',
+      level_estimate: 'A2'
+    };
+    const sanitizedNormalized = filterFeedbackErrorsByLearnerText(
+      feedbackWithWhitespaceQuote,
+      learnerText
+    );
+    expect(sanitizedNormalized.errors).toHaveLength(2);
+    expect(sanitizedNormalized.errors.map((e) => e.explanation_l1)).toEqual([
+      'Whitespace normalized',
+      'Quotes normalized'
+    ]);
+    expect(sanitizedNormalized.status).toBe('has_errors');
+
+    // 6. If ALL quotes are invented, status flips to 'ok' and errors is empty
     const allInvented: CoachFeedback = {
       status: 'has_errors',
       errors: [

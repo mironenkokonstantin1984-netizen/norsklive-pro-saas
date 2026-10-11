@@ -90,17 +90,47 @@ export const CoachFeedbackSchema = z
   });
 
 /**
- * Drops errors whose quote does not appear in the learner's text (case-insensitive).
+ * Normalizes text for matching quotes against learner text:
+ * - Unifies curly/typographic quotes and apostrophes
+ * - Collapses consecutive whitespace into a single space
+ * - Lowercases
+ * - Strips leading/trailing surrounding punctuation and whitespace
+ */
+export function normalizeQuote(text: string): string {
+  return text
+    .replace(/[\u2018\u2019\u201A\u201B`]/g, "'")
+    .replace(/[\u201C\u201D\u201E\u201F«»]/g, '"')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/^[\s.,!?:;'"«»()—–-]+|[\s.,!?:;'"«»()—–-]+$/g, '');
+}
+
+export function normalizeLearnerText(text: string): string {
+  return text
+    .replace(/[\u2018\u2019\u201A\u201B`]/g, "'")
+    .replace(/[\u201C\u201D\u201E\u201F«»]/g, '"')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * Drops errors whose quote does not appear in the learner's text (normalized comparison).
+ * Both sides are normalized by trimming, collapsing whitespace, unifying quotes,
+ * and stripping surrounding punctuation from quotes.
  * If all errors are dropped, updates status to 'ok'.
  */
 export function filterFeedbackErrorsByLearnerText(
   feedback: CoachFeedback,
   learnerText: string
 ): CoachFeedback {
-  const lowerText = learnerText.toLowerCase();
-  const validErrors = (feedback.errors || []).filter(
-    (err) => err.quote && lowerText.includes(err.quote.toLowerCase())
-  );
+  const normLearner = normalizeLearnerText(learnerText);
+  const validErrors = (feedback.errors || []).filter((err) => {
+    if (!err.quote) return false;
+    const normQuote = normalizeQuote(err.quote);
+    return normQuote.length > 0 && normLearner.includes(normQuote);
+  });
   if (validErrors.length === 0) {
     return {
       ...feedback,

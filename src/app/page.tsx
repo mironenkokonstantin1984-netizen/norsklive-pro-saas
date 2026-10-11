@@ -1,4 +1,5 @@
 import { PathHome } from '../components/path/PathHome';
+import { getVisibleWords } from '../lib/words/catalog';
 import { getSessionUser, isAuthEnabled } from '../server/auth';
 
 export const metadata = { title: 'Мой путь · NorskLive' };
@@ -7,6 +8,13 @@ export const metadata = { title: 'Мой путь · NorskLive' };
 export default async function HomePage() {
   const authEnabled = isAuthEnabled();
   const user = authEnabled ? await getSessionUser() : null;
-  return <PathHome authEnabled={authEnabled} userEmail={user?.email ?? null} />;
+  const visibleIds = getVisibleWords().map((w) => w.id);
+  return (
+    <PathHome
+      authEnabled={authEnabled}
+      userEmail={user?.email ?? null}
+      visibleWordIds={visibleIds}
+    />
+  );
 }
 

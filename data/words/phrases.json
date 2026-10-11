@@ -1,0 +1,2205 @@
+[
+  {
+    "id": "p-001",
+    "lemma": "Jeg er enig, fordi",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Jeg er enig, fordi"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "samfunn"
+    ],
+    "translations": {
+      "ru": "Я согласен, потому что…",
+      "uk": "Я згоден, тому що…",
+      "en": "I agree, because…"
+    },
+    "examples": [
+      {
+        "nb": "Jeg er enig, fordi det sparer mye tid i hverdagen.",
+        "ru": "Я согласен, потому что это экономит много времени в будни.",
+        "uk": "Я згоден, тому що це заощаджує багато часу в будні.",
+        "en": "I agree, because it saves a lot of time in everyday life."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Jeg er helt ___, fordi dette gir bedre arbeidsmiljø.",
+        "answer": "enig",
+        "hint_ru": "Форма единственного числа «enig» («согласен»)",
+        "hint_uk": "Форма однини «enig» («згоден»)",
+        "hint_en": "Singular form \"enig\" (\"agree\")"
+      },
+      {
+        "nb": "Jeg er enig, ___ det hjelper både foreldre og barn.",
+        "answer": "fordi",
+        "hint_ru": "Союз причины «fordi» («потому что»)",
+        "hint_uk": "Сполучник причини «fordi» («тому що»)",
+        "hint_en": "Causal conjunction \"fordi\" (\"because\")"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-002",
+    "lemma": "Det kommer an på",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Det kommer an på"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "bolig"
+    ],
+    "translations": {
+      "ru": "Это зависит от…",
+      "uk": "Це залежить від…",
+      "en": "It depends on…"
+    },
+    "examples": [
+      {
+        "nb": "Det kommer an på hvor langt du bor fra jobben.",
+        "ru": "Это зависит от того, как далеко ты живёшь от работы.",
+        "uk": "Це залежить від того, як далеко ти живеш від роботи.",
+        "en": "It depends on how far you live from work."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Det ___ an på hvilken vakt jeg får neste uke.",
+        "answer": "kommer",
+        "hint_ru": "Настоящее время глагола «komme» («kommer an på»)",
+        "hint_uk": "Теперішній час дієслова «komme» («kommer an på»)",
+        "hint_en": "Present tense \"kommer\" in \"kommer an på\""
+      },
+      {
+        "nb": "Det kommer an ___ prisen og beliggenheten.",
+        "answer": "på",
+        "hint_ru": "Предлог «på» в устойчивом выражении «komme an på»",
+        "hint_uk": "Прийменник «på» у сталому виразі «komme an på»",
+        "hint_en": "Preposition \"på\" in \"komme an på\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-003",
+    "lemma": "Hva mener du?",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Hva mener du?"
+    },
+    "level": "A1",
+    "topics": [
+      "arbeid",
+      "fritid"
+    ],
+    "translations": {
+      "ru": "Что ты думаешь? / Каково твоё мнение?",
+      "uk": "Що ти думаєш? / Яка твоя думка?",
+      "en": "What do you think?"
+    },
+    "examples": [
+      {
+        "nb": "Jeg trives med hjemmekontor. Hva mener du?",
+        "ru": "Мне нравится работать из дома. А что ты думаешь?",
+        "uk": "Мені подобається працювати з дому. А що ти думаєш?",
+        "en": "I enjoy working from home. What do you think?"
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Hva ___ du om dette forslaget på jobben?",
+        "answer": "mener",
+        "hint_ru": "Настоящее время глагола «mene» («думаешь / считаешь»)",
+        "hint_uk": "Теперішній час дієслова «mene» («думаєш / вважаєш»)",
+        "hint_en": "Present tense \"mener\""
+      },
+      {
+        "nb": "___ mener du er den største fordelen med tog?",
+        "answer": "Hva",
+        "hint_ru": "Вопросительное слово «Hva» («Что»)",
+        "hint_uk": "Питальне слово «Hva» («Що»)",
+        "hint_en": "Interrogative \"Hva\" (\"What\")"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-004",
+    "lemma": "Kan du gjenta?",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Kan du gjenta?"
+    },
+    "level": "A1",
+    "topics": [
+      "arbeid",
+      "familie"
+    ],
+    "translations": {
+      "ru": "Можешь повторить?",
+      "uk": "Чи можеш повторити?",
+      "en": "Can you repeat?"
+    },
+    "examples": [
+      {
+        "nb": "Unnskyld, jeg hørte ikke spørsmålet. Kan du gjenta?",
+        "ru": "Извините, я не расслышал вопрос. Можете повторить?",
+        "uk": "Вибачте, я не розчув питання. Чи можете повторити?",
+        "en": "Excuse me, I did not hear the question. Can you repeat?"
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Kan du ___ det siste ordet litt langsommere?",
+        "answer": "gjenta",
+        "hint_ru": "Инфинитив «gjenta» («повторить») после «Kan du»",
+        "hint_uk": "Інфінітив «gjenta» («повторити») після «Kan du»",
+        "hint_en": "Infinitive \"gjenta\" after \"Kan du\""
+      },
+      {
+        "nb": "___ du gjenta spørsmålet en gang til?",
+        "answer": "Kan",
+        "hint_ru": "Модальный глагол «Kan» в начале вежливого вопроса",
+        "hint_uk": "Модальне дієслово «Kan» на початку ввічливого питання",
+        "hint_en": "Modal verb \"Kan\" at question start"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-005",
+    "lemma": "På den ene siden",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "På den ene siden"
+    },
+    "level": "B1",
+    "topics": [
+      "arbeid",
+      "bolig"
+    ],
+    "translations": {
+      "ru": "С одной стороны…",
+      "uk": "З одного боку…",
+      "en": "On the one hand…"
+    },
+    "examples": [
+      {
+        "nb": "På den ene siden er det rolig på landet, men på den andre siden er det langt til jobb.",
+        "ru": "С одной стороны, за городом тихо, но с другой — далеко до работы.",
+        "uk": "З одного боку, за містом тихо, але з іншого — далеко до роботи.",
+        "en": "On the one hand it is quiet in the countryside, but on the other hand it is far to work."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "På den ___ siden sparer vi reisetid med hjemmekontor.",
+        "answer": "ene",
+        "hint_ru": "Форма «ene» в устойчивом обороте «På den ene siden»",
+        "hint_uk": "Форма «ene» у сталому звороті «På den ene siden»",
+        "hint_en": "Form \"ene\" in \"På den ene siden\""
+      },
+      {
+        "nb": "På den ene ___ er leiligheten lys og moderne.",
+        "answer": "siden",
+        "hint_ru": "Определённая форма «siden» («стороне»)",
+        "hint_uk": "Означена форма «siden» («боці»)",
+        "hint_en": "Definite singular \"siden\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-006",
+    "lemma": "På den andre siden",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "På den andre siden"
+    },
+    "level": "B1",
+    "topics": [
+      "arbeid",
+      "bolig"
+    ],
+    "translations": {
+      "ru": "С другой стороны…",
+      "uk": "З іншого боку…",
+      "en": "On the other hand…"
+    },
+    "examples": [
+      {
+        "nb": "På den andre siden savner man ofte kollegene sine.",
+        "ru": "С другой стороны, часто не хватает коллег.",
+        "uk": "З іншого боку, часто бракує колег.",
+        "en": "On the other hand one often misses one’s colleagues."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "På den ___ siden koster det mer å bo i sentrum.",
+        "answer": "andre",
+        "hint_ru": "Прилагательное/числительное «andre» («другой»)",
+        "hint_uk": "Прикметник/числівник «andre» («іншого»)",
+        "hint_en": "Form \"andre\" in \"På den andre siden\""
+      },
+      {
+        "nb": "___ den andre siden har bussen mange avganger.",
+        "answer": "På",
+        "hint_ru": "Предлог «På» в начале оборота «På den andre siden»",
+        "hint_uk": "Прийменник «På» на початку звороту «På den andre siden»",
+        "hint_en": "Preposition \"På\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-007",
+    "lemma": "Etter min mening",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Etter min mening"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "helse"
+    ],
+    "translations": {
+      "ru": "По моему мнению…",
+      "uk": "На мою думку…",
+      "en": "In my opinion…"
+    },
+    "examples": [
+      {
+        "nb": "Etter min mening bør alle ha tid til fysisk aktivitet.",
+        "ru": "По моему мнению, у каждого должно быть время для физической активности.",
+        "uk": "На мою думку, кожен повинен мати час для фізичної активності.",
+        "en": "In my opinion everyone should have time for physical activity."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Etter min ___ er kollektivtransport best i store byer.",
+        "answer": "mening",
+        "hint_ru": "Существительное «mening» («мнение») после «min»",
+        "hint_uk": "Іменник «mening» («думка») після «min»",
+        "hint_en": "Noun \"mening\" after \"min\""
+      },
+      {
+        "nb": "___ min mening trenger skolen flere lærere.",
+        "answer": "Etter",
+        "hint_ru": "Предлог «Etter» в обороте «Etter min mening»",
+        "hint_uk": "Прийменник «Etter» у звороті «Etter min mening»",
+        "hint_en": "Preposition \"Etter\" in \"Etter min mening\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-008",
+    "lemma": "Jeg synes at",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Jeg synes at"
+    },
+    "level": "A1",
+    "topics": [
+      "fritid",
+      "familie"
+    ],
+    "translations": {
+      "ru": "Мне кажется / я считаю, что…",
+      "uk": "Мені здається / я вважаю, що…",
+      "en": "I think / find that…"
+    },
+    "examples": [
+      {
+        "nb": "Jeg synes at dette temaet er veldig aktuelt.",
+        "ru": "Я считаю, что эта тема очень актуальна.",
+        "uk": "Я вважаю, що ця тема дуже актуальна.",
+        "en": "I think that this topic is very relevant."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Jeg ___ at det er hyggelig å lage mat sammen.",
+        "answer": "synes",
+        "hint_ru": "Глагол «synes» (личное мнение на основе опыта)",
+        "hint_uk": "Дієслово «synes» (особиста думка на основі досвіду)",
+        "hint_en": "Verb \"synes\" (personal opinion)"
+      },
+      {
+        "nb": "Jeg synes ___ vi bør ta toget i stedet for bil.",
+        "answer": "at",
+        "hint_ru": "Изъяснительный союз «at» («что»)",
+        "hint_uk": "З’ясувальний сполучник «at» («що»)",
+        "hint_en": "Complementizer \"at\" (\"that\")"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-009",
+    "lemma": "For eksempel",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "For eksempel"
+    },
+    "level": "A1",
+    "topics": [
+      "arbeid",
+      "handel"
+    ],
+    "translations": {
+      "ru": "Например",
+      "uk": "Наприклад",
+      "en": "For example"
+    },
+    "examples": [
+      {
+        "nb": "Vi kan gjøre mye for miljøet, for eksempel sykle til jobb.",
+        "ru": "Мы можем сделать многое для экологии, например ездить на работу на велосипеде.",
+        "uk": "Ми можемо зробити багато для довкілля, наприклад їздити на роботу велосипедом.",
+        "en": "We can do a lot for the environment, for example cycle to work."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Mange handler på nett, for ___ klær og sko.",
+        "answer": "eksempel",
+        "hint_ru": "Существительное «eksempel» в обороте «for eksempel»",
+        "hint_uk": "Іменник «eksempel» у звороті «for eksempel»",
+        "hint_en": "Noun \"eksempel\" in \"for eksempel\""
+      },
+      {
+        "nb": "___ eksempel kan vi møtes på biblioteket etter kurset.",
+        "answer": "For",
+        "hint_ru": "Предлог «For» в обороте «For eksempel»",
+        "hint_uk": "Прийменник «For» у звороті «For eksempel»",
+        "hint_en": "Preposition \"For\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-010",
+    "lemma": "Hva synes du om",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Hva synes du om"
+    },
+    "level": "A1",
+    "topics": [
+      "fritid",
+      "bolig"
+    ],
+    "translations": {
+      "ru": "Что ты думаешь о…?",
+      "uk": "Що ти думаєш про…?",
+      "en": "What do you think about…?"
+    },
+    "examples": [
+      {
+        "nb": "Hva synes du om å bo i blokk?",
+        "ru": "Что ты думаешь о жизни в многоквартирном доме?",
+        "uk": "Що ти думаєш про життя в багатоквартирному будинку?",
+        "en": "What do you think about living in an apartment block?"
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Hva ___ du om den nye arbeidstidsordningen?",
+        "answer": "synes",
+        "hint_ru": "Форма «synes» в вопросе о мнении собеседника",
+        "hint_uk": "Форма «synes» у питанні про думку співрозмовника",
+        "hint_en": "Present tense \"synes\""
+      },
+      {
+        "nb": "Hva synes du ___ forslaget fra kommunen?",
+        "answer": "om",
+        "hint_ru": "Предлог «om» («о») после «synes»",
+        "hint_uk": "Прийменник «om» («про») після «synes»",
+        "hint_en": "Preposition \"om\" after \"synes\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-011",
+    "lemma": "Jeg er litt usikker",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Jeg er litt usikker"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "helse"
+    ],
+    "translations": {
+      "ru": "Я немного не уверен",
+      "uk": "Я трохи не впевнений",
+      "en": "I am a bit unsure"
+    },
+    "examples": [
+      {
+        "nb": "Jeg er litt usikker på hva som er best her.",
+        "ru": "Я немного не уверен, что здесь лучше.",
+        "uk": "Я трохи не впевнений, що тут краще.",
+        "en": "I am a bit unsure about what is best here."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Jeg er litt ___ på om jeg kan bytte vakt.",
+        "answer": "usikker",
+        "hint_ru": "Прилагательное «usikker» («не уверен»)",
+        "hint_uk": "Прикметник «usikker» («не впевнений»)",
+        "hint_en": "Adjective \"usikker\""
+      },
+      {
+        "nb": "Vi er ___ på hvilket tog vi skal velge.",
+        "answer": "usikre",
+        "hint_ru": "Форма множественного числа «usikre» после «Vi er»",
+        "hint_uk": "Форма множини «usikre» після «Vi er»",
+        "hint_en": "Plural adjective \"usikre\" after \"Vi er\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-012",
+    "lemma": "Kan du forklare nærmere?",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Kan du forklare nærmere?"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "familie"
+    ],
+    "translations": {
+      "ru": "Можешь объяснить подробнее?",
+      "uk": "Чи можеш пояснити детальніше?",
+      "en": "Can you explain in more detail?"
+    },
+    "examples": [
+      {
+        "nb": "Det høres interessant ut. Kan du forklare nærmere?",
+        "ru": "Звучит интересно. Можешь объяснить подробнее?",
+        "uk": "Звучить цікаво. Чи можеш пояснити детальніше?",
+        "en": "That sounds interesting. Can you explain in more detail?"
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Kan du ___ nærmere hva du mener med dette?",
+        "answer": "forklare",
+        "hint_ru": "Инфинитив «forklare» после «Kan du»",
+        "hint_uk": "Інфінітив «forklare» після «Kan du»",
+        "hint_en": "Infinitive \"forklare\""
+      },
+      {
+        "nb": "Kan du forklare ___ hvordan ordningen fungerer?",
+        "answer": "nærmere",
+        "hint_ru": "Сравнительная степень наречия «nærmere» («подробнее»)",
+        "hint_uk": "Вищий ступінь прислівника «nærmere» («детальніше»)",
+        "hint_en": "Comparative adverb \"nærmere\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-013",
+    "lemma": "En stor fordel er at",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "En stor fordel er at"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "transport"
+    ],
+    "translations": {
+      "ru": "Большое преимущество в том, что…",
+      "uk": "Велика перевага в тому, що…",
+      "en": "A big advantage is that…"
+    },
+    "examples": [
+      {
+        "nb": "En stor fordel er at toget går uten kø.",
+        "ru": "Большое преимущество в том, что поезд идёт без пробок.",
+        "uk": "Велика перевага в тому, що поїзд їде без заторів.",
+        "en": "A big advantage is that the train runs without traffic jams."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "En stor ___ er at man blir kjent med naboene.",
+        "answer": "fordel",
+        "hint_ru": "Существительное «fordel» («преимущество»)",
+        "hint_uk": "Іменник «fordel» («перевага»)",
+        "hint_en": "Noun \"fordel\" (\"advantage\")"
+      },
+      {
+        "nb": "To viktige ___ er kortere reisetid og lavere pris.",
+        "answer": "fordeler",
+        "hint_ru": "Множественное число «fordeler» после «To viktige»",
+        "hint_uk": "Множина «fordeler» після «To viktige»",
+        "hint_en": "Plural \"fordeler\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-014",
+    "lemma": "En ulempe kan være at",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "En ulempe kan være at"
+    },
+    "level": "A2",
+    "topics": [
+      "bolig",
+      "transport"
+    ],
+    "translations": {
+      "ru": "Недостатком может быть то, что…",
+      "uk": "Недоліком може бути те, що…",
+      "en": "A disadvantage may be that…"
+    },
+    "examples": [
+      {
+        "nb": "En ulempe kan være at husleia er høy i sentrum.",
+        "ru": "Недостатком может быть то, что аренда в центре высокая.",
+        "uk": "Недоліком може бути те, що оренда в центрі висока.",
+        "en": "A disadvantage may be that the rent is high in the city centre."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "En ___ kan være at det blir lite sosial kontakt.",
+        "answer": "ulempe",
+        "hint_ru": "Существительное «ulempe» («недостаток / минус»)",
+        "hint_uk": "Іменник «ulempe» («недолік / мінус»)",
+        "hint_en": "Noun \"ulempe\" (\"disadvantage\")"
+      },
+      {
+        "nb": "Hvilke ___ ser du ved å jobbe bare hjemmefra?",
+        "answer": "ulemper",
+        "hint_ru": "Множественное число «ulemper» после «Hvilke»",
+        "hint_uk": "Множина «ulemper» після «Hvilke»",
+        "hint_en": "Plural \"ulemper\" after \"Hvilke\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-015",
+    "lemma": "Det stemmer at",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Det stemmer at"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "handel"
+    ],
+    "translations": {
+      "ru": "Верно, что… / Это правда, что…",
+      "uk": "Правда, що… / Це так, що…",
+      "en": "It is true / correct that…"
+    },
+    "examples": [
+      {
+        "nb": "Det stemmer at prisene har økt det siste året.",
+        "ru": "Это правда, что цены выросли за последний год.",
+        "uk": "Це правда, що ціни зросли за останній рік.",
+        "en": "It is true that prices have increased over the past year."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Det ___ at mange foretrekker fleksibel arbeidstid.",
+        "answer": "stemmer",
+        "hint_ru": "Настоящее время глагола «stemme» («stemmer»)",
+        "hint_uk": "Теперішній час дієслова «stemme» («stemmer»)",
+        "hint_en": "Present tense \"stemmer\""
+      },
+      {
+        "nb": "Stemmer ___ at biblioteket holder åpent på søndager?",
+        "answer": "det",
+        "hint_ru": "Формальное подлежащее «det» в вопросе «Stemmer det at…?»",
+        "hint_uk": "Формальний підмет «det» у питанні «Stemmer det at…?»",
+        "hint_en": "Pronoun \"det\" in \"Stemmer det at…?\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-016",
+    "lemma": "Jeg foretrekker å",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Jeg foretrekker å"
+    },
+    "level": "A2",
+    "topics": [
+      "fritid",
+      "bolig"
+    ],
+    "translations": {
+      "ru": "Я предпочитаю…",
+      "uk": "Я віддаю перевагу…",
+      "en": "I prefer to…"
+    },
+    "examples": [
+      {
+        "nb": "Jeg foretrekker å sykle når det ikke regner.",
+        "ru": "Я предпочитаю ездить на велосипеде, когда нет дождя.",
+        "uk": "Я віддаю перевагу їзді на велосипеді, коли немає дощу.",
+        "en": "I prefer to cycle when it is not raining."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Jeg ___ å handle mat én gang i uka.",
+        "answer": "foretrekker",
+        "hint_ru": "Настоящее время «foretrekker» («предпочитаю»)",
+        "hint_uk": "Теперішній час «foretrekker» («віддаю перевагу»)",
+        "hint_en": "Present tense \"foretrekker\""
+      },
+      {
+        "nb": "I fjor ___ vi å leie ei hytte ved sjøen.",
+        "answer": "foretrakk",
+        "hint_ru": "Прошедшее время «foretrakk» после «I fjor»",
+        "hint_uk": "Минулий час «foretrakk» після «I fjor»",
+        "hint_en": "Past tense \"foretrakk\" after \"I fjor\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-017",
+    "lemma": "Det er viktig å huske at",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Det er viktig å huske at"
+    },
+    "level": "A2",
+    "topics": [
+      "helse",
+      "familie"
+    ],
+    "translations": {
+      "ru": "Важно помнить, что…",
+      "uk": "Важливо пам’ятати, що…",
+      "en": "It is important to remember that…"
+    },
+    "examples": [
+      {
+        "nb": "Det er viktig å huske at alle barn er forskjellige.",
+        "ru": "Важно помнить, что все дети разные.",
+        "uk": "Важливо пам’ятати, що всі діти різні.",
+        "en": "It is important to remember that all children are different."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Det er ___ å huske at hvile gir ny energi.",
+        "answer": "viktig",
+        "hint_ru": "Прилагательное «viktig» после «Det er»",
+        "hint_uk": "Прикметник «viktig» після «Det er»",
+        "hint_en": "Adjective \"viktig\""
+      },
+      {
+        "nb": "Det er viktig å ___ at fristen går ut på fredag.",
+        "answer": "huske",
+        "hint_ru": "Инфинитив «huske» («помнить») после «å»",
+        "hint_uk": "Інфінітив «huske» («пам’ятати») після «å»",
+        "hint_en": "Infinitive \"huske\" after \"å\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-018",
+    "lemma": "Min erfaring er at",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Min erfaring er at"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "familie"
+    ],
+    "translations": {
+      "ru": "Мой опыт показывает, что…",
+      "uk": "Мій досвід показує, що…",
+      "en": "My experience is that…"
+    },
+    "examples": [
+      {
+        "nb": "Min erfaring er at man lærer språk raskest i praksis.",
+        "ru": "Мой опыт показывает, что язык быстрее всего учится на практике.",
+        "uk": "Мій досвід показує, що мова найшвидше вивчається на практиці.",
+        "en": "My experience is that one learns a language fastest in practice."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Min ___ er at gode rutiner gjør hverdagen enklere.",
+        "answer": "erfaring",
+        "hint_ru": "Существительное ед. ч. «erfaring» («опыт»)",
+        "hint_uk": "Іменник одн. «erfaring» («досвід»)",
+        "hint_en": "Singular noun \"erfaring\""
+      },
+      {
+        "nb": "___ erfaring er at åpne spørsmål gir bedre samtaler.",
+        "answer": "Min",
+        "hint_ru": "Притяжательное местоимение «Min» перед словом жен./муж. рода",
+        "hint_uk": "Присвійний займенник «Min»",
+        "hint_en": "Possessive \"Min\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-019",
+    "lemma": "På dette bildet ser jeg",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "På dette bildet ser jeg"
+    },
+    "level": "A1",
+    "topics": [
+      "fritid",
+      "bolig"
+    ],
+    "translations": {
+      "ru": "На этой картинке я вижу…",
+      "uk": "На цій картинці я бачу…",
+      "en": "In this picture I see…"
+    },
+    "examples": [
+      {
+        "nb": "På dette bildet ser jeg en familie som spiser frokost.",
+        "ru": "На этой картинке я вижу семью, которая завтракает.",
+        "uk": "На цій картинці я бачу родину, яка снідає.",
+        "en": "In this picture I see a family eating breakfast."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "På dette ___ ser jeg tre personer på en bussholdeplass.",
+        "answer": "bildet",
+        "hint_ru": "Определённая форма среднего рода «bildet» после «dette»",
+        "hint_uk": "Означена форма середнього роду «bildet» після «dette»",
+        "hint_en": "Definite neuter \"bildet\" after \"dette\""
+      },
+      {
+        "nb": "På dette bildet ___ jeg et travelt torg om sommeren.",
+        "answer": "ser",
+        "hint_ru": "Настоящее время глагола «se» («ser»)",
+        "hint_uk": "Теперішній час дієслова «se» («ser»)",
+        "hint_en": "Present tense \"ser\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-020",
+    "lemma": "I bakgrunnen kan vi se",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "I bakgrunnen kan vi se"
+    },
+    "level": "A2",
+    "topics": [
+      "fritid",
+      "bolig"
+    ],
+    "translations": {
+      "ru": "На заднем плане мы видим…",
+      "uk": "На задньому плані ми бачимо…",
+      "en": "In the background we can see…"
+    },
+    "examples": [
+      {
+        "nb": "I bakgrunnen kan vi se høye fjell og blå himmel.",
+        "ru": "На заднем плане мы видим высокие горы и синее небо.",
+        "uk": "На задньому плані ми бачимо високі гори та синє небо.",
+        "en": "In the background we can see high mountains and blue sky."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "I ___ kan vi se et hvitt sykehus og noen trær.",
+        "answer": "bakgrunnen",
+        "hint_ru": "Определённая форма «bakgrunnen» («на заднем плане»)",
+        "hint_uk": "Означена форма «bakgrunnen» («на задньому плані»)",
+        "hint_en": "Definite form \"bakgrunnen\""
+      },
+      {
+        "nb": "I bakgrunnen kan vi ___ en buss som kjører forbi.",
+        "answer": "se",
+        "hint_ru": "Инфинитив «se» после модального глагола «kan»",
+        "hint_uk": "Інфінітив «se» після модального дієслова «kan»",
+        "hint_en": "Infinitive \"se\" after \"kan\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-021",
+    "lemma": "Til venstre på bildet",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Til venstre på bildet"
+    },
+    "level": "A1",
+    "topics": [
+      "bolig",
+      "handel"
+    ],
+    "translations": {
+      "ru": "Слева на картинке",
+      "uk": "Ліворуч на картинці",
+      "en": "On the left of the picture"
+    },
+    "examples": [
+      {
+        "nb": "Til venstre på bildet står det en kunde med handlekurv.",
+        "ru": "Слева на картинке стоит покупатель с корзиной.",
+        "uk": "Ліворуч на картинці стоїть покупець із кошиком.",
+        "en": "On the left of the picture stands a customer with a basket."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Til ___ på bildet sitter ei jente og leser.",
+        "answer": "venstre",
+        "hint_ru": "Слово «venstre» («слева»)",
+        "hint_uk": "Слово «venstre» («ліворуч»)",
+        "hint_en": "\"venstre\" (\"left\")"
+      },
+      {
+        "nb": "Til venstre ___ bildet er det en liten kafé.",
+        "answer": "på",
+        "hint_ru": "Предлог «på» в сочетании «på bildet»",
+        "hint_uk": "Прийменник «på» у сполученні «på bildet»",
+        "hint_en": "Preposition \"på\" in \"på bildet\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-022",
+    "lemma": "Til høyre ser vi",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Til høyre ser vi"
+    },
+    "level": "A1",
+    "topics": [
+      "bolig",
+      "transport"
+    ],
+    "translations": {
+      "ru": "Справа мы видим…",
+      "uk": "Праворуч ми бачимо…",
+      "en": "To the right we see…"
+    },
+    "examples": [
+      {
+        "nb": "Til høyre ser vi en sykkelsti langs veien.",
+        "ru": "Справа мы видим велосипедную дорожку вдоль дороги.",
+        "uk": "Праворуч ми бачимо велосипедну доріжку вздовж дороги.",
+        "en": "To the right we see a cycle path along the road."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Til ___ ser vi en lege som snakker med pasienten.",
+        "answer": "høyre",
+        "hint_ru": "Слово «høyre» («справа»)",
+        "hint_uk": "Слово «høyre» («праворуч»)",
+        "hint_en": "\"høyre\" (\"right\")"
+      },
+      {
+        "nb": "___ høyre ser vi inngangen til stasjonen.",
+        "answer": "Til",
+        "hint_ru": "Предлог направления «Til» в сочетании «Til høyre»",
+        "hint_uk": "Прийменник напрямку «Til» у сполученні «Til høyre»",
+        "hint_en": "Preposition \"Til\" in \"Til høyre\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-023",
+    "lemma": "Det får meg til å tenke på",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Det får meg til å tenke på"
+    },
+    "level": "A2",
+    "topics": [
+      "familie",
+      "fritid"
+    ],
+    "translations": {
+      "ru": "Это наводит меня на мысль о…",
+      "uk": "Це наштовхує мене на думку про…",
+      "en": "It makes me think of…"
+    },
+    "examples": [
+      {
+        "nb": "Det får meg til å tenke på sommerferien i fjor.",
+        "ru": "Это наводит меня на мысль о прошлогоднем летнем отпуске.",
+        "uk": "Це наштовхує мене на думку про минулорічну літню відпустку.",
+        "en": "It makes me think of last year’s summer holiday."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Det får meg til å ___ på min første arbeidsdag.",
+        "answer": "tenke",
+        "hint_ru": "Инфинитив «tenke» («думать») после «til å»",
+        "hint_uk": "Інфінітив «tenke» («думати») після «til å»",
+        "hint_en": "Infinitive \"tenke\" after \"til å\""
+      },
+      {
+        "nb": "Bildet ___ meg til å tenke på kollektivtransport i Oslo.",
+        "answer": "får",
+        "hint_ru": "Настоящее время «får» в конструкции «får meg til å tenke på»",
+        "hint_uk": "Теперішній час «får» у конструкції «får meg til å tenke på»",
+        "hint_en": "Present tense \"får\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-024",
+    "lemma": "Hva tenker du om det?",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Hva tenker du om det?"
+    },
+    "level": "A1",
+    "topics": [
+      "arbeid",
+      "familie"
+    ],
+    "translations": {
+      "ru": "Что ты об этом думаешь?",
+      "uk": "Що ти про це думаєш?",
+      "en": "What do you think about that?"
+    },
+    "examples": [
+      {
+        "nb": "Vi kan dele oppgavene likt. Hva tenker du om det?",
+        "ru": "Мы можем разделить задачи поровну. Что ты об этом думаешь?",
+        "uk": "Ми можемо розділити завдання порівну. Що ти про це думаєш?",
+        "en": "We can share the tasks equally. What do you think about that?"
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Hva ___ du om det forslaget vi fikk i går?",
+        "answer": "tenker",
+        "hint_ru": "Настоящее время «tenker»",
+        "hint_uk": "Теперішній час «tenker»",
+        "hint_en": "Present tense \"tenker\""
+      },
+      {
+        "nb": "Hva tenker du ___ det å jobbe i helgene?",
+        "answer": "om",
+        "hint_ru": "Предлог «om» после «tenker»",
+        "hint_uk": "Прийменник «om» після «tenker»",
+        "hint_en": "Preposition \"om\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-025",
+    "lemma": "Jeg forstår hva du mener",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Jeg forstår hva du mener"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "familie"
+    ],
+    "translations": {
+      "ru": "Я понимаю, что ты имеешь в виду",
+      "uk": "Я розумію, що ти маєш на увазі",
+      "en": "I understand what you mean"
+    },
+    "examples": [
+      {
+        "nb": "Jeg forstår hva du mener, men jeg ser det litt annerledes.",
+        "ru": "Я понимаю, что ты имеешь в виду, но смотрю на это немного иначе.",
+        "uk": "Я розумію, що ти маєш на увазі, але дивлюся на це трохи інакше.",
+        "en": "I understand what you mean, but I see it slightly differently."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Jeg ___ hva du mener med at reisetida blir for lang.",
+        "answer": "forstår",
+        "hint_ru": "Настоящее время «forstår» («понимаю»)",
+        "hint_uk": "Теперішній час «forstår» («розумію»)",
+        "hint_en": "Present tense \"forstår\""
+      },
+      {
+        "nb": "Jeg forstår hva du ___, og det er et godt poeng.",
+        "answer": "mener",
+        "hint_ru": "Настоящее время «mener» в придаточном предложении",
+        "hint_uk": "Теперішній час «mener» у підрядному реченні",
+        "hint_en": "Present tense \"mener\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-026",
+    "lemma": "Det er et godt poeng",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Det er et godt poeng"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "helse"
+    ],
+    "translations": {
+      "ru": "Это хороший аргумент / верное замечание",
+      "uk": "Це слушна думка / хороший аргумент",
+      "en": "That is a good point"
+    },
+    "examples": [
+      {
+        "nb": "Det er et godt poeng, særlig for barnefamilier.",
+        "ru": "Это хороший аргумент, особенно для семей с детьми.",
+        "uk": "Це хороший аргумент, особливо для сімей із дітьми.",
+        "en": "That is a good point, especially for families with children."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Det er et ___ poeng som vi bør ta med videre.",
+        "answer": "godt",
+        "hint_ru": "Средний род прилагательного «godt» перед словом среднего рода «et poeng»",
+        "hint_uk": "Середній рід прикметника «godt» перед «et poeng»",
+        "hint_en": "Neuter adjective \"godt\" before \"et poeng\""
+      },
+      {
+        "nb": "Du kom med to gode ___ under diskusjonen.",
+        "answer": "poenger",
+        "accept": [
+          "poeng"
+        ],
+        "hint_ru": "Множественное число «poenger» (или poeng)",
+        "hint_uk": "Множина «poenger» (або poeng)",
+        "hint_en": "Plural \"poenger\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-027",
+    "lemma": "Samtidig må vi huske at",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Samtidig må vi huske at"
+    },
+    "level": "B1",
+    "topics": [
+      "arbeid",
+      "helse"
+    ],
+    "translations": {
+      "ru": "В то же время мы должны помнить, что…",
+      "uk": "Водночас ми маємо пам’ятати, що…",
+      "en": "At the same time we must remember that…"
+    },
+    "examples": [
+      {
+        "nb": "Samtidig må vi huske at ikke alle har bil.",
+        "ru": "В то же время мы должны помнить, что не у всех есть машина.",
+        "uk": "Водночас ми маємо пам’ятати, що не всі мають машину.",
+        "en": "At the same time we must remember that not everyone has a car."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "___ må vi huske at sunn mat gir mer overskudd.",
+        "answer": "Samtidig",
+        "hint_ru": "Наречие «Samtidig» («в то же время») в начале предложения (затем V2 «må»)",
+        "hint_uk": "Прислівник «Samtidig» («водночас») на початку речення",
+        "hint_en": "Adverb \"Samtidig\" at sentence start"
+      },
+      {
+        "nb": "Samtidig ___ vi huske at eldre ofte foretrekker kontanter.",
+        "answer": "må",
+        "hint_ru": "Модальный глагол «må» на втором месте (правило V2)",
+        "hint_uk": "Модальне дієслово «må» на другому місці (V2)",
+        "hint_en": "Modal verb \"må\" in V2 position"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-028",
+    "lemma": "I hjemlandet mitt pleier vi å",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "I hjemlandet mitt pleier vi å"
+    },
+    "level": "A2",
+    "topics": [
+      "familie",
+      "fritid"
+    ],
+    "translations": {
+      "ru": "У меня на родине мы обычно…",
+      "uk": "У моїй рідній країні ми зазвичай…",
+      "en": "In my home country we usually…"
+    },
+    "examples": [
+      {
+        "nb": "I hjemlandet mitt pleier vi å samle hele familien om søndagen.",
+        "ru": "У меня на родине мы обычно собираемся всей семьёй по воскресеньям.",
+        "uk": "У моїй рідній країні ми зазвичай збираємося всією родиною щонеділі.",
+        "en": "In my home country we usually gather the whole family on Sundays."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "I ___ mitt pleier vi å drikke te etter middag.",
+        "answer": "hjemlandet",
+        "hint_ru": "Определённая форма среднего рода «hjemlandet» перед «mitt»",
+        "hint_uk": "Означена форма середнього роду «hjemlandet» перед «mitt»",
+        "hint_en": "Definite neuter \"hjemlandet\" before \"mitt\""
+      },
+      {
+        "nb": "I hjemlandet mitt ___ vi å feire nyttår med venner.",
+        "answer": "pleier",
+        "hint_ru": "Настоящее время «pleier» на втором месте (V2 после обстоятельства)",
+        "hint_uk": "Теперішній час «pleier» на другому місці (V2)",
+        "hint_en": "Present tense \"pleier\" in V2 position"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-029",
+    "lemma": "I Norge er det vanlig å",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "I Norge er det vanlig å"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "fritid"
+    ],
+    "translations": {
+      "ru": "В Норвегии принято…",
+      "uk": "У Норвегії заведено…",
+      "en": "In Norway it is common to…"
+    },
+    "examples": [
+      {
+        "nb": "I Norge er det vanlig å ha med matpakke på jobb.",
+        "ru": "В Норвегии принято брать с собой ланч-бокс на работу.",
+        "uk": "У Норвегії заведено брати із собою ланч-бокс на роботу.",
+        "en": "In Norway it is common to bring a packed lunch to work."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "I Norge er det ___ å gå på tur i allslags vær.",
+        "answer": "vanlig",
+        "hint_ru": "Прилагательное «vanlig» («обычно / принято») после «er det»",
+        "hint_uk": "Прикметник «vanlig» («заведено») після «er det»",
+        "hint_en": "Adjective \"vanlig\" after \"er det\""
+      },
+      {
+        "nb": "I Norge ___ det vanlig å hilse kort på bussen.",
+        "answer": "er",
+        "hint_ru": "Глагол «er» на втором месте после обстоятельства «I Norge» (V2)",
+        "hint_uk": "Дієслово «er» на другому місці (V2)",
+        "hint_en": "Verb \"er\" in V2 position"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-030",
+    "lemma": "Det viktigste for meg er",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Det viktigste for meg er"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "bolig"
+    ],
+    "translations": {
+      "ru": "Самое важное для меня — это…",
+      "uk": "Найважливіше для мене — це…",
+      "en": "The most important thing for me is…"
+    },
+    "examples": [
+      {
+        "nb": "Det viktigste for meg er et trygt miljø for barna.",
+        "ru": "Самое важное для меня — безопасная среда для детей.",
+        "uk": "Найважливіше для мене — безпечне середовище для дітей.",
+        "en": "The most important thing for me is a safe environment for the children."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Det ___ for meg er å ha hyggelige kolleger.",
+        "answer": "viktigste",
+        "hint_ru": "Определённая форма превосходной степени «viktigste» после «Det»",
+        "hint_uk": "Означена форма найвищого ступеня «viktigste» після «Det»",
+        "hint_en": "Definite superlative \"viktigste\" after \"Det\""
+      },
+      {
+        "nb": "Det viktigste ___ meg er kort vei til barnehagen.",
+        "answer": "for",
+        "hint_ru": "Предлог «for» («для меня»)",
+        "hint_uk": "Прийменник «for» («для мене»)",
+        "hint_en": "Preposition \"for\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-031",
+    "lemma": "Jeg pleier å",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Jeg pleier å"
+    },
+    "level": "A1",
+    "topics": [
+      "fritid",
+      "helse"
+    ],
+    "translations": {
+      "ru": "Я обычно… (делаю что-то)",
+      "uk": "Я зазвичай… (роблю щось)",
+      "en": "I usually…"
+    },
+    "examples": [
+      {
+        "nb": "Jeg pleier å legge meg før klokka elleve.",
+        "ru": "Я обычно ложусь спать до одиннадцати.",
+        "uk": "Я зазвичай лягаю спати до одинадцятої.",
+        "en": "I usually go to bed before eleven o’clock."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Jeg ___ å lese tjue minutter på norsk hver kveld.",
+        "answer": "pleier",
+        "hint_ru": "Настоящее время глагола «pleie» («pleier å»)",
+        "hint_uk": "Теперішній час дієслова «pleie» («pleier å»)",
+        "hint_en": "Present tense \"pleier\""
+      },
+      {
+        "nb": "Da jeg bodde i Bergen, ___ jeg å gå opp på Fløyen.",
+        "answer": "pleide",
+        "hint_ru": "Прошедшее время «pleide» после «Da jeg bodde…»",
+        "hint_uk": "Минулий час «pleide» після «Da jeg bodde…»",
+        "hint_en": "Past tense \"pleide\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-032",
+    "lemma": "Jeg har lyst til å",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Jeg har lyst til å"
+    },
+    "level": "A1",
+    "topics": [
+      "fritid",
+      "arbeid"
+    ],
+    "translations": {
+      "ru": "Мне хочется… / Я хочу…",
+      "uk": "Мені хочеться… / Я хочу…",
+      "en": "I would like to… / I feel like…"
+    },
+    "examples": [
+      {
+        "nb": "Jeg har lyst til å ta fagbrev neste år.",
+        "ru": "Я хочу получить профессиональное свидетельство в следующем году.",
+        "uk": "Я хочу отримати професійне свідоцтво наступного року.",
+        "en": "I would like to take a trade certificate next year."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Jeg har ___ til å lære mer om norsk historie.",
+        "answer": "lyst",
+        "hint_ru": "Существительное «lyst» в выражении «ha lyst til å»",
+        "hint_uk": "Іменник «lyst» у виразі «ha lyst til å»",
+        "hint_en": "Noun \"lyst\" in \"ha lyst til å\""
+      },
+      {
+        "nb": "Har du lyst ___ å bli med på skitur i morgen?",
+        "answer": "til",
+        "hint_ru": "Предлог «til» перед «å» в выражении «ha lyst til å»",
+        "hint_uk": "Прийменник «til» перед «å» у виразі «ha lyst til å»",
+        "hint_en": "Preposition \"til\" before \"å\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-033",
+    "lemma": "Det spørs om",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Det spørs om"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "transport"
+    ],
+    "translations": {
+      "ru": "Вопрос в том, … ли / Зависит от того, … ли",
+      "uk": "Питання в тому, чи…",
+      "en": "It is a question whether… / It depends whether…"
+    },
+    "examples": [
+      {
+        "nb": "Det spørs om vi rekker toget klokka fem.",
+        "ru": "Неизвестно, успеем ли мы на пятичасовой поезд.",
+        "uk": "Невідомо, чи встигнемо ми на п’ятигодинний поїзд.",
+        "en": "It is doubtful whether we will catch the five o’clock train."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Det ___ om været holder seg tørt til i kveld.",
+        "answer": "spørs",
+        "hint_ru": "Форма «spørs» в устойчивом выражении «Det spørs om»",
+        "hint_uk": "Форма «spørs» у сталому виразі «Det spørs om»",
+        "hint_en": "Form \"spørs\" in \"Det spørs om\""
+      },
+      {
+        "nb": "Det spørs ___ bedriften har råd til flere ansatte nå.",
+        "answer": "om",
+        "hint_ru": "Союз «om» («ли») после «Det spørs»",
+        "hint_uk": "Сполучник «om» («чи») після «Det spørs»",
+        "hint_en": "Conjunction \"om\" (\"whether\")"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-034",
+    "lemma": "Alt i alt mener jeg at",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Alt i alt mener jeg at"
+    },
+    "level": "B1",
+    "topics": [
+      "arbeid",
+      "bolig"
+    ],
+    "translations": {
+      "ru": "В целом я считаю, что…",
+      "uk": "Загалом я вважаю, що…",
+      "en": "All in all I think that…"
+    },
+    "examples": [
+      {
+        "nb": "Alt i alt mener jeg at fordelene er større enn ulempene.",
+        "ru": "В целом я считаю, что преимуществ больше, чем недостатков.",
+        "uk": "Загалом я вважаю, що переваг більше, ніж недоліків.",
+        "en": "All in all I think that the advantages outweigh the disadvantages."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Alt i ___ mener jeg at dette er ei god løsning.",
+        "answer": "alt",
+        "hint_ru": "Слово «alt» в устойчивом обороте «Alt i alt» («В целом»)",
+        "hint_uk": "Слово «alt» у сталому звороті «Alt i alt» («Загалом»)",
+        "hint_en": "\"alt\" in \"Alt i alt\""
+      },
+      {
+        "nb": "Alt i alt ___ jeg at bylivet passer godt for oss.",
+        "answer": "mener",
+        "hint_ru": "Глагол «mener» на втором месте после «Alt i alt» (V2)",
+        "hint_uk": "Дієслово «mener» на другому місці після «Alt i alt» (V2)",
+        "hint_en": "Verb \"mener\" in V2 position"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-035",
+    "lemma": "For det første",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "For det første"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "helse"
+    ],
+    "translations": {
+      "ru": "Во-первых",
+      "uk": "По-перше",
+      "en": "Firstly / First of all"
+    },
+    "examples": [
+      {
+        "nb": "For det første er det bra for helsa å sykle.",
+        "ru": "Во-первых, ездить на велосипеде полезно для здоровья.",
+        "uk": "По-перше, їздити на велосипеді корисно для здоров’я.",
+        "en": "Firstly, cycling is good for your health."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "For det ___ sparer vi penger ved å lage mat hjemme.",
+        "answer": "første",
+        "hint_ru": "Порядковое числительное «første» в обороте «For det første»",
+        "hint_uk": "Порядковий числівник «første» у звороті «For det første»",
+        "hint_en": "\"første\" in \"For det første\""
+      },
+      {
+        "nb": "___ det første gir deltidsjobb verdifull arbeidserfaring.",
+        "answer": "For",
+        "hint_ru": "Предлог «For» в обороте «For det første»",
+        "hint_uk": "Прийменник «For» у звороті «For det første»",
+        "hint_en": "Preposition \"For\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-036",
+    "lemma": "For det andre",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "For det andre"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "helse"
+    ],
+    "translations": {
+      "ru": "Во-вторых",
+      "uk": "По-друге",
+      "en": "Secondly"
+    },
+    "examples": [
+      {
+        "nb": "For det andre blir det mindre biltrafikk i byen.",
+        "ru": "Во-вторых, в городе становится меньше автомобильного трафика.",
+        "uk": "По-друге, у місті стає менше автомобільного трафіку.",
+        "en": "Secondly, there is less car traffic in the city."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "For det ___ lærer man mye av å jobbe i team.",
+        "answer": "andre",
+        "hint_ru": "Числительное «andre» в обороте «For det andre»",
+        "hint_uk": "Числівник «andre» у звороті «For det andre»",
+        "hint_en": "\"andre\" in \"For det andre\""
+      },
+      {
+        "nb": "For ___ andre er busskortet billigere for studenter.",
+        "answer": "det",
+        "hint_ru": "Местоимение/артикль «det» в обороте «For det andre»",
+        "hint_uk": "Артикль «det» у звороті «For det andre»",
+        "hint_en": "\"det\" in \"For det andre\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-037",
+    "lemma": "I tillegg til dette",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "I tillegg til dette"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "bolig"
+    ],
+    "translations": {
+      "ru": "В дополнение к этому / Кроме того",
+      "uk": "На додаток до цього / Крім того",
+      "en": "In addition to this"
+    },
+    "examples": [
+      {
+        "nb": "I tillegg til dette får de ansatte gratis kaffe.",
+        "ru": "Кроме того, сотрудники получают бесплатный кофе.",
+        "uk": "Крім того, працівники отримують безкоштовну каву.",
+        "en": "In addition to this the employees get free coffee."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "I ___ til dette har leiligheten en egen bod i kjelleren.",
+        "answer": "tillegg",
+        "hint_ru": "Существительное «tillegg» в выражении «I tillegg til»",
+        "hint_uk": "Іменник «tillegg» у виразі «I tillegg til»",
+        "hint_en": "Noun \"tillegg\" in \"I tillegg til\""
+      },
+      {
+        "nb": "I tillegg ___ dette tilbyr kommunen gratis språkkafé.",
+        "answer": "til",
+        "hint_ru": "Предлог «til» в обороте «I tillegg til»",
+        "hint_uk": "Прийменник «til» у звороті «I tillegg til»",
+        "hint_en": "Preposition \"til\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-038",
+    "lemma": "Hva pleier du å gjøre når",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Hva pleier du å gjøre når"
+    },
+    "level": "A2",
+    "topics": [
+      "fritid",
+      "helse"
+    ],
+    "translations": {
+      "ru": "Что ты обычно делаешь, когда…?",
+      "uk": "Що ти зазвичай робиш, коли…?",
+      "en": "What do you usually do when…?"
+    },
+    "examples": [
+      {
+        "nb": "Hva pleier du å gjøre når du har fri i helga?",
+        "ru": "Что ты обычно делаешь, когда у тебя выходной?",
+        "uk": "Що ти зазвичай робиш, коли маєш вихідний?",
+        "en": "What do you usually do when you have time off at the weekend?"
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Hva ___ du å gjøre når det regner hele helga?",
+        "answer": "pleier",
+        "hint_ru": "Настоящее время «pleier»",
+        "hint_uk": "Теперішній час «pleier»",
+        "hint_en": "Present tense \"pleier\""
+      },
+      {
+        "nb": "Hva pleier du å gjøre ___ du vil slappe av etter jobb?",
+        "answer": "når",
+        "hint_ru": "Союз времени «når» («когда» — для повторяющихся действий)",
+        "hint_uk": "Сполучник часу «når» («коли»)",
+        "hint_en": "Conjunction \"når\" (\"when\")"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-039",
+    "lemma": "Kan du gi et eksempel?",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Kan du gi et eksempel?"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "familie"
+    ],
+    "translations": {
+      "ru": "Можешь привести пример?",
+      "uk": "Чи можеш навести приклад?",
+      "en": "Can you give an example?"
+    },
+    "examples": [
+      {
+        "nb": "Det høres spennende ut. Kan du gi et eksempel?",
+        "ru": "Звучит интересно. Можешь привести пример?",
+        "uk": "Звучить цікаво. Чи можеш навести приклад?",
+        "en": "That sounds exciting. Can you give an example?"
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Kan du ___ et eksempel på en god rutine i hverdagen?",
+        "answer": "gi",
+        "hint_ru": "Инфинитив «gi» («дать / привести») после «Kan du»",
+        "hint_uk": "Інфінітив «gi» після «Kan du»",
+        "hint_en": "Infinitive \"gi\""
+      },
+      {
+        "nb": "Kan du gi ___ eksempel fra din egen arbeidsplass?",
+        "answer": "et",
+        "hint_ru": "Неопределённый артикль среднего рода «et» перед «eksempel»",
+        "hint_uk": "Неозначений артикль середнього роду «et» перед «eksempel»",
+        "hint_en": "Neuter article \"et\" before \"eksempel\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-040",
+    "lemma": "Hvis jeg kunne velge, ville jeg",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Hvis jeg kunne velge, ville jeg"
+    },
+    "level": "B1",
+    "topics": [
+      "bolig",
+      "arbeid"
+    ],
+    "translations": {
+      "ru": "Если бы я мог выбирать, я бы…",
+      "uk": "Якби я міг обирати, я б…",
+      "en": "If I could choose, I would…"
+    },
+    "examples": [
+      {
+        "nb": "Hvis jeg kunne velge, ville jeg bo nær både skog og tog.",
+        "ru": "Если бы я мог выбирать, я бы жил рядом и с лесом, и с поездом.",
+        "uk": "Якби я міг обирати, я б жив поруч і з лісом, і з поїздом.",
+        "en": "If I could choose, I would live close to both forest and train."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Hvis jeg kunne ___, ville jeg ha fire dagers arbeidsuke.",
+        "answer": "velge",
+        "hint_ru": "Инфинитив «velge» («выбирать») после «kunne»",
+        "hint_uk": "Інфінітив «velge» після «kunne»",
+        "hint_en": "Infinitive \"velge\" after \"kunne\""
+      },
+      {
+        "nb": "Hvis jeg kunne velge, ___ jeg jobbe litt nærmere hjemmet.",
+        "answer": "ville",
+        "hint_ru": "Форма «ville» на первом месте главного предложения (V2 после придаточного)",
+        "hint_uk": "Форма «ville» (V2 після підрядного речення)",
+        "hint_en": "Modal \"ville\" in V2 position"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-041",
+    "lemma": "Jeg har lagt merke til at",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Jeg har lagt merke til at"
+    },
+    "level": "B1",
+    "topics": [
+      "arbeid",
+      "fritid"
+    ],
+    "translations": {
+      "ru": "Я заметил, что…",
+      "uk": "Я помітив, що…",
+      "en": "I have noticed that…"
+    },
+    "examples": [
+      {
+        "nb": "Jeg har lagt merke til at mange går på tur på søndager.",
+        "ru": "Я заметил, что многие ходят на прогулку по воскресеньям.",
+        "uk": "Я помітив, що багато хто ходить на прогулянку щонеділі.",
+        "en": "I have noticed that many people go hiking on Sundays."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Jeg har ___ merke til at prisene varierer fra butikk til butikk.",
+        "answer": "lagt",
+        "hint_ru": "Причастие прошедшего времени «lagt» в «har lagt merke til»",
+        "hint_uk": "Дієприкметник минулого часу «lagt» у «har lagt merke til»",
+        "hint_en": "Participle \"lagt\" in \"har lagt merke til\""
+      },
+      {
+        "nb": "Jeg har lagt ___ til at folk er flinke til å kildesortere.",
+        "answer": "merke",
+        "hint_ru": "Существительное «merke» в выражении «legge merke til»",
+        "hint_uk": "Іменник «merke» у виразі «legge merke til»",
+        "hint_en": "Noun \"merke\" in \"legge merke til\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-042",
+    "lemma": "Det gjør ikke noe",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Det gjør ikke noe"
+    },
+    "level": "A1",
+    "topics": [
+      "familie",
+      "handel"
+    ],
+    "translations": {
+      "ru": "Ничего страшного",
+      "uk": "Нічого страшного",
+      "en": "It does not matter / No problem"
+    },
+    "examples": [
+      {
+        "nb": "Kom du fem minutter for sent? Det gjør ikke noe.",
+        "ru": "Ты опоздал на пять минут? Ничего страшного.",
+        "uk": "Ти запізнився на п’ять хвилин? Нічого страшного.",
+        "en": "Did you arrive five minutes late? It does not matter."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Det ___ ikke noe om vi må ta neste buss.",
+        "answer": "gjør",
+        "hint_ru": "Настоящее время «gjør» в выражении «Det gjør ikke noe»",
+        "hint_uk": "Теперішній час «gjør» у виразі «Det gjør ikke noe»",
+        "hint_en": "Present tense \"gjør\""
+      },
+      {
+        "nb": "Det gjør ikke ___ at det regner litt på turen.",
+        "answer": "noe",
+        "hint_ru": "Местоимение «noe» в выражении «Det gjør ikke noe»",
+        "hint_uk": "Займенник «noe» у виразі «Det gjør ikke noe»",
+        "hint_en": "Pronoun \"noe\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-043",
+    "lemma": "La oss se på",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "La oss se på"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "handel"
+    ],
+    "translations": {
+      "ru": "Давай посмотрим на…",
+      "uk": "Давай подивимося на…",
+      "en": "Let us look at…"
+    },
+    "examples": [
+      {
+        "nb": "La oss se på hva vi kan gjøre for å spare strøm.",
+        "ru": "Давай посмотрим, что мы можем сделать для экономии электричества.",
+        "uk": "Давай подивимося, що ми можемо зробити для заощадження електроенергії.",
+        "en": "Let us look at what we can do to save electricity."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "___ oss se på begge alternativene før vi bestemmer oss.",
+        "answer": "La",
+        "hint_ru": "Побудительная форма «La» («La oss…» — «Давай…»)",
+        "hint_uk": "Спонукальна форма «La» («La oss…»)",
+        "hint_en": "Imperative \"La\" in \"La oss…\""
+      },
+      {
+        "nb": "La oss ___ på timeplanen for neste uke.",
+        "answer": "se",
+        "hint_ru": "Инфинитив «se» в конструкции «La oss se på»",
+        "hint_uk": "Інфінітив «se» у конструкції «La oss se på»",
+        "hint_en": "Infinitive \"se\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-044",
+    "lemma": "Det er jeg helt enig i",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Det er jeg helt enig i"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "familie"
+    ],
+    "translations": {
+      "ru": "С этим я полностью согласен",
+      "uk": "З цим я повністю згоден",
+      "en": "I completely agree with that"
+    },
+    "examples": [
+      {
+        "nb": "God kommunikasjon er viktig. Det er jeg helt enig i.",
+        "ru": "Хорошая коммуникация важна. С этим я полностью согласен.",
+        "uk": "Хороша комунікація важлива. З цим я повністю згоден.",
+        "en": "Good communication is important. I completely agree with that."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Det er jeg helt ___ i, for slik tenker jeg også.",
+        "answer": "enig",
+        "hint_ru": "Прилагательное «enig» в обороте «være enig i»",
+        "hint_uk": "Прикметник «enig» у звороті «være enig i»",
+        "hint_en": "Adjective \"enig\""
+      },
+      {
+        "nb": "Det er jeg helt enig ___.",
+        "answer": "i",
+        "hint_ru": "Предлог «i» при согласии с утверждением/мыслью («enig i noe»)",
+        "hint_uk": "Прийменник «i» при згоді з думкою («enig i noe»)",
+        "hint_en": "Preposition \"i\" (\"agree with something\")"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-045",
+    "lemma": "Jeg er ikke helt enig",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Jeg er ikke helt enig"
+    },
+    "level": "A2",
+    "topics": [
+      "arbeid",
+      "bolig"
+    ],
+    "translations": {
+      "ru": "Я не совсем согласен",
+      "uk": "Я не зовсім згоден",
+      "en": "I do not quite agree"
+    },
+    "examples": [
+      {
+        "nb": "Jeg er ikke helt enig, for det finnes andre løsninger.",
+        "ru": "Я не совсем согласен, ведь есть и другие решения.",
+        "uk": "Я не зовсім згоден, адже є й інші рішення.",
+        "en": "I do not quite agree, because there are other solutions."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Jeg er ikke ___ enig i at bil alltid er raskest.",
+        "answer": "helt",
+        "hint_ru": "Наречие степени «helt» («совсем / полностью»)",
+        "hint_uk": "Прислівник ступеня «helt» («зовсім / повністю»)",
+        "hint_en": "Adverb \"helt\" (\"completely / quite\")"
+      },
+      {
+        "nb": "Vi er ikke helt ___ i dette forslaget.",
+        "answer": "enige",
+        "hint_ru": "Форма множественного числа «enige» после «Vi er»",
+        "hint_uk": "Форма множини «enige» після «Vi er»",
+        "hint_en": "Plural form \"enige\" after \"Vi er\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-046",
+    "lemma": "Hva er grunnen til at",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Hva er grunnen til at"
+    },
+    "level": "B1",
+    "topics": [
+      "arbeid",
+      "helse"
+    ],
+    "translations": {
+      "ru": "В чём причина того, что…?",
+      "uk": "У чому причина того, що…?",
+      "en": "What is the reason that…?"
+    },
+    "examples": [
+      {
+        "nb": "Hva er grunnen til at mange flytter til byene?",
+        "ru": "В чём причина того, что многие переезжают в города?",
+        "uk": "У чому причина того, що багато хто переїжджає до міст?",
+        "en": "What is the reason that many people move to the cities?"
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Hva er ___ til at du valgte dette yrket?",
+        "answer": "grunnen",
+        "hint_ru": "Определённая форма «grunnen» («причина»)",
+        "hint_uk": "Означена форма «grunnen» («причина»)",
+        "hint_en": "Definite singular \"grunnen\""
+      },
+      {
+        "nb": "Hva er grunnen ___ at bussen ikke stopper her i dag?",
+        "answer": "til",
+        "hint_ru": "Предлог «til» в сочетании «grunnen til at»",
+        "hint_uk": "Прийменник «til» у сполученні «grunnen til at»",
+        "hint_en": "Preposition \"til\" in \"grunnen til at\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-047",
+    "lemma": "Det fører til at",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Det fører til at"
+    },
+    "level": "B1",
+    "topics": [
+      "transport",
+      "helse"
+    ],
+    "translations": {
+      "ru": "Это приводит к тому, что…",
+      "uk": "Це призводить до того, що…",
+      "en": "This leads to…"
+    },
+    "examples": [
+      {
+        "nb": "God søvn fører til at man konsentrerer seg bedre.",
+        "ru": "Хороший сон приводит к тому, что человек лучше концентрируется.",
+        "uk": "Хороший сон призводить до того, що людина краще концентрується.",
+        "en": "Good sleep leads to better concentration."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Mindre biltrafikk ___ til at lufta i sentrum blir renere.",
+        "answer": "fører",
+        "hint_ru": "Настоящее время глагола «føre» («fører til»)",
+        "hint_uk": "Теперішній час дієслова «føre» («fører til»)",
+        "hint_en": "Present tense \"fører\""
+      },
+      {
+        "nb": "Det fører ___ at flere velger å reise med tog.",
+        "answer": "til",
+        "hint_ru": "Предлог «til» в глагольном сочетании «føre til»",
+        "hint_uk": "Прийменник «til» у дієслівному сполученні «føre til»",
+        "hint_en": "Preposition \"til\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-048",
+    "lemma": "Det betyr mye for",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Det betyr mye for"
+    },
+    "level": "A2",
+    "topics": [
+      "familie",
+      "helse"
+    ],
+    "translations": {
+      "ru": "Это много значит для…",
+      "uk": "Це багато значить для…",
+      "en": "It means a lot to / for…"
+    },
+    "examples": [
+      {
+        "nb": "Det betyr mye for trivselen å ha gode naboer.",
+        "ru": "Хорошие соседи много значат для уюта и благополучия.",
+        "uk": "Хороші сусіди багато значать для затишку й добробуту.",
+        "en": "Having good neighbours means a lot for well-being."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Det ___ mye for eldre å ha butikk i nærheten.",
+        "answer": "betyr",
+        "hint_ru": "Настоящее время глагола «bety» («betyr»)",
+        "hint_uk": "Теперішній час дієслова «bety» («betyr»)",
+        "hint_en": "Present tense \"betyr\""
+      },
+      {
+        "nb": "Støtten fra kollegene ___ mye for meg da jeg var ny.",
+        "answer": "betydde",
+        "hint_ru": "Прошедшее время «betydde» после «da jeg var ny»",
+        "hint_uk": "Минулий час «betydde» після «da jeg var ny»",
+        "hint_en": "Past tense \"betydde\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-049",
+    "lemma": "Vi kan sammenligne dette med",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "Vi kan sammenligne dette med"
+    },
+    "level": "B1",
+    "topics": [
+      "arbeid",
+      "familie"
+    ],
+    "translations": {
+      "ru": "Мы можем сравнить это с…",
+      "uk": "Ми можемо порівняти це з…",
+      "en": "We can compare this with…"
+    },
+    "examples": [
+      {
+        "nb": "Vi kan sammenligne dette med skolesystemet i hjemlandet mitt.",
+        "ru": "Мы можем сравнить это со школьной системой в моей родной стране.",
+        "uk": "Ми можемо порівняти це зі шкільною системою в моїй рідній країні.",
+        "en": "We can compare this with the school system in my home country."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "Vi kan ___ dette med hvordan det var for ti år siden.",
+        "answer": "sammenligne",
+        "hint_ru": "Инфинитив «sammenligne» («сравнить») после «kan»",
+        "hint_uk": "Інфінітив «sammenligne» після «kan»",
+        "hint_en": "Infinitive \"sammenligne\""
+      },
+      {
+        "nb": "Vi kan sammenligne dette ___ prisene i andre byer.",
+        "answer": "med",
+        "hint_ru": "Предлог «med» («с») после глагола «sammenligne»",
+        "hint_uk": "Прийменник «med» («з») після дієслова «sammenligne»",
+        "hint_en": "Preposition \"med\" after \"sammenligne\""
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  },
+  {
+    "id": "p-050",
+    "lemma": "For å oppsummere vil jeg si at",
+    "pos": "phrase",
+    "forms": {
+      "uttrykk": "For å oppsummere vil jeg si at"
+    },
+    "level": "B1",
+    "topics": [
+      "arbeid",
+      "bolig"
+    ],
+    "translations": {
+      "ru": "Подводя итог, я хочу сказать, что…",
+      "uk": "Підсумовуючи, я хочу сказати, що…",
+      "en": "To sum up I would say that…"
+    },
+    "examples": [
+      {
+        "nb": "For å oppsummere vil jeg si at en kombinasjon fungerer best.",
+        "ru": "Подводя итог, я хочу сказать, что лучше всего работает сочетание.",
+        "uk": "Підсумовуючи, я хочу сказати, що найкраще працює поєднання.",
+        "en": "To sum up I would say that a combination works best."
+      }
+    ],
+    "cloze": [
+      {
+        "nb": "For å ___ vil jeg si at både pris og kvalitet teller.",
+        "answer": "oppsummere",
+        "hint_ru": "Инфинитив «oppsummere» («подвести итог») после «For å»",
+        "hint_uk": "Інфінітив «oppsummere» після «For å»",
+        "hint_en": "Infinitive \"oppsummere\" after \"For å\""
+      },
+      {
+        "nb": "For å oppsummere ___ jeg si at vi har funnet en god plan.",
+        "answer": "vil",
+        "hint_ru": "Модальный глагол «vil» на втором месте главного предложения (V2)",
+        "hint_uk": "Модальне дієслово «vil» на другому місці (V2)",
+        "hint_en": "Modal verb \"vil\" in V2 position"
+      }
+    ],
+    "status": "draft",
+    "source": "Norsk Ordbank (CC BY 4.0) + NDT Bokmål (CC0 1.0)"
+  }
+]

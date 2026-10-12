@@ -264,30 +264,30 @@ describe('ExamScenarioSchema zod validation (Issue #50)', () => {
     expect(content).toContain('np-b1-picture-arbeid');
   });
 
-  it('verifies 7 picture task SVG files exist in public/scenarios/images and use vector elements only', async () => {
+  it('verifies 7 picture task scene components exist in src/content/scenarios/images and use vector elements only', async () => {
     const fs = await import('node:fs');
     const path = await import('node:path');
-    const images = [
-      'workplace.svg',
-      'flat.svg',
-      'doctor.svg',
-      'family.svg',
-      'shop.svg',
-      'bus-stop.svg',
-      'park.svg'
+    const scenes = [
+      'WorkplaceScene.tsx',
+      'FlatScene.tsx',
+      'DoctorScene.tsx',
+      'FamilyScene.tsx',
+      'ShopScene.tsx',
+      'BusStopScene.tsx',
+      'ParkScene.tsx'
     ];
 
-    for (const img of images) {
-      const publicPath = path.resolve(process.cwd(), 'public/scenarios/images', img);
-      expect(fs.existsSync(publicPath), `public/scenarios/images/${img} must exist`).toBe(true);
+    for (const scene of scenes) {
+      const scenePath = path.resolve(process.cwd(), 'src/content/scenarios/images', scene);
+      expect(fs.existsSync(scenePath), `src/content/scenarios/images/${scene} must exist`).toBe(true);
 
-      const svgContent = fs.readFileSync(publicPath, 'utf8');
-      expect(svgContent).toContain('<svg');
-      expect(svgContent).toContain('</svg>');
+      const content = fs.readFileSync(scenePath, 'utf8');
+      expect(content).toContain('<svg');
+      expect(content).toContain('</svg>');
       // Must not contain bitmap images or external links
-      expect(svgContent).not.toContain('<image');
-      expect(svgContent).not.toContain('data:image/');
-      const nonXmlns = svgContent.replaceAll('http://www.w3.org/2000/svg', '');
+      expect(content).not.toContain('<image');
+      expect(content).not.toContain('data:image/');
+      const nonXmlns = content.replaceAll('http://www.w3.org/2000/svg', '');
       expect(nonXmlns).not.toContain('http://');
       expect(nonXmlns).not.toContain('https://');
     }

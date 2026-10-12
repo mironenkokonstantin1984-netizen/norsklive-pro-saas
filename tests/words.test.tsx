@@ -35,7 +35,7 @@ const catalogPhrases: WordItem[] = WordDatasetSchema.parse(phrasesJson);
 describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, storage, and UI stages 1–4', () => {
   beforeEach(() => {
     window.localStorage.clear();
-    vi.spyOn(speechModule, 'speakNorwegian').mockImplementation(() => {});
+    vi.spyOn(speechModule, 'speakNorwegian').mockImplementation(async () => {});
   });
 
   afterEach(() => {

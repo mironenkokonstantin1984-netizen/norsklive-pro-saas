@@ -10,4 +10,5 @@ export const scenariosByModule: ScenariosByModule = {
 };
 
 export * from './types';
+export * from './visibility';
 export { norskprove, jobbintervju, pensum };

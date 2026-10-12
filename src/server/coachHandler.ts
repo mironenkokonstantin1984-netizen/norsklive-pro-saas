@@ -148,6 +148,7 @@ export function createCoachHandler(
         module,
         scenarioId,
         level,
+        part,
         l1,
         persona,
         userText,
@@ -189,7 +190,9 @@ export function createCoachHandler(
           persona,
           userText,
           history,
-          usedWords
+          usedWords,
+          part: part || scenario.part,
+          scenarioText: scenario.sourceText
         });
 
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
@@ -277,6 +280,9 @@ export function createCoachHandler(
         userText,
         module,
         scenarioId,
+        level,
+        part: part || scenario.part,
+        scenarioText: scenario.sourceText,
         l1,
         persona,
         usedWords,

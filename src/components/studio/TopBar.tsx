@@ -12,6 +12,7 @@ import {
   User
 } from 'lucide-react';
 import type { ModuleKey, Scenario } from '../../content/scenarios';
+import { DRAFT_SCENARIO_LABEL } from '../../content/scenarios/visibility';
 import type { AgentPersona, CefrLevel, L1Language } from './useStudioState';
 
 export interface TopBarProps {
@@ -199,6 +200,11 @@ export function CallHero({
           <p className="t-caption" id="partnerRole">
             {shortSubtitle}
           </p>
+          {currentScenario.status === 'draft' ? (
+            <span className="scenario-draft-badge t-caption" data-testid="chatHeaderDraftLabel">
+              {DRAFT_SCENARIO_LABEL}
+            </span>
+          ) : null}
         </div>
       </div>
 

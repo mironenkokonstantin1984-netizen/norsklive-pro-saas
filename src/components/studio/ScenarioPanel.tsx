@@ -7,11 +7,10 @@ import {
   FileText,
   GraduationCap,
   Info,
-  PlusCircle,
-  Sparkles,
   User
 } from 'lucide-react';
-import type { ModuleKey, Scenario } from '../../content/scenarios';
+import type { ModuleKey, Scenario, ScenarioTopic } from '../../content/scenarios';
+import { DRAFT_SCENARIO_LABEL } from '../../content/scenarios/visibility';
 import { VACANCY_MAX_CHARS } from './useStudioState';
 
 export interface ScenarioPanelProps {
@@ -22,8 +21,30 @@ export interface ScenarioPanelProps {
   onApplyCustomSource: (rawText: string) => void;
   /** Jobbintervju only: start an interview for a vacancy the learner pasted. */
   onApplyVacancy?: (vacancyText: string) => void;
+  targetLevel?: string;
+  showDrafts?: boolean;
   children?: ReactNode;
 }
+
+const TOPIC_ORDER: ScenarioTopic[] = [
+  'arbeid',
+  'bolig',
+  'helse',
+  'familie',
+  'handel',
+  'transport',
+  'fritid'
+];
+
+const TOPIC_LABELS: Record<ScenarioTopic, string> = {
+  arbeid: 'Arbeid',
+  bolig: 'Bolig',
+  helse: 'Helse',
+  familie: 'Familie',
+  handel: 'Handel',
+  transport: 'Transport',
+  fritid: 'Fritid'
+};
 
 export function ScenarioPanel({
   currentModule,
@@ -32,6 +53,8 @@ export function ScenarioPanel({
   onSelectScenario,
   onApplyCustomSource,
   onApplyVacancy,
+  targetLevel = 'B1',
+  showDrafts,
   children
 }: ScenarioPanelProps) {
   const [customText, setCustomText] = useState('');
@@ -75,6 +98,58 @@ export function ScenarioPanel({
     setCustomText('');
   };
 
+  const draftsEnabled =
+    showDrafts !== undefined
+      ? showDrafts
+      : typeof process !== 'undefined' &&
+        (process.env.NEXT_PUBLIC_SCENARIOS_SHOW_DRAFTS === 'true' ||
+          process.env.SCENARIOS_SHOW_DRAFTS === 'true' ||
+          process.env.NODE_ENV !== 'production');
+
+  const filteredScenarios = scenarios.filter((sc) => {
+    if (currentModule !== 'norskprove') return true;
+
+    // Remove the B2 scenarios from the default list (keep them under a level: 'B2' filter that is not shown)
+    if (targetLevel !== 'B2' && sc.level === 'B2') {
+      return false;
+    }
+
+    // Filter by learner's target level
+    if (sc.level && (sc.level === 'A2' || sc.level === 'B1' || sc.level === 'B2')) {
+      if (sc.level !== targetLevel) return false;
+    }
+
+    // Production hides drafts; draftsEnabled shows them
+    if (!draftsEnabled && sc.status === 'draft') {
+      return false;
+    }
+
+    return true;
+  });
+
+  const renderScenarioItem = (sc: Scenario) => (
+    <div
+      key={sc.id}
+      className={`scenario-item ${currentScenario.id === sc.id ? 'active' : ''}`}
+      onClick={() => onSelectScenario(sc)}
+    >
+      <div className="scenario-top">
+        <span className="scenario-badge t-caption">{sc.badge}</span>
+        <span className="scenario-level t-caption">{sc.level}</span>
+      </div>
+      <div className="scenario-name">
+        <User size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+        <span>{sc.title}</span>
+      </div>
+      <div className="scenario-desc t-caption">{sc.description}</div>
+      {sc.status === 'draft' ? (
+        <div className="scenario-draft-badge t-caption" data-testid="scenarioDraftLabel">
+          {DRAFT_SCENARIO_LABEL}
+        </div>
+      ) : null}
+    </div>
+  );
+
   return (
     <section className="panel">
       <div className="panel-header">
@@ -89,7 +164,7 @@ export function ScenarioPanel({
           <span>{leftPanelTitle}</span>
         </div>
         <span className="scenario-badge t-caption" id="scenarioCountBadge">
-          {`${scenarios.length} сценария`}
+          {`${filteredScenarios.length} сценария`}
         </span>
       </div>
 
@@ -118,23 +193,27 @@ export function ScenarioPanel({
 
         {/* Scenarios list */}
         <div className="scenario-list" id="scenarioList">
-          {scenarios.map((sc) => (
-            <div
-              key={sc.id}
-              className={`scenario-item ${currentScenario.id === sc.id ? 'active' : ''}`}
-              onClick={() => onSelectScenario(sc)}
-            >
-              <div className="scenario-top">
-                <span className="scenario-badge t-caption">{sc.badge}</span>
-                <span className="scenario-level t-caption">{sc.level}</span>
-              </div>
-              <div className="scenario-name">
-                <User size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
-                <span>{sc.title}</span>
-              </div>
-              <div className="scenario-desc t-caption">{sc.description}</div>
-            </div>
-          ))}
+          {currentModule === 'norskprove' ? (
+            <>
+              {TOPIC_ORDER.map((topic) => {
+                const topicItems = filteredScenarios.filter((sc) => sc.topic === topic);
+                if (topicItems.length === 0) return null;
+                return (
+                  <div key={topic} className="scenario-topic-group">
+                    <div className="scenario-topic-title t-caption">
+                      {TOPIC_LABELS[topic] || topic}
+                    </div>
+                    {topicItems.map(renderScenarioItem)}
+                  </div>
+                );
+              })}
+              {filteredScenarios
+                .filter((sc) => !sc.topic)
+                .map(renderScenarioItem)}
+            </>
+          ) : (
+            filteredScenarios.map(renderScenarioItem)
+          )}
         </div>
 
         {currentModule === 'jobbintervju' ? (
@@ -170,43 +249,45 @@ export function ScenarioPanel({
               <span>Начать интервью по этой вакансии</span>
             </button>
           </div>
-        ) : (
-          <div className="custom-loader-box">
-            <div className="custom-loader-title">
-              <span className="custom-loader-heading t-caption" id="customLoaderTitle">
-                <PlusCircle size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
-                <span>{customLoaderTitle}</span>
-              </span>
-              <label className="file-upload-label t-caption">
-                <FileText size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
-                <span>Загрузить .txt/.md</span>
-                <input
-                  type="file"
-                  id="fileUploadInput"
-                  accept=".txt,.md,.csv"
-                  className="sr-only-input"
-                  onChange={handleFileChange}
-                />
-              </label>
-            </div>
+        ) : null}
+
+        {/* Custom text loader for norskprove & pensum */}
+        {currentModule !== 'jobbintervju' ? (
+          <div className="custom-loader-box" id="customLoaderBox">
+            <span className="custom-loader-heading t-caption">{customLoaderTitle}</span>
             <textarea
               id="customSourceTextarea"
               className="custom-textarea"
-              placeholder="Вставьте свой текст или введите до 10 новых норвежских слов через запятую..."
+              placeholder={
+                currentModule === 'norskprove'
+                  ? 'Вставьте текст темы, вопросы или заметки...'
+                  : 'Введите 10 слов через запятую или пробел...'
+              }
               value={customText}
               onChange={(e) => setCustomText(e.target.value)}
             />
-            <button
-              type="button"
-              id="applyCustomSourceBtn"
-              className="btn-outline btn-block"
-              onClick={handleApplyClick}
-            >
-              <Sparkles size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
-              <span>Сгенерировать ролевой спарринг и телесуфлёр</span>
-            </button>
+            <div className="custom-loader-actions">
+              <label className="btn-outline file-upload-label" htmlFor="customFileInput">
+                <span>Загрузить .txt</span>
+                <input
+                  id="customFileInput"
+                  type="file"
+                  accept=".txt,.md"
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
+                />
+              </label>
+              <button
+                type="button"
+                id="applyCustomSourceBtn"
+                className="btn-outline custom-apply-btn"
+                onClick={handleApplyClick}
+              >
+                <span>Применить</span>
+              </button>
+            </div>
           </div>
-        )}
+        ) : null}
 
         {children}
       </div>

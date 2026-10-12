@@ -17,6 +17,18 @@ export function getPersonaInstruction(persona: string, scenario: ScenarioRecord)
   return `Du spiller ${scenario.partnerName || 'Sensor Kari'} (${scenario.partnerRole || 'Eksaminator ved HK-dir'}).`;
 }
 
+export function getPartInstruction(
+  part?: 'presentation' | 'picture' | 'conversation'
+): string {
+  if (part === 'presentation') {
+    return 'Eksaminator-adferd (Del 1 - Presentasjon): Still 1-2 korte oppfølgingsspørsmål om det kandidaten presenterte. Hold replikken kort og still ett spørsmål om gangen.';
+  }
+  if (part === 'picture') {
+    return 'Eksaminator-adferd (Del 2 - Bildebeskrivelse): Still spørsmål om detaljer eller gjenstander på bildet som kandidaten ikke har nevnt ennå. Hold replikken kort og still ett spørsmål om gangen.';
+  }
+  return 'Eksaminator-adferd (Del 3 - Samtale): Reager naturlig på det kandidaten sa, og still et åpent spørsmål for å føre samtalen videre. Still ett spørsmål om gangen.';
+}
+
 export interface BuildGeminiCoachPayloadInput {
   scenario: ScenarioRecord;
   level: string;
@@ -25,6 +37,8 @@ export interface BuildGeminiCoachPayloadInput {
   userText: string;
   history?: HistoryTurn[];
   usedWords?: string[];
+  part?: 'presentation' | 'picture' | 'conversation';
+  scenarioText?: string;
 }
 
 /**
@@ -40,10 +54,15 @@ export function buildGeminiCoachPayload({
   persona,
   userText,
   history = [],
-  usedWords = []
+  usedWords = [],
+  part,
+  scenarioText
 }: BuildGeminiCoachPayloadInput) {
   const langName = getLanguageName(l1);
   const personaInstruction = getPersonaInstruction(persona, scenario);
+  const effectivePart = part || scenario.part || 'conversation';
+  const effectiveScenarioText = scenarioText || scenario.sourceText || '';
+  const partInstruction = getPartInstruction(effectivePart);
   const usedSet = new Set((usedWords || []).map((w) => w.toLowerCase()));
   const unusedWords = (scenario.targetWords || [])
     .filter((w) => !usedSet.has(w.word.toLowerCase()))
@@ -56,8 +75,10 @@ export function buildGeminiCoachPayload({
 
   const instructionPart = `${personaInstruction}
 Brukerens mål-nivå: ${level}.
+Eksamensdel: ${effectivePart}.
+${partInstruction}
 Brukerens morsmål (L1) for grammatiske forklaringer og ros: ${langName}.
-Kontekst / Kilde: ${scenario.sourceText || ''}
+Kontekst / Kilde: ${effectiveScenarioText}
 Målord som brukeren ennå IKKE har brukt i samtalen: ${unusedWords.join(', ')}.
 ${recentTurnsSummary ? `Tidligere replikker i samtalen:\n${recentTurnsSummary}\n` : ''}
 OPPGAVE:
@@ -68,7 +89,7 @@ Viktige instruksjoner for feilretting og vurdering:
 3. MINIMAL RETTELSE: Hvis det finnes en feil, skal "fix" være minimal (endre KUN de ordene som faktisk er feil, uten å omskrive hele setningen). "quote" MÅ være et nøyaktig sitat/tekstfragment fra brukerens tekst.
 4. INGEN B2-OPPGRADERING med mindre mål-nivået er B2: "better_version" er valgfritt (maks én setning) og skal KUN inkluderes dersom det lærer bort noe nyttig på mål-nivået.
 5. FORKLARINGER: Korte forklaringer (høyst 2 setninger) på ${langName}. Oppgi kort regelnavn i "rule_name_l1".
-6. EKSAMINATORSVAR (reply_norsk): 2–3 korte setninger på mål-nivået (${level}) som reagerer på innholdet og avslutter med et åpent oppfølgingsspørsmål. "reply_l1" er oversettelse til ${langName}.
+6. EKSAMINATORSVAR (reply_norsk): 2–3 korte setninger på mål-nivået (${level}) som reagerer på innholdet og avslutter med et åpent oppfølgingsspørsmål. "reply_l1" er oversettelse til ${langName}. Hold replikken kort (maks 25 ord), ett spørsmål om gangen.
 7. SAMHANDLING: Valgfritt kort tips på ${langName} i "samhandling_l1" (f.eks. om å stille oppfølgingsspørsmål til samtalepartneren).
 8. HINTS: 2 korte svarforslag på mål-nivået i "next_hints".`;
 

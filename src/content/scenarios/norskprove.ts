@@ -1,11 +1,13 @@
 import type { Scenario } from './types';
+import { a2Scenarios } from './a2';
+import { b1Scenarios } from './b1';
 
-export const norskprove: Scenario[] = [
+export const legacyB2Scenarios: Scenario[] = [
   {
     id: 'np-b1b2-velferd-hjemmekontor',
     title: 'Eksamen #1: Digitalisering, hjemmekontor og bærekraftig velferdsstat',
-    level: 'B1–B2',
-    badge: 'HK-dir B1–B2 · Multi-Agent',
+    level: 'B2',
+    badge: 'HK-dir B2 · Multi-Agent',
     avatar: 'exam',
     partnerName: 'Sensor Kari (HK-dir) & Medkandidat Jonas',
     partnerRole: 'Multi-Agent Eksamen: Del 1 (Monolog) · Del 2 (Medkandidat-debatt) · Del 3 (Sensor)',
@@ -93,17 +95,18 @@ export const norskprove: Scenario[] = [
         ua: 'Незважаючи на те що гнучкість знижує лікарняні, висока зайнятість і сильний колектив необхідні для сталої держави добробуту.',
         en: 'Despite flexibility reducing sick leave, high employment and a strong work environment are necessary for a sustainable welfare state.'
       }
-    ]
+    ],
+    status: 'reviewed'
   },
   {
     id: 'np-a2b1-permanent-opphold',
     title: 'Eksamen #2 (UDI A2/B1-krav): Miljø, nærmiljø og frivillighet (Dugnad)',
-    level: 'A2–B1',
-    badge: 'UDI Permanent Opphold (A2–B1)',
+    level: 'B2',
+    badge: 'UDI Permanent Opphold (B2)',
     avatar: 'nature',
     partnerName: 'Sensor Tone & Medkandidat Olena',
-    partnerRole: 'Offisiell prøve for permanent oppholdstillatelse (A2–B1)',
-    description: 'Целевой тренажёр под обязательный экзамен A2/B1 для получения ПМЖ (Permanent oppholdstillatelse с 1 сентября 2025 г.). Темы: экология, сортировка отходов, волонтёрство и жизнь в коммуне.',
+    partnerRole: 'Offisiell prøve for permanent oppholdstillatelse (B2)',
+    description: 'Целевой тренажёр под обязательный экзамен A2/B1 для получения ПМЖ. Темы: экология, сортировка отходов, волонтёрство и жизнь в коммуне.',
     examStructure: {
       part1Prompt: 'DEL 1 (Presentasjon): Fortell hva du gjør i hverdagen for å ta vare på miljøet, og hvorfor kildesortering og kollektivtransport er viktig.',
       part2Prompt: 'DEL 2 (Samhandling med medkandidat Olena): Diskuter sammen: Hvordan kan frivillige organisasjoner og idrettslag hjelpe innvandrere med å bli integrert i lokalsamfunnet?',
@@ -118,10 +121,10 @@ export const norskprove: Scenario[] = [
       { word: 'frivillighet', translation: 'волонтёрство', ua: 'волонтерство', en: 'volunteering', example: 'Frivillighet gir et verdifullt nettverk i Norge.' },
       { word: 'imidlertid', translation: 'однако / тем не менее', ua: 'однак / проте', en: 'however / nevertheless', example: 'Bompenger reduserer trafikk; imidlertid blir det dyrt for mange.' }
     ],
-    openingLine: 'Hei og velkommen til muntlig prøve (A2–B1)! I Del 1 skal du fortelle om miljø og hverdagsliv: Hva gjør du selv for å ta vare på miljøet, og hvordan synes du kommunen legger til rette for kildesortering og kollektivtransport?',
-    openingTranslation: 'Привет и добро пожаловать на устный экзамен (A2–B1)! В Части 1 расскажи об экологии и повседневной жизни: что ты делаешь для защиты среды и как коммуна организует сортировку отходов и транспорт?',
-    openingUa: 'Привіт і ласкаво просимо на усний іспит (A2–B1)! У Частині 1 розкажи про екологію та повсякденне життя: що ти робиш для захисту довкілля і як комуна організовує сортування сміття та транспорт?',
-    openingEn: 'Hello and welcome to the oral exam (A2–B1)! In Part 1, talk about the environment and daily life: what do you do to protect the environment, and how does the municipality facilitate waste sorting and public transport?',
+    openingLine: 'Hei og velkommen til muntlig prøve! I Del 1 skal du fortelle om miljø og hverdagsliv: Hva gjør du selv for å ta vare på miljøet, og hvordan synes du kommunen legger til rette for kildesortering og kollektivtransport?',
+    openingTranslation: 'Привет и добро пожаловать на устный экзамен! В Части 1 расскажи об экологии и повседневной жизни: что ты делаешь для защиты среды и как коммуна организует сортировку отходов и транспорт?',
+    openingUa: 'Привіт і ласкаво просимо на усний іспит! У Частині 1 розкажи про екологію та повсякденне життя: що ти робиш для захисту довкілля і як комуна організовує сортування сміття та транспорт?',
+    openingEn: 'Hello and welcome to the oral exam! In Part 1, talk about the environment and daily life: what do you do to protect the environment, and how does the municipality facilitate waste sorting and public transport?',
     hints: [
       {
         label: 'Oppgradering fra A2 til B1+',
@@ -137,6 +140,13 @@ export const norskprove: Scenario[] = [
         ua: 'Я часто їжджу на роботу громадським транспортом. А як із цим там, де ти живеш, Олено — ти користуєшся автобусом чи авто?',
         en: 'I often take public transport to work. How is the service where you live, Olena — do you use the bus or a car?'
       }
-    ]
+    ],
+    status: 'reviewed'
   }
+];
+
+export const norskprove: Scenario[] = [
+  ...a2Scenarios,
+  ...b1Scenarios,
+  ...legacyB2Scenarios
 ];

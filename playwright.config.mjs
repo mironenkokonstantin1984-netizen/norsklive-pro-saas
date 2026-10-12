@@ -32,6 +32,8 @@ export default defineConfig({
       AUTH_ENABLED: 'false',
       GEMINI_API_KEY: '',
       WORDS_SHOW_DRAFTS: 'true',
+      SCENARIOS_SHOW_DRAFTS: 'true',
+      NEXT_PUBLIC_SCENARIOS_SHOW_DRAFTS: 'true',
       // No real AI in e2e: canned example answers, labelled «Пример ответа, ИИ не подключён».
       COACH_ALLOW_FALLBACK: 'true'
     }

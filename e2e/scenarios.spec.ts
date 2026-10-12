@@ -43,11 +43,39 @@ test('captures mobile screenshots for presentation, picture, and conversation ta
   await expect(page.locator('#materialsDrawer')).toHaveClass(/is-closed/);
 
   await expect(page.locator('[data-testid="scenarioImageWrapper"]')).toBeVisible();
-  await expect(page.locator('.scenario-image')).toBeVisible();
+  const svg = page.locator('[data-testid="scenarioImageWrapper"] svg');
+  await expect(svg).toBeVisible();
+  await expect(svg).toHaveAttribute('role', 'img');
+
+  // Verify that the inline SVG resolves CSS variables and does not render as a black box
+  const bgRectFill = await svg.locator('rect').first().evaluate((el) => {
+    return window.getComputedStyle(el).fill;
+  });
+  expect(bgRectFill).not.toBe('rgb(0, 0, 0)');
+  expect(bgRectFill).not.toBe('#000000');
+  expect(bgRectFill).not.toBe('black');
 
   if (testInfo.project.name === 'phone') {
     await page.waitForTimeout(500);
     await page.screenshot({ path: 'docs/screenshots/scenario-390x844-picture.png' });
+
+    // Dark-theme screenshot and non-black verification
+    await page.evaluate(() => {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    });
+    await page.waitForTimeout(300);
+    const darkBgFill = await svg.locator('rect').first().evaluate((el) => {
+      return window.getComputedStyle(el).fill;
+    });
+    expect(darkBgFill).not.toBe('rgb(0, 0, 0)');
+    expect(darkBgFill).not.toBe('#000000');
+    expect(darkBgFill).not.toBe('black');
+    await page.screenshot({ path: 'docs/screenshots/scenario-390x844-picture-dark.png' });
+
+    // Restore default theme
+    await page.evaluate(() => {
+      document.documentElement.removeAttribute('data-theme');
+    });
   }
 
   // 3. Conversation task: select conversation scenario

@@ -76,7 +76,7 @@ export function StudioPage({
     exportReportAndGlossary,
     advanceExamPart,
     speakLastAiReply
-  } = useStudioState({ authEnabled });
+  } = useStudioState({ authEnabled, showDrafts });
 
   const [inputText, setInputText] = useState('');
   const [materialsOpen, setMaterialsOpen] = useState(false);
@@ -271,6 +271,7 @@ export function StudioPage({
             subtitlesEnabled={prefs.subtitles}
             examMode={prefs.examMode}
             scenarioImage={currentScenario.image}
+            scenarioStatus={currentScenario.status}
             activeSpeech={state.activeSpeech}
             quotaExceeded={state.quotaExceeded}
             limitCardDismissed={state.limitCardDismissed}

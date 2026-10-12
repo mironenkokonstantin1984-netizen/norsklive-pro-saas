@@ -18,6 +18,8 @@ const REPLIKA_FORMS = { one: 'реплику', few: 'реплики', many: 'р�
 const ERROR_FORMS = { one: 'ошибку', few: 'ошибки', many: 'ошибок' } as const;
 
 import type { ScenarioImage } from '../../content/scenarios/types';
+import { ScenarioIllustration } from '../../content/scenarios/images';
+import { DRAFT_SCENARIO_LABEL } from '../../content/scenarios/visibility';
 
 export interface ChatPanelProps {
   chatHistory: ChatMessage[];
@@ -29,6 +31,7 @@ export interface ChatPanelProps {
   /** Exam mode: no «Попробуйте» phrase under the correction. */
   examMode?: boolean;
   scenarioImage?: ScenarioImage;
+  scenarioStatus?: 'draft' | 'reviewed';
   activeSpeech?: { text: string; charIndex: number } | null;
   quotaExceeded?: QuotaExceededInfo | null;
   limitCardDismissed?: boolean;
@@ -93,6 +96,7 @@ export function ChatPanel({
   examMode = false,
   subtitlesEnabled = true,
   scenarioImage,
+  scenarioStatus,
   activeSpeech = null,
   quotaExceeded = null,
   limitCardDismissed = false,
@@ -147,18 +151,21 @@ export function ChatPanel({
             >
               {index === 0 && scenarioImage ? (
                 <div className="scenario-image-wrapper" data-testid="scenarioImageWrapper">
-                  <img
+                  <ScenarioIllustration
                     src={scenarioImage.src}
                     alt={scenarioImage.alt_nb}
                     className="scenario-image"
-                    width={400}
-                    height={300}
                   />
                 </div>
               ) : null}
               <div className="msg-speaker t-caption">
                 <Bot size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
                 <span>{partnerName}</span>
+                {index === 0 && scenarioStatus === 'draft' ? (
+                  <span className="scenario-draft-badge t-caption" data-testid="chatDraftLabel">
+                    {DRAFT_SCENARIO_LABEL}
+                  </span>
+                ) : null}
               </div>
               {msg.isExample ? (
                 <div className="msg-example-label t-caption" data-testid="exampleAnswerLabel">

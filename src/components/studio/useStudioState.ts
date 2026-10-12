@@ -18,6 +18,7 @@ import {
 import { speakNorwegian } from '../../lib/speech';
 import { readPathPrefs } from '../../lib/path/storage';
 import { applyDocumentLang } from '../../lib/documentLang';
+import { getVisibleScenarios, shouldShowDraftScenarios } from '../../content/scenarios/visibility';
 
 export type L1Language = 'ru' | 'ua' | 'en';
 export type CefrLevel = 'A2' | 'B1' | 'B2';
@@ -79,6 +80,7 @@ export interface StudioState {
   quotaExceeded: QuotaExceededInfo | null;
   limitCardDismissed: boolean;
   coachError: CoachErrorInfo | null;
+  showDrafts?: boolean;
 }
 
 export const DEFAULT_MIC_STATUS = 'Нажмите и говорите';
@@ -180,19 +182,30 @@ export type StudioAction =
   | { type: 'SET_COACH_ERROR'; text: string }
   | { type: 'CLEAR_COACH_ERROR' };
 
-const defaultB1Presentation =
-  scenariosByModule.norskprove.find(
-    (s) => s.level === 'B1' && s.part === 'presentation'
-  ) ||
-  scenariosByModule.norskprove.find(
-    (s) => s.level === 'A2' && s.part === 'presentation'
-  ) ||
-  scenariosByModule.norskprove[0];
+export function pickDefaultScenario(
+  level: CefrLevel = 'B1',
+  part: string = 'presentation',
+  options?: { showDrafts?: boolean }
+): Scenario {
+  const visible = getVisibleScenarios({
+    items: scenariosByModule.norskprove,
+    showDrafts: options?.showDrafts
+  });
+  return (
+    visible.find((s) => s.level === level && s.part === part) ||
+    visible.find((s) => s.level === level) ||
+    visible.find((s) => s.part === part) ||
+    visible[0] ||
+    scenariosByModule.norskprove[0]
+  );
+}
+
+const defaultB1Presentation = pickDefaultScenario('B1', 'presentation');
 
 export const initialStudioState: StudioState = {
   currentModule: 'norskprove',
   scenarios: {
-    norskprove: [...scenariosByModule.norskprove],
+    norskprove: getVisibleScenarios({ items: scenariosByModule.norskprove }),
     jobbintervju: [...scenariosByModule.jobbintervju],
     pensum: [...scenariosByModule.pensum]
   },
@@ -267,10 +280,14 @@ export function studioReducer(state: StudioState, action: StudioAction): StudioS
     }
     case 'SET_USER_LEVEL': {
       if (state.currentModule === 'norskprove') {
+        const visible = getVisibleScenarios({
+          items: scenariosByModule.norskprove,
+          showDrafts: state.showDrafts
+        });
         const nextScenario =
-          scenariosByModule.norskprove.find(
-            (s) => s.level === action.userLevel && s.part === 'presentation'
-          ) || state.currentScenario;
+          visible.find((s) => s.level === action.userLevel && s.part === 'presentation') ||
+          visible.find((s) => s.level === action.userLevel) ||
+          state.currentScenario;
         if (nextScenario.id !== state.currentScenario.id) {
           const resetState = resetForScenario(state, nextScenario);
           return { ...resetState, userLevel: action.userLevel };
@@ -567,8 +584,24 @@ export function buildVacancyScenario(raw: string, base: Scenario): Scenario {
 }
 
 function createInitialStudioState(base: StudioState): StudioState {
+  const showDrafts = base.showDrafts;
+  const visible = getVisibleScenarios({
+    items: scenariosByModule.norskprove,
+    showDrafts
+  });
+  const defaultSc = pickDefaultScenario(base.userLevel, 'presentation', { showDrafts });
+
   if (typeof window === 'undefined') {
-    return base;
+    return {
+      ...base,
+      scenarios: {
+        ...base.scenarios,
+        norskprove: visible
+      },
+      currentScenario: defaultSc,
+      hints: [...(defaultSc.hints || [])],
+      chatHistory: createInitialChat(defaultSc, base.l1Lang)
+    };
   }
   const prefs = readPathPrefs();
   const l1Lang: L1Language = prefs.l1 === 'uk' ? 'ua' : prefs.l1 === 'en' ? 'en' : 'ru';
@@ -576,22 +609,16 @@ function createInitialStudioState(base: StudioState): StudioState {
     prefs.targetLevel === 'A2' || prefs.targetLevel === 'B1' || prefs.targetLevel === 'B2'
       ? prefs.targetLevel
       : base.userLevel;
-  const chosenScenario =
-    scenariosByModule.norskprove.find(
-      (s) => s.level === userLevel && s.part === 'presentation'
-    ) ||
-    scenariosByModule.norskprove.find(
-      (s) => s.part === 'presentation'
-    ) ||
-    base.currentScenario;
+  const chosenScenario = pickDefaultScenario(userLevel, 'presentation', { showDrafts });
 
-  if (l1Lang === base.l1Lang && userLevel === base.userLevel && chosenScenario.id === base.currentScenario.id) {
-    return base;
-  }
   return {
     ...base,
     l1Lang,
     userLevel,
+    scenarios: {
+      ...base.scenarios,
+      norskprove: visible
+    },
     currentScenario: chosenScenario,
     hints: [...(chosenScenario.hints || [])],
     chatHistory: createInitialChat(chosenScenario, l1Lang)
@@ -600,10 +627,27 @@ function createInitialStudioState(base: StudioState): StudioState {
 
 export interface UseStudioStateOptions {
   authEnabled?: boolean;
+  showDrafts?: boolean;
 }
 
-export function useStudioState({ authEnabled = false }: UseStudioStateOptions = {}) {
-  const [state, dispatch] = useReducer(studioReducer, initialStudioState, createInitialStudioState);
+export function useStudioState({ authEnabled = false, showDrafts }: UseStudioStateOptions = {}) {
+  const effectiveShowDrafts =
+    showDrafts !== undefined ? showDrafts : shouldShowDraftScenarios();
+  const baseState: StudioState = {
+    ...initialStudioState,
+    showDrafts: effectiveShowDrafts,
+    scenarios: {
+      ...initialStudioState.scenarios,
+      norskprove: getVisibleScenarios({
+        items: scenariosByModule.norskprove,
+        showDrafts: effectiveShowDrafts
+      })
+    },
+    currentScenario: pickDefaultScenario('B1', 'presentation', {
+      showDrafts: effectiveShowDrafts
+    })
+  };
+  const [state, dispatch] = useReducer(studioReducer, baseState, createInitialStudioState);
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const speechRateRef = useRef<number>(1.0);
 

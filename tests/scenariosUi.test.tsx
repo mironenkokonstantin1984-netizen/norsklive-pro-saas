@@ -19,7 +19,7 @@ describe('Scenario UI & Picture Task rendering (Issue #50)', () => {
     }
   ];
 
-  test('ChatPanel renders scenario image above examiner line for picture task', () => {
+  test('ChatPanel renders inline SVG scenario image above examiner line for picture task and draft label', () => {
     const pictureScenario = b1Scenarios.find((s) => s.part === 'picture')!;
     expect(pictureScenario.image).toBeDefined();
 
@@ -34,16 +34,23 @@ describe('Scenario UI & Picture Task rendering (Issue #50)', () => {
         onSpeak={() => {}}
         onSaveToGlossary={() => {}}
         scenarioImage={pictureScenario.image}
+        scenarioStatus="draft"
       />
     );
 
     const imageWrapper = getByTestId('scenarioImageWrapper');
     expect(imageWrapper).toBeTruthy();
 
-    const img = imageWrapper.querySelector('img');
-    expect(img).toBeTruthy();
-    expect(img?.getAttribute('src')).toBe(pictureScenario.image?.src);
-    expect(img?.getAttribute('alt')).toBe(pictureScenario.image?.alt_nb);
+    // Inline SVG is rendered (not an isolated <img>) so CSS variables resolve properly
+    const svg = imageWrapper.querySelector('svg');
+    expect(svg).toBeTruthy();
+    expect(svg?.getAttribute('role')).toBe('img');
+    expect(svg?.getAttribute('aria-label')).toBe(pictureScenario.image?.alt_nb);
+    expect(svg?.querySelectorAll('rect, circle, path, line').length).toBeGreaterThan(0);
+
+    // Draft label is rendered on the first examiner speaker line
+    const draftBadge = getByTestId('chatDraftLabel');
+    expect(draftBadge.textContent).toContain(DRAFT_SCENARIO_LABEL);
 
     // Image wrapper is inside msg-ai before speaker name
     const msgAi = container.querySelector('.msg-ai');

@@ -6,19 +6,10 @@ export const DRAFT_SCENARIO_LABEL = 'Черновик, проверяется п
 export function shouldShowDraftScenarios(
   env: Record<string, string | undefined> = process.env
 ): boolean {
-  if (env.VERCEL_ENV === 'production') {
-    return false;
-  }
-  if (env.SCENARIOS_SHOW_DRAFTS === 'true' || env.NEXT_PUBLIC_SCENARIOS_SHOW_DRAFTS === 'true') {
-    return true;
-  }
   if (env.SCENARIOS_SHOW_DRAFTS === 'false' || env.NEXT_PUBLIC_SCENARIOS_SHOW_DRAFTS === 'false') {
     return false;
   }
-  if (env.NODE_ENV === 'development') {
-    return true;
-  }
-  return false;
+  return true;
 }
 
 export function getVisibleScenarios(options?: {
@@ -29,7 +20,7 @@ export function getVisibleScenarios(options?: {
   const sourceItems = options?.items ?? norskprove;
   const showDrafts =
     options?.showDrafts !== undefined
-      ? options.showDrafts && options?.env?.VERCEL_ENV !== 'production'
+      ? options.showDrafts
       : shouldShowDraftScenarios(options?.env);
 
   if (showDrafts) {

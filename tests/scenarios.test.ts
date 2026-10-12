@@ -188,7 +188,7 @@ describe('ExamScenarioSchema zod validation (Issue #50)', () => {
     }
   });
 
-  it('hides drafts in production and respects SCENARIOS_SHOW_DRAFTS', async () => {
+  it('shows drafts by default on live/local and SCENARIOS_SHOW_DRAFTS=false hides drafts', async () => {
     const { shouldShowDraftScenarios, getVisibleScenarios, DRAFT_SCENARIO_LABEL } = await import(
       '../src/content/scenarios/visibility'
     );
@@ -197,18 +197,31 @@ describe('ExamScenarioSchema zod validation (Issue #50)', () => {
     expect(
       shouldShowDraftScenarios({
         NODE_ENV: 'production',
-        VERCEL_ENV: 'production',
-        SCENARIOS_SHOW_DRAFTS: 'true'
+        VERCEL_ENV: 'production'
       })
-    ).toBe(false);
+    ).toBe(true);
 
     expect(
       shouldShowDraftScenarios({
         NODE_ENV: 'production',
-        VERCEL_ENV: 'preview',
+        VERCEL_ENV: 'production',
         SCENARIOS_SHOW_DRAFTS: 'true'
       })
     ).toBe(true);
+
+    expect(
+      shouldShowDraftScenarios({
+        NODE_ENV: 'development'
+      })
+    ).toBe(true);
+
+    expect(
+      shouldShowDraftScenarios({
+        NODE_ENV: 'production',
+        VERCEL_ENV: 'production',
+        SCENARIOS_SHOW_DRAFTS: 'false'
+      })
+    ).toBe(false);
 
     expect(
       shouldShowDraftScenarios({
@@ -221,17 +234,17 @@ describe('ExamScenarioSchema zod validation (Issue #50)', () => {
     const sampleDraft = { id: 's-draft', title: 'Draft', status: 'draft' } as unknown as Scenario;
     const items = [sampleReviewed, sampleDraft];
 
-    const prodVisible = getVisibleScenarios({
+    const defaultVisible = getVisibleScenarios({
       items,
       env: { NODE_ENV: 'production', VERCEL_ENV: 'production' }
     });
-    expect(prodVisible.map((i) => i.id)).toEqual(['s-rev']);
+    expect(defaultVisible.map((i) => i.id)).toEqual(['s-rev', 's-draft']);
 
-    const previewVisible = getVisibleScenarios({
+    const hiddenDraftsVisible = getVisibleScenarios({
       items,
-      env: { NODE_ENV: 'production', VERCEL_ENV: 'preview', SCENARIOS_SHOW_DRAFTS: 'true' }
+      env: { NODE_ENV: 'production', VERCEL_ENV: 'production', SCENARIOS_SHOW_DRAFTS: 'false' }
     });
-    expect(previewVisible.map((i) => i.id)).toEqual(['s-rev', 's-draft']);
+    expect(hiddenDraftsVisible.map((i) => i.id)).toEqual(['s-rev']);
   });
 
   it('verifies docs/scenarios-review.csv exists and contains 42 scenarios with correct headers', async () => {

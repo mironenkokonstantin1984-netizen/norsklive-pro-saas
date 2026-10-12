@@ -187,7 +187,13 @@ export function StudioPage({
   const currentModuleScenarios = state.scenarios[state.currentModule] || [];
   const currentScenario = state.currentScenario;
   const hints = state.hints || [];
-  const latestScoreLevel = parseCefrLevel(state.coachingHistory[0]?.cefr_estimate);
+  const firstCard = state.coachingHistory[0];
+  const rawCefr = firstCard
+    ? 'level_estimate' in firstCard
+      ? firstCard.level_estimate
+      : firstCard.cefr_estimate
+    : undefined;
+  const latestScoreLevel = parseCefrLevel(rawCefr);
 
   const handleSend = () => {
     const clean = inputText.trim();

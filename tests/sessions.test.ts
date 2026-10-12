@@ -218,6 +218,12 @@ describe('/api/coach and /api/sessions/current session wiring unit tests', () =>
   const geminiReply = {
     reply_norsk: 'Hvorfor liker du å jobbe hjemmefra?',
     reply_l1: 'Почему тебе нравится работать из дома?',
+    feedback: {
+      status: 'ok',
+      errors: [],
+      praise_l1: 'Фраза построена верно.',
+      level_estimate: 'B1'
+    },
     correction: {
       original: 'Jeg mener at hjemmekontor gir fleksibilitet.',
       natural_bokmal: 'Jeg mener at hjemmekontor gir fleksibilitet.',

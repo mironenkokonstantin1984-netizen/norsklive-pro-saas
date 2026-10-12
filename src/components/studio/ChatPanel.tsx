@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { ArrowDown, Bookmark, Bot, RotateCcw, Volume2, X } from 'lucide-react';
-import type { Correction } from '../../server/schemas';
+import type { CoachFeedback, Correction } from '../../server/schemas';
 import type { LearnerMood } from '../../lib/prefs';
 import { formatCountRu } from '../../lib/plural';
 import { CorrectionCard } from './CorrectionCard';
@@ -19,7 +19,7 @@ const ERROR_FORMS = { one: 'ошибку', few: 'ошибки', many: 'ошиб�
 
 export interface ChatPanelProps {
   chatHistory: ChatMessage[];
-  coachingHistory?: Correction[];
+  coachingHistory?: Array<CoachFeedback | Correction>;
   partnerName: string;
   l1Lang: L1Language;
   blurMode: boolean;
@@ -192,7 +192,8 @@ export function ChatPanel({
             ) : null}
             {isLatestUserMsg ? (
               <CorrectionCard
-                correction={coachingHistory[0]}
+                feedback={'status' in coachingHistory[0] ? (coachingHistory[0] as CoachFeedback) : undefined}
+                correction={'original' in coachingHistory[0] ? (coachingHistory[0] as Correction) : undefined}
                 olderCorrections={coachingHistory.slice(1)}
                 showTry={!examMode}
                 onSpeak={onSpeak}

@@ -130,6 +130,12 @@ describe('M1b-2b-2 UI tests: session restore, daily-limit card, #plans block, an
         return {
           reply_norsk: `Svar nummer ${callCount}`,
           reply_l1: `Ответ ${callCount}`,
+          feedback: {
+            status: 'ok',
+            errors: [],
+            praise_l1: 'Bra jobba!',
+            level_estimate: 'B1'
+          },
           correction: {
             original: `Setning ${callCount}`,
             natural_bokmal: `Naturlig setning ${callCount}`,

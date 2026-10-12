@@ -45,6 +45,106 @@ export const HintSchema = z.object({
   en: z.string().optional()
 });
 
+export const CoachFeedbackErrorTypeSchema = z.enum([
+  'word_order',
+  'article',
+  'verb_form',
+  'preposition',
+  'vocabulary',
+  'spelling',
+  'other'
+]);
+
+export const CoachFeedbackErrorSchema = z.object({
+  quote: z.string(),
+  fix: z.string(),
+  type: CoachFeedbackErrorTypeSchema,
+  rule_name_l1: z.string(),
+  explanation_l1: z.string()
+});
+
+export const CoachFeedbackSchema = z
+  .object({
+    status: z.enum(['ok', 'has_errors']),
+    errors: z.array(CoachFeedbackErrorSchema).max(6).default([]),
+    praise_l1: z.string(),
+    level_estimate: z.enum(['A2', 'B1', 'B2']),
+    better_version: z.string().optional(),
+    samhandling_l1: z.string().optional()
+  })
+  .superRefine((data, ctx) => {
+    if (data.status === 'ok' && data.errors.length > 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'errors must be empty when status is ok',
+        path: ['errors']
+      });
+    }
+    if (data.status === 'has_errors' && data.errors.length === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'errors must not be empty when status is has_errors',
+        path: ['errors']
+      });
+    }
+  });
+
+/**
+ * Normalizes text for matching quotes against learner text:
+ * - Unifies curly/typographic quotes and apostrophes
+ * - Collapses consecutive whitespace into a single space
+ * - Lowercases
+ * - Strips leading/trailing surrounding punctuation and whitespace
+ */
+export function normalizeQuote(text: string): string {
+  return text
+    .replace(/[\u2018\u2019\u201A\u201B`]/g, "'")
+    .replace(/[\u201C\u201D\u201E\u201F«»]/g, '"')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/^[\s.,!?:;'"«»()—–-]+|[\s.,!?:;'"«»()—–-]+$/g, '');
+}
+
+export function normalizeLearnerText(text: string): string {
+  return text
+    .replace(/[\u2018\u2019\u201A\u201B`]/g, "'")
+    .replace(/[\u201C\u201D\u201E\u201F«»]/g, '"')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * Drops errors whose quote does not appear in the learner's text (normalized comparison).
+ * Both sides are normalized by trimming, collapsing whitespace, unifying quotes,
+ * and stripping surrounding punctuation from quotes.
+ * If all errors are dropped, updates status to 'ok'.
+ */
+export function filterFeedbackErrorsByLearnerText(
+  feedback: CoachFeedback,
+  learnerText: string
+): CoachFeedback {
+  const normLearner = normalizeLearnerText(learnerText);
+  const validErrors = (feedback.errors || []).filter((err) => {
+    if (!err.quote) return false;
+    const normQuote = normalizeQuote(err.quote);
+    return normQuote.length > 0 && normLearner.includes(normQuote);
+  });
+  if (validErrors.length === 0) {
+    return {
+      ...feedback,
+      status: 'ok',
+      errors: []
+    };
+  }
+  return {
+    ...feedback,
+    status: 'has_errors',
+    errors: validErrors
+  };
+}
+
 export const CorrectionSchema = z.object({
   original: z.string(),
   natural_bokmal: z.string(),
@@ -58,7 +158,8 @@ export const CorrectionSchema = z.object({
 export const CoachResponseSchema = z.object({
   reply_norsk: z.string(),
   reply_l1: z.string(),
-  correction: CorrectionSchema,
+  feedback: CoachFeedbackSchema,
+  correction: CorrectionSchema.optional(),
   next_hints: z.array(HintSchema),
   /** Present only on canned example answers (COACH_ALLOW_FALLBACK=true). */
   source: z.literal('fallback').optional()
@@ -69,5 +170,9 @@ export type TargetWord = z.infer<typeof TargetWordSchema>;
 export type CustomScenario = z.infer<typeof CustomScenarioSchema>;
 export type CoachRequest = z.infer<typeof CoachRequestSchema>;
 export type Hint = z.infer<typeof HintSchema>;
+export type CoachFeedbackErrorType = z.infer<typeof CoachFeedbackErrorTypeSchema>;
+export type CoachFeedbackError = z.infer<typeof CoachFeedbackErrorSchema>;
+export type CoachFeedback = z.infer<typeof CoachFeedbackSchema>;
 export type Correction = z.infer<typeof CorrectionSchema>;
 export type CoachResponse = z.infer<typeof CoachResponseSchema>;
+

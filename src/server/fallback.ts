@@ -1,5 +1,5 @@
 import { scenariosByModule } from '../content/scenarios';
-import type { CoachResponse, CustomScenario, TargetWord } from './schemas';
+import type { CoachResponse, Correction, CustomScenario, TargetWord } from './schemas';
 
 export interface ScenarioRecord {
   id?: string;
@@ -43,7 +43,7 @@ export function generateStrategicRAndDFallback({
   persona = 'standard',
   usedWords = [],
   customScenario = null
-}: FallbackInput): CoachResponse {
+}: FallbackInput): CoachResponse & { correction: Correction } {
   const sc = findScenario(module, scenarioId, customScenario);
   const usedSet = new Set((usedWords || []).map((w) => w.toLowerCase()));
   const targetWords = sc.targetWords || [];
@@ -79,23 +79,23 @@ export function generateStrategicRAndDFallback({
     ? 'Отличная инициатива (Samhandling B2!)'
     : 'Не забудь задать встречный вопрос напарнику!';
 
-  if (isSimpleMiljo) {
-    cefr = 'A2';
-    naturalBokmal = 'Jeg mener at det er svært viktig å ta vare på miljøet i hverdagen.';
-    b2Upgrade =
-      'Det er avgjørende å ta hensyn til miljøet for å sikre en bærekraftig velferdsstat på lang sikt.';
-    explanationL1 =
-      l1 === 'ua'
-        ? 'Розбір (A2 → B2): Фраза «Jeg tenker at miljø er viktig» звучить на рівні A2 (калька з «я думаю» + іменник без означеного артикля «miljøet»). На рівень B2 замінюємо на безособову конструкцію «Det er avgjørende å ta hensyn til miljøet...».'
-        : l1 === 'en'
-          ? 'Analysis (A2 → B2): The phrase "Jeg tenker at miljø er viktig" scores at A2 level (missing definite article "miljøet" and basic verb). To hit B2 on Norskprøve, upgrade to: "Det er avgjørende å ta hensyn til miljøet for å sikre en bærekraftig velferdsstat."'
-          : 'Разбор (A2 → B2): Фраза «Jeg tenker at miljø er viktig» оценивается экзаменатором HK-dir на уровень A2 (глагол «tenker» вместо «mener/synes» и пропуск определённого артикля «miljøet»). Для уровня B2 перестраиваем через инфинитивный оборот: «Det er avgjørende å ta hensyn til miljøet for å sikre en bærekraftig velferdsstat».';
-  } else if (v2Mistake) {
+  let v2Quote = '';
+  let v2Fix = '';
+  const v2RuleName =
+    l1 === 'ua'
+      ? 'Правило V2 (порядок слів)'
+      : l1 === 'en'
+        ? 'V2 word order'
+        : 'Правило V2 (порядок слов)';
+
+  if (v2Mistake) {
     cefr = 'A2';
     v2Status = 'Pass på V2-inversjon (V2-feil oppdaget)';
     const adverbial = v2Mistake[1];
     const subject = v2Mistake[2].toLowerCase();
     const verb = v2Mistake[3];
+    v2Quote = v2Mistake[0];
+    v2Fix = `${adverbial} ${verb} ${subject}`;
     naturalBokmal = userText.trim().replace(v2Mistake[0], `${adverbial} ${verb} ${subject}`);
     b2Upgrade = `${naturalBokmal.replace(/\.$/, '')}, og følgelig bør vi legge til rette for ${nextTarget.word}.`;
     explanationL1 =
@@ -104,8 +104,19 @@ export function generateStrategicRAndDFallback({
         : l1 === 'en'
           ? `Norwegian V2 Inversion Rule: After the fronted adverbial "${adverbial}", the finite verb "${verb}" MUST come in 2nd position before the subject "${subject}"!`
           : `Правило V2 (Инверсия): после обстоятельства «${adverbial}» глагол «${verb}» в норвежском языке ОБЯЗАН стоять на 2-м месте перед подлежащим «${subject}»!`;
+  } else if (isSimpleMiljo) {
+    cefr = 'A2';
+    naturalBokmal = userText;
+    b2Upgrade =
+      'Det er avgjørende å ta hensyn til miljøet for å sikre en bærekraftig velferdsstat på lang sikt.';
+    explanationL1 =
+      l1 === 'ua'
+        ? 'Чудова та граматично правильна фраза!'
+        : l1 === 'en'
+          ? 'Great and grammatically correct sentence!'
+          : 'Отличная грамматически верная фраза!';
   } else {
-    cefr = userText.split(/\s+/).length >= 12 ? 'B1+ / B2' : 'B1';
+    cefr = userText.split(/\s+/).length >= 12 ? 'B1' : 'A2';
     b2Upgrade = `Det er avgjørende å understreke at ${
       userText.charAt(0).toLowerCase() + userText.slice(1).replace(/\.$/, '')
     }, særlig når det gjelder ${nextTarget.word}.`;
@@ -116,6 +127,11 @@ export function generateStrategicRAndDFallback({
           ? `Grammatically solid! To elevate this to B2 and score high on Samhandling / Cultural Fit, weave in "${nextTarget.word}" (${nextTarget.en || nextTarget.translation}) and ask your partner a follow-up question.`
           : `Грамматически верно! Чтобы поднять ответ до уверенного B2 (и учесть скандинавский Cultural Fit / Samhandling), добавь связку «Det er avgjørende å...» и термин «${nextTarget.word}» (${nextTarget.translation}).`;
   }
+
+  const praiseL1 =
+    v2Mistake
+      ? (l1 === 'ua' ? 'Гарна спроба висловити думку!' : l1 === 'en' ? 'Good attempt to express your thought!' : 'Хорошая попытка выразить мысль!')
+      : (l1 === 'ua' ? 'Відмінна граматика та зрозуміла думка!' : l1 === 'en' ? 'Great grammar and clear phrasing!' : 'Отличная грамматика и понятная мысль!');
 
   let replyNorsk = '';
   let replyL1 = '';
@@ -150,6 +166,24 @@ export function generateStrategicRAndDFallback({
   return {
     reply_norsk: replyNorsk,
     reply_l1: replyL1,
+    feedback: {
+      status: v2Mistake ? 'has_errors' : 'ok',
+      errors: v2Mistake
+        ? [
+            {
+              quote: v2Quote,
+              fix: v2Fix,
+              type: 'word_order',
+              rule_name_l1: v2RuleName,
+              explanation_l1: explanationL1
+            }
+          ]
+        : [],
+      praise_l1: praiseL1,
+      level_estimate: (cefr === 'B2' ? 'B2' : cefr === 'B1' ? 'B1' : 'A2') as 'A2' | 'B1' | 'B2',
+      better_version: b2Upgrade || undefined,
+      samhandling_l1: samhandlingStatus
+    },
     correction: {
       original: userText,
       natural_bokmal: naturalBokmal,

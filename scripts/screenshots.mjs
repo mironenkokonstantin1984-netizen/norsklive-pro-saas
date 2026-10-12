@@ -85,6 +85,106 @@ const TARGETS = [
     height: 900,
     colorScheme: 'dark',
     routePath: '/lab/nora'
+  },
+  {
+    name: 'correction-390x844-ok.png',
+    width: 390,
+    height: 844,
+    colorScheme: 'light',
+    submitTurn: true,
+    inputText: 'Jeg tenker at miljø er viktig fordi jeg bor i Oslo.',
+    customCoachResponse: {
+      reply_norsk: 'Det er et godt poeng! Miljø og bærekraft er viktige temaer i dag.',
+      reply_l1: 'Хороший аргумент! Экология и устойчивое развитие — важные темы сегодня.',
+      feedback: {
+        status: 'ok',
+        errors: [],
+        praise_l1: 'Kjempebra! Setningen er helt korrekt, både grammatikk og ordstilling sitter.',
+        level_estimate: 'B1'
+      },
+      next_hints: [
+        {
+          label: 'Utvikle tanken (B1)',
+          norsk: 'I tillegg prøver jeg å reise mer kollektivt i hverdagen.',
+          ru: 'Кроме того, я стараюсь чаще пользоваться общественным транспортом.'
+        }
+      ]
+    }
+  },
+  {
+    name: 'correction-390x844-one-error.png',
+    width: 390,
+    height: 844,
+    colorScheme: 'light',
+    submitTurn: true,
+    inputText: 'I dag jeg liker kaffe.',
+    customCoachResponse: {
+      reply_norsk: 'Det forstår jeg godt! Hva slags kaffe liker du best?',
+      reply_l1: 'Прекрасно понимаю! Какой кофе ты любишь больше всего?',
+      feedback: {
+        status: 'has_errors',
+        errors: [
+          {
+            quote: 'I dag jeg liker',
+            fix: 'I dag liker jeg',
+            type: 'word_order',
+            rule_name_l1: 'Правило V2',
+            explanation_l1: 'Когда предложение начинается с обстоятельства времени (I dag), глагол должен стоять на втором месте (инверсия).'
+          }
+        ],
+        praise_l1: 'Godt forsøk! Meningen er helt klar.',
+        level_estimate: 'A2'
+      },
+      next_hints: [
+        {
+          label: 'Fortelle mer (A2)',
+          norsk: 'Jeg drikker vanligvis to kopper kaffe hver morgen.',
+          ru: 'Обычно я пью две чашки кофе каждое утро.'
+        }
+      ]
+    }
+  },
+  {
+    name: 'correction-390x844-several-errors.png',
+    width: 390,
+    height: 844,
+    colorScheme: 'light',
+    submitTurn: true,
+    openBetter: true,
+    inputText: 'I fjor jeg har kjøpt en hus.',
+    customCoachResponse: {
+      reply_norsk: 'Gratulerer! Hvor i Norge ligger huset ditt?',
+      reply_l1: 'Поздравляю! В какой части Норвегии находится твой дом?',
+      feedback: {
+        status: 'has_errors',
+        errors: [
+          {
+            quote: 'I fjor jeg har kjøpt',
+            fix: 'I fjor kjøpte jeg',
+            type: 'word_order',
+            rule_name_l1: 'V2 и прошедшее время',
+            explanation_l1: 'С точным указанием времени в прошлом (i fjor) используется претеритум (kjøpte), а глагол стоит на втором месте.'
+          },
+          {
+            quote: 'en hus',
+            fix: 'et hus',
+            type: 'article',
+            rule_name_l1: 'Род существительного',
+            explanation_l1: 'Слово hus среднего рода (intetkjønn), поэтому неопределённый артикль — et.'
+          }
+        ],
+        praise_l1: 'Flott framgang! Du uttrykker deg forståelig.',
+        level_estimate: 'A2',
+        better_version: 'I fjor kjøpte jeg et koselig hus litt utenfor byen.'
+      },
+      next_hints: [
+        {
+          label: 'Beskrive huset (A2)',
+          norsk: 'Det er et lite hus med en koselig hage.',
+          ru: 'Это маленький дом с уютным садом.'
+        }
+      ]
+    }
   }
 ];
 
@@ -160,7 +260,9 @@ async function run() {
   const activeTargets =
     process.env.ONLY_NORA === 'true'
       ? TARGETS.filter((t) => t.name.startsWith('nora-lab-'))
-      : TARGETS;
+      : process.env.ONLY_CORRECTION === 'true'
+        ? TARGETS.filter((t) => t.name.startsWith('correction-390x844-'))
+        : TARGETS;
 
   try {
     for (const target of activeTargets) {
@@ -170,26 +272,34 @@ async function run() {
       });
       const page = await context.newPage();
 
-      await page.route('**/api/coach', async (route) => {
+      await page.route(/\/api\/coach/, async (route) => {
         await route.fulfill({
           status: 200,
           contentType: 'application/json',
-          body: JSON.stringify(MOCK_COACH_RESPONSE)
+          body: JSON.stringify(target.customCoachResponse || MOCK_COACH_RESPONSE)
         });
       });
 
-      const targetUrl = target.routePath
-        ? new URL(target.routePath, server.url).toString()
-        : server.url;
+      const targetPath = target.routePath || (target.submitTurn ? '/studio' : '/');
+      const targetUrl = new URL(targetPath, server.url).toString();
       await page.goto(targetUrl, { waitUntil: 'networkidle' });
 
       if (target.submitTurn) {
         await page.fill(
           '#userSpeechInput',
-          'Jeg tror hjemmekontor er bra fordi jeg sparer tid.'
+          target.inputText || 'Jeg tror hjemmekontor er bra fordi jeg sparer tid.'
         );
         await page.click('#sendSpeechBtn');
         await page.locator('#latestCorrectionCard').waitFor({ state: 'visible' });
+
+        if (target.openBetter) {
+          const betterBtn = page.locator('.correction-better-btn');
+          if (await betterBtn.isVisible()) {
+            await betterBtn.click();
+            await page.waitForTimeout(200);
+          }
+        }
+
         await page
           .locator('#latestCorrectionCard')
           .evaluate((el) => el.scrollIntoView({ block: 'center' }));

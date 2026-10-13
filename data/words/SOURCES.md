@@ -28,4 +28,5 @@ This file documents the linguistic data sources, their licences, and required at
 ## 3. Original Examples, Cloze Sentences & L1 Translations
 
 - All example sentences (`examples`), fill-in-the-gap context sentences (`cloze`), hints (`hint_ru`, `hint_uk`, `hint_en`), and translations (`ru`, `uk`, `en`) in `data/words/a1-a2.json` and `data/words/phrases.json` are **original material authored for NorskLive Pro** (`status: "draft"`, pending teacher review).
+- Sentences are written for A1–A2 comprehension (max 8 words, everyday vocabulary), still original material, still `status: "draft"`.
 - **No textbook material:** Zero words Lists, dialogues, or example sentences are copied from *På vei*, *Stein på stein*, *Her på berget*, *Ny i Norge*, *God i norsk*, or any third-party coursebook.

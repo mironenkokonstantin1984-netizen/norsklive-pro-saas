@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import wordsJson from '../data/words/a1-a2.json';
 import phrasesJson from '../data/words/phrases.json';
+import longWordsAllowedJson from '../data/words/long-words-allowed.json';
 import { WordDatasetSchema, type WordItem } from '../src/lib/words/schema';
 import { getVisibleWords, shouldShowDraftWords } from '../src/lib/words/catalog';
 import {
@@ -395,5 +396,60 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
         expect(ex.en, `en example for ${item.id} "${ex.en}"`).not.toMatch(/\([^)]+\)/);
       }
     }
+
+    // No cloze sentence appears for two different words
+    const clozeTexts = new Map<string, string>();
+    for (const item of allItems) {
+      for (const c of item.cloze) {
+        const existing = clozeTexts.get(c.nb);
+        expect(
+          existing,
+          `Cloze sentence "${c.nb}" is duplicated between ${existing} and ${item.id} (${item.lemma})`
+        ).toBeUndefined();
+        clozeTexts.set(c.nb, item.id);
+      }
+    }
+  });
+
+  it('10. guard: no sentence longer than 8 words (A1 at most 6 words); no 11+ letter words unless own form or allowed in long-words-allowed.json', () => {
+    expect(longWordsAllowedJson.length, 'long-words-allowed.json must have at most 15 entries').toBeLessThanOrEqual(15);
+    const allowedLongWords = new Set((longWordsAllowedJson as string[]).map((w) => w.toLowerCase()));
+
+    for (const item of catalogWords) {
+      const maxWords = item.level === 'A1' ? 6 : 8;
+      const selfForms = new Set(
+        Object.values(item.forms || {})
+          .flatMap((f) => f.split(/\s+/))
+          .map((w) => w.replace(/^[^\p{L}]+|[^\p{L}]+$/gu, '').toLowerCase())
+          .filter(Boolean)
+      );
+      selfForms.add(item.lemma.toLowerCase().replace(/^[^\p{L}]+|[^\p{L}]+$/gu, ''));
+
+      const sentences = [
+        ...item.examples.map((e) => ({ type: 'example', text: e.nb })),
+        ...item.cloze.map((c) => ({ type: 'cloze', text: c.nb.replace('___', c.answer) }))
+      ];
+
+      for (const s of sentences) {
+        const tokens = s.text.trim().split(/\s+/).filter(Boolean);
+        expect(
+          tokens.length,
+          `${item.id} (${item.level}) ${s.type} has ${tokens.length} words (max ${maxWords}): "${s.text}"`
+        ).toBeLessThanOrEqual(maxWords);
+
+        for (const token of tokens) {
+          const clean = token.replace(/^[^\p{L}]+|[^\p{L}]+$/gu, '').toLowerCase();
+          if (clean.length >= 11) {
+            const isSelf = selfForms.has(clean);
+            const isAllowed = allowedLongWords.has(clean);
+            expect(
+              isSelf || isAllowed,
+              `${item.id} ${s.type} contains 11+ letter word "${clean}" not in self forms or allow-list: "${s.text}"`
+            ).toBe(true);
+          }
+        }
+      }
+    }
   });
 });
+

@@ -961,22 +961,22 @@
     },
     "examples": [
       {
-        "nb": "Det unge paret leier en koselig leilighet nær togstasjonen.",
-        "ru": "Молодая пара снимает уютную квартиру рядом с железнодорожным вокзалом.",
-        "uk": "Молода пара орендує затишну квартиру біля залізничного вокзалу.",
-        "en": "The young couple rents a cozy apartment near the train station."
+        "nb": "Vi har en fin leilighet.",
+        "ru": "У нас хорошая квартира.",
+        "uk": "У нас гарна квартира.",
+        "en": "We have a nice apartment."
       }
     ],
     "cloze": [
       {
-        "nb": "De ser etter en romslig ___ med to soverom.",
+        "nb": "De leier en stor ___.",
         "answer": "leilighet",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Megleren viste fram den nyoppussede ___ til kjøperne.",
+        "nb": "Hvor ligger ___ deres?",
         "answer": "leiligheten",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1008,22 +1008,22 @@
     },
     "examples": [
       {
-        "nb": "Besteforeldrene mine bygde et rødt hus på landet i 1980.",
-        "ru": "Мои бабушка и дедушка построили красный дом за городом в 1980 году.",
-        "uk": "Мої бабуся й дідусь побудували червоний будинок за містом у 1980 році.",
-        "en": "My grandparents built a red house in the countryside in 1980."
+        "nb": "De kjøpte et gammelt hus.",
+        "ru": "Они купили старый дом.",
+        "uk": "Вони купили старий будинок.",
+        "en": "They bought an old house."
       }
     ],
     "cloze": [
       {
-        "nb": "Familien drømmer om å kjøpe et gammelt ___ med hage.",
+        "nb": "Vi bygger et nytt ___.",
         "answer": "hus",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Malerne malte hele ___ utvendig i løpet av helgen.",
+        "nb": "Maten står inne i ___.",
         "answer": "huset",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1055,22 +1055,22 @@
     },
     "examples": [
       {
-        "nb": "Studenten leier et lite rom i et trivelig bofellesskap.",
-        "ru": "Студент снимает небольшую комнату в приятной совместной квартире.",
-        "uk": "Студент орендує невелику кімнату у затишній спільній квартирі.",
-        "en": "The student rents a small room in a pleasant shared flat."
+        "nb": "Dette er et lite rom.",
+        "ru": "Это маленькая комната.",
+        "uk": "Це маленька кімната.",
+        "en": "This is a small room."
       }
     ],
     "cloze": [
       {
-        "nb": "Hotellet hadde dessverre ikke et ledig ___ den natta.",
+        "nb": "Hotellet har et ledig ___.",
         "answer": "rom",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Gjestene la koffertene sine inn på ___.",
+        "nb": "Gjestene sitter på ___.",
         "answer": "rommet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1102,22 +1102,22 @@
     },
     "examples": [
       {
-        "nb": "De pusset opp et moderne kjøkken med hvite skapdører.",
-        "ru": "Они отремонтировали современную кухню с белыми дверцами шкафов.",
-        "uk": "Вони відремонтували сучасну кухню з білими дверцятами шаф.",
-        "en": "They renovated a modern kitchen with white cabinet doors."
+        "nb": "Vårt kjøkken er veldig lyst.",
+        "ru": "Наша кухня очень светлая.",
+        "uk": "Наша кухня дуже світла.",
+        "en": "Our kitchen is very bright."
       }
     ],
     "cloze": [
       {
-        "nb": "Leiligheten har et åpent ___ med spiseplass til fire.",
+        "nb": "De pusser opp et ___.",
         "answer": "kjøkken",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Det lukter ferske boller fra ___ i ettermiddag.",
+        "nb": "Han lager mat på ___.",
         "answer": "kjøkkenet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1149,22 +1149,22 @@
     },
     "examples": [
       {
-        "nb": "Boligen har et flislagt bad med varmekabler i gulvet.",
-        "ru": "В жилье есть выложенная плиткой ванная с тёплым полом.",
-        "uk": "У житлі є викладена плиткою ванна кімната з теплою підлогою.",
-        "en": "The residence has a tiled bathroom with underfloor heating."
+        "nb": "Huset har to bad.",
+        "ru": "В доме две ванные комнаты.",
+        "uk": "У будинку дві ванні кімнати.",
+        "en": "The house has two bathrooms."
       }
     ],
     "cloze": [
       {
-        "nb": "Huset har to soverom og et stort ___ i andre etasje.",
+        "nb": "Huset har et fint ___.",
         "answer": "bad",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Barna pusset tennene sine inne på ___ før sengetid.",
+        "nb": "Vannet renner ut på ___.",
         "answer": "badet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1196,22 +1196,22 @@
     },
     "examples": [
       {
-        "nb": "Vi malte et lyst soverom i en beroligende blåfarge.",
-        "ru": "Мы покрасили светлую спальню в успокаивающий синий цвет.",
-        "uk": "Ми пофарбували світлу спальню в заспокійливий синій колір.",
-        "en": "We painted a bright bedroom in a soothing blue color."
+        "nb": "Vi malte vårt soverom i går.",
+        "ru": "Мы покрасили нашу спальню вчера.",
+        "uk": "Ми пофарбували нашу спальню вчора.",
+        "en": "We painted our bedroom yesterday."
       }
     ],
     "cloze": [
       {
-        "nb": "Boligen inneholder stue, kjøkken og et romslig ___.",
+        "nb": "De trenger et ekstra ___.",
         "answer": "soverom",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Vinduet på ___ vender ut mot en stille bakgård.",
+        "nb": "Barna sover på ___ nå.",
         "answer": "soverommet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1243,22 +1243,22 @@
     },
     "examples": [
       {
-        "nb": "Familien samlet seg i ei varm stue for å se på film.",
-        "ru": "Семья собралась в тёплой гостиной, чтобы посмотреть фильм.",
-        "uk": "Сім'я зібралася в теплій вітальні, щоб подивитися фільм.",
-        "en": "The family gathered in a warm living room to watch a movie."
+        "nb": "Vår stue er ganske stor.",
+        "ru": "Наша гостиная довольно большая.",
+        "uk": "Наша вітальня досить велика.",
+        "en": "Our living room is quite big."
       }
     ],
     "cloze": [
       {
-        "nb": "I helgen satte vi inn en ny sofa i ei lys ___.",
+        "nb": "Huset har en koselig ___.",
         "answer": "stue",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Gjestene satt og drakk te inne i ___.",
+        "nb": "Alle gjestene sitter i ___.",
         "answer": "stua",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1290,22 +1290,22 @@
     },
     "examples": [
       {
-        "nb": "Studentene betaler ei rimelig husleie inkludert strøm og internett.",
-        "ru": "Студенты платят умеренную арендную плату, включая электричество и интернет.",
-        "uk": "Студенти платять помірну орендну плату, включаючи електроенергію та інтернет.",
-        "en": "The students pay a reasonable rent including electricity and internet."
+        "nb": "Høy husleie er et problem.",
+        "ru": "Высокая арендная плата — проблема.",
+        "uk": "Висока орендна плата — проблема.",
+        "en": "High rent is a problem."
       }
     ],
     "cloze": [
       {
-        "nb": "Utleieren krever tre måneders depositum og ei fast ___.",
+        "nb": "De betaler en fast ___.",
         "answer": "husleie",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Vi overfører ___ direkte til huseierens konto hver måned.",
+        "nb": "Har du betalt ___ i dag?",
         "answer": "husleia",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1337,22 +1337,22 @@
     },
     "examples": [
       {
-        "nb": "Vår hjelpsomme nabo vanner blomstene når vi er bortreist.",
-        "ru": "Наш отзывчивый сосед поливает цветы, когда мы в отъезде.",
-        "uk": "Наш чуйний сусід поливає квіти, коли ми у від'їзді.",
-        "en": "Our helpful neighbor waters the flowers when we are away."
+        "nb": "Vår nye nabo er snill.",
+        "ru": "Наш новый сосед добрый.",
+        "uk": "Наш новий сусід добрий.",
+        "en": "Our new neighbor is kind."
       }
     ],
     "cloze": [
       {
-        "nb": "I går slo jeg av en hyggelig prat med en ny ___ i oppgangen.",
+        "nb": "Han hilste på en ___.",
         "answer": "nabo",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Vi hilste høflig på ___ da han gikk ut med hunden.",
+        "nb": "Musikken fra ___ var høy.",
         "answer": "naboen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1384,22 +1384,22 @@
     },
     "examples": [
       {
-        "nb": "Legen har sitt kontor i en øvre etasje i helsehuset.",
-        "ru": "Кабинет врача находится на верхнем этаже поликлиники.",
-        "uk": "Кабінет лікаря розташований на верхньому поверсі поліклініки.",
-        "en": "The doctor has his office on an upper floor of the medical center."
+        "nb": "Vi bor i andre etasje.",
+        "ru": "Мы живем на втором этаже.",
+        "uk": "Ми живемо на другому поверсі.",
+        "en": "We live on the second floor."
       }
     ],
     "cloze": [
       {
-        "nb": "De eldre beboerne foretrekker å bo i en lav ___ uten trapper.",
+        "nb": "Huset har bare én ___.",
         "answer": "etasje",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Heisen stoppet plutselig midt mellom fjerde og femte ___.",
+        "nb": "Han gikk opp til ___.",
         "answer": "etasjen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1431,22 +1431,22 @@
     },
     "examples": [
       {
-        "nb": "Katten sitter ofte og kikker ut gjennom et vindu mot gata.",
-        "ru": "Кошка часто сидит и смотрит в окно на улицу.",
-        "uk": "Кішка часто сидить і дивиться у вікно на вулицю.",
-        "en": "The cat often sits and looks out through a window onto the street."
+        "nb": "Katta sitter ved et vindu.",
+        "ru": "Кошка сидит у окна.",
+        "uk": "Кішка сидить біля вікна.",
+        "en": "The cat sits by a window."
       }
     ],
     "cloze": [
       {
-        "nb": "Kan du åpne et ___ for å lufte ut matlukten?",
+        "nb": "Rommet har et stort ___.",
         "answer": "vindu",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Vaskebyrået vasket ___ grundig både innvendig og utvendig.",
+        "nb": "Kan du åpne ___ nå?",
         "answer": "vinduet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1478,22 +1478,22 @@
     },
     "examples": [
       {
-        "nb": "Om sommeren spiser vi ofte frokost på en solrik balkong.",
-        "ru": "Летом мы часто завтракаем на солнечном балконе.",
-        "uk": "Влітку ми часто снідаємо на сонячному балконі.",
-        "en": "In the summer we often eat breakfast on a sunny balcony."
+        "nb": "Huset har en liten balkong.",
+        "ru": "У дома есть маленький балкон.",
+        "uk": "У будинку є маленький балкон.",
+        "en": "The house has a small balcony."
       }
     ],
     "cloze": [
       {
-        "nb": "Leiligheten har en sørvendt ___ med flott utsikt over fjorden.",
+        "nb": "Vi ønsker oss en ___.",
         "answer": "balkong",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Naboen plantet røde tomater ute på ___.",
+        "nb": "De drikker kaffe på ___.",
         "answer": "balkongen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1525,22 +1525,22 @@
     },
     "examples": [
       {
-        "nb": "Snekkeren monterte ei solid dør i heltre i gangen.",
-        "ru": "Плотник установил прочную дверь из цельного дерева в прихожей.",
-        "uk": "Тесляр встановив міцні двері з масиву дерева в передпокої.",
-        "en": "The carpenter installed a solid wooden door in the hallway."
+        "nb": "Han banket på ei dør.",
+        "ru": "Он постучал в дверь.",
+        "uk": "Він постукав у двері.",
+        "en": "He knocked on a door."
       }
     ],
     "cloze": [
       {
-        "nb": "Husk å låse ei ___ når du forlater kontoret om kvelden.",
+        "nb": "Rommet har ei hvit ___.",
         "answer": "dør",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Postbudet ringte på ___ før han leverte pakken.",
+        "nb": "Husk å låse ___ godt.",
         "answer": "døra",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1572,22 +1572,22 @@
     },
     "examples": [
       {
-        "nb": "Vaktmesteren lånte meg en ekstra nøkkel til sykkelboden.",
-        "ru": "Дворник одолжил мне запасной ключ от велосипедного сарая.",
-        "uk": "Двірник позичив мені запасний ключ від велосипедної комори.",
-        "en": "The caretaker lent me an extra key to the bicycle shed."
+        "nb": "Jeg har mistet min nøkkel.",
+        "ru": "Я потерял свой ключ.",
+        "uk": "Я загубив свій ключ.",
+        "en": "I have lost my key."
       }
     ],
     "cloze": [
       {
-        "nb": "Jeg må få filt en ny ___ til postkassa mi.",
+        "nb": "Kan du få laget ny ___?",
         "answer": "nøkkel",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Han stakk ___ inn i låsen og vred om forsiktig.",
+        "nb": "Han fant ikke ___ si.",
         "answer": "nøkkelen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1619,22 +1619,22 @@
     },
     "examples": [
       {
-        "nb": "På kjøkkenet står et rundt bord i lys eik.",
-        "ru": "На кухне стоит круглый стол из светлого дуба.",
-        "uk": "На кухні стоїть круглий стіл зі світлого дуба.",
-        "en": "In the kitchen stands a round table in light oak."
+        "nb": "Vi kjøpte et rundt bord.",
+        "ru": "Мы купили круглый стол.",
+        "uk": "Ми купили круглий стіл.",
+        "en": "We bought a round table."
       }
     ],
     "cloze": [
       {
-        "nb": "Familien kjøpte et praktisk ___ med plass til seks stoler.",
+        "nb": "Stua har et lavt ___.",
         "answer": "bord",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Middagen ble servert rykende varm på ___.",
+        "nb": "Bøkene ligger oppå ___ nå.",
         "answer": "bordet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1666,22 +1666,22 @@
     },
     "examples": [
       {
-        "nb": "Barnet sovnet raskt i ei myk seng etter en lang dag ute.",
-        "ru": "Ребёнок быстро уснул в мягкой кровати после долгого дня на улице.",
-        "uk": "Дитина швидко заснула в м'якому ліжку після довгого дня на вулиці.",
-        "en": "The child fell asleep quickly in a soft bed after a long day outside."
+        "nb": "Barnet fikk ei ny seng.",
+        "ru": "Ребенок получил новую кровать.",
+        "uk": "Дитина отримала нове ліжко.",
+        "en": "The child got a new bed."
       }
     ],
     "cloze": [
       {
-        "nb": "På gjesterommet plasserte vi ei komfortabel ___ til besøkende.",
+        "nb": "Hytta har ei bred ___.",
         "answer": "seng",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Hver kveld leser faren et eventyr på sengekanten ved ___.",
+        "nb": "Katta sover i ___ mi.",
         "answer": "senga",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1713,22 +1713,22 @@
     },
     "examples": [
       {
-        "nb": "Bestefar satte seg til rette i en god stol ved peisen.",
-        "ru": "Дедушка удобно устроился в удобном кресле у камина.",
-        "uk": "Дідусь зручно вмостився у зручному кріслі біля каміна.",
-        "en": "Grandfather settled into a comfortable chair by the fireplace."
+        "nb": "Han sitter på en stol.",
+        "ru": "Он сидит на стуле.",
+        "uk": "Він сидить на стільці.",
+        "en": "He is sitting on a chair."
       }
     ],
     "cloze": [
       {
-        "nb": "Eleven fant en ledig ___ bakerst i klasserommet.",
+        "nb": "Vi trenger en ekstra ___.",
         "answer": "stol",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Hun reiste seg raskt opp fra ___ da læreren kom inn.",
+        "nb": "Katten hoppet opp på ___.",
         "answer": "stolen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1760,22 +1760,22 @@
     },
     "examples": [
       {
-        "nb": "I entreen henger kåpene i et stort skap med speildører.",
-        "ru": "В прихожей пальто висят в большом шкафу с зеркальными дверцами.",
-        "uk": "У передпокої пальта висять у великій шафі з дзеркальними дверцятами.",
-        "en": "In the entrance hall, coats hang in a large wardrobe with mirrored doors."
+        "nb": "Glassene står i et skap.",
+        "ru": "Стаканы стоят в шкафу.",
+        "uk": "Склянки стоять у шафі.",
+        "en": "The glasses are in a cupboard."
       }
     ],
     "cloze": [
       {
-        "nb": "Kokken satte de rene tallerkenene inn i et ___.",
+        "nb": "De kjøpte et stort ___.",
         "answer": "skap",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Medisinene oppbevares trygt innelåst i ___ på badet.",
+        "nb": "Jakka henger inne i ___.",
         "answer": "skapet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1807,22 +1807,22 @@
     },
     "examples": [
       {
-        "nb": "Bygården har en moderne heis som går helt opp til loftet.",
-        "ru": "В жилом доме есть современный лифт, поднимающийся до самого чердака.",
-        "uk": "У будинку є сучасний ліфт, який піднімається до самого горища.",
-        "en": "The apartment building has a modern elevator that goes all the way to the attic."
+        "nb": "Bygget har en moderne heis.",
+        "ru": "В здании современный лифт.",
+        "uk": "У будівлі сучасний ліфт.",
+        "en": "The building has a modern elevator."
       }
     ],
     "cloze": [
       {
-        "nb": "Eldre beboere trenger en pålitelig ___ når de bærer handleposer.",
+        "nb": "Finnes det en ___ her?",
         "answer": "heis",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Trykk på knappen for å kalle på ___.",
+        "nb": "I dag virker ikke ___.",
         "answer": "heisen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1854,22 +1854,22 @@
     },
     "examples": [
       {
-        "nb": "Legen anbefaler å gå i ei trapp hver dag for å holde formen.",
-        "ru": "Врач рекомендует подниматься по лестнице каждый день, чтобы поддерживать форму.",
-        "uk": "Лікар рекомендує підніматися сходами щодня, щоб підтримувати форму.",
-        "en": "The doctor recommends walking up stairs every day to stay fit."
+        "nb": "Huset har ei smal trapp.",
+        "ru": "В доме узкая лестница.",
+        "uk": "У будинку вузькі сходи.",
+        "en": "The house has a narrow staircase."
       }
     ],
     "cloze": [
       {
-        "nb": "Håndverkerne snekret ei bratt ___ opp til hemsen.",
+        "nb": "De bygde ei ny ___.",
         "answer": "trapp",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Postbudet gikk forsiktig ned ___ med den tunge esken.",
+        "nb": "Han gikk sakte ned ___.",
         "answer": "trappa",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -7492,26 +7492,26 @@
     },
     "examples": [
       {
-        "nb": "De bor i en lys og moderne leilighet i utkanten av byen.",
-        "ru": "Они живут в светлой и современной квартире на окраине города.",
-        "uk": "Вони живуть у світлій і сучасній квартирі на околиці міста.",
-        "en": "They live in a bright and modern apartment on the outskirts of town."
+        "nb": "Hvor vil du bo?",
+        "ru": "Где ты хочешь жить?",
+        "uk": "Де ти хочеш жити?",
+        "en": "Where do you want to live?"
       }
     ],
     "cloze": [
       {
-        "nb": "Familien ___ i Bergen i fem år før de flyttet til Oslo.",
+        "nb": "Før ___ vi i Bergen.",
         "answer": "bodde",
-        "hint_ru": "Прошедшее время (preteritum: bodde)",
-        "hint_uk": "Минулий час (preteritum: bodde)",
-        "hint_en": "Past tense (preteritum: bodde)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Studentene ønsker å ___ i nærheten av universitetet.",
+        "nb": "De ønsker å ___ her.",
         "answer": "bo",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -7538,26 +7538,26 @@
     },
     "examples": [
       {
-        "nb": "Paret leier en toroms leilighet med fast kontrakt.",
-        "ru": "Пара снимает двухкомнатную квартиру по бессрочному договору.",
-        "uk": "Пара орендує двокімнатну квартиру за безстроковим договором.",
-        "en": "The couple rents a two-room apartment with a permanent contract."
+        "nb": "Vi leier en koselig hytte.",
+        "ru": "Мы снимаем уютный домик.",
+        "uk": "Ми орендуємо затишний будиночок.",
+        "en": "We rent a cozy cabin."
       }
     ],
     "cloze": [
       {
-        "nb": "I fjor sommer ___ vi en hytte ved sjøen i tre uker.",
+        "nb": "I fjor ___ de bil.",
         "answer": "leide",
-        "hint_ru": "Прошедшее время (preteritum: leide)",
-        "hint_uk": "Минулий час (preteritum: leide)",
-        "hint_en": "Past tense (preteritum: leide)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Mange unge velger å ___ bolig før de har råd til å kjøpe.",
+        "nb": "Er det dyrt å ___?",
         "answer": "leie",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -7584,26 +7584,26 @@
     },
     "examples": [
       {
-        "nb": "Naboene flytter inn i et nytt rekkehus i neste måned.",
-        "ru": "Соседи переезжают в новый таунхаус в следующем месяце.",
-        "uk": "Сусіди переїжджають у новий таунхаус наступного місяця.",
-        "en": "The neighbors are moving into a new townhouse next month."
+        "nb": "Når skal dere flytte?",
+        "ru": "Когда вы переезжаете?",
+        "uk": "Коли ви переїжджаєте?",
+        "en": "When are you moving?"
       }
     ],
     "cloze": [
       {
-        "nb": "Familien ___ fra Tromsø til Stavanger i forrige uke.",
+        "nb": "Familien ___ til Oslo nylig.",
         "answer": "flyttet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det er mye arbeid å pakke ned alt når man skal ___.",
+        "nb": "Må vi ___ nå?",
         "answer": "flytte",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -7630,26 +7630,26 @@
     },
     "examples": [
       {
-        "nb": "Han vasker kjøkkengulvet med såpe og varmt vann hver fredag.",
-        "ru": "Он моет кухонный пол с мылом и горячей водой каждую пятницу.",
-        "uk": "Він миє кухонну підлогу з милом і гарячою водою щоп'ятниці.",
-        "en": "He washes the kitchen floor with soap and hot water every Friday."
+        "nb": "Hun vasker gulvet hver lørdag.",
+        "ru": "Она моет пол каждую субботу.",
+        "uk": "Вона миє підлогу щосуботи.",
+        "en": "She washes the floor every Saturday."
       }
     ],
     "cloze": [
       {
-        "nb": "I morges ___ hun alle vinduene i stua rene.",
+        "nb": "I morges ___ han kopper.",
         "answer": "vasket",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Husk å ___ hendene grundig før du spiser mat.",
+        "nb": "Husk å ___ hendene dine.",
         "answer": "vaske",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -7676,26 +7676,26 @@
     },
     "examples": [
       {
-        "nb": "Barna rydder lekene sine på plass i lekekassene før middag.",
-        "ru": "Дети убирают свои игрушки на место в коробки перед ужином.",
-        "uk": "Діти прибирають свої іграшки на місце в коробки перед вечерею.",
-        "en": "The children tidy their toys away into the toy boxes before dinner."
+        "nb": "Barna rydder rommet sitt nå.",
+        "ru": "Дети убирают свою комнату сейчас.",
+        "uk": "Діти прибирають свою кімнату зараз.",
+        "en": "The children are tidying their room now."
       }
     ],
     "cloze": [
       {
-        "nb": "Far og mor ___ hele kjellerboden i løpet av helgen.",
+        "nb": "I går ___ jeg stua.",
         "answer": "ryddet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Alle må hjelpe til med å ___ av bordet etter festen.",
+        "nb": "Kan du hjelpe å ___?",
         "answer": "rydde",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -7722,26 +7722,26 @@
     },
     "examples": [
       {
-        "nb": "Han låser alltid inngangsdøra før han legger seg om kvelden.",
-        "ru": "Он всегда запирает входную дверь перед тем, как лечь спать.",
-        "uk": "Він завжди замикає вхідні двері перед тим, як лягти спати.",
-        "en": "He always locks the front door before going to bed at night."
+        "nb": "Husk alltid å låse døra.",
+        "ru": "Всегда помни запирать дверь.",
+        "uk": "Завжди пам'ятай замикати двері.",
+        "en": "Always remember to lock the door."
       }
     ],
     "cloze": [
       {
-        "nb": "Vaktmesteren ___ sykkelboden da mørket falt på.",
+        "nb": "Han ___ porten i kveld.",
         "answer": "låste",
-        "hint_ru": "Прошедшее время (preteritum: låste)",
-        "hint_uk": "Минулий час (preteritum: låste)",
-        "hint_en": "Past tense (preteritum: låste)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Ikke glem å ___ bilen når du parkerer i sentrum.",
+        "nb": "Glemte du å ___ bilen?",
         "answer": "låse",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -7768,26 +7768,26 @@
     },
     "examples": [
       {
-        "nb": "Kjøpmannen åpner butikken presis klokka sju hver morgen.",
-        "ru": "Торговец открывает магазин ровно в семь часов каждое утро.",
-        "uk": "Торговець відкриває крамницю рівно о сьомій годині щоранку.",
-        "en": "The merchant opens the shop promptly at seven every morning."
+        "nb": "Hun vil åpne et vindu.",
+        "ru": "Она хочет открыть окно.",
+        "uk": "Вона хоче відчинити вікно.",
+        "en": "She wants to open a window."
       }
     ],
     "cloze": [
       {
-        "nb": "Eleven ___ vinduet for å slippe inn litt frisk luft.",
+        "nb": "Butikken ___ tidlig i dag.",
         "answer": "åpnet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Kan du være så snill å ___ døra for gjestene?",
+        "nb": "Kan du ___ denne esken?",
         "answer": "åpne",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -7814,26 +7814,26 @@
     },
     "examples": [
       {
-        "nb": "Han lukker verandadøra når det begynner å blåse kaldt ute.",
-        "ru": "Он закрывает дверь на веранду, когда на улице начинает дуть холодный ветер.",
-        "uk": "Він зачиняє двері на веранду, коли на вулиці починає віяти холодний вітер.",
-        "en": "He closes the veranda door when a cold wind starts blowing outside."
+        "nb": "Vennligst lukk døra etter deg.",
+        "ru": "Пожалуйста, закрой дверь за собой.",
+        "uk": "Будь ласка, зачини двері за собою.",
+        "en": "Please close the door behind you."
       }
     ],
     "cloze": [
       {
-        "nb": "Sykepleieren ___ døra stille bak seg da pasienten sovnet.",
+        "nb": "Hun ___ boka og smilte.",
         "answer": "lukket",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Husk å ___ alle vinduer før dere reiser bort.",
+        "nb": "Vil du ___ dette vinduet?",
         "answer": "lukke",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -7860,26 +7860,26 @@
     },
     "examples": [
       {
-        "nb": "Rørleggeren reparerer den lekkende kranen på badet.",
-        "ru": "Сантехник ремонтирует протекающий кран в ванной комнате.",
-        "uk": "Сантехнік ремонтує кран, що протікає, у ванній кімнаті.",
-        "en": "The plumber repairs the leaking tap in the bathroom."
+        "nb": "En mann kan reparere denne gamle bilen.",
+        "ru": "Один человек может починить эту старую машину.",
+        "uk": "Один чоловік може відремонтувати цю стару машину.",
+        "en": "A man can repair this old car."
       }
     ],
     "cloze": [
       {
-        "nb": "Sykkelmekanikeren ___ det punkterte bakhjulet på ti minutter.",
+        "nb": "Far ___ den ødelagte sykkelen i går.",
         "answer": "reparerte",
-        "hint_ru": "Прошедшее время (preteritum: reparerte)",
-        "hint_uk": "Минулий час (preteritum: reparerte)",
-        "hint_en": "Past tense (preteritum: reparerte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det er billigere å ___ vaskemaskinen enn å kjøpe en ny.",
+        "nb": "Det koster mye å ___ taket.",
         "answer": "reparere",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -7906,26 +7906,26 @@
     },
     "examples": [
       {
-        "nb": "Malerne maler husveggene med slitesterk hvit utendørsmaling.",
-        "ru": "Маляры красят стены дома стойкой белой краской для наружных работ.",
-        "uk": "Маляри фарбують стіни будинку стійкою білою фарбою для зовнішніх робіт.",
-        "en": "The painters paint the house walls with durable white exterior paint."
+        "nb": "Vi skal male huset til sommeren.",
+        "ru": "Мы покрасим дом к лету.",
+        "uk": "Ми пофарбуємо будинок до літа.",
+        "en": "We are going to paint the house this summer."
       }
     ],
     "cloze": [
       {
-        "nb": "I sommerferien ___ vi hele gjerdet rundt hagen.",
+        "nb": "De ___ veggene i en lys farge.",
         "answer": "malte",
-        "hint_ru": "Прошедшее время (preteritum: malte)",
-        "hint_uk": "Минулий час (preteritum: malte)",
-        "hint_en": "Past tense (preteritum: malte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "De planlegger å ___ soverommet i en beroligende grønnfarge.",
+        "nb": "Er det vanskelig å ___ stua?",
         "answer": "male",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -10859,26 +10859,26 @@
     },
     "examples": [
       {
-        "nb": "Familien kjøpte et gammelt hus med en stor hage rundt.",
-        "ru": "Семья купила старый дом с большим садом вокруг.",
-        "uk": "Сім'я купила старий будинок із великим садом навколо.",
-        "en": "The family bought an old house with a large garden around it."
+        "nb": "Huset har en stor hage.",
+        "ru": "У дома большой сад.",
+        "uk": "У будинку великий сад.",
+        "en": "The house has a large garden."
       }
     ],
     "cloze": [
       {
-        "nb": "Leiligheten har et lyst og ___ kjøkken med spiseplass.",
+        "nb": "De har et veldig ___ bord.",
         "answer": "stort",
-        "hint_ru": "Форма среднего рода (nøytrum: stort)",
-        "hint_uk": "Форма середнього роду (nøytrum: stort)",
-        "hint_en": "Neuter form (nøytrum: stort)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Turgåerne beundret de ___ trærne i nasjonalparken.",
+        "nb": "Vi leier to ___ rom.",
         "answer": "store",
-        "hint_ru": "Форма множественного числа (flertall: store)",
-        "hint_uk": "Форма множини (flertall: store)",
-        "hint_en": "Plural form (flertall: store)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -10906,26 +10906,26 @@
     },
     "examples": [
       {
-        "nb": "Studenten leier en liten hybel like ved høyskolen i Volda.",
-        "ru": "Студент снимает маленькую комнатку рядом с институтом в Волде.",
-        "uk": "Студент орендує маленьку кімнатку біля інституту у Волді.",
-        "en": "The student rents a small bedsit near the college in Volda."
+        "nb": "Katten er veldig liten.",
+        "ru": "Кошка очень маленькая.",
+        "uk": "Кішка дуже маленька.",
+        "en": "The cat is very small."
       }
     ],
     "cloze": [
       {
-        "nb": "Huset har bare et koselig, men ganske ___ soverom.",
+        "nb": "Rommet har et ___ bord.",
         "answer": "lite",
-        "hint_ru": "Форма среднего рода (nøytrum: lite)",
-        "hint_uk": "Форма середнього роду (nøytrum: lite)",
-        "hint_en": "Neuter form (nøytrum: lite)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "De to ___ barna lekte fredelig med klosser på teppet.",
+        "nb": "De har to ___ barn.",
         "answer": "små",
-        "hint_ru": "Форма множественного числа (flertall: små)",
-        "hint_uk": "Форма множини (flertall: små)",
-        "hint_en": "Plural form (flertall: små)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -10953,26 +10953,26 @@
     },
     "examples": [
       {
-        "nb": "Arkitekten tegnet en lys stue med vinduer fra gulv til tak.",
-        "ru": "Архитектор спроектировал светлую гостиную с окнами от пола до потолка.",
-        "uk": "Архітектор спроєктував світлу вітальню з вікнами від підлоги до стелі.",
-        "en": "The architect designed a bright living room with floor-to-ceiling windows."
+        "nb": "Kjøkkenet er lyst og trivelig.",
+        "ru": "Кухня светлая и приятная.",
+        "uk": "Кухня світла й приємна.",
+        "en": "The kitchen is bright and pleasant."
       }
     ],
     "cloze": [
       {
-        "nb": "Gjesterommet ble pusset opp og fikk et ___ tregulv.",
+        "nb": "De leier et ___ rom.",
         "answer": "lyst",
-        "hint_ru": "Форма среднего рода (nøytrum: lyst)",
-        "hint_uk": "Форма середнього роду (nøytrum: lyst)",
-        "hint_en": "Neuter form (nøytrum: lyst)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Malerne malte veggene i varme og ___ fargetoner.",
+        "nb": "Stua har to ___ vegger.",
         "answer": "lyse",
-        "hint_ru": "Форма множественного числа (flertall: lyse)",
-        "hint_uk": "Форма множини (flertall: lyse)",
-        "hint_en": "Plural form (flertall: lyse)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11000,26 +11000,26 @@
     },
     "examples": [
       {
-        "nb": "I november setter vi fram tente lys i en mørk gang.",
-        "ru": "В ноябре мы зажигаем свечи в тёмной прихожей.",
-        "uk": "У листопаді ми запалюємо свічки в темному передпокої.",
-        "en": "In November we put out lit candles in a dark hallway."
+        "nb": "Kjelleren er ganske mørk.",
+        "ru": "Подвал довольно темный.",
+        "uk": "Підвал досить темний.",
+        "en": "The basement is quite dark."
       }
     ],
     "cloze": [
       {
-        "nb": "Kjelleren var et fuktig og ___ rom uten vinduer.",
+        "nb": "Det er et ___ rom.",
         "answer": "mørkt",
-        "hint_ru": "Форма среднего рода (nøytrum: mørkt)",
-        "hint_uk": "Форма середнього роду (nøytrum: mørkt)",
-        "hint_en": "Neuter form (nøytrum: mørkt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Om vinteren er de nordnorske dagene lange og ___.",
+        "nb": "Han liker ___ møbler.",
         "answer": "mørke",
-        "hint_ru": "Форма множественного числа (flertall: mørke)",
-        "hint_uk": "Форма множини (flertall: mørke)",
-        "hint_en": "Plural form (flertall: mørke)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11047,26 +11047,26 @@
     },
     "examples": [
       {
-        "nb": "Småbarnsfamilien bosatte seg i en rolig gate uten gjennomgangstrafikk.",
-        "ru": "Семья с маленькими детьми поселилась на тихой улице без сквозного движения.",
-        "uk": "Сім'я з маленькими дітьми оселилася на тихій вулиці без наскрізного руху.",
-        "en": "The young family settled in a quiet street with no through traffic."
+        "nb": "Dette er et rolig nabolag.",
+        "ru": "Это тихий район.",
+        "uk": "Це тихий район.",
+        "en": "This is a quiet neighborhood."
       }
     ],
     "cloze": [
       {
-        "nb": "Beboerne satte stor pris på et trygt og ___ nabolag.",
+        "nb": "Huset ligger et ___ sted.",
         "answer": "rolig",
-        "hint_ru": "Форма среднего рода (nøytrum)",
-        "hint_uk": "Форма середнього роду (nøytrum)",
-        "hint_en": "Neuter form (nøytrum)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Kveldene på hytta ved innsjøen var alltid fredelige og ___.",
+        "nb": "Vi har to ___ kvelder.",
         "answer": "rolige",
-        "hint_ru": "Форма множественного числа (flertall: rolige)",
-        "hint_uk": "Форма множини (flertall: rolige)",
-        "hint_en": "Plural form (flertall: rolige)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11094,26 +11094,26 @@
     },
     "examples": [
       {
-        "nb": "I sentrum står en gammel trebygning fra attenhundretallet.",
-        "ru": "В центре стоит старинное деревянное здание девятнадцатого века.",
-        "uk": "У центрі стоїть старовинна дерев'яна будівля дев'ятнадцятого століття.",
-        "en": "In the town center stands an old wooden building from the nineteenth century."
+        "nb": "Min nabo er ganske gammel.",
+        "ru": "Мой сосед довольно старый.",
+        "uk": "Мій сусід досить старий.",
+        "en": "My neighbor is quite old."
       }
     ],
     "cloze": [
       {
-        "nb": "Paret kjøpte et sjarmerende, men litt slitent ___ hus.",
+        "nb": "De bor i et ___ hus.",
         "answer": "gammelt",
-        "hint_ru": "Форма среднего рода (nøytrum: gammelt)",
-        "hint_uk": "Форма середнього роду (nøytrum: gammelt)",
-        "hint_en": "Neuter form (nøytrum: gammelt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "De ___ møblene på loftet var arvet fra oldeforeldrene.",
+        "nb": "Bordet har fire ___ stoler.",
         "answer": "gamle",
-        "hint_ru": "Форма множественного числа (flertall: gamle)",
-        "hint_uk": "Форма множини (flertall: gamle)",
-        "hint_en": "Plural form (flertall: gamle)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11141,26 +11141,26 @@
     },
     "examples": [
       {
-        "nb": "Leietakerne flyttet inn i en ny boligblokk nær T-banen.",
-        "ru": "Арендаторы въехали в новый жилой дом рядом с метро.",
-        "uk": "Орендарі заїхали в новий житловий будинок біля метро.",
-        "en": "The tenants moved into a new apartment building near the metro."
+        "nb": "Hun kjøpte en ny seng.",
+        "ru": "Она купила новую кровать.",
+        "uk": "Вона купила нове ліжко.",
+        "en": "She bought a new bed."
       }
     ],
     "cloze": [
       {
-        "nb": "Skolen fikk et toppmoderne og velutstyrt ___ bibliotek.",
+        "nb": "De leier et ___ kjøkken.",
         "answer": "nytt",
-        "hint_ru": "Форма среднего рода (nøytrum: nytt)",
-        "hint_uk": "Форма середнього роду (nøytrum: nytt)",
-        "hint_en": "Neuter form (nøytrum: nytt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Butikken pakket ut de rykende ___ varene i hyllene.",
+        "nb": "Bygget har to ___ heiser.",
         "answer": "nye",
-        "hint_ru": "Форма множественного числа (flertall: nye)",
-        "hint_uk": "Форма множини (flertall: nye)",
-        "hint_en": "Plural form (flertall: nye)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11188,26 +11188,26 @@
     },
     "examples": [
       {
-        "nb": "Hotellrommet hadde en skinnende ren balkong med havutsikt.",
-        "ru": "В номере отеля был сверкающе чистый балкон с видом на море.",
-        "uk": "У номері готелю був блискуче чистий балкон із видом на море.",
-        "en": "The hotel room had a sparkling clean balcony with sea view."
+        "nb": "Vannet i elva er rent.",
+        "ru": "Вода в реке чистая.",
+        "uk": "Вода в річці чиста.",
+        "en": "The water in the river is clean."
       }
     ],
     "cloze": [
       {
-        "nb": "Norge er viden kjent for sitt krystallklare og ___ vann.",
+        "nb": "Barna har ___ klær på.",
         "answer": "rene",
-        "hint_ru": "Определённая форма (bestemt form: rene)",
-        "hint_uk": "Означена форма (bestemt form: rene)",
-        "hint_en": "Definite form (bestemt form: rene)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       },
       {
-        "nb": "Rengjøringsbyrået leverte et fullstendig ___ resultat etter vasken.",
+        "nb": "Badet må være helt ___.",
         "answer": "rent",
-        "hint_ru": "Форма среднего рода (nøytrum: rent)",
-        "hint_uk": "Форма середнього роду (nøytrum: rent)",
-        "hint_en": "Neuter form (nøytrum: rent)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       }
     ],
     "status": "draft",
@@ -13001,26 +13001,26 @@
     },
     "examples": [
       {
-        "nb": "Den syke lærlingen holdt seg hjemme under dynen i to dager.",
-        "ru": "Заболевший стажёр два дня оставался дома под одеялом.",
-        "uk": "Хворий стажер два дні залишався вдома під ковдрою.",
-        "en": "The sick apprentice stayed at home under the duvet for two days."
+        "nb": "Er du hjemme i kveld?",
+        "ru": "Ты дома сегодня вечером?",
+        "uk": "Ти вдома сьогодні ввечері?",
+        "en": "Are you at home tonight?"
       }
     ],
     "cloze": [
       {
-        "nb": "I helgene foretrekker vi å slappe av ___ i stua.",
+        "nb": "Jeg slapper av ___ nå.",
         "answer": "hjemme",
-        "hint_ru": "Наречие места (hvor? hjemme)",
-        "hint_uk": "Прислівник місця (hvor? hjemme)",
-        "hint_en": "Location adverb (where? hjemme)"
+        "hint_ru": "Наречие (место)",
+        "hint_uk": "Прислівник (місце)",
+        "hint_en": "Adverb (place)"
       },
       {
-        "nb": "Er det noen ___ når budet ringer på døra?",
+        "nb": "Barna må bli ___ i dag.",
         "answer": "hjemme",
-        "hint_ru": "Наречие (hjemme)",
-        "hint_uk": "Прислівник (hjemme)",
-        "hint_en": "Adverb (hjemme)"
+        "hint_ru": "Наречие (место)",
+        "hint_uk": "Прислівник (місце)",
+        "hint_en": "Adverb (place)"
       }
     ],
     "status": "draft",
@@ -13044,26 +13044,26 @@
     },
     "examples": [
       {
-        "nb": "Skolebarna gleder seg til å sykle hjem etter siste time.",
-        "ru": "Школьники рады ехать на велосипеде домой после последнего урока.",
-        "uk": "Школярі раді їхати велосипедом додому після останнього уроку.",
-        "en": "The schoolchildren look forward to cycling home after the last period."
+        "nb": "Nå må jeg gå hjem.",
+        "ru": "Сейчас я должен идти домой.",
+        "uk": "Зараз я маю йти додому.",
+        "en": "Now I must go home."
       }
     ],
     "cloze": [
       {
-        "nb": "Klokka fire tar pendlere bussen ___ til familien sin.",
+        "nb": "Toget kjører oss ___ nå.",
         "answer": "hjem",
-        "hint_ru": "Наречие направления (hvorhen? hjem)",
-        "hint_uk": "Прислівник напрямку (hvorhen? hjem)",
-        "hint_en": "Directional adverb (whither? hjem)"
+        "hint_ru": "Наречие (направление)",
+        "hint_uk": "Прислівник (напрямок)",
+        "hint_en": "Adverb (direction)"
       },
       {
-        "nb": "Etter en lang arbeidsdag ville han bare reise rett ___.",
+        "nb": "Kommer du snart ___?",
         "answer": "hjem",
-        "hint_ru": "Наречие направления (hjem)",
-        "hint_uk": "Прислівник напрямку (hjem)",
-        "hint_en": "Directional adverb (hjem)"
+        "hint_ru": "Наречие (направление)",
+        "hint_uk": "Прислівник (напрямок)",
+        "hint_en": "Adverb (direction)"
       }
     ],
     "status": "draft",
@@ -13646,26 +13646,26 @@
     },
     "examples": [
       {
-        "nb": "Morgensolen lyste vakkert inn gjennom de store stuevinduene.",
-        "ru": "Утреннее солнце красиво светило сквозь большие окна гостиной.",
-        "uk": "Ранкове сонце гарно світило крізь великі вікна вітальні.",
-        "en": "The morning sun shone beautifully in through the large living room windows."
+        "nb": "Lyset skinner gjennom det store vinduet.",
+        "ru": "Свет светит сквозь большое окно.",
+        "uk": "Світло світить крізь велике вікно.",
+        "en": "The light shines through the large window."
       }
     ],
     "cloze": [
       {
-        "nb": "Turgåerne vandret forsiktig ___ den tette furuskogen i tåka.",
+        "nb": "Han gikk ___ den mørke gangen.",
         "answer": "gjennom",
-        "hint_ru": "Предлог «сквозь / через» (gjennom)",
-        "hint_uk": "Прийменник «крізь / через» (gjennom)",
-        "hint_en": "Preposition meaning 'through' (gjennom)"
+        "hint_ru": "Предлог",
+        "hint_uk": "Прийменник",
+        "hint_en": "Preposition"
       },
       {
-        "nb": "Toget dundret i full fart ___ den lange fjelltunnelen.",
+        "nb": "Vi kjørte bil ___ en lang tunnel.",
         "answer": "gjennom",
-        "hint_ru": "Предлог (gjennom)",
-        "hint_uk": "Прийменник (gjennom)",
-        "hint_en": "Preposition (gjennom)"
+        "hint_ru": "Предлог",
+        "hint_uk": "Прийменник",
+        "hint_en": "Preposition"
       }
     ],
     "status": "draft",

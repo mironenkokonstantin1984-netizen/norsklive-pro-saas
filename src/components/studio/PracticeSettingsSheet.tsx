@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
+import { chooseVoice, speakNorwegian } from '../../lib/speech';
+import { useNorwegianVoices } from '../../lib/useNorwegianVoices';
 import type { ExaminerTempo, PracticePrefs, TextSizeStep } from '../../lib/prefs';
 
 export interface PracticeSettingsSheetProps {
@@ -18,6 +20,7 @@ export function PracticeSettingsSheet({
   onClose
 }: PracticeSettingsSheetProps) {
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+  const voice = useNorwegianVoices();
 
   useEffect(() => {
     if (!open) {
@@ -154,7 +157,53 @@ export function PracticeSettingsSheet({
             </div>
           </div>
 
-          {/* 3. Examiner subtitles switch */}
+          {/* 3. Examiner voice */}
+          <div className="comfort-setting-row" id="voiceRow">
+            <span className="t-callout" id="voiceLabel">
+              Голос экзаменатора
+            </span>
+            {voice.status === 'none' ? (
+              <p className="t-caption">Норвежский голос не найден на этом устройстве.</p>
+            ) : voice.status === 'loading' ? (
+              <p className="t-caption">Ищем голоса…</p>
+            ) : (
+              <>
+                <p className="t-caption" id="voiceCurrent">
+                  {voice.selectedName}
+                </p>
+                {voice.voices.length > 1 && (
+                  <div className="voice-options" role="radiogroup" aria-labelledby="voiceLabel">
+                    {voice.voices.map((v) => (
+                      <button
+                        key={v.name}
+                        type="button"
+                        role="radio"
+                        aria-checked={v.name === voice.selectedName}
+                        className={`pill-btn ${v.name === voice.selectedName ? 'active' : ''}`}
+                        onClick={() => chooseVoice(v.name)}
+                      >
+                        {v.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                <button
+                  type="button"
+                  id="voiceTestBtn"
+                  className="btn-outline"
+                  onClick={() =>
+                    void speakNorwegian('Hei, jeg heter Nora. Hvordan har du det i dag?', {
+                      rate: prefs.tempo
+                    })
+                  }
+                >
+                  Проверить голос
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* 4. Examiner subtitles switch */}
           <div className="comfort-setting-row comfort-switch-row">
             <span className="t-callout" id="subtitlesSwitchLabel">
               Субтитры экзаменатора

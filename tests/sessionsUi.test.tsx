@@ -10,7 +10,7 @@ import { writePathPrefs } from '../src/lib/path/storage';
 describe('M1b-2b-2 UI tests: session restore, daily-limit card, #plans block, and FirstRun step 1 greeting', () => {
   beforeEach(() => {
     window.localStorage.clear();
-    vi.spyOn(speechModule, 'speakNorwegian').mockImplementation(() => {});
+    vi.spyOn(speechModule, 'speakNorwegian').mockImplementation(async () => {});
   });
 
   afterEach(() => {

@@ -9,7 +9,7 @@ import { ScoreBar, parseCefrLevel } from '../src/components/studio/ScoreBar';
 import { ChatPanel } from '../src/components/studio/ChatPanel';
 import { StudioPage } from '../src/components/studio/StudioPage';
 import { PREFS_STORAGE_KEY } from '../src/lib/prefs';
-import { speakNorwegian } from '../src/lib/speech';
+import { speakNorwegian, resetVoiceCache, resetVoiceState } from '../src/lib/speech';
 import type { Correction } from '../src/server/schemas';
 
 const sampleCorrection: Correction = {
@@ -91,11 +91,7 @@ describe('M1c-2 components & flows', () => {
         natural_bokmal: 'Jeg sparer tid.'
       };
       const { container } = render(
-        <CorrectionCard
-          correction={identicalCorrection}
-          olderCorrections={[]}
-          onSpeak={vi.fn()}
-        />
+        <CorrectionCard correction={identicalCorrection} olderCorrections={[]} onSpeak={vi.fn()} />
       );
 
       expect(container.querySelector('del')).toBeNull();
@@ -262,7 +258,7 @@ describe('M1c-2 components & flows', () => {
       expect(container.querySelector('mark.subtitle-word-active')).toBeNull();
     });
 
-    it('works without boundary events: (a) no window.speechSynthesis and (b) mocked speechSynthesis that fires onend without onboundary, rendering without <mark>', () => {
+    it('works without boundary events: (a) no window.speechSynthesis and (b) mocked speechSynthesis that fires onend without onboundary, rendering without <mark>', async () => {
       const originalSpeechSynthesis = window.speechSynthesis;
       const originalUtterance = window.SpeechSynthesisUtterance;
 
@@ -275,12 +271,12 @@ describe('M1c-2 components & flows', () => {
         });
         const onBoundaryA = vi.fn();
         const onEndA = vi.fn();
-        expect(() =>
+        await expect(
           speakNorwegian('Hei, hvordan går det?', {
             onBoundary: onBoundaryA,
             onEnd: onEndA
           })
-        ).not.toThrow();
+        ).resolves.toBeUndefined();
         expect(onBoundaryA).not.toHaveBeenCalled();
 
         // (b) Mocked speechSynthesis whose utterance never fires onboundary, only onend
@@ -306,7 +302,7 @@ describe('M1c-2 components & flows', () => {
           writable: true,
           value: {
             cancel: vi.fn(),
-            getVoices: () => [],
+            getVoices: () => [{ name: 'Nora', lang: 'nb-NO', localService: true }],
             speak: (utter: MockUtterance) => {
               utter.onstart?.();
               // Never fires utter.onboundary!
@@ -317,12 +313,14 @@ describe('M1c-2 components & flows', () => {
 
         const onBoundaryB = vi.fn();
         const onEndB = vi.fn();
-        expect(() =>
+        resetVoiceCache();
+        resetVoiceState();
+        await expect(
           speakNorwegian('Hei, hvordan går det?', {
             onBoundary: onBoundaryB,
             onEnd: onEndB
           })
-        ).not.toThrow();
+        ).resolves.toBeUndefined();
         expect(onBoundaryB).not.toHaveBeenCalled();
         expect(onEndB).toHaveBeenCalledTimes(1);
 

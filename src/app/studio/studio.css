@@ -1813,3 +1813,36 @@ body {
   color: var(--ink);
   text-align: center;
 }
+
+/* VOICE NOTICE AND VOICE PICKER (#51) */
+.voice-notice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: var(--space-3) var(--space-4) 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--primary-soft);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  color: var(--ink);
+}
+
+.voice-notice-help {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: var(--space-4);
+}
+
+.voice-notice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.voice-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}

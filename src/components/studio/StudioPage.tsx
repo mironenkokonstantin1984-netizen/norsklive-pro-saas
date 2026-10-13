@@ -35,6 +35,7 @@ import { ChatPanel } from './ChatPanel';
 import { GlossaryPanel } from './GlossaryPanel';
 import { ScoreBar, parseCefrLevel } from './ScoreBar';
 import { PracticeSettingsSheet } from './PracticeSettingsSheet';
+import { VoiceNotice } from './VoiceNotice';
 import {
   DEFAULT_MIC_STATUS,
   getL1Text,
@@ -245,6 +246,8 @@ export function StudioPage({
         onToggleMaterials={handleToggleMaterials}
         onSwitchModule={switchModule}
       />
+
+      <VoiceNotice />
 
       <main className={`studio-layout ${materialsOpen ? 'materials-open' : ''}`}>
         <h1 className="sr-only" id="studioHeading">

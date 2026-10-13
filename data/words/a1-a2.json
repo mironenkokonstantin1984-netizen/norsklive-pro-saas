@@ -1901,22 +1901,22 @@
     },
     "examples": [
       {
-        "nb": "Pasienten bestilte time hos en dyktig lege på helsestasjonen.",
-        "ru": "Пациент записался на приём к опытному врачу в медицинском центре.",
-        "uk": "Пацієнт записався на прийом до досвідченого лікаря в медичному центрі.",
-        "en": "The patient booked an appointment with a skilled doctor at the health center."
+        "nb": "Hun vil snakke med en lege.",
+        "ru": "Она хочет поговорить с врачом.",
+        "uk": "Вона хоче поговорити з лікарем.",
+        "en": "She wants to talk with a doctor."
       }
     ],
     "cloze": [
       {
-        "nb": "Hvis smertene vedvarer, bør du oppsøke en ___ snarest.",
+        "nb": "Mannen går til en ___.",
         "answer": "lege",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Etter en grundig undersøkelse skrev ___ ut en resept.",
+        "nb": "I går hjalp ___ meg.",
         "answer": "legen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1948,22 +1948,22 @@
     },
     "examples": [
       {
-        "nb": "Ambulansen kjørte den skadde pasienten til et regionalt sykehus.",
-        "ru": "Скорая помощь отвезла травмированного пациента в региональную больницу.",
-        "uk": "Швидка допомога відвезла травмованого пацієнта до регіональної лікарні.",
-        "en": "The ambulance drove the injured patient to a regional hospital."
+        "nb": "Han jobber på et sykehus.",
+        "ru": "Он работает в больнице.",
+        "uk": "Він працює в лікарні.",
+        "en": "He works at a hospital."
       }
     ],
     "cloze": [
       {
-        "nb": "Byen trenger et nytt og moderne ___ med større kapasitet.",
+        "nb": "Byen har et moderne ___.",
         "answer": "sykehus",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kirurgen jobbet hele natta på ___ under beredskapen.",
+        "nb": "Bilen kjørte fort til ___.",
         "answer": "sykehuset",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -1995,22 +1995,22 @@
     },
     "examples": [
       {
-        "nb": "Sykepleieren tok imot en urolig pasient på venteværelset.",
-        "ru": "Медсестра приняла беспокойного пациента в приёмной.",
-        "uk": "Медсестра прийняла схвильованого пацієнта в приймальні.",
-        "en": "The nurse received an anxious patient in the waiting room."
+        "nb": "En pasient venter i gangen.",
+        "ru": "Пациент ждет в коридоре.",
+        "uk": "Пацієнт чекає в коридорі.",
+        "en": "A patient is waiting in the hallway."
       }
     ],
     "cloze": [
       {
-        "nb": "Fastlegen undersøker en ny ___ hver halvtime.",
+        "nb": "Legen snakket med en ___.",
         "answer": "pasient",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Legen forklarte behandlingsplanen nøye til ___.",
+        "nb": "Søsteren passer godt på ___.",
         "answer": "pasienten",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2042,22 +2042,22 @@
     },
     "examples": [
       {
-        "nb": "Farmasøyten fant fram en virksom medisin mot pollenallergi.",
-        "ru": "Фармацевт подобрал эффективное лекарство от аллергии на пыльцу.",
-        "uk": "Фармацевт підібрав ефективні ліки проти алергії на пилок.",
-        "en": "The pharmacist found an effective medication for pollen allergy."
+        "nb": "Jeg må ta min medisin.",
+        "ru": "Я должен принять свое лекарство.",
+        "uk": "Я маю прийняти свої ліки.",
+        "en": "I must take my medicine."
       }
     ],
     "cloze": [
       {
-        "nb": "Legen foreskrev en beroligende ___ mot de sterke smertene.",
+        "nb": "Legen ga meg ny ___.",
         "answer": "medisin",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Husk å ta ___ sammen med et glass vann etter maten.",
+        "nb": "Husk å ta ___ nå.",
         "answer": "medisinen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2089,22 +2089,22 @@
     },
     "examples": [
       {
-        "nb": "Jeg går til kontroll hos en hyggelig tannlege en gang i året.",
-        "ru": "Я хожу на осмотр к приятному стоматологу раз в год.",
-        "uk": "Я ходжу на огляд до приємного стоматолога раз на рік.",
-        "en": "I go for a check-up with a pleasant dentist once a year."
+        "nb": "Hun har time hos tannlege.",
+        "ru": "У нее запись к стоматологу.",
+        "uk": "У неї запис до стоматолога.",
+        "en": "She has an appointment with a dentist."
       }
     ],
     "cloze": [
       {
-        "nb": "Når du har tannpine, må du snarest bestille time hos en ___.",
+        "nb": "I morgen skal jeg til ___.",
         "answer": "tannlege",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Etter boringen anbefalte ___ å bruke tanntråd daglig.",
+        "nb": "Hun smilte vennlig til ___.",
         "answer": "tannlegen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2136,22 +2136,22 @@
     },
     "examples": [
       {
-        "nb": "Pasienten har bestilt en time hos fysioterapeuten på fredag.",
-        "ru": "Пациент записался на приём к физиотерапевту на пятницу.",
-        "uk": "Пацієнт записався на прийом до фізіотерапевта на п'ятницю.",
-        "en": "The patient has booked an appointment with the physiotherapist on Friday."
+        "nb": "Jeg ventet i en time.",
+        "ru": "Я ждал один час.",
+        "uk": "Я чекав одну годину.",
+        "en": "I waited for an hour."
       }
     ],
     "cloze": [
       {
-        "nb": "Togreisen fra Oslo til Drammen tar omtrent en ___.",
+        "nb": "Toget kommer om en ___.",
         "answer": "time",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Husk å møte opp ti minutter før ___ starter hos spesialisten.",
+        "nb": "Nå er ___ snart over.",
         "answer": "timen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2183,22 +2183,22 @@
     },
     "examples": [
       {
-        "nb": "Idrettsutøveren kjente en stikkende smerte i kneet under treningen.",
-        "ru": "Спортсмен почувствовал колющую боль в колене во время тренировки.",
-        "uk": "Спортсмен відчув колючий біль у коліні під час тренування.",
-        "en": "The athlete felt a sharp pain in his knee during training."
+        "nb": "Pasienten har en sterk smerte i brystet.",
+        "ru": "У пациента сильная боль в груди.",
+        "uk": "У пацієнта сильний біль у грудях.",
+        "en": "The patient has a sharp pain in the chest."
       }
     ],
     "cloze": [
       {
-        "nb": "Pasienten beskrev en intens ___ i ryggen til legen.",
+        "nb": "Han kjente en plutselig ___ i kneet.",
         "answer": "smerte",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Etter inntak av smertestillende avtok ___ gradvis.",
+        "nb": "Tabletten tok bort den vonde ___.",
         "answer": "smerten",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2228,22 +2228,22 @@
     },
     "examples": [
       {
-        "nb": "Barnet ble hjemme fra barnehagen med høy feber i går.",
-        "ru": "Ребёнок остался дома из детского сада с высокой температурой вчера.",
-        "uk": "Дитина залишилася вдома з дитячого садка з високою температурою вчора.",
-        "en": "The child stayed home from kindergarten with a high fever yesterday."
+        "nb": "Barnet har høy feber nå.",
+        "ru": "У ребенка сейчас высокая температура.",
+        "uk": "У дитини зараз висока температура.",
+        "en": "The child has a high fever now."
       }
     ],
     "cloze": [
       {
-        "nb": "Termometeret viste at den syke jenta hadde en lett ___.",
+        "nb": "Jeg tror jeg har ___.",
         "answer": "feber",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Legen ba foreldrene følge nøye med på om ___ stiger.",
+        "nb": "Etter hvile gikk ___ ned.",
         "answer": "feberen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2275,22 +2275,22 @@
     },
     "examples": [
       {
-        "nb": "Legen sendte en elektronisk resept direkte til apoteket.",
-        "ru": "Врач отправил электронный рецепт напрямую в аптеку.",
-        "uk": "Лікар надіслав електронний рецепт безпосередньо до аптеки.",
-        "en": "The doctor sent an electronic prescription directly to the pharmacy."
+        "nb": "Legen skrev ut en ny resept i går.",
+        "ru": "Врач выписал новый рецепт вчера.",
+        "uk": "Лікар виписав новий рецепт вчора.",
+        "en": "The doctor wrote a new prescription yesterday."
       }
     ],
     "cloze": [
       {
-        "nb": "Antibiotika kan bare kjøpes mot en gyldig ___ fra lege.",
+        "nb": "Jeg trenger en ___ på denne medisinen.",
         "answer": "resept",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Apotekteknikeren sjekket ___ i det nasjonale registeret.",
+        "nb": "Apoteket har allerede mottatt ___ din.",
         "answer": "resepten",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2322,22 +2322,22 @@
     },
     "examples": [
       {
-        "nb": "Kunden gikk til et døgnåpent apotek for å hente smertestillende.",
-        "ru": "Покупатель пошёл в круглосуточную аптеку, чтобы забрать обезболивающее.",
-        "uk": "Покупець пішов до цілодобової аптеки, щоб забрати знеболювальне.",
-        "en": "The customer went to a 24-hour pharmacy to pick up painkillers."
+        "nb": "Det ligger et apotek her.",
+        "ru": "Здесь находится аптека.",
+        "uk": "Тут знаходиться аптека.",
+        "en": "There is a pharmacy here."
       }
     ],
     "cloze": [
       {
-        "nb": "I kjøpesenteret ligger det et velutstyrt ___ ved inngangen.",
+        "nb": "Jeg må finne et ___.",
         "answer": "apotek",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Vakten åpnet døra til ___ klokka ni om morgenen.",
+        "nb": "Hun kjøpte såpe på ___.",
         "answer": "apoteket",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2369,22 +2369,22 @@
     },
     "examples": [
       {
-        "nb": "Regelmessig mosjon styrker en sunn kropp og gir overskudd.",
-        "ru": "Регулярные упражнения укрепляют здоровое тело и дают заряд энергии.",
-        "uk": "Регулярні вправи зміцнюють здорове тіло й додають енергії.",
-        "en": "Regular exercise strengthens a healthy body and provides extra energy."
+        "nb": "En sunn kropp trenger mat.",
+        "ru": "Здоровому телу нужна еда.",
+        "uk": "Здоровому тілу потрібна їжа.",
+        "en": "A healthy body needs food."
       }
     ],
     "cloze": [
       {
-        "nb": "Trening og sunt kosthold holder en voksen ___ i god form.",
+        "nb": "Trening gir en sterk ___.",
         "answer": "kropp",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Etter den lange fjellturen verket det i hele ___.",
+        "nb": "Han kjente varmen i ___.",
         "answer": "kroppen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2416,22 +2416,22 @@
     },
     "examples": [
       {
-        "nb": "Syklisten tok på seg en hjelm for å beskytte et sårbart hode.",
-        "ru": "Велосипедист надел шлем, чтобы защитить уязвимую голову.",
-        "uk": "Велосипедист одягнув шолом, щоб захистити вразливу голову.",
-        "en": "The cyclist put on a helmet to protect a vulnerable head."
+        "nb": "Hun ristet på sitt hode.",
+        "ru": "Она покачала головой.",
+        "uk": "Вона похитала головою.",
+        "en": "She shook her head."
       }
     ],
     "cloze": [
       {
-        "nb": "Luen var litt for liten for et stort ___.",
+        "nb": "Fuglen har et lite ___.",
         "answer": "hode",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Pasienten klaget over intens verkende smerte i ___.",
+        "nb": "Jeg har vondt i ___.",
         "answer": "hodet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2463,22 +2463,22 @@
     },
     "examples": [
       {
-        "nb": "Legen klemte forsiktig på pasientens ømme mage under undersøkelsen.",
-        "ru": "Врач осторожно ощупал болезненный живот пациента во время осмотра.",
-        "uk": "Лікар обережно промацав болісний живіт пацієнта під час огляду.",
-        "en": "The doctor gently pressed the patient's tender stomach during the examination."
+        "nb": "Han spiste på tom mage.",
+        "ru": "Он поел на голодный желудок.",
+        "uk": "Він поїв на голодний шлунок.",
+        "en": "He ate on an empty stomach."
       }
     ],
     "cloze": [
       {
-        "nb": "Det er ubehagelig å løpe med en altfor full ___.",
+        "nb": "Barnet har en rund ___.",
         "answer": "mage",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Etter det store måltidet kjente han at ___ var mett.",
+        "nb": "Hun har vondt i ___.",
         "answer": "magen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2510,22 +2510,22 @@
     },
     "examples": [
       {
-        "nb": "Styrketrening bidrar til å bygge en sterk og stabil rygg.",
-        "ru": "Силовые тренировки помогают построить крепкую и стабильную спину.",
-        "uk": "Силові тренування допомагають сформувати міцну та стабільну спину.",
-        "en": "Strength training helps build a strong and stable back."
+        "nb": "Han bar sekken på rygg.",
+        "ru": "Он нес рюкзак на спине.",
+        "uk": "Він ніс рюкзак на спині.",
+        "en": "He carried the backpack on his back."
       }
     ],
     "cloze": [
       {
-        "nb": "Tungt løftearbeid kan skade en utrent ___ over tid.",
+        "nb": "Stolen gir en god ___.",
         "answer": "rygg",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kontorarbeideren fikk vondt i ___ av å sitte stille hele dagen.",
+        "nb": "Jeg har vondt i ___.",
         "answer": "ryggen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2557,22 +2557,22 @@
     },
     "examples": [
       {
-        "nb": "Legen la en gipsbandasje på en brukket arm etter uhellet.",
-        "ru": "Врач наложил гипсовую повязку на сломанную руку после несчастного случая.",
-        "uk": "Лікар наклав гіпсову пов'язку на зламану руку після нещасного випадку.",
-        "en": "The doctor put a plaster cast on a broken arm after the accident."
+        "nb": "Han løftet en tung arm.",
+        "ru": "Он поднял тяжелую руку.",
+        "uk": "Він підняв важку руку.",
+        "en": "He lifted a heavy arm."
       }
     ],
     "cloze": [
       {
-        "nb": "Tennisspilleren strakk en muskel i sin høyre ___.",
+        "nb": "Apen har en lang ___.",
         "answer": "arm",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Sykepleieren satte vaksinen forsiktig inn i ___.",
+        "nb": "Legen sjekket den vonde ___.",
         "answer": "armen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2604,22 +2604,22 @@
     },
     "examples": [
       {
-        "nb": "Skiløperen landet forkjært og skadet et bein i bakken.",
-        "ru": "Лыжник неудачно приземлился и повредил ногу на склоне.",
-        "uk": "Лижник невдало приземлився і пошкодив ногу на схилі.",
-        "en": "The skier landed awkwardly and injured a leg on the slope."
+        "nb": "Hunden gnager på et bein.",
+        "ru": "Собака грызет кость.",
+        "uk": "Собака гризе кістку.",
+        "en": "The dog gnaws on a bone."
       }
     ],
     "cloze": [
       {
-        "nb": "Røntgenbildet viste et lite brudd i et tynt ___.",
+        "nb": "Bordet mangler et fjerde ___.",
         "answer": "bein",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Pasienten haltet litt på det venstre ___ etter fallet.",
+        "nb": "Han falt og skadet ___.",
         "answer": "beinet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2651,22 +2651,22 @@
     },
     "examples": [
       {
-        "nb": "Varm te med honning lindrer en sår hals ved forkjølelse.",
-        "ru": "Горячий чай с мёдом облегчает боль в воспалённом горле при простуде.",
-        "uk": "Гарячий чай із медом заспокоює біль у запаленому горлі при застуді.",
-        "en": "Warm tea with honey soothes a sore throat during a cold."
+        "nb": "Sjiraffen har en lang hals.",
+        "ru": "У жирафа длинная шея.",
+        "uk": "У жирафа довга шия.",
+        "en": "The giraffe has a long neck."
       }
     ],
     "cloze": [
       {
-        "nb": "Legen lyste med lykt for å inspisere en rød ___.",
+        "nb": "Fuglen strakte en hvit ___.",
         "answer": "hals",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Om vinteren knyter jeg alltid et ullskjerf rundt ___.",
+        "nb": "Jeg har vondt i ___.",
         "answer": "halsen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2696,22 +2696,22 @@
     },
     "examples": [
       {
-        "nb": "Åtte timers uforstyrret søvn er avgjørende for mental helse.",
-        "ru": "Восемь часов непрерывного сна имеют решающее значение для психического здоровья.",
-        "uk": "Вісім годин безперервного сну мають вирішальне значення для психічного здоров'я.",
-        "en": "Eight hours of undisturbed sleep is crucial for mental health."
+        "nb": "God søvn gir mer energi.",
+        "ru": "Хороший сон дает больше энергии.",
+        "uk": "Гарний сон дає більше енергії.",
+        "en": "Good sleep gives more energy."
       }
     ],
     "cloze": [
       {
-        "nb": "Etter en slitsom arbeidsdag trengte han en god og dyp ___.",
+        "nb": "Kroppen trenger nok dyp ___.",
         "answer": "søvn",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kaffe sent på kvelden kan forstyrre ___ i nattetimene.",
+        "nb": "Bråket vekket meg fra ___.",
         "answer": "søvnen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2741,22 +2741,22 @@
     },
     "examples": [
       {
-        "nb": "Mange innbyggere tar bevisste grep for å ivareta ei god helse.",
-        "ru": "Многие жители предпринимают осознанные шаги для поддержания хорошего здоровья.",
-        "uk": "Багато жителів роблять свідомі кроки для підтримки доброго здоров'я.",
-        "en": "Many residents take conscious steps to maintain good health."
+        "nb": "God helse er veldig viktig.",
+        "ru": "Хорошее здоровье очень важно.",
+        "uk": "Гарне здоров'я дуже важливе.",
+        "en": "Good health is very important."
       }
     ],
     "cloze": [
       {
-        "nb": "Frisk luft og grønnsaker bidrar til ei sterk ___ i hverdagen.",
+        "nb": "Frukt gir deg god ___.",
         "answer": "helse",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Han sluttet å røyke for å passe bedre på ___.",
+        "nb": "Han passer godt på ___.",
         "answer": "helsa",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2788,22 +2788,22 @@
     },
     "examples": [
       {
-        "nb": "Legen ba meg svelge en tablett med rikelig med væske.",
-        "ru": "Врач попросил меня проглотить таблетку с большим количеством жидкости.",
-        "uk": "Лікар попросив мене проковтнути таблетку з великою кількістю рідини.",
-        "en": "The doctor asked me to swallow a pill with plenty of fluids."
+        "nb": "Ta en tablett mot feber.",
+        "ru": "Прими таблетку от температуры.",
+        "uk": "Прийми таблетку від температури.",
+        "en": "Take a tablet for fever."
       }
     ],
     "cloze": [
       {
-        "nb": "Pasienten tok en smertestillende ___ rett før leggetid.",
+        "nb": "Legen ga ham en ___.",
         "answer": "tablett",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Apotekeren forklarte at ___ skal tas sammen med et måltid.",
+        "nb": "Han svelget ___ med vann.",
         "answer": "tabletten",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -7952,26 +7952,26 @@
     },
     "examples": [
       {
-        "nb": "Babyen sover fredelig i senga si etter kveldsmaten.",
-        "ru": "Малыш мирно спит в своей кроватке после ужина.",
-        "uk": "Малюк мирно спить у своєму ліжечку після вечері.",
-        "en": "The baby sleeps peacefully in its bed after supper."
+        "nb": "Barna pleier å sove tidlig.",
+        "ru": "Дети обычно спят рано.",
+        "uk": "Діти зазвичай сплять рано.",
+        "en": "The children usually sleep early."
       }
     ],
     "cloze": [
       {
-        "nb": "Pasienten ___ uavbrutt i ti timer etter operasjonen.",
+        "nb": "I natt ___ jeg godt.",
         "answer": "sov",
-        "hint_ru": "Прошедшее время (preteritum: sov)",
-        "hint_uk": "Минулий час (preteritum: sov)",
-        "hint_en": "Past tense (preteritum: sov)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Kroppen trenger hvile, så det er viktig å ___ nok.",
+        "nb": "Nå må du gå og ___.",
         "answer": "sove",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -7998,26 +7998,26 @@
     },
     "examples": [
       {
-        "nb": "Turgåeren hviler på en benk i parken etter den lange spaserturen.",
-        "ru": "Турист отдыхает на скамейке в парке после долгой прогулки.",
-        "uk": "Мандрівник відпочиває на лавці в парку після довгої прогулянки.",
-        "en": "The hiker rests on a bench in the park after the long walk."
+        "nb": "Jeg vil hvile litt nå.",
+        "ru": "Я хочу отдохнуть немного сейчас.",
+        "uk": "Я хочу відпочити трохи зараз.",
+        "en": "I want to rest a little now."
       }
     ],
     "cloze": [
       {
-        "nb": "Skiløperen ___ i tjue minutter før neste etappe.",
+        "nb": "Etter turen ___ de lenge.",
         "answer": "hvilte",
-        "hint_ru": "Прошедшее время (preteritum: hvilte)",
-        "hint_uk": "Минулий час (preteritum: hvilte)",
-        "hint_en": "Past tense (preteritum: hvilte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Legen ba pasienten om å legge seg ned og ___.",
+        "nb": "Pasienten trenger å ___ mye.",
         "answer": "hvile",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8044,26 +8044,26 @@
     },
     "examples": [
       {
-        "nb": "Hun føler seg mye mer opplagt etter en sunn frokost.",
-        "ru": "Она чувствует себя намного бодрее после здорового завтрака.",
-        "uk": "Вона почувається набагато бадьорішою після здорового сніданку.",
-        "en": "She feels much more energized after a healthy breakfast."
+        "nb": "Jeg føler meg mye bedre.",
+        "ru": "Я чувствую себя намного лучше.",
+        "uk": "Я почуваюся значно краще.",
+        "en": "I feel much better."
       }
     ],
     "cloze": [
       {
-        "nb": "Han ___ seg svimmel da han reiste seg brått opp fra stolen.",
+        "nb": "I går ___ han seg syk.",
         "answer": "følte",
-        "hint_ru": "Прошедшее время (preteritum: følte)",
-        "hint_uk": "Минулий час (preteritum: følte)",
-        "hint_en": "Past tense (preteritum: følte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det er helt normalt å ___ seg litt nervøs før en muntlig prøve.",
+        "nb": "Det er godt å ___ glede.",
         "answer": "føle",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8090,26 +8090,26 @@
     },
     "examples": [
       {
-        "nb": "Pasienten hoster tørt på grunn av den kalde vinterlufta.",
-        "ru": "Пациент сухо кашляет из-за холодного зимнего воздуха.",
-        "uk": "Пацієнт сухо кашляє через холодне зимове повітря.",
-        "en": "The patient coughs dryly because of the cold winter air."
+        "nb": "Mannen hoster veldig mye nå.",
+        "ru": "Мужчина кашляет очень сильно сейчас.",
+        "uk": "Чоловік кашляє дуже сильно зараз.",
+        "en": "The man coughs very much now."
       }
     ],
     "cloze": [
       {
-        "nb": "Barnet ___ mye gjennom natta og trengte hostedempende saft.",
+        "nb": "Barnet ___ hele natta i går.",
         "answer": "hostet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Husk å holde deg for munnen hvis du må ___.",
+        "nb": "Han begynte å ___ høyt.",
         "answer": "hoste",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8136,26 +8136,26 @@
     },
     "examples": [
       {
-        "nb": "Mange mosjonister trener styrke og kondisjon tre ganger i uka.",
-        "ru": "Многие любители физкультуры тренируют силу и выносливость трижды в неделю.",
-        "uk": "Багато фізкультурників тренують силу й витривалість тричі на тиждень.",
-        "en": "Many fitness enthusiasts train strength and cardio three times a week."
+        "nb": "Vi liker å trene sammen.",
+        "ru": "Нам нравится тренироваться вместе.",
+        "uk": "Нам подобається тренуватися разом.",
+        "en": "We like to train together."
       }
     ],
     "cloze": [
       {
-        "nb": "Ungdomslaget ___ i idrettshallen i to timer i går.",
+        "nb": "I fjor ___ hun hver uke.",
         "answer": "trente",
-        "hint_ru": "Прошедшее время (preteritum: trente)",
-        "hint_uk": "Минулий час (preteritum: trente)",
-        "hint_en": "Past tense (preteritum: trente)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Legen oppfordrer eldre til å ___ balanse regelmessig.",
+        "nb": "Legen ber meg om å ___.",
         "answer": "trene",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8182,26 +8182,26 @@
     },
     "examples": [
       {
-        "nb": "Familien spiser en næringsrik middag sammen klokka fem.",
-        "ru": "Семья вместе ест сытный ужин в пять часов.",
-        "uk": "Родина разом їсть ситну вечерю о п'ятій годині.",
-        "en": "The family eats a nutritious dinner together at five o'clock."
+        "nb": "Vi må spise sunn mat.",
+        "ru": "Мы должны есть здоровую еду.",
+        "uk": "Ми маємо їсти здорову їжу.",
+        "en": "We must eat healthy food."
       }
     ],
     "cloze": [
       {
-        "nb": "Gjestene ___ fersk laks og grønnsaker i bryllupet.",
+        "nb": "Til lunsj ___ jeg et eple.",
         "answer": "spiste",
-        "hint_ru": "Прошедшее время (preteritum: spiste)",
-        "hint_uk": "Минулий час (preteritum: spiste)",
-        "hint_en": "Past tense (preteritum: spiste)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Ernæringsfysiologen råder oss til å ___ mer fiber og bær.",
+        "nb": "Husk å ___ litt mat.",
         "answer": "spise",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8228,26 +8228,26 @@
     },
     "examples": [
       {
-        "nb": "Idrettsutøverne drikker rikelig med vann under den varme sommertreningen.",
-        "ru": "Спортсмены пьют много воды во время жаркой летней тренировки.",
-        "uk": "Спортсмени п'ють багато води під час спекотного літнього тренування.",
-        "en": "The athletes drink plenty of water during the hot summer workout."
+        "nb": "Katta liker å drikke melk.",
+        "ru": "Кошка любит пить молоко.",
+        "uk": "Кішка любить пити молоко.",
+        "en": "The cat likes to drink milk."
       }
     ],
     "cloze": [
       {
-        "nb": "Vennene ___ varm te foran peisen etter skituren.",
+        "nb": "I morges ___ vi varm te.",
         "answer": "drakk",
-        "hint_ru": "Прошедшее время (preteritum: drakk)",
-        "hint_uk": "Минулий час (preteritum: drakk)",
-        "hint_en": "Past tense (preteritum: drakk)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Når man har feber, er det lurt å ___ mye væske.",
+        "nb": "Du må huske å ___ vann.",
         "answer": "drikke",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8274,26 +8274,26 @@
     },
     "examples": [
       {
-        "nb": "Barna vokser overraskende fort i skolealderen.",
-        "ru": "Дети удивительно быстро растут в школьном возрасте.",
-        "uk": "Діти напрочуд швидко ростуть у шкільному віці.",
-        "en": "The children grow surprisingly fast during school age."
+        "nb": "Barna vokser veldig fort for tiden.",
+        "ru": "Дети растут очень быстро сейчас.",
+        "uk": "Діти ростуть дуже швидко зараз.",
+        "en": "The children are growing very fast these days."
       }
     ],
     "cloze": [
       {
-        "nb": "Tomatplantene i drivhuset ___ kraftig i solskinnet.",
+        "nb": "Treet i hagen ___ mye i fjor.",
         "answer": "vokste",
-        "hint_ru": "Прошедшее время (preteritum: vokste)",
-        "hint_uk": "Минулий час (preteritum: vokste)",
-        "hint_en": "Past tense (preteritum: vokste)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Trærne langs elvekanten fortsetter å ___ i mange år.",
+        "nb": "Blomstene trenger sol for å ___ godt.",
         "answer": "vokse",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -11235,26 +11235,26 @@
     },
     "examples": [
       {
-        "nb": "En syk medarbeider må melde fra til arbeidsgiveren om morgenen.",
-        "ru": "Заболевший сотрудник обязан уведомить работодателя утром.",
-        "uk": "Хворий працівник зобов'язаний повідомити роботодавця вранці.",
-        "en": "A sick employee must notify the employer in the morning."
+        "nb": "Guten er syk i dag.",
+        "ru": "Мальчик болен сегодня.",
+        "uk": "Хлопчик хворий сьогодні.",
+        "en": "The boy is sick today."
       }
     ],
     "cloze": [
       {
-        "nb": "Barnehagen ringte foreldrene fordi de hadde et ___ barn.",
+        "nb": "Barnet følte seg ___ i går.",
         "answer": "sykt",
-        "hint_ru": "Форма среднего рода (nøytrum: sykt)",
-        "hint_uk": "Форма середнього роду (nøytrum: sykt)",
-        "hint_en": "Neuter form (nøytrum: sykt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Sykepleierne på avdelingen tok seg kjærlig av de ___ pasientene.",
+        "nb": "To ___ pasienter ligger i senga.",
         "answer": "syke",
-        "hint_ru": "Определённая форма / множественное число (syke)",
-        "hint_uk": "Означена форма / множина (syke)",
-        "hint_en": "Definite / plural form (syke)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11282,22 +11282,22 @@
     },
     "examples": [
       {
-        "nb": "En frisk spasertur i skogen gir ny energi til hele kroppen.",
-        "ru": "Свежая прогулка по лесу даёт новую энергию всему телу.",
-        "uk": "Свіжа прогулянка лісом додає нової енергії всьому тілу.",
-        "en": "A brisk walk in the forest gives fresh energy to the whole body."
+        "nb": "Hun føler seg helt frisk.",
+        "ru": "Она чувствует себя совершенно здоровой.",
+        "uk": "Вона почувається зовсім здоровою.",
+        "en": "She feels completely healthy."
       }
     ],
     "cloze": [
       {
-        "nb": "Pusten kjentes behagelig da han pustet inn ___ fjelluft.",
+        "nb": "Vi puster inn ___ luft ute.",
         "answer": "frisk",
         "hint_ru": "Форма мужского/женского рода (frisk)",
         "hint_uk": "Форма чоловічого/жіночого роду (frisk)",
         "hint_en": "Masculine/feminine form (frisk)"
       },
       {
-        "nb": "Etter en uke med influensa følte pasienten seg endelig ___ igjen.",
+        "nb": "Etter hvile ble han ___ igjen.",
         "answer": "frisk",
         "hint_ru": "Форма единственного числа (frisk)",
         "hint_uk": "Форма однини (frisk)",
@@ -11329,26 +11329,26 @@
     },
     "examples": [
       {
-        "nb": "Smårollingen gjespet og ble en trøtt unge på kvelden.",
-        "ru": "Малыш зевал и к вечеру стал сонным ребёнком.",
-        "uk": "Малюк позіхав і надвечір став сонною дитиною.",
-        "en": "The toddler yawned and became a sleepy child in the evening."
+        "nb": "Jeg er veldig trøtt nå.",
+        "ru": "Я очень устал сейчас.",
+        "uk": "Я дуже втомлений зараз.",
+        "en": "I am very tired now."
       }
     ],
     "cloze": [
       {
-        "nb": "Etter nattvakten var sykepleieren et uvanlig ___ menneske.",
+        "nb": "Barnet ble ___ etter turen.",
         "answer": "trøtt",
-        "hint_ru": "Форма среднего рода (nøytrum: trøtt)",
-        "hint_uk": "Форма середнього роду (nøytrum: trøtt)",
-        "hint_en": "Neuter form (nøytrum: trøtt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "De ___ sjåførene ble rådet til å ta en pause fra kjøringen.",
+        "nb": "To ___ elever sovnet i timen.",
         "answer": "trøtte",
-        "hint_ru": "Форма множественного числа (flertall: trøtte)",
-        "hint_uk": "Форма множини (flertall: trøtte)",
-        "hint_en": "Plural form (flertall: trøtte)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11376,26 +11376,26 @@
     },
     "examples": [
       {
-        "nb": "Bygningsarbeideren sank ned i sofaen som en sliten mann etter skiftet.",
-        "ru": "Строитель опустился на диван как утомлённый человек после смены.",
-        "uk": "Будівельник опустився на диван як стомлена людина після зміни.",
-        "en": "The construction worker sank into the sofa as a worn-out man after the shift."
+        "nb": "Mannen er sliten etter jobben.",
+        "ru": "Мужчина устал после работы.",
+        "uk": "Чоловік втомився після роботи.",
+        "en": "The man is tired after work."
       }
     ],
     "cloze": [
       {
-        "nb": "Det gamle huset bar preg av et temmelig ___ tak.",
+        "nb": "Huset så litt ___ ut.",
         "answer": "slitent",
-        "hint_ru": "Форма среднего рода (nøytrum: slitent)",
-        "hint_uk": "Форма середнього роду (nøytrum: slitent)",
-        "hint_en": "Neuter form (nøytrum: slitent)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "De ___ turgåerne hvilte føttene sine ved bålet.",
+        "nb": "De kom hjem som ___ helter.",
         "answer": "slitne",
-        "hint_ru": "Форма множественного числа (flertall: slitne)",
-        "hint_uk": "Форма множини (flertall: slitne)",
-        "hint_en": "Plural form (flertall: slitne)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11423,26 +11423,26 @@
     },
     "examples": [
       {
-        "nb": "En sunn livsstil forebygger mange vanlige hjerte- og karsykdommer.",
-        "ru": "Здоровый образ жизни предотвращает многие распространённые сердечно-сосудистые заболевания.",
-        "uk": "Здоровий спосіб життя запобігає багатьом поширеним серцево-судинним захворюванням.",
-        "en": "A healthy lifestyle prevents many common cardiovascular diseases."
+        "nb": "Hun har en sunn livsstil.",
+        "ru": "У нее здоровый образ жизни.",
+        "uk": "У неї здоровий спосіб життя.",
+        "en": "She has a healthy lifestyle."
       }
     ],
     "cloze": [
       {
-        "nb": "Grønnsaker og grovt brød er et udiskutabelt ___ kosthold.",
+        "nb": "Epler er et ___ valg.",
         "answer": "sunt",
-        "hint_ru": "Форма среднего рода (nøytrum: sunt)",
-        "hint_uk": "Форма середнього роду (nøytrum: sunt)",
-        "hint_en": "Neuter form (nøytrum: sunt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Foreldrene legger stor vekt på å servere ___ måltider til barna.",
+        "nb": "De spiser mange ___ måltider.",
         "answer": "sunne",
-        "hint_ru": "Форма множественного числа (flertall: sunne)",
-        "hint_uk": "Форма множини (flertall: sunne)",
-        "hint_en": "Plural form (flertall: sunne)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11470,26 +11470,26 @@
     },
     "examples": [
       {
-        "nb": "Pasienten haltet på grunn av en vond ankel etter overtråkket.",
-        "ru": "Пациент хромал из-за больной лодыжки после подворота стопы.",
-        "uk": "Пацієнт кульгав через болючу щиколотку після підвертання ноги.",
-        "en": "The patient limped due to a sore ankle after twisting it."
+        "nb": "Smaken var ganske vond.",
+        "ru": "Вкус был довольно неприятным.",
+        "uk": "Смак був досить неприємним.",
+        "en": "The taste was quite bad."
       }
     ],
     "cloze": [
       {
-        "nb": "Det gjør fryktelig ___ i kneet når jeg bøyer beinet.",
+        "nb": "Jeg har ___ i kneet.",
         "answer": "vondt",
-        "hint_ru": "Форма среднего рода / наречие (vondt)",
-        "hint_uk": "Форма середнього роду / прислівник (vondt)",
-        "hint_en": "Neuter / adverbial form (vondt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Fysioterapeuten masserte de stive og ___ musklene i skuldrene.",
+        "nb": "Han har to ___ føtter.",
         "answer": "vonde",
-        "hint_ru": "Форма множественного числа (flertall: vonde)",
-        "hint_uk": "Форма множини (flertall: vonde)",
-        "hint_en": "Plural form (flertall: vonde)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",

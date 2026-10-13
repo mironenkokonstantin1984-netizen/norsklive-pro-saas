@@ -21,22 +21,22 @@
     },
     "examples": [
       {
-        "nb": "Hun trives veldig godt i sin nye jobb.",
-        "ru": "Ей очень нравится её новая работа.",
-        "uk": "Їй дуже подобається її нова робота.",
-        "en": "She really enjoys her new job."
+        "nb": "Hun har en god jobb.",
+        "ru": "У неё хорошая работа.",
+        "uk": "У неї хороша робота.",
+        "en": "She has a good job."
       }
     ],
     "cloze": [
       {
-        "nb": "Han søker på en ledig ___ i en barnehage.",
+        "nb": "Han søker en ny ___.",
         "answer": "jobb",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Hver morgen reiser hun til ___ med buss.",
+        "nb": "Hun drar til ___ nå.",
         "answer": "jobben",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -68,22 +68,22 @@
     },
     "examples": [
       {
-        "nb": "Frivillig arbeid gir god erfaring i lokalsamfunnet.",
-        "ru": "Волонтёрский труд даёт хороший опыт в местном сообществе.",
-        "uk": "Волонтерська праця дає гарний досвід у місцевій громаді.",
-        "en": "Voluntary work provides good experience in the local community."
+        "nb": "Han gjør et godt arbeid.",
+        "ru": "Он делает хорошую работу.",
+        "uk": "Він робить хорошу роботу.",
+        "en": "He does good work."
       }
     ],
     "cloze": [
       {
-        "nb": "Snekkeren utførte et grundig ___ på badet.",
+        "nb": "Dette er et tungt ___.",
         "answer": "arbeid",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Mange ansatte var fornøyde med ___ som ble gjort.",
+        "nb": "Vi liker ___ her.",
         "answer": "arbeidet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -115,22 +115,22 @@
     },
     "examples": [
       {
-        "nb": "Vårt firma har et lyst kontor i sentrum.",
-        "ru": "У нашей фирмы светлый офис в центре города.",
-        "uk": "Наша фірма має світлий офіс у центрі міста.",
-        "en": "Our company has a bright office in the city center."
+        "nb": "Jeg har et lyst kontor.",
+        "ru": "У меня светлый офис.",
+        "uk": "У мене світлий офіс.",
+        "en": "I have a bright office."
       }
     ],
     "cloze": [
       {
-        "nb": "Advokaten sitter ved skrivebordet på sitt ___ og leser sakspapirer.",
+        "nb": "Hun sitter på et ___.",
         "answer": "kontor",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Når stenger ___ på rådhuset på fredager?",
+        "nb": "Når åpner ___ i dag?",
         "answer": "kontoret",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -162,22 +162,22 @@
     },
     "examples": [
       {
-        "nb": "Min nye kollega hjalp meg med datasystemet.",
-        "ru": "Мой новый коллега помог мне с компьютерной системой.",
-        "uk": "Мій новий колега допоміг мені з комп'ютерною системою.",
-        "en": "My new colleague helped me with the computer system."
+        "nb": "Per er en snill kollega.",
+        "ru": "Пер — добрый коллега.",
+        "uk": "Пер — добрий колега.",
+        "en": "Per is a kind colleague."
       }
     ],
     "cloze": [
       {
-        "nb": "Jeg spiste lunsj sammen med en hyggelig ___ fra avdelingen.",
+        "nb": "Hun snakker med en ___.",
         "answer": "kollega",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Alle de andre ___ møtte opp i tide til fellessamlingen.",
+        "nb": "Jeg hilser på ___ mine.",
         "answer": "kollegene",
         "hint_ru": "Определённая форма множественного числа",
         "hint_uk": "Означена форма множини",
@@ -209,22 +209,22 @@
     },
     "examples": [
       {
-        "nb": "Vår avdelingsleder er en rettferdig sjef som lytter.",
-        "ru": "Наш руководитель отдела — справедливый начальник, который слушает сотрудников.",
-        "uk": "Наш керівник відділу — справедливий начальник, який слухає співробітників.",
-        "en": "Our department head is a fair boss who listens."
+        "nb": "Vår sjef er veldig grei.",
+        "ru": "Наш начальник очень приятный.",
+        "uk": "Наш начальник дуже приємний.",
+        "en": "Our boss is very nice."
       }
     ],
     "cloze": [
       {
-        "nb": "Bedriften ansatte en erfaren ___ til å lede prosjektet.",
+        "nb": "De fikk en ny ___.",
         "answer": "sjef",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Jeg må spørre ___ om fri på fredag ettermiddag.",
+        "nb": "Nå kommer ___ inn her.",
         "answer": "sjefen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -256,22 +256,22 @@
     },
     "examples": [
       {
-        "nb": "Arbeidstakerne forhandlet fram ei høyere lønn denne våren.",
-        "ru": "Работники договорились о более высокой зарплате этой весной.",
-        "uk": "Працівники домовилися про вищу зарплату цієї весни.",
-        "en": "The employees negotiated a higher salary this spring."
+        "nb": "Hun får god lønn her.",
+        "ru": "Она получает здесь хорошую зарплату.",
+        "uk": "Вона отримує тут хорошу зарплату.",
+        "en": "She gets good pay here."
       }
     ],
     "cloze": [
       {
-        "nb": "Stillingen tilbyr ei god ___ og gode pensjonsordninger.",
+        "nb": "Han vil ha høyere ___.",
         "answer": "lønn",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Arbeidsgiveren utbetaler ___ den tolvte i hver måned.",
+        "nb": "Når kommer ___ denne måneden?",
         "answer": "lønna",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -303,22 +303,22 @@
     },
     "examples": [
       {
-        "nb": "Ledelsen kalte inn til et viktig møte om budsjettet.",
-        "ru": "Руководство созвало важное собрание по поводу бюджета.",
-        "uk": "Керівництво скликало важливі збори щодо бюджету.",
-        "en": "Management called an important meeting about the budget."
+        "nb": "Vi har et kort møte.",
+        "ru": "У нас короткое собрание.",
+        "uk": "У нас коротка зустріч.",
+        "en": "We have a short meeting."
       }
     ],
     "cloze": [
       {
-        "nb": "I morgen formiddag har teamet et kort ___ på Teams.",
+        "nb": "Hun skal i et ___.",
         "answer": "møte",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Referatet fra ___ ble sendt ut på e-post til alle deltakerne.",
+        "nb": "Nå starter ___ i dag.",
         "answer": "møtet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -350,22 +350,22 @@
     },
     "examples": [
       {
-        "nb": "Vi tar en velfortjent pause etter to timers intensiv jobbing.",
-        "ru": "Мы делаем заслуженный перерыв после двух часов напряжённой работы.",
-        "uk": "Ми робимо заслужену перерву після двох годин напруженої роботи.",
-        "en": "We are taking a well-deserved break after two hours of intensive work."
+        "nb": "Ta en kort pause nå.",
+        "ru": "Сделай сейчас короткий перерыв.",
+        "uk": "Зроби зараз коротку перерву.",
+        "en": "Take a short break now."
       }
     ],
     "cloze": [
       {
-        "nb": "Klokka tolv pleier håndverkerne å ta en halvtimes ___ til lunsj.",
+        "nb": "Vi trenger en liten ___.",
         "answer": "pause",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Under ___ drakk kollegene kaffe ute i solveggen.",
+        "nb": "De spiser lunsj i ___.",
         "answer": "pausen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -397,26 +397,26 @@
     },
     "examples": [
       {
-        "nb": "Hun har mange års erfaring fra helsesektoren.",
-        "ru": "У неё многолетний опыт работы в сфере здравоохранения.",
-        "uk": "Вона має багаторічний досвід роботи в секторі охорони здоров'я.",
-        "en": "She has many years of experience from the healthcare sector."
+        "nb": "Hun har mye god erfaring fra butikk.",
+        "ru": "У неё большой хороший опыт работы в магазине.",
+        "uk": "Вона має великий хороший досвід роботи в магазині.",
+        "en": "She has plenty of good experience from retail."
       }
     ],
     "cloze": [
       {
-        "nb": "Å jobbe i kundeservice gir ei nyttig ___ med mennesker.",
+        "nb": "Har du ___ med slikt arbeid?",
         "answer": "erfaring",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Søkeren manglet den nødvendige ___ for denne lederstillingen.",
-        "answer": "erfaringa",
-        "hint_ru": "Определённая форма единственного числа",
-        "hint_uk": "Означена форма однини",
-        "hint_en": "Definite singular form"
+        "nb": "Han delte ___ sine med oss.",
+        "answer": "erfaringene",
+        "hint_ru": "Определённая форма множественного числа",
+        "hint_uk": "Означена форма множини",
+        "hint_en": "Definite plural form"
       }
     ],
     "status": "draft",
@@ -444,22 +444,22 @@
     },
     "examples": [
       {
-        "nb": "Han sendte inn en formell søknad før fristen gikk ut.",
-        "ru": "Он отправил официальную заявку до истечения срока.",
-        "uk": "Він надіслав офіційну заявку до закінчення терміну.",
-        "en": "He submitted a formal application before the deadline expired."
+        "nb": "Han sendte en søknad på stillingen i går.",
+        "ru": "Вчера он отправил резюме на эту должность.",
+        "uk": "Вчора він надіслав резюме на цю посаду.",
+        "en": "He sent an application for the job yesterday."
       }
     ],
     "cloze": [
       {
-        "nb": "Husk å legge ved attester når du skriver en ___ om jobb.",
+        "nb": "Skriv en kort ___ til sjefen.",
         "answer": "søknad",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Arbeidsgiveren leste grundig gjennom ___ fra den unge lærlingen.",
+        "nb": "Hun leste ___ nøye før sending.",
         "answer": "søknaden",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -491,22 +491,22 @@
     },
     "examples": [
       {
-        "nb": "Arbeidstakeren signerte en skriftlig kontrakt på personalkontoret.",
-        "ru": "Сотрудник подписал письменный договор в отделе кадров.",
-        "uk": "Працівник підписав письмовий договір у відділі кадрів.",
-        "en": "The employee signed a written contract at the HR office."
+        "nb": "Vi skrev under en kontrakt i dag.",
+        "ru": "Сегодня мы подписали контракт.",
+        "uk": "Сьогодні ми підписали контракт.",
+        "en": "We signed a contract today."
       }
     ],
     "cloze": [
       {
-        "nb": "Bedriften tilbyr en midlertidig ___ på seks måneder.",
+        "nb": "Han fikk en fast ___ hos dem.",
         "answer": "kontrakt",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Les nøye gjennom vilkårene før du undertegner ___ med firmaet.",
+        "nb": "Les hele ___ før du signerer.",
         "answer": "kontrakten",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -538,22 +538,22 @@
     },
     "examples": [
       {
-        "nb": "Sykepleieren har ei krevende vakt på akuttmottaket i kveld.",
-        "ru": "У медсестры сегодня вечером сложная смена в приёмном покое.",
-        "uk": "У медсестри сьогодні ввечері складна зміна у приймальному відділенні.",
-        "en": "The nurse has a demanding shift at the emergency room tonight."
+        "nb": "Hun har ei lang vakt i natt.",
+        "ru": "У неё длинная смена этой ночью.",
+        "uk": "У неї довга зміна цієї ночі.",
+        "en": "She has a long shift tonight."
       }
     ],
     "cloze": [
       {
-        "nb": "Vekteren tok på seg ei ekstra ___ i helgen.",
+        "nb": "Jeg tar ei ekstra ___ på søndag.",
         "answer": "vakt",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Hvem skal overta ansvaret når ___ er ferdig klokka ti?",
+        "nb": "Når slutter ___ di i kveld?",
         "answer": "vakta",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -585,26 +585,26 @@
     },
     "examples": [
       {
-        "nb": "Prosjektlederen ga meg en spennende oppgave om markedsanalyse.",
-        "ru": "Руководитель проекта дал мне интересное задание по анализу рынка.",
-        "uk": "Керівник проєкту дав мені цікаве завдання з аналізу ринку.",
-        "en": "The project manager gave me an exciting task about market analysis."
+        "nb": "Dette er en vanskelig oppgave for meg.",
+        "ru": "Это трудная задача для меня.",
+        "uk": "Це важке завдання для мене.",
+        "en": "This is a difficult task for me."
       }
     ],
     "cloze": [
       {
-        "nb": "Hver medarbeider har fått tildelt en viktig ___ for uka.",
+        "nb": "Læreren ga oss en ny ___.",
         "answer": "oppgave",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Vi løste den vanskelige ___ i fellesskap på kontoret.",
-        "answer": "oppgaven",
-        "hint_ru": "Определённая форма единственного числа",
-        "hint_uk": "Означена форма однини",
-        "hint_en": "Definite singular form"
+        "nb": "Hun løste alle ___ før lunsj.",
+        "answer": "oppgavene",
+        "hint_ru": "Определённая форма множественного числа",
+        "hint_uk": "Означена форма множини",
+        "hint_en": "Definite plural form"
       }
     ],
     "status": "draft",
@@ -632,26 +632,26 @@
     },
     "examples": [
       {
-        "nb": "Ekspeditøren smilte og hjalp en kunde med å finne riktig størrelse.",
-        "ru": "Продавец улыбнулся и помог клиенту найти нужный размер.",
-        "uk": "Продавець усміхнувся і допоміг клієнту знайти потрібний розмір.",
-        "en": "The shop assistant smiled and helped a customer find the right size."
+        "nb": "Der står en ny kunde.",
+        "ru": "Там стоит новый клиент.",
+        "uk": "Там стоїть новий клієнт.",
+        "en": "There stands a new customer."
       }
     ],
     "cloze": [
       {
-        "nb": "Butikksjefen snakket høflig med en ny ___ i resepsjonen.",
+        "nb": "Hun hjelper en eldre ___.",
         "answer": "kunde",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kassøren ga kvitteringen tilbake til ___ etter betalingen.",
-        "answer": "kunden",
-        "hint_ru": "Определённая форма единственного числа",
-        "hint_uk": "Означена форма однини",
-        "hint_en": "Definite singular form"
+        "nb": "Butikken har mange fornøyde ___.",
+        "answer": "kundene",
+        "hint_ru": "Определённая форма множественного числа",
+        "hint_uk": "Означена форма множини",
+        "hint_en": "Definite plural form"
       }
     ],
     "status": "draft",
@@ -679,22 +679,22 @@
     },
     "examples": [
       {
-        "nb": "Familien gleder seg til en lang ferie på fjellet i juli.",
-        "ru": "Семья с нетерпением ждёт долгого отпуска в горах в июле.",
-        "uk": "Сім'я з нетерпінням чекає на довгу відпустку в горах у липні.",
-        "en": "The family is looking forward to a long vacation in the mountains in July."
+        "nb": "Nå har vi lang ferie.",
+        "ru": "Сейчас у нас длинный отпуск.",
+        "uk": "Зараз у нас довга відпустка.",
+        "en": "Now we have a long holiday."
       }
     ],
     "cloze": [
       {
-        "nb": "Mange arbeidstakere planlegger en avslappende ___ til syden.",
+        "nb": "Jeg ønsker meg en ___.",
         "answer": "ferie",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Etter tre uker borte var ___ dessverre over.",
+        "nb": "Hvor reiser du i ___?",
         "answer": "ferien",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -726,22 +726,22 @@
     },
     "examples": [
       {
-        "nb": "De ansatte deltok på et kurs i førstehjelp forrige uke.",
-        "ru": "Сотрудники посетили курс первой помощи на прошлой неделе.",
-        "uk": "Співробітники відвідали курс першої допомоги минулого тижня.",
-        "en": "The employees attended a first aid course last week."
+        "nb": "Hun går på et kurs.",
+        "ru": "Она ходит на курс.",
+        "uk": "Вона ходить на курс.",
+        "en": "She attends a course."
       }
     ],
     "cloze": [
       {
-        "nb": "Jeg har meldt meg på et intensivt ___ i norsk grammatikk.",
+        "nb": "Dette er et bra ___.",
         "answer": "kurs",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Læreren delte ut kompendiet den første dagen på ___.",
+        "nb": "Når starter ___ i kveld?",
         "answer": "kurset",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -773,22 +773,22 @@
     },
     "examples": [
       {
-        "nb": "Søkeren fylte ut et digitalt skjema på kommunens nettside.",
-        "ru": "Заявитель заполнил цифровую анкету на сайте муниципалитета.",
-        "uk": "Заявник заповнив цифрову анкету на сайті муніципалітету.",
-        "en": "The applicant filled out a digital form on the municipality's website."
+        "nb": "Du må fylle ut et skjema her.",
+        "ru": "Вам нужно заполнить бланк здесь.",
+        "uk": "Вам потрібно заповнити бланк тут.",
+        "en": "You must fill in a form here."
       }
     ],
     "cloze": [
       {
-        "nb": "Før legetimen må alle pasienter levere et utfylt ___.",
+        "nb": "Hent et ___ i skranken der borte.",
         "answer": "skjema",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Husk å signere nederst på ___ før du sender det inn.",
+        "nb": "Send inn ___ så fort som mulig.",
         "answer": "skjemaet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -820,22 +820,22 @@
     },
     "examples": [
       {
-        "nb": "Skolen lyser ut ei fast stilling for norsklærer til høsten.",
-        "ru": "Школа открывает постоянную вакансию учителя норвежского языка на осень.",
-        "uk": "Школа відкриває постійну вакансію вчителя норвезької мови на осінь.",
-        "en": "The school is advertising a permanent position for a Norwegian teacher this autumn."
+        "nb": "Han søker på ei ledig stilling nå.",
+        "ru": "Он подаёт заявление на вакантную должность сейчас.",
+        "uk": "Він подає заяву на вільну посаду зараз.",
+        "en": "He is applying for an open position now."
       }
     ],
     "cloze": [
       {
-        "nb": "Ingeniøren søkte på ei ledig ___ innen fornybar energi.",
+        "nb": "Firmaet lyser ut ei ny ___.",
         "answer": "stilling",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Mange kvalifiserte kandidater meldte seg til ___.",
+        "nb": "Hun fikk ___ etter andre intervju.",
         "answer": "stillinga",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -867,22 +867,22 @@
     },
     "examples": [
       {
-        "nb": "Den lokale bedriften produserer miljøvennlige tremøbler.",
-        "ru": "Местное предприятие производит экологичную деревянную мебель.",
-        "uk": "Місцеве підприємство виготовляє екологічні дерев'яні меблі.",
-        "en": "The local company produces eco-friendly wooden furniture."
+        "nb": "Min onkel leder en liten bedrift her.",
+        "ru": "Мой дядя руководит маленьким предприятием здесь.",
+        "uk": "Мій дядько керує невеликим підприємством тут.",
+        "en": "My uncle runs a small business here."
       }
     ],
     "cloze": [
       {
-        "nb": "Gründeren startet en vellykket ___ med fem ansatte.",
+        "nb": "Dette er en trygg ___.",
         "answer": "bedrift",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Direktøren presenterte årsresultatet for hele ___.",
+        "nb": "Mange jobber i denne ___ daglig.",
         "answer": "bedriften",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -914,22 +914,22 @@
     },
     "examples": [
       {
-        "nb": "Kandidaten forberedte seg godt til et digitalt intervju.",
-        "ru": "Кандидат хорошо подготовился к цифровому собеседованию.",
-        "uk": "Кандидат добре підготувався до цифрової співбесіди.",
-        "en": "The candidate prepared well for a digital interview."
+        "nb": "Hun skal på et intervju i morgen.",
+        "ru": "Она идёт на собеседование завтра.",
+        "uk": "Вона йде на співбесіду завтра.",
+        "en": "She is going to an interview tomorrow."
       }
     ],
     "cloze": [
       {
-        "nb": "Jeg ble invitert til et andre ___ hos IT-selskapet.",
+        "nb": "Jeg gruer meg til et ___.",
         "answer": "intervju",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Lederne stilte flere relevante spørsmål under ___.",
+        "nb": "Hvordan gikk ___ ditt i går?",
         "answer": "intervjuet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -6572,26 +6572,26 @@
     },
     "examples": [
       {
-        "nb": "Til vanlig jobber hun som regnskapsfører i et privat selskap.",
-        "ru": "Обычно она работает бухгалтером в частной компании.",
-        "uk": "Зазвичай вона працює бухгалтером у приватній компанії.",
-        "en": "Normally she works as an accountant in a private company."
+        "nb": "Jeg liker å jobbe her.",
+        "ru": "Мне нравится работать здесь.",
+        "uk": "Мені подобається працювати тут.",
+        "en": "I like working here."
       }
     ],
     "cloze": [
       {
-        "nb": "I fjor ___ jeg deltid på et lokalt sykehjem.",
+        "nb": "I går ___ han lenge.",
         "answer": "jobbet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "I morgen må alle ansatte ___ overtid for å fullføre leveransen.",
-        "answer": "jobbe",
-        "hint_ru": "Инфинитив глагола после модального må",
-        "hint_uk": "Інфінітив дієслова після модального må",
-        "hint_en": "Infinitive form after modal verb"
+        "nb": "Hvor ___ du for tiden?",
+        "answer": "jobber",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
       }
     ],
     "status": "draft",
@@ -6618,26 +6618,26 @@
     },
     "examples": [
       {
-        "nb": "Forskerne arbeider målrettet med å utvikle nye medisiner.",
-        "ru": "Учёные целеустремлённо работают над созданием новых лекарств.",
-        "uk": "Вчені цілеспрямовано працюють над створенням нових ліків.",
-        "en": "The scientists work purposefully to develop new medicines."
+        "nb": "De vil arbeide sammen nå.",
+        "ru": "Они хотят работать вместе сейчас.",
+        "uk": "Вони хочуть працювати разом зараз.",
+        "en": "They want to work together now."
       }
     ],
     "cloze": [
       {
-        "nb": "Elektrikeren ___ hele formiddagen for å koble opp strømmen.",
+        "nb": "Min bror ___ på skole.",
+        "answer": "arbeider",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
+      },
+      {
+        "nb": "Vi ___ flittig i morges.",
         "answer": "arbeidet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
-      },
-      {
-        "nb": "Han liker å ___ utendørs i frisk luft uansett vær.",
-        "answer": "arbeide",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
       }
     ],
     "status": "draft",
@@ -6664,26 +6664,26 @@
     },
     "examples": [
       {
-        "nb": "Lærlingen tjener nok penger til å betale husleia selv.",
-        "ru": "Стажёр зарабатывает достаточно денег, чтобы самому оплачивать аренду.",
-        "uk": "Стажер заробляє достатньо грошей, щоб самостійно оплачувати оренду.",
-        "en": "The apprentice earns enough money to pay the rent himself."
+        "nb": "Han vil tjene penger til bil.",
+        "ru": "Он хочет заработать деньги на машину.",
+        "uk": "Він хоче заробити гроші на машину.",
+        "en": "He wants to earn money for a car."
       }
     ],
     "cloze": [
       {
-        "nb": "I sommerferien ___ studenten gode penger på et fiskeoppdrett.",
+        "nb": "Hvor mye ___ du i timen?",
+        "answer": "tjener",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
+      },
+      {
+        "nb": "Hun ___ godt på den jobben.",
         "answer": "tjente",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
-      },
-      {
-        "nb": "Målet hennes er å ___ nok til å kjøpe en egen leilighet.",
-        "answer": "tjene",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
       }
     ],
     "status": "draft",
@@ -6710,26 +6710,26 @@
     },
     "examples": [
       {
-        "nb": "Nyutdannede sykepleiere søker aktivt på ledige faste stillinger.",
-        "ru": "Выпускники-медсёстры активно подают заявки на открытые постоянные вакансии.",
-        "uk": "Випускники-медсестри активно подають заявки на відкриті постійні вакансії.",
-        "en": "Newly qualified nurses actively apply for open permanent positions."
+        "nb": "Du bør søke på denne jobben nå.",
+        "ru": "Тебе стоит подать заявку на эту работу сейчас.",
+        "uk": "Тобі варто подати заявку на цю роботу зараз.",
+        "en": "You should apply for this job now."
       }
     ],
     "cloze": [
       {
-        "nb": "Han ___ på tre ulike jobber i forrige uke.",
+        "nb": "Hun ___ på en ny stilling.",
+        "answer": "søker",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
+      },
+      {
+        "nb": "Mange ___ om plass på kurset.",
         "answer": "søkte",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
-      },
-      {
-        "nb": "Husk å ___ om barnehageplass før fristen går ut.",
-        "answer": "søke",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
       }
     ],
     "status": "draft",
@@ -6756,26 +6756,26 @@
     },
     "examples": [
       {
-        "nb": "Arbeidsdagen starter presis klokka åtte på verkstedet.",
-        "ru": "Рабочий день начинается ровно в восемь часов в мастерской.",
-        "uk": "Робочий день починається рівно о восьмій годині в майстерні.",
-        "en": "The workday starts promptly at eight o'clock in the workshop."
+        "nb": "Vi må starte tidlig i dag.",
+        "ru": "Мы должны начать рано сегодня.",
+        "uk": "Ми повинні почати рано сьогодні.",
+        "en": "We must start early today."
       }
     ],
     "cloze": [
       {
-        "nb": "Den nye avdelingen ___ opp driften tidlig i mai.",
+        "nb": "Møtet ___ om ti minutter.",
+        "answer": "starter",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
+      },
+      {
+        "nb": "Hun ___ i ny jobb.",
         "answer": "startet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
-      },
-      {
-        "nb": "Vi må ___ ryddingen før gjestene ringer på døra.",
-        "answer": "starte",
-        "hint_ru": "Инфинитив глагола после модального må",
-        "hint_uk": "Інфінітив дієслова після модального må",
-        "hint_en": "Infinitive form after modal verb"
       }
     ],
     "status": "draft",
@@ -6802,26 +6802,26 @@
     },
     "examples": [
       {
-        "nb": "Skiftarbeiderne slutter på jobb klokka seksten hver ettermiddag.",
-        "ru": "Сменные рабочие заканчивают работу в шестнадцать часов каждый день.",
-        "uk": "Змінні робітники закінчують роботу о шістнадцятій годині щодня.",
-        "en": "The shift workers finish work at 4 pm every afternoon."
+        "nb": "Barna slutter på skolen klokken to.",
+        "ru": "Дети заканчивают школу в два часа.",
+        "uk": "Діти закінчують школу о другій годині.",
+        "en": "The children finish school at two o'clock."
       }
     ],
     "cloze": [
       {
-        "nb": "Han ___ i sin gamle stilling da han fikk tilbud om ny jobb.",
+        "nb": "Når ___ du på jobb?",
+        "answer": "slutter",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
+      },
+      {
+        "nb": "Han ___ tidlig på fredag.",
         "answer": "sluttet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
-      },
-      {
-        "nb": "Møtet skal etter planen ___ klokka femten.",
-        "answer": "slutte",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
       }
     ],
     "status": "draft",
@@ -6848,26 +6848,26 @@
     },
     "examples": [
       {
-        "nb": "Gode kolleger hjelper alltid hverandre med tunge løft.",
-        "ru": "Хорошие коллеги всегда помогают друг другу поднимать тяжести.",
-        "uk": "Гарні колеги завжди допомагають один одному піднімати важкі речі.",
-        "en": "Good colleagues always help each other with heavy lifting."
+        "nb": "Kan du hjelpe meg litt?",
+        "ru": "Ты можешь немного мне помочь?",
+        "uk": "Ти можеш трохи мені допомогти?",
+        "en": "Can you help me a little?"
       }
     ],
     "cloze": [
       {
-        "nb": "Sjefen ___ meg med å fylle ut de kompliserte skattepapirene.",
-        "answer": "hjalp",
-        "hint_ru": "Прошедшее время (preteritum: hjalp)",
-        "hint_uk": "Минулий час (preteritum: hjalp)",
-        "hint_en": "Past tense (preteritum: hjalp)"
+        "nb": "Læreren ___ elevene hver dag.",
+        "answer": "hjelper",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
       },
       {
-        "nb": "Kan du være så snill å ___ meg med denne oppgaven?",
-        "answer": "hjelpe",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "nb": "Hun ___ sin syke nabo.",
+        "answer": "hjalp",
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       }
     ],
     "status": "draft",
@@ -6894,26 +6894,26 @@
     },
     "examples": [
       {
-        "nb": "De to avdelingene samarbeider tett om den nye kampanjen.",
-        "ru": "Два отдела тесно сотрудничают над новой рекламной кампанией.",
-        "uk": "Два відділи тісно співпрацюють над новою рекламною кампанією.",
-        "en": "The two departments cooperate closely on the new campaign."
+        "nb": "Vi må samarbeide godt om prosjektet vårt.",
+        "ru": "Мы должны хорошо сотрудничать над нашим проектом.",
+        "uk": "Ми повинні добре співпрацювати над нашим проєктом.",
+        "en": "We must cooperate well on our project."
       }
     ],
     "cloze": [
       {
-        "nb": "Kommunelegene ___ godt gjennom hele beredskapsperioden.",
+        "nb": "Kolleger som ___ godt, løser problemer.",
+        "answer": "samarbeider",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
+      },
+      {
+        "nb": "De to teamene ___ tett i fjor.",
         "answer": "samarbeidet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
-      },
-      {
-        "nb": "Det er nødvendig å ___ for å oppnå gode felles resultater.",
-        "answer": "samarbeide",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
       }
     ],
     "status": "draft",
@@ -6940,26 +6940,26 @@
     },
     "examples": [
       {
-        "nb": "Den erfarne direktøren leder bedriften med trygg hånd.",
-        "ru": "Опытный директор руководит компанией уверенной рукой.",
-        "uk": "Досвідчений директор керує підприємством упевненою рукою.",
-        "en": "The experienced director leads the company with a steady hand."
+        "nb": "Hun skal lede møtet i dag.",
+        "ru": "Она будет вести собрание сегодня.",
+        "uk": "Вона вестиме збори сьогодні.",
+        "en": "She will lead the meeting today."
       }
     ],
     "cloze": [
       {
-        "nb": "Prosjektlederen ___ mandagsmøtet på en strukturert måte.",
+        "nb": "Hvem ___ denne avdelingen nå?",
+        "answer": "leder",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
+      },
+      {
+        "nb": "Han ___ gruppa på en fin måte.",
         "answer": "ledet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
-      },
-      {
-        "nb": "Hun fikk i oppgave å ___ den nye arbeidsgruppen.",
-        "answer": "lede",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
       }
     ],
     "status": "draft",
@@ -6986,26 +6986,26 @@
     },
     "examples": [
       {
-        "nb": "Resepsjonisten møter alle gjester med et vennlig smil.",
-        "ru": "Администратор встречает всех гостей приветливой улыбкой.",
-        "uk": "Адміністратор зустрічає всіх гостей привітною усмішкою.",
-        "en": "The receptionist greets all guests with a friendly smile."
+        "nb": "Jeg vil møte deg i kveld.",
+        "ru": "Я хочу встретить тебя вечером.",
+        "uk": "Я хочу зустріти тебе ввечері.",
+        "en": "I want to meet you tonight."
       }
     ],
     "cloze": [
       {
-        "nb": "Direktøren ___ den nye kunden på flyplassen i morges.",
-        "answer": "møtte",
-        "hint_ru": "Прошедшее время (preteritum: møtte)",
-        "hint_uk": "Минулий час (preteritum: møtte)",
-        "hint_en": "Past tense (preteritum: møtte)"
+        "nb": "Han ___ venner på kafeen.",
+        "answer": "møter",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
       },
       {
-        "nb": "Vi har avtalt å ___ opp utenfor kinoen klokka sju.",
-        "answer": "møte",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "nb": "Vi ___ sjefen i gangen.",
+        "answer": "møtte",
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       }
     ],
     "status": "draft",
@@ -7032,26 +7032,26 @@
     },
     "examples": [
       {
-        "nb": "Sekretæren leser nøye gjennom rapporten før møtet starter.",
-        "ru": "Секретарь внимательно читает отчёт до начала собрания.",
-        "uk": "Секретар уважно читає звіт до початку зборів.",
-        "en": "The secretary reads carefully through the report before the meeting starts."
+        "nb": "Hun liker å lese bøker.",
+        "ru": "Ей нравится читать книги.",
+        "uk": "Їй подобається читати книги.",
+        "en": "She likes to read books."
       }
     ],
     "cloze": [
       {
-        "nb": "I går kveld ___ han tre kapitler i læreboka.",
-        "answer": "leste",
-        "hint_ru": "Прошедшее время (preteritum: leste)",
-        "hint_uk": "Минулий час (preteritum: leste)",
-        "hint_en": "Past tense (preteritum: leste)"
+        "nb": "Han ___ en god avis nå.",
+        "answer": "leser",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
       },
       {
-        "nb": "Det er sunt for barn å ___ bøker hver dag.",
-        "answer": "lese",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "nb": "Jeg ___ brevet fra skolen.",
+        "answer": "leste",
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       }
     ],
     "status": "draft",
@@ -7078,26 +7078,26 @@
     },
     "examples": [
       {
-        "nb": "Deltakerne på kurset snakker bare norsk i pausene.",
-        "ru": "Участники курса говорят только по-норвежски во время перерывов.",
-        "uk": "Учасники курсу говорять лише норвезькою під час перерв.",
-        "en": "The participants in the course only speak Norwegian during breaks."
+        "nb": "Vi må snakke sammen nå.",
+        "ru": "Мы должны поговорить сейчас.",
+        "uk": "Ми маємо поговорити зараз.",
+        "en": "We need to talk now."
       }
     ],
     "cloze": [
       {
-        "nb": "Læreren ___ rolig og tydelig til hele forsamlingen.",
+        "nb": "Hun ___ godt norsk i dag.",
+        "answer": "snakker",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
+      },
+      {
+        "nb": "De ___ lenge i telefonen.",
         "answer": "snakket",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
-      },
-      {
-        "nb": "Kan vi sette oss ned og ___ sammen etter lunsj?",
-        "answer": "snakke",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
       }
     ],
     "status": "draft",
@@ -7124,26 +7124,26 @@
     },
     "examples": [
       {
-        "nb": "Eleven rekker opp hånda og spør læreren om hjelp.",
-        "ru": "Ученик поднимает руку и спрашивает учителя о помощи.",
-        "uk": "Учень піднімає руку й запитує вчителя про допомогу.",
-        "en": "The pupil raises his hand and asks the teacher for help."
+        "nb": "Du kan spørre læreren din.",
+        "ru": "Ты можешь спросить своего учителя.",
+        "uk": "Ти можеш запитати свого вчителя.",
+        "en": "You can ask your teacher."
       }
     ],
     "cloze": [
       {
-        "nb": "Journalisten ___ ordføreren om de nye budsjettkuttene.",
-        "answer": "spurte",
-        "hint_ru": "Прошедшее время (preteritum: spurte)",
-        "hint_uk": "Минулий час (preteritum: spurte)",
-        "hint_en": "Past tense (preteritum: spurte)"
+        "nb": "Kunden ___ om veien videre.",
+        "answer": "spør",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
       },
       {
-        "nb": "Du må ikke nøle med å ___ hvis noe er uklart.",
-        "answer": "spørre",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "nb": "Hun ___ meg om hjelp.",
+        "answer": "spurte",
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       }
     ],
     "status": "draft",
@@ -7170,26 +7170,26 @@
     },
     "examples": [
       {
-        "nb": "Hun forstår nesten alt som blir sagt på møtene nå.",
-        "ru": "Теперь она понимает почти всё, что говорится на собраниях.",
-        "uk": "Тепер вона розуміє майже все, що говориться на зборах.",
-        "en": "She understands almost everything said at the meetings now."
+        "nb": "Jeg kan forstå dette ordet.",
+        "ru": "Я могу понять это слово.",
+        "uk": "Я можу зрозуміти це слово.",
+        "en": "I can understand this word."
       }
     ],
     "cloze": [
       {
-        "nb": "Kandidaten ___ instruksjonen med en gang og løste testen.",
-        "answer": "forstod",
-        "hint_ru": "Прошедшее время (preteritum: forstod)",
-        "hint_uk": "Минулий час (preteritum: forstod)",
-        "hint_en": "Past tense (preteritum: forstod)"
+        "nb": "Eleven ___ regelen veldig raskt.",
+        "answer": "forstår",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
       },
       {
-        "nb": "Det tar tid å ___ alle de lokale dialektene i Norge.",
-        "answer": "forstå",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "nb": "Han ___ svaret med en gang.",
+        "answer": "forstod",
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       }
     ],
     "status": "draft",
@@ -7216,26 +7216,26 @@
     },
     "examples": [
       {
-        "nb": "Instruktøren forklarer sikkerhetsrutinene på fabrikken grundig.",
-        "ru": "Инструктор подробно объясняет правила безопасности на заводе.",
-        "uk": "Інструктор докладно пояснює правила безпеки на заводі.",
-        "en": "The instructor explains the safety routines at the factory thoroughly."
+        "nb": "Kan du forklare denne oppgaven enklere?",
+        "ru": "Можешь объяснить это задание проще?",
+        "uk": "Можеш пояснити це завдання простіше?",
+        "en": "Can you explain this task more simply?"
       }
     ],
     "cloze": [
       {
-        "nb": "Sjefen ___ hvorfor prosjektet ble utsatt til neste måned.",
-        "answer": "forklarte",
-        "hint_ru": "Прошедшее время (preteritum: forklarte)",
-        "hint_uk": "Минулий час (preteritum: forklarte)",
-        "hint_en": "Past tense (preteritum: forklarte)"
+        "nb": "Læreren ___ leksen på en god måte.",
+        "answer": "forklarer",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
       },
       {
-        "nb": "Kan du ___ meg hvordan dette dataprogrammet virker?",
-        "answer": "forklare",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "nb": "Sjefen ___ reglene for de nye ansatte.",
+        "answer": "forklarte",
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       }
     ],
     "status": "draft",
@@ -7262,26 +7262,26 @@
     },
     "examples": [
       {
-        "nb": "Arbeidsdagen begynner presis klokka åtte for alle mekanikerne.",
-        "ru": "Рабочий день начинается ровно в восемь для всех механиков.",
-        "uk": "Робочий день починається рівно о восьмій для всіх механіків.",
-        "en": "The workday begins promptly at eight for all mechanics."
+        "nb": "Vi kan begynne å spise.",
+        "ru": "Мы можем начинать есть.",
+        "uk": "Ми можемо починати їсти.",
+        "en": "We can start eating."
       }
     ],
     "cloze": [
       {
-        "nb": "Kurset i norsk grammatikk ___ forrige mandag.",
-        "answer": "begynte",
-        "hint_ru": "Прошедшее время (preteritum: begynte)",
-        "hint_uk": "Минулий час (preteritum: begynte)",
-        "hint_en": "Past tense (preteritum: begynte)"
+        "nb": "Filmen ___ klokken sju i kveld.",
+        "answer": "begynner",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
       },
       {
-        "nb": "Når skal dere ___ på det nye renoveringsprosjektet?",
-        "answer": "begynne",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "nb": "Han ___ på kurset i fjor.",
+        "answer": "begynte",
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       }
     ],
     "status": "draft",
@@ -7308,26 +7308,26 @@
     },
     "examples": [
       {
-        "nb": "Møtet slutter vanligvis før klokka tolv på fredager.",
-        "ru": "Собрание обычно заканчивается до двенадцати часов по пятницам.",
-        "uk": "Збори зазвичай закінчуються до дванадцятої години по п'ятницях.",
-        "en": "The meeting usually ends before twelve o'clock on Fridays."
+        "nb": "De vil slutte tidlig fredag.",
+        "ru": "Они хотят закончить рано в пятницу.",
+        "uk": "Вони хочуть закінчити рано в п'ятницю.",
+        "en": "They want to finish early on Friday."
       }
     ],
     "cloze": [
       {
-        "nb": "Lærlingen ___ på byggeplassen da kontrakten løp ut.",
+        "nb": "Butikken ___ klokken åtte hver kveld.",
+        "answer": "slutter",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
+      },
+      {
+        "nb": "Regnet ___ etter en time.",
         "answer": "sluttet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
-      },
-      {
-        "nb": "Han bestemte seg for å ___ å røyke for helsas skyld.",
-        "answer": "slutte",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
       }
     ],
     "status": "draft",
@@ -7354,26 +7354,26 @@
     },
     "examples": [
       {
-        "nb": "Rådgiveren hjelper studentene med å finne riktig utdanning.",
-        "ru": "Консультант помогает студентам выбрать подходящее образование.",
-        "uk": "Консультант допомагає студентам обрати відповідну освіту.",
-        "en": "The counselor helps the students find the right education."
+        "nb": "Jeg vil gjerne hjelpe deg.",
+        "ru": "Я охотно помогу тебе.",
+        "uk": "Я залюбки допоможу тобі.",
+        "en": "I would gladly help you."
       }
     ],
     "cloze": [
       {
-        "nb": "Naboen ___ meg med å bære opp det tunge kjøleskapet.",
-        "answer": "hjalp",
-        "hint_ru": "Прошедшее время (preteritum: hjalp)",
-        "hint_uk": "Минулий час (preteritum: hjalp)",
-        "hint_en": "Past tense (preteritum: hjalp)"
+        "nb": "Pappa ___ barna med leksene.",
+        "answer": "hjelper",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
       },
       {
-        "nb": "Vi må samarbeide for å ___ de nyankomne flyktningene.",
-        "answer": "hjelpe",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "nb": "Legen ___ den syke mannen.",
+        "answer": "hjalp",
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       }
     ],
     "status": "draft",
@@ -7400,26 +7400,26 @@
     },
     "examples": [
       {
-        "nb": "Snekkeren bruker spesialverktøy for å sage nøyaktige vinkler.",
-        "ru": "Плотник использует специальный инструмент для распила точных углов.",
-        "uk": "Тесляр використовує спеціальний інструмент для розпилу точних кутів.",
-        "en": "The carpenter uses special tools to saw precise angles."
+        "nb": "Du må bruke en penn.",
+        "ru": "Ты должен использовать ручку.",
+        "uk": "Ти повинен використовувати ручку.",
+        "en": "You must use a pen."
       }
     ],
     "cloze": [
       {
-        "nb": "Mekanikeren ___ to timer på å fikse bremsene på bilen.",
-        "answer": "brukte",
-        "hint_ru": "Прошедшее время (preteritum: brukte)",
-        "hint_uk": "Минулий час (preteritum: brukte)",
-        "hint_en": "Past tense (preteritum: brukte)"
+        "nb": "Hun ___ briller når hun leser.",
+        "answer": "bruker",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
       },
       {
-        "nb": "Det er lurt å ___ hjelm når man sykler i trafikken.",
-        "answer": "bruke",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "nb": "Han ___ lite penger i går.",
+        "answer": "brukte",
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       }
     ],
     "status": "draft",
@@ -7446,26 +7446,26 @@
     },
     "examples": [
       {
-        "nb": "Kunden velger økologiske grønnsaker når han handler mat.",
-        "ru": "Покупатель выбирает органические овощи, когда покупает продукты.",
-        "uk": "Покупець вибирає органічні овочі, коли купує продукти.",
-        "en": "The customer chooses organic vegetables when shopping for food."
+        "nb": "Det er vanskelig å velge riktig bok.",
+        "ru": "Трудно выбрать правильную книгу.",
+        "uk": "Важко вибрати правильну книгу.",
+        "en": "It is difficult to choose the right book."
       }
     ],
     "cloze": [
       {
-        "nb": "Styret ___ en ny leder på årsmøtet forrige torsdag.",
-        "answer": "valgte",
-        "hint_ru": "Прошедшее время (preteritum: valgte)",
-        "hint_uk": "Минулий час (preteritum: valgte)",
-        "hint_en": "Past tense (preteritum: valgte)"
+        "nb": "Mange ___ å sykle til jobben nå.",
+        "answer": "velger",
+        "hint_ru": "Настоящее время (presens)",
+        "hint_uk": "Теперішній час (presens)",
+        "hint_en": "Present tense (presens)"
       },
       {
-        "nb": "Det er vanskelig å ___ mellom de to jobbtilbudene.",
-        "answer": "velge",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "nb": "Hun ___ en enkel farge til stua.",
+        "answer": "valgte",
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       }
     ],
     "status": "draft",
@@ -10483,26 +10483,26 @@
     },
     "examples": [
       {
-        "nb": "Punktlighet er en viktig egenskap i det norske arbeidslivet.",
-        "ru": "Пунктуальность — важное качество в норвежской рабочей среде.",
-        "uk": "Пунктуальність — важлива якість у норвезькому робочому житті.",
-        "en": "Punctuality is an important quality in Norwegian working life."
+        "nb": "Dette er en viktig sak.",
+        "ru": "Это важное дело.",
+        "uk": "Це важлива справа.",
+        "en": "This is an important matter."
       }
     ],
     "cloze": [
       {
-        "nb": "Lederen tok opp et ekstraordinært ___ spørsmål på møtet.",
+        "nb": "Det er ___ å sove nok.",
         "answer": "viktig",
-        "hint_ru": "Форма среднего рода (nøytrum)",
-        "hint_uk": "Форма середнього роду (nøytrum)",
-        "hint_en": "Neuter form (nøytrum)"
+        "hint_ru": "Позитивная форма",
+        "hint_uk": "Позитивна форма",
+        "hint_en": "Positive form"
       },
       {
-        "nb": "Rapporten inneholder mange ___ opplysninger om prosjektet.",
+        "nb": "De tok mange ___ valg sammen.",
         "answer": "viktige",
-        "hint_ru": "Форма множественного числа (flertall: viktige)",
-        "hint_uk": "Форма множини (flertall: viktige)",
-        "hint_en": "Plural form (flertall: viktige)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -10530,26 +10530,26 @@
     },
     "examples": [
       {
-        "nb": "Legen hadde en travel formiddag med mange akutte pasienter.",
-        "ru": "У врача было напряжённое утро со множеством экстренных пациентов.",
-        "uk": "У лікаря був напружений ранок із багатьма екстреними пацієнтами.",
-        "en": "The doctor had a busy morning with many urgent patients."
+        "nb": "Legen har en veldig travel dag i dag.",
+        "ru": "У врача сегодня очень занятой день.",
+        "uk": "У лікаря сьогодні дуже зайнятий день.",
+        "en": "The doctor has a very busy day today."
       }
     ],
     "cloze": [
       {
-        "nb": "Det har vært et usedvanlig ___ døgn på legevakta.",
+        "nb": "Vi har det ganske ___ på jobb nå.",
         "answer": "travelt",
-        "hint_ru": "Форма среднего рода (nøytrum: travelt)",
-        "hint_uk": "Форма середнього роду (nøytrum: travelt)",
-        "hint_en": "Neuter form (nøytrum: travelt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "De ___ servitørene løp mellom bordene i restauranten.",
+        "nb": "De ___ gatene var fulle av biler.",
         "answer": "travle",
-        "hint_ru": "Форма множественного числа (flertall: travle)",
-        "hint_uk": "Форма множини (flertall: travle)",
-        "hint_en": "Plural form (flertall: travle)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -10577,26 +10577,26 @@
     },
     "examples": [
       {
-        "nb": "Bedriften lyser ut en ledig stilling som regnskapsfører i dag.",
-        "ru": "Компания открывает вакантную должность бухгалтера сегодня.",
-        "uk": "Компанія оголошує відкриту посаду бухгалтера сьогодні.",
-        "en": "The company is advertising a vacant position as an accountant today."
+        "nb": "Er denne plassen ledig for meg?",
+        "ru": "Это место свободно для меня?",
+        "uk": "Це місце вільне для мене?",
+        "en": "Is this seat free for me?"
       }
     ],
     "cloze": [
       {
-        "nb": "Bussen var nesten tom, så det var et ___ sete foran.",
+        "nb": "Rommet er ___ fra neste uke.",
         "answer": "ledig",
-        "hint_ru": "Форма среднего рода (nøytrum)",
-        "hint_uk": "Форма середнього роду (nøytrum)",
-        "hint_en": "Neuter form (nøytrum)"
+        "hint_ru": "Позитивная форма",
+        "hint_uk": "Позитивна форма",
+        "hint_en": "Positive form"
       },
       {
-        "nb": "Mange søkere kjempet om de tre ___ plassene på kurset.",
+        "nb": "Firmaet har to ___ stillinger nå.",
         "answer": "ledige",
-        "hint_ru": "Форма множественного числа (flertall: ledige)",
-        "hint_uk": "Форма множини (flertall: ledige)",
-        "hint_en": "Plural form (flertall: ledige)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -10624,26 +10624,26 @@
     },
     "examples": [
       {
-        "nb": "Etter prøvetiden ble hun tilbudt en fast jobb på skolen.",
-        "ru": "После испытательного срока ей предложили постоянную работу в школе.",
-        "uk": "Після випробувального терміну їй запропонували постійну роботу в школі.",
-        "en": "After the trial period, she was offered a permanent job at the school."
+        "nb": "Han ønsker seg en fast jobb her.",
+        "ru": "Он хочет постоянную работу здесь.",
+        "uk": "Він хоче постійну роботу тут.",
+        "en": "He wants a permanent job here."
       }
     ],
     "cloze": [
       {
-        "nb": "Håndverkeren har et ___ kontorlokale nede ved havna.",
+        "nb": "Hun fikk ___ jobb i høst.",
         "answer": "fast",
-        "hint_ru": "Форма среднего рода (nøytrum)",
-        "hint_uk": "Форма середнього роду (nøytrum)",
-        "hint_en": "Neuter form (nøytrum)"
+        "hint_ru": "Позитивная форма",
+        "hint_uk": "Позитивна форма",
+        "hint_en": "Positive form"
       },
       {
-        "nb": "Arbeidsgiveren foretrekker ___ ansatte framfor vikarer.",
+        "nb": "De har noen ___ rutiner hver morgen.",
         "answer": "faste",
-        "hint_ru": "Форма множественного числа (flertall: faste)",
-        "hint_uk": "Форма множини (flertall: faste)",
-        "hint_en": "Plural form (flertall: faste)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -10671,26 +10671,26 @@
     },
     "examples": [
       {
-        "nb": "En punktlig medarbeider møter alltid presis til avtalt tid.",
-        "ru": "Пунктуальный сотрудник всегда приходит точно к назначенному времени.",
-        "uk": "Пунктуальний співробітник завжди приходить точно в призначений час.",
-        "en": "A punctual employee always arrives promptly at the agreed time."
+        "nb": "Toget kom helt punktlig i dag.",
+        "ru": "Поезд пришёл совершенно вовремя сегодня.",
+        "uk": "Потяг прибув абсолютно вчасно сьогодні.",
+        "en": "The train arrived completely on time today."
       }
     ],
     "cloze": [
       {
-        "nb": "Toget holdt et usedvanlig ___ tidsskjema i hele morges.",
+        "nb": "Det er lurt å møte ___ opp.",
         "answer": "punktlig",
-        "hint_ru": "Форма среднего рода (nøytrum)",
-        "hint_uk": "Форма середнього роду (nøytrum)",
-        "hint_en": "Neuter form (nøytrum)"
+        "hint_ru": "Позитивная форма",
+        "hint_uk": "Позитивна форма",
+        "hint_en": "Positive form"
       },
       {
-        "nb": "Alle de nye lærlingene var beundringsverdig ___ til skiftene.",
+        "nb": "De ansatte her er alltid ___.",
         "answer": "punktlige",
-        "hint_ru": "Форма множественного числа (flertall: punktlige)",
-        "hint_uk": "Форма множини (flertall: punktlige)",
-        "hint_en": "Plural form (flertall: punktlige)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -10718,26 +10718,26 @@
     },
     "examples": [
       {
-        "nb": "Kunden var veldig fornøyd med den raske servicen i butikken.",
-        "ru": "Покупатель остался очень доволен быстрым обслуживанием в магазине.",
-        "uk": "Покупець був дуже задоволений швидким обслуговуванням у крамниці.",
-        "en": "The customer was very pleased with the quick service in the shop."
+        "nb": "Jeg er fornøyd med maten.",
+        "ru": "Я доволен едой.",
+        "uk": "Я задоволений їжею.",
+        "en": "I am satisfied with the food."
       }
     ],
     "cloze": [
       {
-        "nb": "Sjefen uttrykte et oppriktig ___ smil etter presentasjonen.",
+        "nb": "Kunden var veldig ___ i dag.",
         "answer": "fornøyd",
-        "hint_ru": "Форма среднего рода (nøytrum)",
-        "hint_uk": "Форма середнього роду (nøytrum)",
-        "hint_en": "Neuter form (nøytrum)"
+        "hint_ru": "Позитивная форма",
+        "hint_uk": "Позитивна форма",
+        "hint_en": "Positive form"
       },
       {
-        "nb": "Alle de ansatte virket usedvanlig ___ med det nye pauserommet.",
+        "nb": "Alle gjestene var ___ etter festen.",
         "answer": "fornøyde",
-        "hint_ru": "Форма множественного числа (flertall: fornøyde)",
-        "hint_uk": "Форма множини (flertall: fornøyde)",
-        "hint_en": "Plural form (flertall: fornøyde)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -10765,26 +10765,26 @@
     },
     "examples": [
       {
-        "nb": "Eksamensoppgaven var en vanskelig nøtt å knekke for studentene.",
-        "ru": "Экзаменационное задание оказалось трудным орешком для студентов.",
-        "uk": "Екзаменаційне завдання виявилося міцним горішком для студентів.",
-        "en": "The exam question was a tough nut to crack for the students."
+        "nb": "Norsk tale er ikke vanskelig.",
+        "ru": "Норвежская речь не сложная.",
+        "uk": "Норвезька мова не складна.",
+        "en": "Norwegian speech is not difficult."
       }
     ],
     "cloze": [
       {
-        "nb": "Det er et spesielt ___ regnestykke på prøven i dag.",
+        "nb": "Spørsmålet var litt ___ for meg.",
         "answer": "vanskelig",
-        "hint_ru": "Форма среднего рода (nøytrum)",
-        "hint_uk": "Форма середнього роду (nøytrum)",
-        "hint_en": "Neuter form (nøytrum)"
+        "hint_ru": "Позитивная форма",
+        "hint_uk": "Позитивна форма",
+        "hint_en": "Positive form"
       },
       {
-        "nb": "Læreren hjalp elevene med de mest ___ ordene i teksten.",
+        "nb": "De leste noen ___ ord sammen.",
         "answer": "vanskelige",
-        "hint_ru": "Определённая форма / множественное число (vanskelige)",
-        "hint_uk": "Означена форма / множина (vanskelige)",
-        "hint_en": "Definite / plural form (vanskelige)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -10812,26 +10812,26 @@
     },
     "examples": [
       {
-        "nb": "Kokeboka inneholder en enkel oppskrift på tradisjonelle vafler.",
-        "ru": "Кулинарная книга содержит простой рецепт традиционных вафель.",
-        "uk": "Кулінарна книга містить простий рецепт традиційних вафель.",
-        "en": "The cookbook contains a simple recipe for traditional waffles."
+        "nb": "Dette er en enkel oppgave.",
+        "ru": "Это простое задание.",
+        "uk": "Це просте завдання.",
+        "en": "This is a simple task."
       }
     ],
     "cloze": [
       {
-        "nb": "Dette var et overraskende ___ dataprogram å lære seg.",
+        "nb": "Det var et ___ svar.",
         "answer": "enkelt",
-        "hint_ru": "Форма среднего рода (nøytrum: enkelt)",
-        "hint_uk": "Форма середнього роду (nøytrum: enkelt)",
-        "hint_en": "Neuter form (nøytrum: enkelt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Instruksen forklarte trinnene med helt ___ ord.",
+        "nb": "Barna lager ___ leker av papir.",
         "answer": "enkle",
-        "hint_ru": "Форма множественного числа (flertall: enkle)",
-        "hint_uk": "Форма множини (flertall: enkle)",
-        "hint_en": "Plural form (flertall: enkle)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -12829,26 +12829,26 @@
     },
     "examples": [
       {
-        "nb": "Syklisten har alltid på seg refleksvest når det er mørkt.",
-        "ru": "Велосипедист всегда надевает светоотражающий жилет в темноте.",
-        "uk": "Велосипедист завжди одягає світловідбивний жилет у темряві.",
-        "en": "The cyclist always wears a reflective vest when it is dark."
+        "nb": "Solen skinner alltid over skyene.",
+        "ru": "Солнце всегда светит над облаками.",
+        "uk": "Сонце завжди світить над хмарами.",
+        "en": "The sun always shines above the clouds."
       }
     ],
     "cloze": [
       {
-        "nb": "Konduktøren sjekker ___ billettene til passasjerene på toget.",
+        "nb": "Han kommer ___ tidsnok til skolen.",
         "answer": "alltid",
-        "hint_ru": "Наречие времени со значением «всегда»",
-        "hint_uk": "Прислівник часу зі значенням «завжди»",
-        "hint_en": "Time adverb meaning 'always'"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       },
       {
-        "nb": "Husk at det ___ er lov å be læreren om hjelp.",
+        "nb": "Mor drikker ___ te om kvelden.",
         "answer": "alltid",
-        "hint_ru": "Наречие (alltid)",
-        "hint_uk": "Прислівник (alltid)",
-        "hint_en": "Adverb (alltid)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       }
     ],
     "status": "draft",
@@ -12872,26 +12872,26 @@
     },
     "examples": [
       {
-        "nb": "Naboene møtes ofte ved postkassene for en vennlig prat.",
-        "ru": "Соседи часто встречаются у почтовых ящиков для дружеской беседы.",
-        "uk": "Сусіди часто зустрічаються біля поштових скриньок для дружньої розмови.",
-        "en": "The neighbors often meet by the mailboxes for a friendly chat."
+        "nb": "Vi går ofte tur sammen.",
+        "ru": "Мы часто гуляем вместе.",
+        "uk": "Ми часто гуляємо разом.",
+        "en": "We often walk together."
       }
     ],
     "cloze": [
       {
-        "nb": "Småbarnsfamilien spiser ___ fisk til middag i hverdagen.",
+        "nb": "Spiser du ___ fisk til middag?",
         "answer": "ofte",
-        "hint_ru": "Наречие частотности (ofte)",
-        "hint_uk": "Прислівник частотності (ofte)",
-        "hint_en": "Frequency adverb (ofte)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       },
       {
-        "nb": "Hvor ___ går bussen fra denne holdeplassen om morgenen?",
+        "nb": "De ringer ___ til sine venner.",
         "answer": "ofte",
-        "hint_ru": "Наречие (ofte)",
-        "hint_uk": "Прислівник (ofte)",
-        "hint_en": "Adverb (ofte)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       }
     ],
     "status": "draft",
@@ -12915,26 +12915,26 @@
     },
     "examples": [
       {
-        "nb": "Togene på denne avsidesliggende strekningen er sjelden forsinket.",
-        "ru": "Поезда на этой отдалённой линии редко опаздывают.",
-        "uk": "Потяги на цій віддаленій лінії рідко запізнюються.",
-        "en": "Trains on this remote line are rarely delayed."
+        "nb": "Det snør sjelden her om sommeren.",
+        "ru": "Летом здесь редко идёт снег.",
+        "uk": "Влітку тут рідко йде сніг.",
+        "en": "It seldom snows here in the summer."
       }
     ],
     "cloze": [
       {
-        "nb": "Det snør ___ så langt sør i landet i oktober.",
+        "nb": "Han spiser ___ mat på restaurant.",
         "answer": "sjelden",
-        "hint_ru": "Наречие «редко» (sjelden)",
-        "hint_uk": "Прислівник «рідко» (sjelden)",
-        "hint_en": "Adverb meaning 'rarely' (sjelden)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       },
       {
-        "nb": "Han spiser veldig ___ hurtigmat fordi han foretrekker hjemmelaget.",
+        "nb": "Vi ser ham ___ etter skoletid nå.",
         "answer": "sjelden",
-        "hint_ru": "Наречие (sjelden)",
-        "hint_uk": "Прислівник (sjelden)",
-        "hint_en": "Adverb (sjelden)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       }
     ],
     "status": "draft",
@@ -12958,26 +12958,26 @@
     },
     "examples": [
       {
-        "nb": "En samvittighetsfull sjåfør bruker aldri mobiltelefonen under kjøring.",
-        "ru": "Добросовестный водитель никогда не пользуется телефоном за рулём.",
-        "uk": "Сумлінний водій ніколи не користується телефоном за кермом.",
-        "en": "A conscientious driver never uses the mobile phone while driving."
+        "nb": "Jeg drikker aldri kaffe sent.",
+        "ru": "Я никогда не пью кофе поздно.",
+        "uk": "Я ніколи не п'ю каву пізно.",
+        "en": "I never drink coffee late."
       }
     ],
     "cloze": [
       {
-        "nb": "Læreren mister ___ tålmodigheten med elevene i timen.",
+        "nb": "Han glemmer ___ nøklene sine hjemme.",
         "answer": "aldri",
-        "hint_ru": "Наречие отрицания «никогда» (aldri)",
-        "hint_uk": "Заперечний прислівник «ніколи» (aldri)",
-        "hint_en": "Adverb meaning 'never' (aldri)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       },
       {
-        "nb": "Det er ___ for sent å lære noe nytt i livet.",
+        "nb": "Bussen er ___ forsinket om morgenen.",
         "answer": "aldri",
-        "hint_ru": "Наречие (aldri)",
-        "hint_uk": "Прислівник (aldri)",
-        "hint_en": "Adverb (aldri)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       }
     ],
     "status": "draft",
@@ -13259,26 +13259,26 @@
     },
     "examples": [
       {
-        "nb": "Dersom været holder seg tørt, drar vi kanskje på telttur i helgen.",
-        "ru": "Если погода останется сухой, мы, может быть, поедем с палатками на выходных.",
-        "uk": "Якщо погода залишиться сухою, ми, можливо, поїдемо з наметами на вихідних.",
-        "en": "If the weather stays dry, we might perhaps go camping this weekend."
+        "nb": "Vi kommer kanskje på besøk.",
+        "ru": "Мы, возможно, придём в гости.",
+        "uk": "Ми, можливо, прийдемо в гості.",
+        "en": "We might perhaps come visit."
       }
     ],
     "cloze": [
       {
-        "nb": "Legen sa at feberen ___ ville gi seg i løpet av morgendagen.",
+        "nb": "I morgen blir det ___ sol.",
         "answer": "kanskje",
-        "hint_ru": "Наречие вероятности «может быть» (kanskje)",
-        "hint_uk": "Прислівник вірогідності «можливо» (kanskje)",
-        "hint_en": "Adverb meaning 'maybe' (kanskje)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       },
       {
-        "nb": "Vi må ___ bestille bord på forhånd til fredagskvelden.",
+        "nb": "Hun vet ___ svaret på dette.",
         "answer": "kanskje",
-        "hint_ru": "Наречие (kanskje)",
-        "hint_uk": "Прислівник (kanskje)",
-        "hint_en": "Adverb (kanskje)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       }
     ],
     "status": "draft",
@@ -13302,26 +13302,26 @@
     },
     "examples": [
       {
-        "nb": "Arbeidsgiveren ga beskjed om at stillingen dessverre var besatt.",
-        "ru": "Работодатель сообщил, что вакансия, к сожалению, уже занята.",
-        "uk": "Роботодавець повідомив, що посада, на жаль, уже зайнята.",
-        "en": "The employer informed that the position unfortunately was filled."
+        "nb": "Butikken er dessverre stengt i dag.",
+        "ru": "Магазин, к сожалению, закрыт сегодня.",
+        "uk": "Магазин, на жаль, зачинений сьогодні.",
+        "en": "The shop is unfortunately closed today."
       }
     ],
     "cloze": [
       {
-        "nb": "Toget var ___ innstilt på grunn av et strømbrudd på linjen.",
+        "nb": "Jeg kan ___ ikke bli med i kveld.",
         "answer": "dessverre",
-        "hint_ru": "Наречие «к сожалению» (dessverre)",
-        "hint_uk": "Прислівник «на жаль» (dessverre)",
-        "hint_en": "Adverb meaning 'unfortunately' (dessverre)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       },
       {
-        "nb": "Konserten ble ___ avlyst på grunn av vokalistens sykdom.",
+        "nb": "Toget var ___ ti minutter forsinket.",
         "answer": "dessverre",
-        "hint_ru": "Наречие (dessverre)",
-        "hint_uk": "Прислівник (dessverre)",
-        "hint_en": "Adverb (dessverre)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       }
     ],
     "status": "draft",
@@ -13345,26 +13345,26 @@
     },
     "examples": [
       {
-        "nb": "Syklisten veltet på glattisen, men kom heldigvis fra det uten skader.",
-        "ru": "Велосипедист упал на гололёде, но, к счастью, обошёлся без травм.",
-        "uk": "Велосипедист упав на ожеледиці, але, на щастя, відбувся без травм.",
-        "en": "The cyclist slipped on the ice, but fortunately escaped without injuries."
+        "nb": "Været ble heldigvis mye bedre nå.",
+        "ru": "Погода, к счастью, стала намного лучше сейчас.",
+        "uk": "Погода, на щастя, стала набагато кращою зараз.",
+        "en": "The weather fortunately became much better now."
       }
     ],
     "cloze": [
       {
-        "nb": "Brannvesenet slukket flammene raskt, så ingen kom ___ til skade.",
+        "nb": "Det gikk ___ bra med ham.",
         "answer": "heldigvis",
-        "hint_ru": "Наречие «к счастью» (heldigvis)",
-        "hint_uk": "Прислівник «на щастя» (heldigvis)",
-        "hint_en": "Adverb meaning 'fortunately' (heldigvis)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       },
       {
-        "nb": "Lommeboka lå ___ igjen på kafébordet der han hadde glemt den.",
+        "nb": "Nøklene lå ___ i jakkelomma mi.",
         "answer": "heldigvis",
-        "hint_ru": "Наречие (heldigvis)",
-        "hint_uk": "Прислівник (heldigvis)",
-        "hint_en": "Adverb (heldigvis)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       }
     ],
     "status": "draft",
@@ -13388,26 +13388,26 @@
     },
     "examples": [
       {
-        "nb": "Regnet øste ned, men turgåerne gjennomførte allikevel turen over fjellet.",
-        "ru": "Дождь лил как из ведра, но туристы всё равно совершили поход через горы.",
-        "uk": "Дощ лив як із відра, але мандрівники все одно здійснили похід через гори.",
-        "en": "The rain poured down, but the hikers nevertheless completed the mountain hike."
+        "nb": "Det regnet, men vi gikk tur allikevel.",
+        "ru": "Шёл дождь, но мы всё равно пошли гулять.",
+        "uk": "Йшов дощ, але ми все одно пішли гуляти.",
+        "en": "It rained, but we went for a walk anyway."
       }
     ],
     "cloze": [
       {
-        "nb": "Kandidaten var nervøs før intervjuet, men gjorde et godt inntrykk ___.",
+        "nb": "Maten var dyr, men vi spiste ___.",
         "answer": "allikevel",
-        "hint_ru": "Наречие «всё равно / тем не менее» (allikevel)",
-        "hint_uk": "Прислівник «все одно / проте» (allikevel)",
-        "hint_en": "Adverb meaning 'nevertheless' (allikevel)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       },
       {
-        "nb": "Selv om prisen var litt stiv, valgte de å kjøpe huset ___.",
+        "nb": "Bilen var gammel, men den fungerte ___.",
         "answer": "allikevel",
-        "hint_ru": "Наречие (allikevel)",
-        "hint_uk": "Прислівник (allikevel)",
-        "hint_en": "Adverb (allikevel)"
+        "hint_ru": "Основная форма наречия",
+        "hint_uk": "Основна форма прислівника",
+        "hint_en": "Basic adverb form"
       }
     ],
     "status": "draft",
@@ -13431,26 +13431,26 @@
     },
     "examples": [
       {
-        "nb": "Lærlingen kom for sent til jobben fordi bussen sto fast i snøkaoset.",
-        "ru": "Стажёр опоздал на работу, потому что автобус застрял в снежном хаосе.",
-        "uk": "Стажер запізнився на роботу, тому що автобус застряг у сніговому колапсі.",
-        "en": "The apprentice arrived late for work because the bus was stuck in the snow chaos."
+        "nb": "Jeg smiler fordi jeg er glad.",
+        "ru": "Я улыбаюсь, потому что я рад.",
+        "uk": "Я посміхаюся, тому що я радий.",
+        "en": "I smile because I am happy."
       }
     ],
     "cloze": [
       {
-        "nb": "Han ble hjemme fra skolen ___ han hadde feber og vondt i halsen.",
+        "nb": "Han spiser ___ han er sulten.",
         "answer": "fordi",
-        "hint_ru": "Подчинительный союз причины «потому что» (fordi)",
-        "hint_uk": "Підрядний сполучник причини «тому що» (fordi)",
-        "hint_en": "Causal conjunction 'because' (fordi)"
+        "hint_ru": "Союз причины",
+        "hint_uk": "Сполучник причини",
+        "hint_en": "Causal conjunction"
       },
       {
-        "nb": "Vi valgte å avlyse turen ___ værmeldingen varslet sterk storm.",
+        "nb": "Hun sover ___ hun er trøtt.",
         "answer": "fordi",
-        "hint_ru": "Союз причины (fordi)",
-        "hint_uk": "Сполучник причини (fordi)",
-        "hint_en": "Conjunction (fordi)"
+        "hint_ru": "Союз причины",
+        "hint_uk": "Сполучник причини",
+        "hint_en": "Causal conjunction"
       }
     ],
     "status": "draft",
@@ -13474,26 +13474,26 @@
     },
     "examples": [
       {
-        "nb": "Veiene var speilglatte, og derfor kjørte bilistene ekstra forsiktig.",
-        "ru": "Дороги были зеркально скользкими, и поэтому автомобилисты ехали предельно осторожно.",
-        "uk": "Дороги були дзеркально слизькими, і тому водії їхали надзвичайно обережно.",
-        "en": "The roads were mirror-smooth, and therefore drivers drove extra carefully."
+        "nb": "Jeg er syk, derfor hviler jeg.",
+        "ru": "Я болен, поэтому я отдыхаю.",
+        "uk": "Я хворий, тому я відпочиваю.",
+        "en": "I am sick, therefore I rest."
       }
     ],
     "cloze": [
       {
-        "nb": "Toget var innstilt, og ___ måtte passasjerene ta erstatningsbuss.",
+        "nb": "Det regner, ___ tar jeg buss.",
         "answer": "derfor",
-        "hint_ru": "Наречие/союз следствия (derfor)",
-        "hint_uk": "Прислівник/сполучник наслідку (derfor)",
-        "hint_en": "Consequential connector (derfor)"
+        "hint_ru": "Союз следствия",
+        "hint_uk": "Сполучник наслідку",
+        "hint_en": "Consequence conjunction"
       },
       {
-        "nb": "Han sparte flittig hver måned, og ___ fikk han råd til leiligheten.",
+        "nb": "Han trener, ___ er han sterk.",
         "answer": "derfor",
-        "hint_ru": "Связующее слово следствия (derfor)",
-        "hint_uk": "Сполучне слово наслідку (derfor)",
-        "hint_en": "Consequence connector (derfor)"
+        "hint_ru": "Союз следствия",
+        "hint_uk": "Сполучник наслідку",
+        "hint_en": "Consequence conjunction"
       }
     ],
     "status": "draft",
@@ -13517,26 +13517,26 @@
     },
     "examples": [
       {
-        "nb": "Du må ta kontakt med fastlegen hvis smertene i ryggen ikke forsvinner.",
-        "ru": "Вам нужно связаться с терапевтом, если боли в спине не пройдут.",
-        "uk": "Вам потрібно зв'язатися із сімейним лікарем, якщо болі в спині не минуть.",
-        "en": "You must contact your GP if the pain in your back does not disappear."
+        "nb": "Si fra hvis du trenger hjelp.",
+        "ru": "Скажи, если тебе нужна помощь.",
+        "uk": "Скажи, якщо тобі потрібна допомога.",
+        "en": "Let me know if you need help."
       }
     ],
     "cloze": [
       {
-        "nb": "Vi kan dra på piknik i parken ___ solen titter fram i ettermiddag.",
+        "nb": "Vi går ut ___ solen skinner.",
         "answer": "hvis",
-        "hint_ru": "Условный союз «если» (hvis)",
-        "hint_uk": "Умовний сполучник «якщо» (hvis)",
-        "hint_en": "Conditional conjunction 'if' (hvis)"
+        "hint_ru": "Условный союз",
+        "hint_uk": "Умовний сполучник",
+        "hint_en": "Conditional conjunction"
       },
       {
-        "nb": "Spør læreren med en gang ___ det er noe du ikke forstår.",
+        "nb": "Spør meg ___ noe er uklart.",
         "answer": "hvis",
-        "hint_ru": "Условный союз (hvis)",
-        "hint_uk": "Умовний сполучник (hvis)",
-        "hint_en": "Conjunction (hvis)"
+        "hint_ru": "Условный союз",
+        "hint_uk": "Умовний сполучник",
+        "hint_en": "Conditional conjunction"
       }
     ],
     "status": "draft",
@@ -13560,26 +13560,26 @@
     },
     "examples": [
       {
-        "nb": "Moren lagde middag på kjøkkenet mens barna gjorde leksene sine.",
-        "ru": "Мать готовила ужин на кухне, пока дети делали свои уроки.",
-        "uk": "Мати готувала вечерю на кухні, поки діти робили свої уроки.",
-        "en": "The mother cooked dinner in the kitchen while the children did their homework."
+        "nb": "Far lager mat mens mor vasker kopper.",
+        "ru": "Отец готовит еду, пока мама моет чашки.",
+        "uk": "Батько готує їжу, поки мама миє чашки.",
+        "en": "Father cooks food while mother washes cups."
       }
     ],
     "cloze": [
       {
-        "nb": "Han hørte på nyhetene i radioen ___ han kjørte bil til jobb.",
+        "nb": "Han hørte på musikk ___ han leste.",
         "answer": "mens",
-        "hint_ru": "Временной союз «пока / в то время как» (mens)",
-        "hint_uk": "Часовий сполучник «поки / у той час як» (mens)",
-        "hint_en": "Temporal conjunction 'while' (mens)"
+        "hint_ru": "Временной союз",
+        "hint_uk": "Часовий сполучник",
+        "hint_en": "Temporal conjunction"
       },
       {
-        "nb": "Passasjerene ventet i avgangshallen ___ flyet ble klargjort.",
+        "nb": "Barna lekte rolig ___ de voksne snakket.",
         "answer": "mens",
-        "hint_ru": "Союз одновременности (mens)",
-        "hint_uk": "Сполучник одночасності (mens)",
-        "hint_en": "Conjunction (mens)"
+        "hint_ru": "Временной союз",
+        "hint_uk": "Часовий сполучник",
+        "hint_en": "Temporal conjunction"
       }
     ],
     "status": "draft",
@@ -13689,26 +13689,26 @@
     },
     "examples": [
       {
-        "nb": "Demonstrantene samlet seg til en fredelig markering utenfor Stortinget.",
-        "ru": "Демонстранты собрались на мирный митинг перед зданием парламента.",
-        "uk": "Демонстранти зібралися на мирний мітинг перед будівлею парламенту.",
-        "en": "The protesters gathered for a peaceful rally outside the Parliament."
+        "nb": "Bilen står parkert rett utenfor huset.",
+        "ru": "Машина припаркована прямо около дома.",
+        "uk": "Машина припаркована прямо біля будинку.",
+        "en": "The car is parked right outside the house."
       }
     ],
     "cloze": [
       {
-        "nb": "Mange pendlere parkerte bilene sine ___ togstasjonen i morges.",
+        "nb": "Vi venter på deg ___ butikken nå.",
         "answer": "utenfor",
-        "hint_ru": "Предлог «снаружи / около» (utenfor)",
-        "hint_uk": "Прийменник «зовні / біля» (utenfor)",
-        "hint_en": "Preposition meaning 'outside' (utenfor)"
+        "hint_ru": "Предлог места",
+        "hint_uk": "Прийменник місця",
+        "hint_en": "Preposition of place"
       },
       {
-        "nb": "Barna lekte gjemmeleke like ___ gjerdet til barnehagen.",
+        "nb": "Katten liker å sove ___ døra.",
         "answer": "utenfor",
-        "hint_ru": "Предлог (utenfor)",
-        "hint_uk": "Прийменник (utenfor)",
-        "hint_en": "Preposition (utenfor)"
+        "hint_ru": "Предлог места",
+        "hint_uk": "Прийменник місця",
+        "hint_en": "Preposition of place"
       }
     ],
     "status": "draft",

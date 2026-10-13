@@ -4707,22 +4707,22 @@
     },
     "examples": [
       {
-        "nb": "Mange pendlere tar en miljøvennlig buss til jobben hver morgen.",
-        "ru": "Многие пригородные пассажиры каждое утро ездят на работу на экологичном автобусе.",
-        "uk": "Багато приміських пасажирів щоранку їздять на роботу екологічним автобусом.",
-        "en": "Many commuters take an eco-friendly bus to work every morning."
+        "nb": "Vi tar en rød buss.",
+        "ru": "Мы едем на красном автобусе.",
+        "uk": "Ми їдемо червоним автобусом.",
+        "en": "We take a red bus."
       }
     ],
     "cloze": [
       {
-        "nb": "Det går en direkte ___ fra sentrum til flyplassen to ganger i timen.",
+        "nb": "Der kommer en gul ___.",
         "answer": "buss",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Passasjerene gikk om bord da ___ omsider ankom holdeplassen.",
+        "nb": "Mange folk venter på ___.",
         "answer": "bussen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4754,22 +4754,22 @@
     },
     "examples": [
       {
-        "nb": "Reisende foretrekker et komfortabelt tog når de skal krysse fjellet.",
-        "ru": "Путешественники предпочитают комфортабельный поезд для поездки через горы.",
-        "uk": "Мандрівники віддають перевагу комфортабельному потягу для поїздки через гори.",
-        "en": "Travelers prefer a comfortable train when crossing the mountains."
+        "nb": "Dette er et raskt tog.",
+        "ru": "Это быстрый поезд.",
+        "uk": "Це швидкий поїзд.",
+        "en": "This is a fast train."
       }
     ],
     "cloze": [
       {
-        "nb": "Det går et raskt ___ mellom Oslo og Bergen flere ganger daglig.",
+        "nb": "Vi reiser med et ___.",
         "answer": "tog",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Konduktøren sjekket billettene da ___ forlot stasjonen.",
+        "nb": "Nå kjører ___ fra stasjonen.",
         "answer": "toget",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4801,22 +4801,22 @@
     },
     "examples": [
       {
-        "nb": "I Oslos gater kjører en blå trikk med jevne mellomrom.",
-        "ru": "По улицам Осло с регулярными интервалами ходит синий трамвай.",
-        "uk": "Вулицями Осло з регулярними інтервалами курсує синій трамвай.",
-        "en": "In the streets of Oslo, a blue tram runs at regular intervals."
+        "nb": "I Oslo kjører det trikk.",
+        "ru": "В Осло ходит трамвай.",
+        "uk": "В Осло ходить трамвай.",
+        "en": "In Oslo a tram runs."
       }
     ],
     "cloze": [
       {
-        "nb": "Turistene hoppet på en moderne ___ opp til Holmenkollen.",
+        "nb": "Vi tar en blå ___.",
         "answer": "trikk",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Føreren bremset forsiktig da ___ nærmet seg krysset.",
+        "nb": "Se opp når ___ kommer!",
         "answer": "trikken",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4848,22 +4848,22 @@
     },
     "examples": [
       {
-        "nb": "Passasjeren kjøpte en elektronisk billett via mobilappen Ruter.",
-        "ru": "Пассажир купил электронный билет через мобильное приложение Ruter.",
-        "uk": "Пасажир купив електронний квиток через мобільний додаток Ruter.",
-        "en": "The passenger bought an electronic ticket via the Ruter mobile app."
+        "nb": "Kjøp en billett på forhånd.",
+        "ru": "Купи билет заранее.",
+        "uk": "Купи квиток заздалегідь.",
+        "en": "Buy a ticket in advance."
       }
     ],
     "cloze": [
       {
-        "nb": "Husk å skaffe en gyldig ___ før du går om bord.",
+        "nb": "Har du en gyldig ___?",
         "answer": "billett",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kontrolløren ba om å få se ___ under billettkontrollen.",
+        "nb": "Vennligst vis fram ___ her.",
         "answer": "billetten",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4895,22 +4895,22 @@
     },
     "examples": [
       {
-        "nb": "Toget stoppet ved en liten stasjon midt ute på landsbygda.",
-        "ru": "Поезд остановился на маленькой станции посреди сельской местности.",
-        "uk": "Потяг зупинився на маленькій станції посеред сільської місцевості.",
-        "en": "The train stopped at a small station out in the countryside."
+        "nb": "Byen har en stor stasjon.",
+        "ru": "В городе большой вокзал.",
+        "uk": "У місті великий вокзал.",
+        "en": "The town has a large station."
       }
     ],
     "cloze": [
       {
-        "nb": "Kommunen har pusset opp en historisk ___ langs jernbanelinjen.",
+        "nb": "Toget stopper ved en ___.",
         "answer": "stasjon",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Mange pendlere ventet spent på perrongen på ___.",
+        "nb": "Vi møtes utenfor ___ nå.",
         "answer": "stasjonen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4942,22 +4942,22 @@
     },
     "examples": [
       {
-        "nb": "Utenfor rådhuset finnes en nyoppført holdeplass med leskur.",
-        "ru": "Возле ратуши находится новая остановка с навесом от дождя.",
-        "uk": "Біля ратуші розташована нова зупинка з навісом від дощу.",
-        "en": "Outside the town hall is a newly built stop with a rain shelter."
+        "nb": "Det finnes en holdeplass her.",
+        "ru": "Здесь есть остановка.",
+        "uk": "Тут є зупинка.",
+        "en": "There is a stop here."
       }
     ],
     "cloze": [
       {
-        "nb": "Bussen har en fast ___ like ved det lokale supermarkedet.",
+        "nb": "Bussen har en ny ___.",
         "answer": "holdeplass",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Passasjerene stilte seg opp i kø ved ___ i rushtiden.",
+        "nb": "Folk sto på ___.",
         "answer": "holdeplassen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4989,22 +4989,22 @@
     },
     "examples": [
       {
-        "nb": "Mange familier i Norge velger en stillegående elbil til hverdags.",
-        "ru": "Многие семьи в Норвегии выбирают бесшумный электромобиль на каждый день.",
-        "uk": "Багато родин у Норвегії обирають безшумний електромобіль на щодень.",
-        "en": "Many families in Norway choose a quiet electric car for everyday use."
+        "nb": "Hun kjører en hvit bil.",
+        "ru": "Она водит белую машину.",
+        "uk": "Вона водить білу машину.",
+        "en": "She drives a white car."
       }
     ],
     "cloze": [
       {
-        "nb": "Naboen sparte penger og kjøpte en brukt ___ i god stand.",
+        "nb": "De kjøpte en brukt ___.",
         "answer": "bil",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Mekanikeren skiftet motorolje og filter på ___ i går.",
+        "nb": "Han parkerte ___ ved veien.",
         "answer": "bilen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5036,22 +5036,22 @@
     },
     "examples": [
       {
-        "nb": "Om våren tar han fram en nysmurt sykkel fra boden.",
-        "ru": "Весной он достаёт из сарая смазанный велосипед.",
-        "uk": "Навесні він дістає з комори змащений велосипед.",
-        "en": "In the spring he takes a freshly oiled bicycle out of the shed."
+        "nb": "Guten fikk en ny sykkel.",
+        "ru": "Мальчик получил новый велосипед.",
+        "uk": "Хлопчик отримав новий велосипед.",
+        "en": "The boy got a new bicycle."
       }
     ],
     "cloze": [
       {
-        "nb": "Til konfirmasjonen ønsket gutten seg en tøff ___ med gir.",
+        "nb": "Hun leier en rød ___.",
         "answer": "sykkel",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Husk å låse fast ___ til stativet utenfor butikken.",
+        "nb": "Lås ___ godt før kvelden.",
         "answer": "sykkelen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5083,22 +5083,22 @@
     },
     "examples": [
       {
-        "nb": "Høyt oppe på den blå himmelen landet et stort fly fra London.",
-        "ru": "Высоко в синем небе приземлился большой самолёт из Лондона.",
-        "uk": "Високо в синьому небі приземлився великий літак із Лондона.",
-        "en": "High up in the blue sky, a large plane from London was landing."
+        "nb": "Vi reiser med et fly.",
+        "ru": "Мы летим на самолете.",
+        "uk": "Ми летимо літаком.",
+        "en": "We travel by a plane."
       }
     ],
     "cloze": [
       {
-        "nb": "Flyplassen mottok et internasjonalt ___ med to timers forsinkelse.",
+        "nb": "Himmelen har et lite ___.",
         "answer": "fly",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kapteinen ba alle feste setebeltene før ___ lettet fra rullebanen.",
+        "nb": "Nå letter ___ fra bakken.",
         "answer": "flyet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5130,22 +5130,22 @@
     },
     "examples": [
       {
-        "nb": "Toget frakter tusenvis av reisende til en travel flyplass.",
-        "ru": "Поезд доставляет тысячи пассажиров в оживлённый аэропорт.",
-        "uk": "Потяг доставляє тисячі пасажирів до жвавого аеропорту.",
-        "en": "The train transports thousands of travelers to a busy airport."
+        "nb": "Oslo har en stor flyplass.",
+        "ru": "В Осло большой аэропорт.",
+        "uk": "В Осло великий аеропорт.",
+        "en": "Oslo has a large airport."
       }
     ],
     "cloze": [
       {
-        "nb": "Øya har en liten lokal ___ med én enkelt rullebane.",
+        "nb": "Toget kjører til en ___.",
         "answer": "flyplass",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Sikkerhetskontrollen på ___ gikk heldigvis veldig kjapt i morges.",
+        "nb": "Bussen kom fram til ___.",
         "answer": "flyplassen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5177,22 +5177,22 @@
     },
     "examples": [
       {
-        "nb": "Vestlendingene er avhengige av ei elektrisk ferge over fjorden.",
-        "ru": "Жители Западной Норвегии зависят от электрического парома через фьорд.",
-        "uk": "Жителі Західної Норвегії залежать від електричного порома через фіорд.",
-        "en": "Residents of western Norway depend on an electric ferry across the fjord."
+        "nb": "Bilen kjørte på ei ferge.",
+        "ru": "Машина заехала на паром.",
+        "uk": "Машина заїхала на пором.",
+        "en": "The car drove onto a ferry."
       }
     ],
     "cloze": [
       {
-        "nb": "Turistene tok ei bilførende ___ for å komme ut til øygruppa.",
+        "nb": "Vi venter på ei ___.",
         "answer": "ferge",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Matrosen fortøyde ___ trygt til kaia i stormen.",
+        "nb": "Snart seiler ___ over fjorden.",
         "answer": "ferga",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5224,22 +5224,22 @@
     },
     "examples": [
       {
-        "nb": "Veivesenet asfalterte en svingete vei over fjellet før ferien.",
-        "ru": "Дорожная служба заасфальтировала извилистую дорогу через гору перед отпусками.",
-        "uk": "Дорожня служба заасфальтувала звивисту дорогу через гору перед відпустками.",
-        "en": "The road administration paved a winding road over the mountain before the holidays."
+        "nb": "Dette er en svingete vei.",
+        "ru": "Это извилистая дорога.",
+        "uk": "Це звивиста дорога.",
+        "en": "This is a winding road."
       }
     ],
     "cloze": [
       {
-        "nb": "GPS-en ledet sjåføren inn på en smal ___ i skogen.",
+        "nb": "De fant en trygg ___.",
         "answer": "vei",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Politiet stengte ___ på grunn av et stort steinras.",
+        "nb": "Bilen sto midt i ___.",
         "answer": "veien",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5271,22 +5271,22 @@
     },
     "examples": [
       {
-        "nb": "Byplanleggerne gjorde ei travel gate om til gågate.",
-        "ru": "Городские планировщики превратили оживлённую улицу в пешеходную зону.",
-        "uk": "Міські планувальники перетворили жваву вулицю на пішохідну зону.",
-        "en": "Urban planners converted a busy street into a pedestrian zone."
+        "nb": "Huset ligger i ei gate.",
+        "ru": "Дом стоит на улице.",
+        "uk": "Будинок стоїть на вулиці.",
+        "en": "The house is on a street."
       }
     ],
     "cloze": [
       {
-        "nb": "Kaféen ligger i ei rolig ___ like bak domkirken.",
+        "nb": "Dette er ei stille ___.",
         "answer": "gate",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Barna lekte trygt ute i ___ om sommerettermiddagen.",
+        "nb": "Barnet løp over ___ nå.",
         "answer": "gata",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5316,22 +5316,22 @@
     },
     "examples": [
       {
-        "nb": "I rushtiden oppstår det en tett trafikk på innfartsårene til byen.",
-        "ru": "В час пик на въездах в город возникает плотное движение.",
-        "uk": "У годину пік на в'їздах до міста утворюється щільний рух.",
-        "en": "During rush hour, dense traffic builds up on the access roads to the city."
+        "nb": "Byen har mye trafikk nå.",
+        "ru": "В городе сейчас оживленное движение.",
+        "uk": "У місті зараз жвавий рух.",
+        "en": "The city has much traffic now."
       }
     ],
     "cloze": [
       {
-        "nb": "Tunnelen ble stengt for å avlaste en uvanlig stor ___.",
+        "nb": "Her er det tett ___.",
         "answer": "trafikk",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Politiet dirigerte ___ rolig forbi ulykkesstedet.",
+        "nb": "Støyen fra ___ var høy.",
         "answer": "trafikken",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5363,22 +5363,22 @@
     },
     "examples": [
       {
-        "nb": "Ungdommen besto oppkjøringen og fikk et rykende ferskt førerkort.",
-        "ru": "Подросток сдал практический экзамен и получил новенькие водительские права.",
-        "uk": "Підліток склав практичний іспит і отримав новеньке водійське посвідчення.",
-        "en": "The teenager passed the driving test and received a brand new driver's license."
+        "nb": "Hun tok sitt førerkort i fjor sommer.",
+        "ru": "Она получила водительские права прошлым летом.",
+        "uk": "Вона отримала водійські права минулого літа.",
+        "en": "She got her driving licence last summer."
       }
     ],
     "cloze": [
       {
-        "nb": "For å leie bil må man vise fram et gyldig ___.",
+        "nb": "Mannen må ta et nytt ___ nå.",
         "answer": "førerkort",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Sjåføren fant fram ___ fra lommeboka under politikontrollen.",
+        "nb": "Politiet ba om å se ___ hans.",
         "answer": "førerkortet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5410,22 +5410,22 @@
     },
     "examples": [
       {
-        "nb": "Signalfeil førte til en uventet forsinkelse for morgentoget.",
-        "ru": "Сбой сигнала привёл к неожиданной задержке утреннего поезда.",
-        "uk": "Збій сигналу призвів до несподіваної затримки ранкового потяга.",
-        "en": "A signal fault caused an unexpected delay for the morning train."
+        "nb": "Toget fikk en stor forsinkelse i dag.",
+        "ru": "Поезд сильно задержался сегодня.",
+        "uk": "Поїзд сильно затримався сьогодні.",
+        "en": "The train had a large delay today."
       }
     ],
     "cloze": [
       {
-        "nb": "Snøværet skapte en stor ___ for all busstrafikk i byen.",
+        "nb": "Bussen kjører uten en ___ i kveld.",
         "answer": "forsinkelse",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Flypassasjerene krevde erstatning fordi ___ varte i fire timer.",
+        "nb": "Folk klaget på den lange ___.",
         "answer": "forsinkelsen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5457,22 +5457,22 @@
     },
     "examples": [
       {
-        "nb": "Hurtigbåten har en tidlig avgang fra havna klokka seks.",
-        "ru": "У скоростного катера раннее отправление из порта в шесть часов.",
-        "uk": "У швидкісного катера раннє відправлення з порту о шостій годині.",
-        "en": "The express ferry has an early departure from the harbor at six o'clock."
+        "nb": "Flyet har en tidlig avgang i morgen.",
+        "ru": "У самолета ранний вылет завтра.",
+        "uk": "У літака ранній виліт завтра.",
+        "en": "The flight has an early departure tomorrow."
       }
     ],
     "cloze": [
       {
-        "nb": "Rutetabellen viser en ekstra ___ på søndagskvelder.",
+        "nb": "Toget fikk en ny ___ klokka fem.",
         "answer": "avgang",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Høyttaleren over perrongen annonserte at ___ var klar.",
+        "nb": "Vi må nå ___ før dørene lukkes.",
         "answer": "avgangen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5504,22 +5504,22 @@
     },
     "examples": [
       {
-        "nb": "Vennene la ut på ei uforglemmelig reise gjennom Vestlandet.",
-        "ru": "Друзья отправились в незабываемое путешествие по Западной Норвегии.",
-        "uk": "Друзі вирушили в незабутню подорож Західною Норвегією.",
-        "en": "The friends embarked on an unforgettable journey through western Norway."
+        "nb": "God reise til dere alle!",
+        "ru": "Счастливого пути вам всем!",
+        "uk": "Щасливої дороги вам усім!",
+        "en": "Have a good journey to you all!"
       }
     ],
     "cloze": [
       {
-        "nb": "Familien bestilte ei felles ___ til Spania til høsten.",
+        "nb": "Dette var ei lang ___.",
         "answer": "reise",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Etter to uker på farten nådde ___ sin ende.",
+        "nb": "Barna likte ___ veldig godt.",
         "answer": "reisa",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5551,22 +5551,22 @@
     },
     "examples": [
       {
-        "nb": "Grensekontrollen krever et gyldig pass ved innreise til landet.",
-        "ru": "Пограничный контроль требует действующий паспорт при въезде в страну.",
-        "uk": "Прикордонний контроль вимагає дійсний паспорт при в'їзді в країну.",
-        "en": "Border control requires a valid passport upon entering the country."
+        "nb": "Husk å ta med pass.",
+        "ru": "Не забудь взять с собой паспорт.",
+        "uk": "Не забудь узяти з собою паспорт.",
+        "en": "Remember to bring passport."
       }
     ],
     "cloze": [
       {
-        "nb": "Politistasjonen utsteder et biometrisk ___ til norske borgere.",
+        "nb": "Reisende må ha gyldig ___.",
         "answer": "pass",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Reisende la ___ fram for betjenten i innsjekkingen.",
+        "nb": "Hun la ___ i lomma.",
         "answer": "passet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -5596,22 +5596,22 @@
     },
     "examples": [
       {
-        "nb": "Turistene bar tung bagasje opp den bratte bakken mot hotellet.",
-        "ru": "Туристы несли тяжёлый багаж вверх по крутому склону к отелю.",
-        "uk": "Туристи несли важкий багаж угору крутим схилом до готелю.",
-        "en": "The tourists carried heavy luggage up the steep hill to the hotel."
+        "nb": "Vi har mye tung bagasje.",
+        "ru": "У нас много тяжелого багажа.",
+        "uk": "У нас багато важкого багажу.",
+        "en": "We have a lot of heavy luggage."
       }
     ],
     "cloze": [
       {
-        "nb": "Flyselskapet tillater en håndbagasje og en innsjekket ___.",
+        "nb": "Mannen bar på en ___.",
         "answer": "bagasje",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Passasjerene hentet ___ fra det rullende transportbåndet.",
+        "nb": "De fant ___ på flyplassen.",
         "answer": "bagasjen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -9102,26 +9102,26 @@
     },
     "examples": [
       {
-        "nb": "Pendlere reiser med tog inn til hovedstaden hver ukedag.",
-        "ru": "Пригородные пассажиры ездят на поезде в столицу каждый будний день.",
-        "uk": "Приміські пасажири їздять потягом до столиці щодня в будні.",
-        "en": "Commuters travel by train into the capital every weekday."
+        "nb": "Nå må vi reise hjem.",
+        "ru": "Сейчас мы должны ехать домой.",
+        "uk": "Зараз ми маємо їхати додому.",
+        "en": "Now we must travel home."
       }
     ],
     "cloze": [
       {
-        "nb": "Turistene ___ rundt på Vestlandet i to uker i fjor.",
+        "nb": "I fjor ___ familien sørover.",
         "answer": "reiste",
-        "hint_ru": "Прошедшее время (preteritum: reiste)",
-        "hint_uk": "Минулий час (preteritum: reiste)",
-        "hint_en": "Past tense (preteritum: reiste)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Vi gleder oss til å ___ på ferie til Syden i sommer.",
+        "nb": "Liker dere å ___ mye?",
         "answer": "reise",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -9148,26 +9148,26 @@
     },
     "examples": [
       {
-        "nb": "Sjåføren kjører forsiktig på glatte vinterveier over fjellet.",
-        "ru": "Водитель осторожно едет по скользким зимним дорогам через горы.",
-        "uk": "Водій обережно їде слизькими зимовими дорогами через гори.",
-        "en": "The driver drives carefully on slippery winter roads over the mountain."
+        "nb": "Han liker å kjøre bil.",
+        "ru": "Ему нравится водить машину.",
+        "uk": "Йому подобається водити машину.",
+        "en": "He likes driving a car."
       }
     ],
     "cloze": [
       {
-        "nb": "Drosjesjåføren ___ passasjerene trygt fram til sykehuset.",
+        "nb": "Bussen ___ sakte på snøen.",
         "answer": "kjørte",
-        "hint_ru": "Прошедшее время (preteritum: kjørte)",
-        "hint_uk": "Минулий час (preteritum: kjørte)",
-        "hint_en": "Past tense (preteritum: kjørte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det er forbudt å ___ for fort i boligstrøk.",
+        "nb": "Husk å ___ veldig pent.",
         "answer": "kjøre",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -9194,26 +9194,26 @@
     },
     "examples": [
       {
-        "nb": "Mange skoleelever sykler langs trygge sykkelstier om våren.",
-        "ru": "Многие школьники ездят на велосипедах по безопасным велодорожкам весной.",
-        "uk": "Багато школярів їздять на велосипедах безпечними велодоріжками навесні.",
-        "en": "Many schoolchildren cycle along safe bike paths in the spring."
+        "nb": "Barna pleier å sykle her.",
+        "ru": "Дети обычно катаются на велосипеде здесь.",
+        "uk": "Діти зазвичай катаються на велосипеді тут.",
+        "en": "The children usually cycle here."
       }
     ],
     "cloze": [
       {
-        "nb": "Miljøentusiasten ___ til jobben i all slags vær i fjor.",
+        "nb": "I morges ___ hun fort.",
         "answer": "syklet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det er god trim for kroppen å ___ til skolen hver dag.",
+        "nb": "Er det trygt å ___?",
         "answer": "sykle",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -9240,26 +9240,26 @@
     },
     "examples": [
       {
-        "nb": "Turgåerne går rolig langs kyststien mens bølgene slår inn.",
-        "ru": "Гуляющие спокойно идут по прибрежной тропе, пока волны накатывают на берег.",
-        "uk": "Мандрівники спокійно йдуть прибережною стежкою, поки хвилі накочуються на берег.",
-        "en": "The hikers walk quietly along the coastal path while the waves roll in."
+        "nb": "Vi kan gå til fots.",
+        "ru": "Мы можем пойти пешком.",
+        "uk": "Ми можемо піти пішки.",
+        "en": "We can walk on foot."
       }
     ],
     "cloze": [
       {
-        "nb": "Studenten ___ til fots hjem fra biblioteket i går ettermiddag.",
+        "nb": "Han ___ inn i butikken.",
         "answer": "gikk",
-        "hint_ru": "Прошедшее время (preteritum: gikk)",
-        "hint_uk": "Минулий час (preteritum: gikk)",
-        "hint_en": "Past tense (preteritum: gikk)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Legen anbefaler alle å ___ minst tretti minutter daglig.",
+        "nb": "Nå må vi ___ hjem.",
         "answer": "gå",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -9286,26 +9286,26 @@
     },
     "examples": [
       {
-        "nb": "Toget kommer presis inn på spor to i ettermiddag.",
-        "ru": "Поезд прибывает точно на второй путь сегодня днём.",
-        "uk": "Потяг прибуває точно на другу колію сьогодні вдень.",
-        "en": "The train arrives promptly on track two this afternoon."
+        "nb": "Bussen kommer om fem minutter.",
+        "ru": "Автобус прибудет через пять минут.",
+        "uk": "Автобус прибуде через п'ять хвилин.",
+        "en": "The bus arrives in five minutes."
       }
     ],
     "cloze": [
       {
-        "nb": "Gjestene ___ tidsnok fram til middagsselskapet i går.",
+        "nb": "Toget ___ presis i dag.",
         "answer": "kom",
-        "hint_ru": "Прошедшее время (preteritum: kom)",
-        "hint_uk": "Минулий час (preteritum: kom)",
-        "hint_en": "Past tense (preteritum: kom)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det er hyggelig når venner velger å ___ på uventet besøk.",
+        "nb": "Husk å ___ i tide.",
         "answer": "komme",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -9332,26 +9332,26 @@
     },
     "examples": [
       {
-        "nb": "Passasjerene venter tålmodig på bussen under leskuret i regnværet.",
-        "ru": "Пассажиры терпеливо ждут автобус под навесом в дождливую погоду.",
-        "uk": "Пасажири терпляче чекають на автобус під навісом у дощову погоду.",
-        "en": "The passengers wait patiently for the bus under the shelter in the rain."
+        "nb": "Mange må vente på toget.",
+        "ru": "Многие должны ждать поезд.",
+        "uk": "Багато хто мусить чекати на поїзд.",
+        "en": "Many must wait for the train."
       }
     ],
     "cloze": [
       {
-        "nb": "I morges ___ vi i tjue minutter på et forsinket tog.",
+        "nb": "Gjesten ___ lenge ved døra.",
         "answer": "ventet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det er kjedelig å måtte ___ lenge i kø på apoteket.",
+        "nb": "Det er kjedelig å ___.",
         "answer": "vente",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -9378,26 +9378,26 @@
     },
     "examples": [
       {
-        "nb": "Bussen stopper presis ved rådhuset for å slippe av passasjerer.",
-        "ru": "Автобус останавливается ровно у ратуши, чтобы высадить пассажиров.",
-        "uk": "Автобус зупиняється рівно біля ратуші, щоб висадити пасажирів.",
-        "en": "The bus stops right by the town hall to let passengers off."
+        "nb": "Bilen vil stoppe her nå.",
+        "ru": "Машина остановится здесь сейчас.",
+        "uk": "Машина зупиниться тут зараз.",
+        "en": "The car will stop here now."
       }
     ],
     "cloze": [
       {
-        "nb": "Sjåføren ___ brått foran fotgjengerfeltet da lyset ble gult.",
+        "nb": "Trikken ___ foran rødt lys.",
         "answer": "stoppet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Husk å trykke på knappen hvis du vil at trikken skal ___.",
+        "nb": "Sjåføren valgte å ___ bilen.",
         "answer": "stoppe",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -9424,26 +9424,26 @@
     },
     "examples": [
       {
-        "nb": "Turisten finner enkelt veien til museet ved hjelp av kartet.",
-        "ru": "Турист легко находит дорогу к музею с помощью карты.",
-        "uk": "Турист легко знаходить дорогу до музею за допомогою карти.",
-        "en": "The tourist easily finds the way to the museum using the map."
+        "nb": "Jeg kan ikke finne nøkkelen.",
+        "ru": "Я не могу найти ключ.",
+        "uk": "Я не можу знайти ключ.",
+        "en": "I cannot find the key."
       }
     ],
     "cloze": [
       {
-        "nb": "Han lette overalt og ___ til slutt de tapte husnøklene i lomma.",
+        "nb": "Turisten ___ veien til hotellet.",
         "answer": "fant",
-        "hint_ru": "Прошедшее время (preteritum: fant)",
-        "hint_uk": "Минулий час (preteritum: fant)",
-        "hint_en": "Past tense (preteritum: fant)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det kan være vanskelig å ___ en ledig parkeringsplass i sentrum.",
+        "nb": "Prøv å ___ riktig tog.",
         "answer": "finne",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -9470,26 +9470,26 @@
     },
     "examples": [
       {
-        "nb": "Pendlere tar hurtigtoget for å slippe kø på motorveien.",
-        "ru": "Пригородные пассажиры садятся на скоростной поезд, чтобы избежать пробок на шоссе.",
-        "uk": "Приміські пасажири сідають на швидкісний потяг, щоб уникнути заторів на шосе.",
-        "en": "Commuters take the express train to avoid traffic jams on the highway."
+        "nb": "Vi kan ta bussen sammen.",
+        "ru": "Мы можем поехать на автобусе вместе.",
+        "uk": "Ми можемо поїхати автобусом разом.",
+        "en": "We can take the bus together."
       }
     ],
     "cloze": [
       {
-        "nb": "I morges ___ studenten en drosje for å rekke eksamen.",
+        "nb": "I morges ___ jeg trikken.",
         "answer": "tok",
-        "hint_ru": "Прошедшее время (preteritum: tok)",
-        "hint_uk": "Минулий час (preteritum: tok)",
-        "hint_en": "Past tense (preteritum: tok)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Vi pleier alltid å ___ med oss niste på fjellturen.",
+        "nb": "Må vi ___ taxi nå?",
         "answer": "ta",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -12128,26 +12128,26 @@
     },
     "examples": [
       {
-        "nb": "Ekspresstoget er en rask transportmåte mellom storbyene i sør.",
-        "ru": "Экспресс-поезд — быстрый способ передвижения между крупными городами на юге.",
-        "uk": "Експрес-потяг — швидкий спосіб пересування між великими містами на півдні.",
-        "en": "The express train is a fast mode of transport between the major southern cities."
+        "nb": "Toget er veldig raskt.",
+        "ru": "Поезд очень быстрый.",
+        "uk": "Поїзд дуже швидкий.",
+        "en": "The train is very fast."
       }
     ],
     "cloze": [
       {
-        "nb": "Pasienten fikk et forbausende ___ svar på blodprøvene.",
+        "nb": "Flyet ga et ___ svar.",
         "answer": "raskt",
-        "hint_ru": "Форма среднего рода (nøytrum: raskt)",
-        "hint_uk": "Форма середнього роду (nøytrum: raskt)",
-        "hint_en": "Neuter form (nøytrum: raskt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Sprinterne var utrolig ___ ut fra startblokkene.",
+        "nb": "To ___ biler kjørte forbi.",
         "answer": "raske",
-        "hint_ru": "Форма множественного числа (flertall: raske)",
-        "hint_uk": "Форма множини (flertall: raske)",
-        "hint_en": "Plural form (flertall: raske)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -12175,26 +12175,26 @@
     },
     "examples": [
       {
-        "nb": "Nattbussen tilbyr en sen avgang for dem som jobber overtid.",
-        "ru": "Ночной автобус предлагает поздний рейс для тех, кто работает сверхурочно.",
-        "uk": "Нічний автобус пропонує пізній рейс для тих, хто працює надурочно.",
-        "en": "The night bus offers a late departure for those working overtime."
+        "nb": "Bussen var ganske sen.",
+        "ru": "Автобус довольно сильно опоздал.",
+        "uk": "Автобус досить сильно спізнився.",
+        "en": "The bus was quite late."
       }
     ],
     "cloze": [
       {
-        "nb": "Toget hadde et usedvanlig ___ oppmøte på stasjonen i kveld.",
+        "nb": "Toget ankom litt ___.",
         "answer": "sent",
-        "hint_ru": "Форма среднего рода (nøytrum: sent)",
-        "hint_uk": "Форма середнього роду (nøytrum: sent)",
-        "hint_en": "Neuter form (nøytrum: sent)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Gjestene takket for seg i de ___ nattetimene.",
+        "nb": "De tok to ___ busser.",
         "answer": "sene",
-        "hint_ru": "Определённая форма / множественное число (sene)",
-        "hint_uk": "Означена форма / множина (sene)",
-        "hint_en": "Definite / plural form (sene)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -12222,26 +12222,26 @@
     },
     "examples": [
       {
-        "nb": "Fiskeren sto opp for en tidlig båttur ut på havet ved soloppgang.",
-        "ru": "Рыбак встал для ранней лодочной прогулки в море на рассвете.",
-        "uk": "Рибалка встав для ранньої прогулянки човном у море на світанку.",
-        "en": "The fisherman got up for an early boat trip out to sea at sunrise."
+        "nb": "Møtet starter tidlig i morgen.",
+        "ru": "Встреча начинается рано утром завтра.",
+        "uk": "Зустріч починається рано-вранці завтра.",
+        "en": "The meeting starts early tomorrow."
       }
     ],
     "cloze": [
       {
-        "nb": "Flybussen hadde et uventet ___ avreiseklokkeslett i dag.",
+        "nb": "Toget gikk veldig ___.",
         "answer": "tidlig",
-        "hint_ru": "Форма среднего рода (nøytrum: tidlig)",
-        "hint_uk": "Форма середнього роду (nøytrum: tidlig)",
-        "hint_en": "Neuter form (nøytrum: tidlig)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Bøndene startet innhøstingen i de ___ morgentimene.",
+        "nb": "De liker ___ morgener.",
         "answer": "tidlige",
-        "hint_ru": "Определённая форма / множественное число (tidlige)",
-        "hint_uk": "Означена форма / множина (tidlige)",
-        "hint_en": "Definite / plural form (tidlige)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -12269,26 +12269,26 @@
     },
     "examples": [
       {
-        "nb": "Reisende la bak seg en lang biltur over Dovrefjell.",
-        "ru": "Путешественники оставили позади долгую поездку на машине через Доврефьелль.",
-        "uk": "Мандрівники подолали довгу поїздку автомобілем через Довреф'єлль.",
-        "en": "Travelers left behind a long car journey over Dovrefjell."
+        "nb": "Dette var en lang tur.",
+        "ru": "Это была долгая поездка.",
+        "uk": "Це була довга поїздка.",
+        "en": "This was a long trip."
       }
     ],
     "cloze": [
       {
-        "nb": "Paret gikk et uvanlig ___ stykke langs den steinete stranda.",
+        "nb": "Toget kjørte et ___ stykke.",
         "answer": "langt",
-        "hint_ru": "Форма среднего рода (nøytrum: langt)",
-        "hint_uk": "Форма середнього роду (nøytrum: langt)",
-        "hint_en": "Neuter form (nøytrum: langt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Vandrerne bar sekkene sine gjennom de ___ skogsstiene.",
+        "nb": "Veien har to ___ bakker.",
         "answer": "lange",
-        "hint_ru": "Форма множественного числа (flertall: lange)",
-        "hint_uk": "Форма множини (flertall: lange)",
-        "hint_en": "Plural form (flertall: lange)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -12316,26 +12316,26 @@
     },
     "examples": [
       {
-        "nb": "Passasjerene tok en kort spasertur fra fergeleiet til hotellet.",
-        "ru": "Пассажиры совершили короткую прогулку от паромного причала до отеля.",
-        "uk": "Пасажири здійснили коротку прогулянку від поромного причалу до готелю.",
-        "en": "The passengers took a short walk from the ferry dock to the hotel."
+        "nb": "Det var en kort pause.",
+        "ru": "Это был короткий перерыв.",
+        "uk": "Це була коротка перерва.",
+        "en": "It was a short break."
       }
     ],
     "cloze": [
       {
-        "nb": "Foredragsholderen holdt et konsist og ___ innlegg før lunsj.",
+        "nb": "Møtet varte et ___ øyeblikk.",
         "answer": "kort",
-        "hint_ru": "Форма среднего рода (nøytrum: kort)",
-        "hint_uk": "Форма середнього роду (nøytrum: kort)",
-        "hint_en": "Neuter form (nøytrum: kort)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Skredderen sydde to ___ skjørt til sommerkolleksjonen.",
+        "nb": "De gikk to ___ turer.",
         "answer": "korte",
-        "hint_ru": "Форма множественного числа (flertall: korte)",
-        "hint_uk": "Форма множини (flertall: korte)",
-        "hint_en": "Plural form (flertall: korte)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -12363,26 +12363,26 @@
     },
     "examples": [
       {
-        "nb": "Bilkjøperne valgte en trygg familiebil med moderne kollisjonsputer.",
-        "ru": "Покупатели выбрали безопасный семейный автомобиль с современными подушками безопасности.",
-        "uk": "Покупці обрали безпечний сімейний автомобіль із сучасними подушками безпеки.",
-        "en": "The car buyers chose a safe family car with modern airbags."
+        "nb": "Bilen er trygg og god.",
+        "ru": "Машина надежная и хорошая.",
+        "uk": "Машина надійна й гарна.",
+        "en": "The car is safe and good."
       }
     ],
     "cloze": [
       {
-        "nb": "Barna lekte i et inngjerdet og ___ område ved skolen.",
+        "nb": "Flyet landet helt ___.",
         "answer": "trygt",
-        "hint_ru": "Форма среднего рода (nøytrum: trygt)",
-        "hint_uk": "Форма середнього роду (nøytrum: trygt)",
-        "hint_en": "Neuter form (nøytrum: trygt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Byen har anlagt mange nye og ___ sykkelveier.",
+        "nb": "Skolen har ___ veier.",
         "answer": "trygge",
-        "hint_ru": "Форма множественного числа (flertall: trygge)",
-        "hint_uk": "Форма множини (flertall: trygge)",
-        "hint_en": "Plural form (flertall: trygge)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -12410,26 +12410,26 @@
     },
     "examples": [
       {
-        "nb": "Underkjølt regn skapte en glatt veibane for morgentrafikken.",
-        "ru": "Переохлаждённый дождь создал скользкое дорожное покрытие для утреннего движения.",
-        "uk": "Переохолоджений дощ створив слизьке дорожнє покриття для ранкового руху.",
-        "en": "Freezing rain created a slippery road surface for the morning traffic."
+        "nb": "Veien er veldig glatt nå.",
+        "ru": "Дорога очень скользкая сейчас.",
+        "uk": "Дорога дуже слизька зараз.",
+        "en": "The road is very slippery now."
       }
     ],
     "cloze": [
       {
-        "nb": "Fortauet utenfor butikken var farlig og ___ i morges.",
+        "nb": "Isen var helt ___.",
         "answer": "glatt",
-        "hint_ru": "Форма среднего рода (nøytrum: glatt)",
-        "hint_uk": "Форма середнього роду (nøytrum: glatt)",
-        "hint_en": "Neuter form (nøytrum: glatt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Sjåførene må kjøre ekstra varsomt på de ___ vinterveiene.",
+        "nb": "Gå forsiktig på ___ veier.",
         "answer": "glatte",
-        "hint_ru": "Определённая форма / множественное число (glatte)",
-        "hint_uk": "Означена форма / множина (glatte)",
-        "hint_en": "Definite / plural form (glatte)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -13603,26 +13603,26 @@
     },
     "examples": [
       {
-        "nb": "Ekspresstoget pendler i skytteltrafikk mellom Drammen og Gardermoen.",
-        "ru": "Скоростной поезд курсирует челноком между Драмменом и Гардермуэном.",
-        "uk": "Швидкісний потяг курсує човником між Драмменом і Гардермуеном.",
-        "en": "The express train shuttles between Drammen and Gardermoen."
+        "nb": "Bussen kjører mellom Oslo og Drammen.",
+        "ru": "Автобус курсирует между Осло и Драмменом.",
+        "uk": "Автобус курсує між Осло та Драмменом.",
+        "en": "The bus runs between Oslo and Drammen."
       }
     ],
     "cloze": [
       {
-        "nb": "Det oppsto god tillit og forståelse ___ de to nabolandene.",
+        "nb": "Toget stopper ___ to store byer.",
         "answer": "mellom",
-        "hint_ru": "Предлог «между» (mellom)",
-        "hint_uk": "Прийменник «між» (mellom)",
-        "hint_en": "Preposition meaning 'between' (mellom)"
+        "hint_ru": "Предлог",
+        "hint_uk": "Прийменник",
+        "hint_en": "Preposition"
       },
       {
-        "nb": "Butikken holder lunsjstengt ___ tolv og ett hver fredag.",
+        "nb": "Hun satt ___ to andre gjester.",
         "answer": "mellom",
-        "hint_ru": "Предлог (mellom)",
-        "hint_uk": "Прийменник (mellom)",
-        "hint_en": "Preposition (mellom)"
+        "hint_ru": "Предлог",
+        "hint_uk": "Прийменник",
+        "hint_en": "Preposition"
       }
     ],
     "status": "draft",

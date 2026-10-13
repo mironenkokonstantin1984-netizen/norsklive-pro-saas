@@ -2835,22 +2835,22 @@
     },
     "examples": [
       {
-        "nb": "Til jul samlet en stor familie seg rundt middagsbordet.",
-        "ru": "На Рождество большая семья собралась вокруг обеденного стола.",
-        "uk": "На Різдво велика родина зібралася навколо обіднього столу.",
-        "en": "At Christmas, a large family gathered around the dinner table."
+        "nb": "Vi er en stor familie.",
+        "ru": "Мы большая семья.",
+        "uk": "Ми велика родина.",
+        "en": "We are a big family."
       }
     ],
     "cloze": [
       {
-        "nb": "Huset passer perfekt for en barnerik ___ som trenger god plass.",
+        "nb": "Hun har en snill ___.",
         "answer": "familie",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "I fjor sommer dro hele ___ på telttur til Lofoten.",
+        "nb": "Hele ___ spiser middag sammen.",
         "answer": "familien",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2882,22 +2882,22 @@
     },
     "examples": [
       {
-        "nb": "Småbarnsforeldrene trillet et fornøyd barn i barnevogna i parken.",
-        "ru": "Родители малыша катили довольного ребёнка в коляске по парку.",
-        "uk": "Батьки малюка котили задоволену дитину у візочку парком.",
-        "en": "The young parents wheeled a content child in the stroller through the park."
+        "nb": "De har et lite barn.",
+        "ru": "У них маленький ребенок.",
+        "uk": "У них мала дитина.",
+        "en": "They have a small child."
       }
     ],
     "cloze": [
       {
-        "nb": "Skolen arrangerte leker for hvert enkelt ___ i klassen.",
+        "nb": "Paret ønsker seg et ___.",
         "answer": "barn",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Moren sang ei beroligende vuggevise for ___ før hun slo av lyset.",
+        "nb": "Mora holder ___ i armene.",
         "answer": "barnet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2929,22 +2929,22 @@
     },
     "examples": [
       {
-        "nb": "Som en enslig forelder må man ofte planlegge dagene svært nøye.",
-        "ru": "Будучи родителем-одиночкой, часто приходится очень тщательно планировать дни.",
-        "uk": "Будучи батьком-одинаком, часто доводиться дуже ретельно планувати дні.",
-        "en": "As a single parent, one often has to plan days very carefully."
+        "nb": "En forelder må skrive under her.",
+        "ru": "Один из родителей должен расписаться здесь.",
+        "uk": "Один із батьків має підписати тут.",
+        "en": "A parent must sign here."
       }
     ],
     "cloze": [
       {
-        "nb": "I barnehagen må minst en ___ skrive under på samtykkeskjemaet.",
+        "nb": "Hver ___ fikk et brev hjem.",
         "answer": "forelder",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Rektoren ønsket ___ velkommen til det årlige høstmøtet.",
+        "nb": "Barna bor sammen med ___ sine.",
         "answer": "foreldrene",
         "hint_ru": "Определённая форма множественного числа",
         "hint_uk": "Означена форма множини",
@@ -2976,22 +2976,22 @@
     },
     "examples": [
       {
-        "nb": "Barna tegnet et fargerikt kort til ei stolt mor på morsdagen.",
-        "ru": "Дети нарисовали красочную открытку гордой маме ко Дню матери.",
-        "uk": "Діти намалювали яскраву листівку гордій мамі до Дня матері.",
-        "en": "The children drew a colorful card for a proud mother on Mother's Day."
+        "nb": "Hennes mor lager god mat.",
+        "ru": "Ее мама готовит хорошую еду.",
+        "uk": "Її мама готує смачну їжу.",
+        "en": "Her mother makes good food."
       }
     ],
     "cloze": [
       {
-        "nb": "Å bli ei nybakt ___ er en stor omveltning i livet.",
+        "nb": "Hun er ei god ___.",
         "answer": "mor",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Jenta holdt ___ godt i hånden da de krysset den travle gata.",
+        "nb": "Guten løp bort til ___.",
         "answer": "mora",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3023,22 +3023,22 @@
     },
     "examples": [
       {
-        "nb": "Han er en omsorgsfull far som lager sunn kveldsmat til barna.",
-        "ru": "Он заботливый отец, который готовит полезный ужин детям.",
-        "uk": "Він турботливий батько, який готує корисну вечерю дітям.",
-        "en": "He is a caring father who makes healthy supper for the children."
+        "nb": "Min far leser ei bok.",
+        "ru": "Мой папа читает книгу.",
+        "uk": "Мій тато читає книжку.",
+        "en": "My father is reading a book."
       }
     ],
     "cloze": [
       {
-        "nb": "Læreren ringte til elevens ___ for å avtale et kort møte.",
+        "nb": "Han er en stolt ___.",
         "answer": "far",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Sønnen arvet den gamle skinnjakken direkte fra ___.",
+        "nb": "Jenta klemte ___ sin godt.",
         "answer": "faren",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3070,22 +3070,22 @@
     },
     "examples": [
       {
-        "nb": "Lillebroren deler gjerne lekene sine med ei snill søster.",
-        "ru": "Младший брат с удовольствием делится игрушками с доброй сестрой.",
-        "uk": "Молодший брат залюбки ділиться іграшками з доброю сестрою.",
-        "en": "The younger brother gladly shares his toys with a kind sister."
+        "nb": "Jeg har ei yngre søster.",
+        "ru": "У меня есть младшая сестра.",
+        "uk": "У мене є молодша сестра.",
+        "en": "I have a younger sister."
       }
     ],
     "cloze": [
       {
-        "nb": "Han har ei eldre ___ som studerer jus i Bergen.",
+        "nb": "Hun ligner på ei ___.",
         "answer": "søster",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Hver søndag ringer han til ___ for å slå av en prat.",
+        "nb": "Han hjalp ___ med leksene.",
         "answer": "søstera",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3117,22 +3117,22 @@
     },
     "examples": [
       {
-        "nb": "Mellom to jevnaldrende brødre kan det oppstå både latter og krangel.",
-        "ru": "Между двумя братьями-ровесниками может быть и смех, и ссоры.",
-        "uk": "Між двома братами-однолітками може бути і сміх, і сварки.",
-        "en": "Between two brothers of similar age, there can be both laughter and arguments."
+        "nb": "Per har en eldre bror.",
+        "ru": "У Пера есть старший брат.",
+        "uk": "У Пера є старший брат.",
+        "en": "Per has an older brother."
       }
     ],
     "cloze": [
       {
-        "nb": "Hun hjelper ofte sin yngre ___ med matteleksene etter skolen.",
+        "nb": "Kari har bare én ___.",
         "answer": "bror",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Den stolte jenta heiet entusiastisk på ___ under fotballkampen.",
+        "nb": "Hun ringte til ___ sin.",
         "answer": "broren",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3164,22 +3164,22 @@
     },
     "examples": [
       {
-        "nb": "Foreldrene gledet seg over en flink sønn som mestret pianospill.",
-        "ru": "Родители радовались способному сыну, который освоил игру на пианино.",
-        "uk": "Батьки раділи здібному синові, який опанував гру на піаніно.",
-        "en": "The parents were pleased with a talented son who mastered the piano."
+        "nb": "Deres sønn går på skolen.",
+        "ru": "Их сын ходит в школу.",
+        "uk": "Їхній син ходить до школи.",
+        "en": "Their son goes to school."
       }
     ],
     "cloze": [
       {
-        "nb": "Paret fikk en velskapt ___ på fødeavdelingen i Tromsø.",
+        "nb": "De fikk en frisk ___.",
         "answer": "sønn",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Faren lærte ___ å skifte dekk på bilen i garasjen.",
+        "nb": "Faren lærte ___ å sykle.",
         "answer": "sønnen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3211,22 +3211,22 @@
     },
     "examples": [
       {
-        "nb": "Mora leste eventyrbøker for ei lyttende datter på sengekanten.",
-        "ru": "Мать читала сказки внимательной дочке на краю кровати.",
-        "uk": "Мати читала казки уважній доньці на краю ліжка.",
-        "en": "The mother read fairy tale books to a listening daughter on the edge of the bed."
+        "nb": "Vår datter leker i hagen.",
+        "ru": "Наша дочь играет в саду.",
+        "uk": "Наша донька грається в саду.",
+        "en": "Our daughter plays in the garden."
       }
     ],
     "cloze": [
       {
-        "nb": "Ekteparet har to sønner og ei lita ___ på fire år.",
+        "nb": "Hun har ei lita ___.",
         "answer": "datter",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Faren hjalp ___ med å sykle uten støttehjul på asfalten.",
+        "nb": "Moren smilte til ___ si.",
         "answer": "dattera",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3258,22 +3258,22 @@
     },
     "examples": [
       {
-        "nb": "En lojal venn lytter alltid når man opplever vanskelige dager.",
-        "ru": "Верный друг всегда выслушает, когда переживаешь трудные дни.",
-        "uk": "Вірний друг завжди вислухає, коли переживаєш важкі дні.",
-        "en": "A loyal friend always listens when one experiences difficult days."
+        "nb": "Han er min beste venn.",
+        "ru": "Он мой лучший друг.",
+        "uk": "Він мій найкращий друг.",
+        "en": "He is my best friend."
       }
     ],
     "cloze": [
       {
-        "nb": "Studenten ble kjent med en hyggelig ___ på norskkurset.",
+        "nb": "Jeg møtte en god ___.",
         "answer": "venn",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "I helgen inviterte han ___ hjem på felles middag.",
+        "nb": "Guten vinket til ___ sin.",
         "answer": "vennen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3305,22 +3305,22 @@
     },
     "examples": [
       {
-        "nb": "Kommunen åpnet en ny barnehage med stor lekeplass ute.",
-        "ru": "Муниципалитет открыл новый детский сад с большой игровой площадкой на улице.",
-        "uk": "Муніципалітет відкрив новий дитячий садок із великим ігровим майданчиком на вулиці.",
-        "en": "The municipality opened a new daycare with a large outdoor playground."
+        "nb": "Barnet trives i en barnehage.",
+        "ru": "Ребенку нравится в детском саду.",
+        "uk": "Дитині подобається в дитячому садку.",
+        "en": "The child thrives in a kindergarten."
       }
     ],
     "cloze": [
       {
-        "nb": "Foreldrene søkte om plass i en kommunal ___ i nærområdet.",
+        "nb": "Byen bygger en ny ___.",
         "answer": "barnehage",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Klokka fire henter moren treåringen i ___.",
+        "nb": "Far henter gutten i ___.",
         "answer": "barnehagen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3352,22 +3352,22 @@
     },
     "examples": [
       {
-        "nb": "Elevene gleder seg til å begynne på en ny skole i august.",
-        "ru": "Ученики с нетерпением ждут начала занятий в новой школе в августе.",
-        "uk": "Учні з нетерпінням чекають на початок занять у новій школі в серпні.",
-        "en": "The pupils look forward to starting at a new school in August."
+        "nb": "Vi går på samme skole.",
+        "ru": "Мы ходим в одну школу.",
+        "uk": "Ми ходимо до однієї школи.",
+        "en": "We go to the same school."
       }
     ],
     "cloze": [
       {
-        "nb": "Bydelen har bygget en moderne ___ med stort bibliotek.",
+        "nb": "Dette er en trygg ___.",
         "answer": "skole",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Barna går sammen til ___ hver morgen klokka halv åtte.",
+        "nb": "Elevene går til ___ nå.",
         "answer": "skolen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3399,22 +3399,22 @@
     },
     "examples": [
       {
-        "nb": "En tålmodig lærer forklarer vanskelige ord på en enkel måte.",
-        "ru": "Терпеливый учитель объясняет трудные слова простым способом.",
-        "uk": "Терплячий учитель пояснює складні слова простим способом.",
-        "en": "A patient teacher explains difficult words in a simple way."
+        "nb": "Vår lærer er veldig flink.",
+        "ru": "Наш учитель очень хороший.",
+        "uk": "Наш вчитель дуже здібний.",
+        "en": "Our teacher is very good."
       }
     ],
     "cloze": [
       {
-        "nb": "Klassen fikk en engasjert ___ i naturfag dette semesteret.",
+        "nb": "Kari jobber som ___ her.",
         "answer": "lærer",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Etter timen stilte elevene flere spørsmål til ___.",
+        "nb": "Barna lyttet til ___ sin.",
         "answer": "læreren",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3446,22 +3446,22 @@
     },
     "examples": [
       {
-        "nb": "Hver motivert elev løste matematikkoppgavene før tidsfristen.",
-        "ru": "Каждый мотивированный ученик решил математические задачи до окончания времени.",
-        "uk": "Кожен мотивований учень розв'язав математичні задачі до закінчення часу.",
-        "en": "Each motivated pupil solved the math tasks before the deadline."
+        "nb": "Han er en flink elev.",
+        "ru": "Он способный ученик.",
+        "uk": "Він здібний учень.",
+        "en": "He is a clever pupil."
       }
     ],
     "cloze": [
       {
-        "nb": "Læreren hjalp en ny ___ med å finne riktig klasserom.",
+        "nb": "Klassen fikk en ny ___.",
         "answer": "elev",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Etter skoletid ble ___ sittende igjen for å gjøre lekser.",
+        "nb": "Læreren hjalp ___ med boka.",
         "answer": "eleven",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3493,22 +3493,22 @@
     },
     "examples": [
       {
-        "nb": "Jenta leste ei lang lekse i samfunnsfag ved skrivebordet.",
-        "ru": "Девочка читала длинное домашнее задание по обществознанию за письменным столом.",
-        "uk": "Дівчинка читала довге домашнє завдання із суспільствознавства за письмовим столом.",
-        "en": "The girl read a long homework assignment in social studies at the desk."
+        "nb": "De har mye lekse i dag.",
+        "ru": "У них много домашнего задания сегодня.",
+        "uk": "У них багато домашнього завдання сьогодні.",
+        "en": "They have a lot of homework today."
       }
     ],
     "cloze": [
       {
-        "nb": "Læreren ga klassen ei overkommelig ___ til neste torsdag.",
+        "nb": "Guten leste ei vanskelig ___.",
         "answer": "lekse",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Han gjorde seg helt ferdig med ___ før han spilte fotball.",
+        "nb": "Nå er ___ helt ferdig.",
         "answer": "leksa",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3540,22 +3540,22 @@
     },
     "examples": [
       {
-        "nb": "Klassen feiret en morsom bursdag med sjokoladekake og ballonger.",
-        "ru": "Класс отметил весёлый день рождения с шоколадным тортом и воздушными шариками.",
-        "uk": "Клас відсвяткував веселий день народження із шоколадним тортом і кульками.",
-        "en": "The class celebrated a fun birthday with chocolate cake and balloons."
+        "nb": "Gratulerer med din bursdag i dag!",
+        "ru": "Поздравляю с днем рождения сегодня!",
+        "uk": "Вітаю з днем народження сьогодні!",
+        "en": "Happy birthday to you today!"
       }
     ],
     "cloze": [
       {
-        "nb": "Guttungen ønsket seg en rød sparkesykkel til sin ___.",
+        "nb": "I morgen har barnet ___.",
         "answer": "bursdag",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Alle vennene sang bursdagssangen for jubilanten under ___.",
+        "nb": "Vi feiret ___ med kake.",
         "answer": "bursdagen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3587,22 +3587,22 @@
     },
     "examples": [
       {
-        "nb": "Paret planla et intimt bryllup i en gammel trekirke ved fjorden.",
-        "ru": "Пара запланировала камерную свадьбу в старинной деревянной церкви у фьорда.",
-        "uk": "Пара запланувала камерне весілля в старовинній дерев'яній церкві біля фіорду.",
-        "en": "The couple planned an intimate wedding in an old wooden church by the fjord."
+        "nb": "De skal ha et vakkert bryllup.",
+        "ru": "У них будет красивая свадьба.",
+        "uk": "У них буде гарне весілля.",
+        "en": "They will have a beautiful wedding."
       }
     ],
     "cloze": [
       {
-        "nb": "Gjestene reiste langt for å overvære et storslått ___.",
+        "nb": "Paret planlegger et stort ___ til sommeren.",
         "answer": "bryllup",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Brudeparet danset sin første vals under ___ på kvelden.",
+        "nb": "Mange gjester kom til ___ i kirka.",
         "answer": "bryllupet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3634,22 +3634,22 @@
     },
     "examples": [
       {
-        "nb": "Barnebarna elsker å besøke ei snill bestemor i ferien.",
-        "ru": "Внуки обожают навещать добрую бабушку на каникулах.",
-        "uk": "Онуки обожнюють відвідувати добру бабусю на канікулах.",
-        "en": "The grandchildren love visiting a kind grandmother during the holidays."
+        "nb": "Min bestemor baker gode boller.",
+        "ru": "Моя бабушка печет вкусные булочки.",
+        "uk": "Моя бабуся пече смачні булочки.",
+        "en": "My grandmother bakes tasty buns."
       }
     ],
     "cloze": [
       {
-        "nb": "Han bakte eplekake sammen med ei omsorgsfull ___.",
+        "nb": "Hun er ei snill ___.",
         "answer": "bestemor",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Familien samlet seg for å feire åttiårsdagen til ___.",
+        "nb": "Barna ga en gave til ___.",
         "answer": "bestemora",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3681,22 +3681,22 @@
     },
     "examples": [
       {
-        "nb": "Gutten gikk turer i skogen sammen med en sprek bestefar.",
-        "ru": "Мальчик гулял по лесу вместе с бодрым дедушкой.",
-        "uk": "Хлопчик гуляв лісом разом із бадьорим дідусем.",
-        "en": "The boy went for walks in the forest together with an active grandfather."
+        "nb": "Min bestefar fortalte en historie.",
+        "ru": "Мой дедушка рассказал историю.",
+        "uk": "Мій дідусь розповів історію.",
+        "en": "My grandfather told a story."
       }
     ],
     "cloze": [
       {
-        "nb": "Han lærte å fiske ørret av en tålmodig ___ i elva.",
+        "nb": "Han er en sprek ___.",
         "answer": "bestefar",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Barnet satt trygt på fanget til ___ og hørte på historier.",
+        "nb": "Guten gikk tur med ___.",
         "answer": "bestefaren",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3728,22 +3728,22 @@
     },
     "examples": [
       {
-        "nb": "Vertskapet tok vennlig imot en langveisfarende gjest i døra.",
-        "ru": "Хозяева радушно встретили прибывшего издалека гостя у дверей.",
-        "uk": "Господарі привітно зустріли гостя, який приїхав здалеку, біля дверей.",
-        "en": "The hosts warmly welcomed a long-distance guest at the door."
+        "nb": "Han er en velkommen gjest.",
+        "ru": "Он желанный гость.",
+        "uk": "Він бажаний гість.",
+        "en": "He is a welcome guest."
       }
     ],
     "cloze": [
       {
-        "nb": "Hotellet tildelte romnøkkelen til en nyankommet ___ i skranken.",
+        "nb": "Vi venter en ny ___.",
         "answer": "gjest",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kelneren serverte kaffe og kake til ___ ved bord nummer tre.",
+        "nb": "Mora hilste på ___ ved døra.",
         "answer": "gjesten",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -8320,26 +8320,26 @@
     },
     "examples": [
       {
-        "nb": "Barnebarna besøker besteforeldrene på gården hver sommer.",
-        "ru": "Внуки навещают бабушку с дедушкой на ферме каждое лето.",
-        "uk": "Онуки відвідують бабусю й дідуся на фермі щоліта.",
-        "en": "The grandchildren visit the grandparents on the farm every summer."
+        "nb": "Vi vil besøke venner i kveld.",
+        "ru": "Мы хотим навестить друзей сегодня вечером.",
+        "uk": "Ми хочемо відвідати друзів сьогодні ввечері.",
+        "en": "We want to visit friends tonight."
       }
     ],
     "cloze": [
       {
-        "nb": "I helgen ___ vi venner som bor i Trondheim.",
+        "nb": "I går ___ jeg bestemor.",
         "answer": "besøkte",
-        "hint_ru": "Прошедшее время (preteritum: besøkte)",
-        "hint_uk": "Минулий час (preteritum: besøkte)",
-        "hint_en": "Past tense (preteritum: besøkte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Turistene planlegger å ___ det kjente museet på Bygdøy.",
+        "nb": "Liker du å ___ museer?",
         "answer": "besøke",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8366,26 +8366,26 @@
     },
     "examples": [
       {
-        "nb": "Hele storfamilien feirer syttende mai med barnetog og is.",
-        "ru": "Вся большая семья празднует семнадцатое мая детским шествием и мороженым.",
-        "uk": "Уся велика родина святкує сімнадцяте травня дитячою ходою та морозивом.",
-        "en": "The whole extended family celebrates May 17th with children's parade and ice cream."
+        "nb": "De skal feire bursdag sammen.",
+        "ru": "Они отпразднуют день рождения вместе.",
+        "uk": "Вони святкуватимуть день народження разом.",
+        "en": "They will celebrate birthday together."
       }
     ],
     "cloze": [
       {
-        "nb": "Vennene ___ femtiårsdagen til faren på en koselig restaurant.",
+        "nb": "I mai ___ vi festen.",
         "answer": "feiret",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Når eksamen er bestått, skal vi ___ skikkelig.",
+        "nb": "Det er gøy å ___ jul.",
         "answer": "feire",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8412,26 +8412,26 @@
     },
     "examples": [
       {
-        "nb": "Vertskapet inviterer nye naboer på kaffe og vafler i hagen.",
-        "ru": "Хозяева приглашают новых соседей на кофе и вафли в саду.",
-        "uk": "Господарі запрошують нових сусідів на каву та вафлі в саду.",
-        "en": "The hosts invite new neighbors for coffee and waffles in the garden."
+        "nb": "Vi kan invitere noen naboer.",
+        "ru": "Мы можем пригласить соседей.",
+        "uk": "Ми можемо запросити сусідів.",
+        "en": "We can invite some neighbors."
       }
     ],
     "cloze": [
       {
-        "nb": "Bursdagsbarnet ___ alle klassekameratene i selskapet sitt.",
+        "nb": "Hun ___ mange venner til fest.",
         "answer": "inviterte",
-        "hint_ru": "Прошедшее время (preteritum: inviterte)",
-        "hint_uk": "Минулий час (preteritum: inviterte)",
-        "hint_en": "Past tense (preteritum: inviterte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det er god folkeskikk å ___ alle i gruppa.",
+        "nb": "Husk å ___ din bror.",
         "answer": "invitere",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8458,26 +8458,26 @@
     },
     "examples": [
       {
-        "nb": "Innvandrerne lærer norsk uttale gjennom daglige samtaler.",
-        "ru": "Иммигранты учат норвежское произношение через ежедневные беседы.",
-        "uk": "Іммігранти вчать норвезьку вимову через щоденні бесіди.",
-        "en": "Immigrants learn Norwegian pronunciation through daily conversations."
+        "nb": "Vi vil lære norsk fort.",
+        "ru": "Мы хотим выучить норвежский быстро.",
+        "uk": "Ми хочемо вивчити норвезьку швидко.",
+        "en": "We want to learn Norwegian quickly."
       }
     ],
     "cloze": [
       {
-        "nb": "I fjor ___ hun seg å svømme crawl på svømmekurset.",
+        "nb": "I fjor ___ han å svømme.",
         "answer": "lærte",
-        "hint_ru": "Прошедшее время (preteritum: lærte)",
-        "hint_uk": "Минулий час (preteritum: lærte)",
-        "hint_en": "Past tense (preteritum: lærte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det er aldri for sent å ___ et nytt fremmedspråk.",
+        "nb": "Det er lett å ___ her.",
         "answer": "lære",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8504,26 +8504,26 @@
     },
     "examples": [
       {
-        "nb": "Musikeren øver på gitaren i to timer hver ettermiddag.",
-        "ru": "Музыкант репетирует на гитаре по два часа каждый день.",
-        "uk": "Музикант репетирує на гітарі по дві години щодня.",
-        "en": "The musician practices the guitar for two hours every afternoon."
+        "nb": "Du må øve hver dag.",
+        "ru": "Ты должен тренироваться каждый день.",
+        "uk": "Ти маєш тренуватися щодня.",
+        "en": "You must practice every day."
       }
     ],
     "cloze": [
       {
-        "nb": "Koret ___ på de nye sangene før helgens konsert.",
+        "nb": "Guten ___ lenge på sangen.",
         "answer": "øvde",
-        "hint_ru": "Прошедшее время (preteritum: øvde)",
-        "hint_uk": "Минулий час (preteritum: øvde)",
-        "hint_en": "Past tense (preteritum: øvde)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Du må ___ jevnlig for å bestå den muntlige prøven.",
+        "nb": "Vi må ___ på nye ord.",
         "answer": "øve",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8550,26 +8550,26 @@
     },
     "examples": [
       {
-        "nb": "Bestemor husker mange morsomme historier fra sin barndom.",
-        "ru": "Бабушка помнит много забавных историй из своего детства.",
-        "uk": "Бабуся пам'ятає багато кумедних історій зі свого дитинства.",
-        "en": "Grandmother remembers many funny stories from her childhood."
+        "nb": "Jeg kan huske navnet ditt.",
+        "ru": "Я помню твое имя.",
+        "uk": "Я пам'ятаю твоє ім'я.",
+        "en": "I can remember your name."
       }
     ],
     "cloze": [
       {
-        "nb": "Mannen ___ plutselig hvor han hadde lagt bilnøklene.",
+        "nb": "Mannen ___ ikke den gamle veien.",
         "answer": "husket",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Prøv å ___ å låse inngangsdøra når du går hjemmefra.",
+        "nb": "Prøv å ___ denne regelen.",
         "answer": "huske",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8596,26 +8596,26 @@
     },
     "examples": [
       {
-        "nb": "Den stressede faren glemmer ofte handlelisten på kjøkkenbordet.",
-        "ru": "Замотанный отец часто забывает список покупок на кухонном столе.",
-        "uk": "Заклопотаний батько часто забуває список покупок на кухонному столі.",
-        "en": "The stressed father often forgets the shopping list on the kitchen table."
+        "nb": "Ikke glem nøklene dine her.",
+        "ru": "Не забывай свои ключи здесь.",
+        "uk": "Не забувай свої ключі тут.",
+        "en": "Do not forget your keys here."
       }
     ],
     "cloze": [
       {
-        "nb": "Han ___ paraplyen på bussen da han gikk av i morges.",
+        "nb": "I går ___ han veska si.",
         "answer": "glemte",
-        "hint_ru": "Прошедшее время (preteritum: glemte)",
-        "hint_uk": "Минулий час (preteritum: glemte)",
-        "hint_en": "Past tense (preteritum: glemte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Pass på å ikke ___ å skrive under på søknaden.",
+        "nb": "Det er lett å ___ navn.",
         "answer": "glemme",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8642,26 +8642,26 @@
     },
     "examples": [
       {
-        "nb": "Faren forteller et spennende eventyr for barna ved sengetid.",
-        "ru": "Отец рассказывает детям захватывающую сказку перед сном.",
-        "uk": "Батько розповідає дітям захопливу казку перед сном.",
-        "en": "The father tells an exciting fairy tale to the children at bedtime."
+        "nb": "Kan du fortelle en vits?",
+        "ru": "Ты можешь рассказать шутку?",
+        "uk": "Ти можеш розповісти жарт?",
+        "en": "Can you tell a joke?"
       }
     ],
     "cloze": [
       {
-        "nb": "Bestefar ___ livaktig om livet på havet i gamle dager.",
+        "nb": "Mor ___ en historie i går.",
         "answer": "fortalte",
-        "hint_ru": "Прошедшее время (preteritum: fortalte)",
-        "hint_uk": "Минулий час (preteritum: fortalte)",
-        "hint_en": "Past tense (preteritum: fortalte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Kan du ___ meg hva som skjedde på møtet i går?",
+        "nb": "Vil du ___ meg om turen?",
         "answer": "fortelle",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8688,26 +8688,26 @@
     },
     "examples": [
       {
-        "nb": "Besteforeldrene passer gjerne de to små barna på lørdag.",
-        "ru": "Бабушка и дедушка с радостью присмотрят за двумя малышами в субботу.",
-        "uk": "Бабуся й дідусь залюбки доглянуть за двома малюками в суботу.",
-        "en": "The grandparents gladly look after the two young children on Saturday."
+        "nb": "Skoa passer helt perfekt nå.",
+        "ru": "Обувь подходит совершенно идеально сейчас.",
+        "uk": "Взуття підходить абсолютно ідеально зараз.",
+        "en": "The shoes fit completely perfectly now."
       }
     ],
     "cloze": [
       {
-        "nb": "Naboen ___ katten vår mens vi var på utenlandsferie.",
+        "nb": "Nøkkelen ___ fint inn i låsen.",
         "answer": "passet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det er viktig å ___ godt på verdisakene sine i folkemengder.",
+        "nb": "Kan du ___ katten min?",
         "answer": "passe",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -11517,26 +11517,26 @@
     },
     "examples": [
       {
-        "nb": "Vertskapet skapte en hyggelig atmosfære under festmiddagen.",
-        "ru": "Хозяева создали приятную атмосферу во время праздничного ужина.",
-        "uk": "Господарі створили приємну атмосферу під час святкової вечері.",
-        "en": "The hosts created a pleasant atmosphere during the festive dinner."
+        "nb": "Det var en hyggelig kveld.",
+        "ru": "Это был приятный вечер.",
+        "uk": "Це був приємний вечір.",
+        "en": "It was a pleasant evening."
       }
     ],
     "cloze": [
       {
-        "nb": "Vi tilbrakte et utrolig ___ døgn på hytta sammen med venner.",
+        "nb": "Møtet var veldig ___.",
         "answer": "hyggelig",
-        "hint_ru": "Форма среднего рода (nøytrum)",
-        "hint_uk": "Форма середнього роду (nøytrum)",
-        "hint_en": "Neuter form (nøytrum)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Det varmer å møte så mange ___ og imøtekommende mennesker.",
+        "nb": "De har to ___ naboer.",
         "answer": "hyggelige",
-        "hint_ru": "Форма множественного числа (flertall: hyggelige)",
-        "hint_uk": "Форма множини (flertall: hyggelige)",
-        "hint_en": "Plural form (flertall: hyggelige)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11564,26 +11564,26 @@
     },
     "examples": [
       {
-        "nb": "Jubilanten var en oppriktig glad person da gjestene sang bursdagssangen.",
-        "ru": "Юбиляр был искренне счастлив, когда гости пели праздничную песню.",
-        "uk": "Ювіляр був щиро щасливий, коли гості співали святкову пісню.",
-        "en": "The celebrant was genuinely glad when the guests sang the birthday song."
+        "nb": "Jenta er veldig glad nå.",
+        "ru": "Девочка очень рада сейчас.",
+        "uk": "Дівчинка дуже радісна зараз.",
+        "en": "The girl is very happy now."
       }
     ],
     "cloze": [
       {
-        "nb": "Hun ble kjempe___ da hun mottok det gode jobbtilbudet.",
+        "nb": "Barnet ble ___ for gaven.",
         "answer": "glad",
-        "hint_ru": "Основная форма прилагательного (glad)",
-        "hint_uk": "Основна форма прикметника (glad)",
-        "hint_en": "Base adjective form (glad)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "De ___ barna hoppet opp og ned i snøen.",
+        "nb": "Mange ___ folk sang sammen.",
         "answer": "glade",
-        "hint_ru": "Форма множественного числа (flertall: glade)",
-        "hint_uk": "Форма множини (flertall: glade)",
-        "hint_en": "Plural form (flertall: glade)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11611,26 +11611,26 @@
     },
     "examples": [
       {
-        "nb": "En ung lærling lærer snekkerfaget av de mer erfarne håndverkerne.",
-        "ru": "Молодой подмастерье учится столярному делу у более опытных мастеров.",
-        "uk": "Молодий учень навчається столярної справи в більш досвідчених майстрів.",
-        "en": "A young apprentice learns the carpentry trade from more experienced craftsmen."
+        "nb": "Læreren er ganske ung.",
+        "ru": "Учитель довольно молод.",
+        "uk": "Вчитель досить молодий.",
+        "en": "The teacher is quite young."
       }
     ],
     "cloze": [
       {
-        "nb": "Bedriften ansatte et usedvanlig ___ talent innen programvareutvikling.",
+        "nb": "Et ___ par kjøpte huset.",
         "answer": "ungt",
-        "hint_ru": "Форма среднего рода (nøytrum: ungt)",
-        "hint_uk": "Форма середнього роду (nøytrum: ungt)",
-        "hint_en": "Neuter form (nøytrum: ungt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "De ___ studentene deltok aktivt i debatten på samfunnshuset.",
+        "nb": "To ___ jenter lo høyt.",
         "answer": "unge",
-        "hint_ru": "Форма множественного числа (flertall: unge)",
-        "hint_uk": "Форма множини (flertall: unge)",
-        "hint_en": "Plural form (flertall: unge)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11658,26 +11658,26 @@
     },
     "examples": [
       {
-        "nb": "I en travel barnehage trengs det minst en voksen person per fire barn.",
-        "ru": "В оживлённом детском саду нужен как минимум один взрослый на четырёх детей.",
-        "uk": "У жвавому дитячому садку потрібен щонайменше один дорослий на чотирьох дітей.",
-        "en": "In a busy kindergarten, at least one adult is needed per four children."
+        "nb": "Han er en voksen mann.",
+        "ru": "Он взрослый мужчина.",
+        "uk": "Він дорослий чоловік.",
+        "en": "He is a grown man."
       }
     ],
     "cloze": [
       {
-        "nb": "Tenåringen tok et modig og ___ valg da hun valgte yrkesfag.",
+        "nb": "Katten har et ___ lynne.",
         "answer": "voksent",
-        "hint_ru": "Форма среднего рода (nøytrum: voksent)",
-        "hint_uk": "Форма середнього роду (nøytrum: voksent)",
-        "hint_en": "Neuter form (nøytrum: voksent)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Foreldremøtet er kun åpent for de ___ i familien.",
+        "nb": "Tre ___ personer satt der.",
         "answer": "voksne",
-        "hint_ru": "Форма множественного числа (flertall: voksne)",
-        "hint_uk": "Форма множини (flertall: voksne)",
-        "hint_en": "Plural form (flertall: voksne)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11705,26 +11705,26 @@
     },
     "examples": [
       {
-        "nb": "Lillesøsteren delte sjokoladen sin med en snill storebror.",
-        "ru": "Младшая сестра поделилась шоколадом с добрым старшим братом.",
-        "uk": "Молодша сестра поділилася шоколадом із добрим старшим братом.",
-        "en": "The younger sister shared her chocolate with a kind older brother."
+        "nb": "Hunden er veldig snill.",
+        "ru": "Собака очень добрая.",
+        "uk": "Собака дуже добра.",
+        "en": "The dog is very kind."
       }
     ],
     "cloze": [
       {
-        "nb": "Naboen gjorde oss et usedvanlig ___ trekk da han måkte innkjørselen.",
+        "nb": "Barnet ga et ___ svar.",
         "answer": "snilt",
-        "hint_ru": "Форма среднего рода (nøytrum: snilt)",
-        "hint_uk": "Форма середнього роду (nøytrum: snilt)",
-        "hint_en": "Neuter form (nøytrum: snilt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Besteforeldrene var alltid varme og ___ mot alle barnebarna.",
+        "nb": "De har to ___ katter.",
         "answer": "snille",
-        "hint_ru": "Форма множественного числа (flertall: snille)",
-        "hint_uk": "Форма множини (flertall: snille)",
-        "hint_en": "Plural form (flertall: snille)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11752,26 +11752,26 @@
     },
     "examples": [
       {
-        "nb": "Mora sto på tribunen som en stolt tilskuer under skoleløpet.",
-        "ru": "Мать стояла на трибуне гордым зрителем во время школьного забега.",
-        "uk": "Мати стояла на трибуні гордим глядачем під час шкільного забігу.",
-        "en": "The mother stood in the stands as a proud spectator during the school race."
+        "nb": "Moren var stolt av sin datter.",
+        "ru": "Мать гордилась своей дочерью.",
+        "uk": "Мати пишалася своєю донькою.",
+        "en": "The mother was proud of her daughter."
       }
     ],
     "cloze": [
       {
-        "nb": "Faren sendte sønnen et uendelig ___ blikk da vitnemålet ble delt ut.",
+        "nb": "Faren sto ___ og så på barna.",
         "answer": "stolt",
-        "hint_ru": "Форма среднего рода (nøytrum: stolt)",
-        "hint_uk": "Форма середнього роду (nøytrum: stolt)",
-        "hint_en": "Neuter form (nøytrum: stolt)"
+        "hint_ru": "Форма мужского/женского рода",
+        "hint_uk": "Форма чоловічого/жіночого роду",
+        "hint_en": "Masculine/feminine form"
       },
       {
-        "nb": "De ___ foreldrene gratulerte datteren med bestått fagprøve.",
+        "nb": "To ___ foreldre smilte til læreren.",
         "answer": "stolte",
-        "hint_ru": "Форма множественного числа (flertall: stolte)",
-        "hint_uk": "Форма множини (flertall: stolte)",
-        "hint_en": "Plural form (flertall: stolte)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -13173,26 +13173,26 @@
     },
     "examples": [
       {
-        "nb": "Søsknene baker pepperkaker sammen på kjøkkenet før jul.",
-        "ru": "Брат с сестрой вместе пекут имбирное печенье на кухне перед Рождеством.",
-        "uk": "Брат із сестрою разом печуть імбирне печиво на кухні перед Різдвом.",
-        "en": "The siblings bake gingerbread together in the kitchen before Christmas."
+        "nb": "Vi spiser middag sammen i dag.",
+        "ru": "Мы ужинаем вместе сегодня.",
+        "uk": "Ми вечеряємо разом сьогодні.",
+        "en": "We eat dinner together today."
       }
     ],
     "cloze": [
       {
-        "nb": "Kolleger på avdelingen løser de vanskelige oppgavene ___.",
+        "nb": "Barna leker fint ___ ute.",
         "answer": "sammen",
-        "hint_ru": "Наречие «вместе» (sammen)",
-        "hint_uk": "Прислівник «разом» (sammen)",
-        "hint_en": "Adverb meaning 'together' (sammen)"
+        "hint_ru": "Наречие",
+        "hint_uk": "Прислівник",
+        "hint_en": "Adverb"
       },
       {
-        "nb": "Det er mye hyggeligere å spise middag ___ enn alene.",
+        "nb": "De reiser på ferie ___.",
         "answer": "sammen",
-        "hint_ru": "Наречие (sammen)",
-        "hint_uk": "Прислівник (sammen)",
-        "hint_en": "Adverb (sammen)"
+        "hint_ru": "Наречие",
+        "hint_uk": "Прислівник",
+        "hint_en": "Adverb"
       }
     ],
     "status": "draft",
@@ -13216,26 +13216,26 @@
     },
     "examples": [
       {
-        "nb": "Pensjonisten bor alene i et koselig rekkehus med hageflekk.",
-        "ru": "Пенсионер живёт один в уютном таунхаусе с небольшим садом.",
-        "uk": "Пенсіонер живе сам у затишному таунхаусі з невеликим садом.",
-        "en": "The retiree lives alone in a cozy townhouse with a small garden."
+        "nb": "Hun bor alene i Oslo.",
+        "ru": "Она живет одна в Осло.",
+        "uk": "Вона живе сама в Осло.",
+        "en": "She lives alone in Oslo."
       }
     ],
     "cloze": [
       {
-        "nb": "Han foretrekker å studere ___ på lesesalen uten forstyrrelser.",
+        "nb": "Guten gikk en tur ___.",
         "answer": "alene",
-        "hint_ru": "Наречие «в одиночку» (alene)",
-        "hint_uk": "Прислівник «наодинці» (alene)",
-        "hint_en": "Adverb meaning 'alone' (alene)"
+        "hint_ru": "Наречие",
+        "hint_uk": "Прислівник",
+        "hint_en": "Adverb"
       },
       {
-        "nb": "Barnet var for lite til å være hjemme ___ om kvelden.",
+        "nb": "Ingen liker å være ___.",
         "answer": "alene",
-        "hint_ru": "Наречие (alene)",
-        "hint_uk": "Прислівник (alene)",
-        "hint_en": "Adverb (alene)"
+        "hint_ru": "Наречие",
+        "hint_uk": "Прислівник",
+        "hint_en": "Adverb"
       }
     ],
     "status": "draft",
@@ -13732,26 +13732,26 @@
     },
     "examples": [
       {
-        "nb": "Søkerne må levere inn alle vedlegg innen fristen på fredag.",
-        "ru": "Кандидаты должны предоставить все приложения не позднее пятницы.",
-        "uk": "Кандидати повинні подати всі додатки не пізніше п'ятниці.",
-        "en": "Applicants must submit all attachments before the deadline on Friday."
+        "nb": "Oppgaven må leveres innen fredag klokka to.",
+        "ru": "Задание нужно сдать до пятницы двух часов.",
+        "uk": "Завдання потрібно здати до п'ятниці другої години.",
+        "en": "The task must be submitted by Friday at two."
       }
     ],
     "cloze": [
       {
-        "nb": "Regningen for husleia må betales ___ den første i neste måned.",
+        "nb": "Vi må rekke bussen ___ ti minutter.",
         "answer": "innen",
-        "hint_ru": "Предлог времени «до / не позднее чем» (innen)",
-        "hint_uk": "Прийменник часу «до / не пізніше ніж» (innen)",
-        "hint_en": "Time preposition meaning 'by/within' (innen)"
+        "hint_ru": "Предлог",
+        "hint_uk": "Прийменник",
+        "hint_en": "Preposition"
       },
       {
-        "nb": "Vennligst send inn svar på henvendelsen ___ tre virkedager.",
+        "nb": "Svaret skal sendes ___ kort tid.",
         "answer": "innen",
-        "hint_ru": "Предлог (innen)",
-        "hint_uk": "Прийменник (innen)",
-        "hint_en": "Preposition (innen)"
+        "hint_ru": "Предлог",
+        "hint_uk": "Прийменник",
+        "hint_en": "Preposition"
       }
     ],
     "status": "draft",
@@ -13775,26 +13775,26 @@
     },
     "examples": [
       {
-        "nb": "Begge foreldrene deltok aktivt på dugnaden i idrettslaget.",
-        "ru": "Оба родителя активно участвовали в субботнике в спортивном клубе.",
-        "uk": "Обоє батьків активно брали участь у толоці в спортивному клубі.",
-        "en": "Both parents actively participated in the volunteer work at the sports club."
+        "nb": "Begge barna leker i stua.",
+        "ru": "Оба ребенка играют в гостиной.",
+        "uk": "Обидві дитини граються у вітальні.",
+        "en": "Both children play in the living room."
       }
     ],
     "cloze": [
       {
-        "nb": "Tvillingene besto ___ førerprøven på første forsøk i går.",
+        "nb": "Jeg liker ___ disse fargene.",
         "answer": "begge",
-        "hint_ru": "Местоимение «оба/обе» (begge)",
-        "hint_uk": "Займенник «обидва/обидві» (begge)",
-        "hint_en": "Pronoun meaning 'both' (begge)"
+        "hint_ru": "Местоимение",
+        "hint_uk": "Займенник",
+        "hint_en": "Pronoun"
       },
       {
-        "nb": "De to søknadene ble ___ godkjent av saksbehandleren.",
+        "nb": "Foreldrene kom ___ til skolen.",
         "answer": "begge",
-        "hint_ru": "Местоимение (begge)",
-        "hint_uk": "Займенник (begge)",
-        "hint_en": "Pronoun (begge)"
+        "hint_ru": "Местоимение",
+        "hint_uk": "Займенник",
+        "hint_en": "Pronoun"
       }
     ],
     "status": "draft",

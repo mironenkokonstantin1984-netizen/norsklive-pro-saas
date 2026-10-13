@@ -396,6 +396,19 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
         expect(ex.en, `en example for ${item.id} "${ex.en}"`).not.toMatch(/\([^)]+\)/);
       }
     }
+
+    // No cloze sentence appears for two different words
+    const clozeTexts = new Map<string, string>();
+    for (const item of allItems) {
+      for (const c of item.cloze) {
+        const existing = clozeTexts.get(c.nb);
+        expect(
+          existing,
+          `Cloze sentence "${c.nb}" is duplicated between ${existing} and ${item.id} (${item.lemma})`
+        ).toBeUndefined();
+        clozeTexts.set(c.nb, item.id);
+      }
+    }
   });
 
   it('10. guard: no sentence longer than 8 words (A1 at most 6 words); no 11+ letter words unless own form or allowed in long-words-allowed.json', () => {
@@ -427,9 +440,7 @@ describe('M1f-1 «Слова»: schema, catalog, scheduler, answer checking, sto
         for (const token of tokens) {
           const clean = token.replace(/^[^\p{L}]+|[^\p{L}]+$/gu, '').toLowerCase();
           if (clean.length >= 11) {
-            const isSelf =
-              selfForms.has(clean) ||
-              Array.from(selfForms).some((f) => f.includes(clean) || clean.includes(f));
+            const isSelf = selfForms.has(clean);
             const isAllowed = allowedLongWords.has(clean);
             expect(
               isSelf || isAllowed,

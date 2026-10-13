@@ -875,7 +875,7 @@
     ],
     "cloze": [
       {
-        "nb": "Dette er en trygg ___.",
+        "nb": "Han jobber i en privat ___.",
         "answer": "bedrift",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
@@ -1580,14 +1580,14 @@
     ],
     "cloze": [
       {
-        "nb": "Kan du få laget ny ___?",
+        "nb": "Få laget en ny ___!",
         "answer": "nøkkel",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Han fant ikke ___ si.",
+        "nb": "Han fant ikke ___ sin.",
         "answer": "nøkkelen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2431,7 +2431,7 @@
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Jeg har vondt i ___.",
+        "nb": "Hatten sitter godt på ___.",
         "answer": "hodet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2525,7 +2525,7 @@
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Jeg har vondt i ___.",
+        "nb": "Han bærer sekken på ___.",
         "answer": "ryggen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -2666,7 +2666,7 @@
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Jeg har vondt i ___.",
+        "nb": "Han har et skjerf om ___.",
         "answer": "halsen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3360,7 +3360,7 @@
     ],
     "cloze": [
       {
-        "nb": "Dette er en trygg ___.",
+        "nb": "Barna går på en trygg ___.",
         "answer": "skole",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",

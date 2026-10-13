@@ -3775,22 +3775,22 @@
     },
     "examples": [
       {
-        "nb": "Kjøpmannen driver en koselig butikk med ferske råvarer på torget.",
-        "ru": "Торговец держит уютный магазин со свежими продуктами на площади.",
-        "uk": "Торговець тримає затишну крамницю зі свіжими продуктами на площі.",
-        "en": "The merchant runs a cozy shop with fresh produce on the square."
+        "nb": "Hun handler i en butikk.",
+        "ru": "Она делает покупки в магазине.",
+        "uk": "Вона робить покупки в магазині.",
+        "en": "She shops in a store."
       }
     ],
     "cloze": [
       {
-        "nb": "Vi stakk innom en lokal ___ for å kjøpe melk og brød.",
+        "nb": "Her åpner en ny ___.",
         "answer": "butikk",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Dørene til ___ stenger presis klokka tjueto på hverdager.",
+        "nb": "Han gikk inn i ___.",
         "answer": "butikken",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3822,22 +3822,22 @@
     },
     "examples": [
       {
-        "nb": "Bonden solgte grønnsakene til en rimelig pris på torget.",
-        "ru": "Фермер продал овощи по умеренной цене на площади.",
-        "uk": "Фермер продав овочі за помірною ціною на площі.",
-        "en": "The farmer sold the vegetables at a reasonable price at the market."
+        "nb": "Varen har en god pris.",
+        "ru": "У товара хорошая цена.",
+        "uk": "У товару гарна ціна.",
+        "en": "The item has a good price."
       }
     ],
     "cloze": [
       {
-        "nb": "Butikken tilbyr vinterjakker til en nedsatt ___ denne uka.",
+        "nb": "Dette var en lav ___.",
         "answer": "pris",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kunden spurte ekspeditøren hva ___ på den nye sykkelen var.",
+        "nb": "Hva er ___ på brødet?",
         "answer": "prisen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3869,22 +3869,22 @@
     },
     "examples": [
       {
-        "nb": "Supermarkedet annonserte et godt tilbud på fersk laks i avisa.",
-        "ru": "Супермаркет объявил о хорошей скидке на свежего лосося в газете.",
-        "uk": "Супермаркет оголосив про гарну знижку на свіжого лосося в газеті.",
-        "en": "The supermarket advertised a good offer on fresh salmon in the newspaper."
+        "nb": "Butikken har et godt tilbud.",
+        "ru": "В магазине хорошее спецпредложение.",
+        "uk": "У магазині гарна пропозиція.",
+        "en": "The store has a good offer."
       }
     ],
     "cloze": [
       {
-        "nb": "Klesbutikken har et gunstig ___ på varme vinterklær.",
+        "nb": "Dette er et fint ___.",
         "answer": "tilbud",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Mange kunder benyttet seg av ___ før lageret ble tomt.",
+        "nb": "Kunden takket ja til ___.",
         "answer": "tilbudet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3916,22 +3916,22 @@
     },
     "examples": [
       {
-        "nb": "Kassøren ga meg ei utskrevet kvittering sammen med varene.",
-        "ru": "Кассир выдал мне распечатанный чек вместе с покупками.",
-        "uk": "Касир видав мені роздрукований чек разом із покупками.",
-        "en": "The cashier gave me a printed receipt along with the goods."
+        "nb": "Må jeg ta en kvittering?",
+        "ru": "Мне нужно взять чек?",
+        "uk": "Мені потрібно взяти чек?",
+        "en": "Must I take a receipt?"
       }
     ],
     "cloze": [
       {
-        "nb": "Ta alltid vare på ei ___ hvis du må bytte varen senere.",
+        "nb": "Vil du ha ei ___?",
         "answer": "kvittering",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kunden viste fram ___ i kassa for å få pengene tilbake.",
+        "nb": "Han la ___ i lomma.",
         "answer": "kvitteringa",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -3963,22 +3963,22 @@
     },
     "examples": [
       {
-        "nb": "Kunden betalte raskt med et bankkort i den trådløse terminalen.",
-        "ru": "Покупатель быстро расплатился банковской картой в беспроводном терминале.",
-        "uk": "Покупець швидко розплатився банківською карткою в бездротовому терміналі.",
-        "en": "The customer paid quickly with a bank card in the wireless terminal."
+        "nb": "Jeg betaler med et kort.",
+        "ru": "Я плачу картой.",
+        "uk": "Я плачу карткою.",
+        "en": "I pay with a card."
       }
     ],
     "cloze": [
       {
-        "nb": "De fleste butikker foretrekker at man betaler med et ___.",
+        "nb": "Mannen viste fram et ___.",
         "answer": "kort",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Hun la ___ inntil betalingsterminalen for å tæppe.",
+        "nb": "Hun la ___ i veska.",
         "answer": "kortet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4010,22 +4010,22 @@
     },
     "examples": [
       {
-        "nb": "Kjøpmannen ga meg ei krone tilbake i vekslepenger ved kassa.",
-        "ru": "Продавец дал мне одну крону сдачи у кассы.",
-        "uk": "Продавець дав мені одну крону решти біля каси.",
-        "en": "The merchant gave me one krone back in change at the checkout."
+        "nb": "Melka koster tjue kroner nå.",
+        "ru": "Молоко стоит двадцать крон сейчас.",
+        "uk": "Молоко коштує двадцять крон зараз.",
+        "en": "The milk costs twenty kroner now."
       }
     ],
     "cloze": [
       {
-        "nb": "Varen kostet nittini ___ og femti øre på salg.",
+        "nb": "Brødet koster tretti ___ her.",
         "answer": "kroner",
         "hint_ru": "Неопределённая форма множественного числа",
         "hint_uk": "Неозначена форма множини",
         "hint_en": "Indefinite plural form"
       },
       {
-        "nb": "Kursen på den norske ___ har variert mye mot euroen i år.",
+        "nb": "Han mistet den siste ___.",
         "answer": "krona",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4057,22 +4057,22 @@
     },
     "examples": [
       {
-        "nb": "Kunden pakket eplene og brødet ned i en gjenbrukbar pose.",
-        "ru": "Покупатель сложил яблоки и хлеб в многоразовый пакет.",
-        "uk": "Покупець склав яблука та хліб у багаторазовий пакет.",
-        "en": "The customer packed the apples and bread into a reusable bag."
+        "nb": "Trenger du en pose nå?",
+        "ru": "Тебе нужен пакет сейчас?",
+        "uk": "Тобі потрібен пакет зараз?",
+        "en": "Do you need a bag now?"
       }
     ],
     "cloze": [
       {
-        "nb": "Trenger du en ekstra ___ til varene dine ved kassa?",
+        "nb": "Kunden ba om en ___.",
         "answer": "pose",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Hanken på papirposen røk fordi ___ var for tung.",
+        "nb": "Eplene ligger oppi ___.",
         "answer": "posen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4104,22 +4104,22 @@
     },
     "examples": [
       {
-        "nb": "Grossisten leverte ei fersk vare direkte fra gården.",
-        "ru": "Оптовик доставил свежий товар напрямую с фермы.",
-        "uk": "Оптовик доставив свіжий товар безпосередньо з ферми.",
-        "en": "The wholesaler delivered a fresh commodity directly from the farm."
+        "nb": "Butikken selger en populær vare.",
+        "ru": "Магазин продает популярный товар.",
+        "uk": "Магазин продає популярний товар.",
+        "en": "The shop sells a popular good."
       }
     ],
     "cloze": [
       {
-        "nb": "Butikken erstatter ei skadet ___ uten ekstra kostnad.",
+        "nb": "Kunden ville kjøpe ei ny ___.",
         "answer": "vare",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kunden sjekket holdbarhetsdatoen på ___ før kjøpet.",
+        "nb": "Han leverte tilbake den defekte ___.",
         "answer": "vara",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4151,22 +4151,22 @@
     },
     "examples": [
       {
-        "nb": "Bakeren tok et nystekt brød ut av den varme ovnen tidlig om morgenen.",
-        "ru": "Пекарь достал свежеиспечённый хлеб из горячей печи рано утром.",
-        "uk": "Пекар дістав свіжоспечений хліб із гарячої печі рано-вранці.",
-        "en": "The baker took a freshly baked loaf out of the hot oven early in the morning."
+        "nb": "Vi spiser grovt brød.",
+        "ru": "Мы едим цельнозерновой хлеб.",
+        "uk": "Ми їмо хліб із висівками.",
+        "en": "We eat whole-grain bread."
       }
     ],
     "cloze": [
       {
-        "nb": "Hver lørdag kjøper vi et grovt ___ fra bakeriet på hjørnet.",
+        "nb": "Hun kjøper et ferskt ___.",
         "answer": "brød",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Hun skar to tynne skiver av ___ til kveldsmaten.",
+        "nb": "Maten smaker godt med ___.",
         "answer": "brødet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4196,22 +4196,22 @@
     },
     "examples": [
       {
-        "nb": "Bonden fylte ei krukke med fersk melk fra fjøset.",
-        "ru": "Фермер наполнил кувшин свежим молоком из коровника.",
-        "uk": "Фермер наповнив глек свіжим молоком із корівника.",
-        "en": "The farmer filled a jug with fresh milk from the barn."
+        "nb": "Katta vil ha kald melk.",
+        "ru": "Кошка хочет холодного молока.",
+        "uk": "Кішка хоче холодного молока.",
+        "en": "The cat wants cold milk."
       }
     ],
     "cloze": [
       {
-        "nb": "Barna drikker gjerne kald ___ til frokostblandingen sin.",
+        "nb": "Vi trenger ei flaske ___.",
         "answer": "melk",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Sett kartongen med ___ tilbake inn i kjøleskapet etter bruk.",
+        "nb": "Guten drakk opp hele ___.",
         "answer": "melka",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4243,22 +4243,22 @@
     },
     "examples": [
       {
-        "nb": "Gårdsbutikken produserer en smaksrik ost av geitemelk.",
-        "ru": "Фермерский магазин производит ароматный сыр из козьего молока.",
-        "uk": "Фермерська крамниця виготовляє ароматний сир із козячого молока.",
-        "en": "The farm shop produces a flavorful cheese from goat's milk."
+        "nb": "Jeg liker brun ost.",
+        "ru": "Мне нравится коричневый сыр.",
+        "uk": "Мені подобається коричневий сир.",
+        "en": "I like brown cheese."
       }
     ],
     "cloze": [
       {
-        "nb": "Vi kjøpte en vellagret ___ til ostekvelden med naboene.",
+        "nb": "Hun kjøpte en god ___.",
         "answer": "ost",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Bruk ostehøvelen for å skjære tynne skiver av ___.",
+        "nb": "Katta snuste forsiktig på ___.",
         "answer": "osten",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4290,22 +4290,22 @@
     },
     "examples": [
       {
-        "nb": "Fiskeren dro opp en sprellende fisk fra det kalde fjellvannet.",
-        "ru": "Рыбак вытащил бьющуюся рыбу из холодного горного озера.",
-        "uk": "Рибалка витягнув живу рибу з холодного гірського озера.",
-        "en": "The fisherman pulled a thrashing fish out of the cold mountain lake."
+        "nb": "Vi spiser fersk fisk.",
+        "ru": "Мы едим свежую рыбу.",
+        "uk": "Ми їмо свіжу рибу.",
+        "en": "We eat fresh fish."
       }
     ],
     "cloze": [
       {
-        "nb": "Legen råder alle til å spise fersk ___ to ganger i uka.",
+        "nb": "Mannen fanget en stor ___.",
         "answer": "fisk",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kokken stekte ___ i panna med smør og sitron.",
+        "nb": "Katta spiste opp hele ___.",
         "answer": "fisken",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4335,22 +4335,22 @@
     },
     "examples": [
       {
-        "nb": "Slakteren skar opp magert kjøtt til helgens festmiddag.",
-        "ru": "Мясник нарезал нежирное мясо к праздничному ужину на выходных.",
-        "uk": "М'ясник нарізав нежирне м'ясо до святкової вечері на вихідних.",
-        "en": "The butcher cut lean meat for the weekend festive dinner."
+        "nb": "Hunden vil ha rått kjøtt.",
+        "ru": "Собака хочет сырого мяса.",
+        "uk": "Собака хоче сирого м'яса.",
+        "en": "The dog wants raw meat."
       }
     ],
     "cloze": [
       {
-        "nb": "Gryteretten krever mørt ___ av storfe for å bli velsmakende.",
+        "nb": "De kjøpte ferskt ___ i dag.",
         "answer": "kjøtt",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kokken stekte ___ brunt på sterk varme før koking.",
+        "nb": "Kokken stekte ___ i panna.",
         "answer": "kjøttet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4382,22 +4382,22 @@
     },
     "examples": [
       {
-        "nb": "Et eple er en sunn og saftig frukt som metter godt.",
-        "ru": "Яблоко — это полезный и сочный фрукт, который хорошо насыщает.",
-        "uk": "Яблуко — це корисний і соковитий фрукт, який добре насичує.",
-        "en": "An apple is a healthy and juicy fruit that satisfies hunger well."
+        "nb": "Vi spiser sunn frukt.",
+        "ru": "Мы едим полезные фрукты.",
+        "uk": "Ми їмо корисні фрукти.",
+        "en": "We eat healthy fruit."
       }
     ],
     "cloze": [
       {
-        "nb": "Barna fikk velge en frisk ___ til mellommåltid i barnehagen.",
+        "nb": "Butikken selger en søt ___.",
         "answer": "frukt",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Skrell ___ forsiktig før du skjærer den opp i biter.",
+        "nb": "Barnet spiste opp den gode ___.",
         "answer": "frukten",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4429,22 +4429,22 @@
     },
     "examples": [
       {
-        "nb": "Gulrot er en søt og sprø grønnsak som kan spises rå.",
-        "ru": "Морковь — сладкий и хрустящий овощ, который можно есть сырым.",
-        "uk": "Морква — солодкий і хрусткий овоч, який можна їсти сирим.",
-        "en": "Carrot is a sweet and crunchy vegetable that can be eaten raw."
+        "nb": "Gulerot er en sunn grønnsak.",
+        "ru": "Морковь — полезный овощ.",
+        "uk": "Морква — корисний овоч.",
+        "en": "Carrot is a healthy vegetable."
       }
     ],
     "cloze": [
       {
-        "nb": "Brokkoli er en næringsrik ___ med høyt innhold av vitaminer.",
+        "nb": "Tomat er en rød ___.",
         "answer": "grønnsak",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Kunden la den ferske ___ forsiktig oppi handlekurven.",
+        "nb": "Han kuttet ___ i biter.",
         "answer": "grønnsaken",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4474,22 +4474,22 @@
     },
     "examples": [
       {
-        "nb": "Mange nordmenn starter dagen med en kopp rykende varm kaffe.",
-        "ru": "Многие норвежцы начинают день с чашки горячего кофе.",
-        "uk": "Багато норвежців починають день із чашки гарячої кави.",
-        "en": "Many Norwegians start their day with a cup of piping hot coffee."
+        "nb": "Jeg drikker svart kaffe.",
+        "ru": "Я пью черный кофе.",
+        "uk": "Я п'ю чорну каву.",
+        "en": "I drink black coffee."
       }
     ],
     "cloze": [
       {
-        "nb": "Servitøren skjenket opp en nytraktet ___ til gjesten.",
+        "nb": "Vil du ha varm ___?",
         "answer": "kaffe",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Hun drakk opp ___ før hun gikk til bussen.",
+        "nb": "Mannen drakk opp ___ si.",
         "answer": "kaffen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4519,22 +4519,22 @@
     },
     "examples": [
       {
-        "nb": "Kaldt vann fra springen smaker friskt etter en lang løpetur.",
-        "ru": "Холодная вода из-под крана кажется освежающей после долгой пробежки.",
-        "uk": "Холодна вода з-під крана смакує свіжо після довгої пробіжки.",
-        "en": "Cold tap water tastes refreshing after a long run."
+        "nb": "Hunden drikker kaldt vann.",
+        "ru": "Собака пьет холодную воду.",
+        "uk": "Собака п'є холодну воду.",
+        "en": "The dog drinks cold water."
       }
     ],
     "cloze": [
       {
-        "nb": "I Norge har vi rent og trygt ___ direkte i springen.",
+        "nb": "Glasset er fullt av ___.",
         "answer": "vann",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Turgåeren fylte opp drikkeflaska si med ___ fra bekken.",
+        "nb": "Kokken kokte opp ___ nå.",
         "answer": "vannet",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4566,22 +4566,22 @@
     },
     "examples": [
       {
-        "nb": "Om høsten trenger man ei vindtett jakke med god hette.",
-        "ru": "Осенью нужна ветрозащитная куртка с хорошим капюшоном.",
-        "uk": "Восени потрібна вітрозахисна куртка з гарним капюшоном.",
-        "en": "In the autumn, one needs a windproof jacket with a good hood."
+        "nb": "Han har ei varm jakke.",
+        "ru": "У него теплая куртка.",
+        "uk": "У нього тепла куртка.",
+        "en": "He has a warm jacket."
       }
     ],
     "cloze": [
       {
-        "nb": "Kunden prøvde ei varm ___ i klesbutikken.",
+        "nb": "Hun kjøpte ei blå ___.",
         "answer": "jakke",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Han hang ___ opp på knaggen i entreen da han kom inn.",
+        "nb": "Husk å ta på ___.",
         "answer": "jakka",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4613,22 +4613,22 @@
     },
     "examples": [
       {
-        "nb": "Turgåeren kjøpte en solid sko med kraftig gummisåle til fjellet.",
-        "ru": "Турист купил прочный ботинок с толстой резиновой подошвой для гор.",
-        "uk": "Турист купив міцний черевик із товстою гумовою підошвою для гір.",
-        "en": "The hiker bought a sturdy shoe with a heavy rubber sole for the mountains."
+        "nb": "Barnet tok på en sko.",
+        "ru": "Ребенок надел один ботинок.",
+        "uk": "Дитина взула один черевик.",
+        "en": "The child put on a shoe."
       }
     ],
     "cloze": [
       {
-        "nb": "Butikken manglet en matchende ___ i riktig størrelse.",
+        "nb": "Han mistet en rød ___.",
         "answer": "sko",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Han knyttet lissene på ___ før han løp ut døra.",
+        "nb": "Hunden bet i den ene ___.",
         "answer": "skoen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -4660,22 +4660,22 @@
     },
     "examples": [
       {
-        "nb": "Kunden spurte om butikken hadde buksa i en større størrelse.",
-        "ru": "Покупатель спросил, есть ли брюки большего размера.",
-        "uk": "Покупець запитав, чи є штани більшого розміру.",
-        "en": "The customer asked if the store had the trousers in a larger size."
+        "nb": "Hvilken størrelse bruker du?",
+        "ru": "Какой размер ты носишь?",
+        "uk": "Який розмір ти носиш?",
+        "en": "What size do you wear?"
       }
     ],
     "cloze": [
       {
-        "nb": "Skobutikken bestilte inn en sjelden ___ til kunden.",
+        "nb": "Har dere denne i min ___?",
         "answer": "størrelse",
         "hint_ru": "Неопределённая форма единственного числа",
         "hint_uk": "Неозначена форма однини",
         "hint_en": "Indefinite singular form"
       },
       {
-        "nb": "Genseren krympet i vask, så ___ passet ikke lenger.",
+        "nb": "Passer denne ___ til deg?",
         "answer": "størrelsen",
         "hint_ru": "Определённая форма единственного числа",
         "hint_uk": "Означена форма однини",
@@ -8734,26 +8734,26 @@
     },
     "examples": [
       {
-        "nb": "Mange barnefamilier handler matvarer for hele uka på lørdager.",
-        "ru": "Многие семьи с детьми закупают продукты на всю неделю по субботам.",
-        "uk": "Багато сімей із дітьми закуповують продукти на весь тиждень щосуботи.",
-        "en": "Many families with children shop for groceries for the whole week on Saturdays."
+        "nb": "Vi skal handle mat nå.",
+        "ru": "Мы пойдем покупать продукты сейчас.",
+        "uk": "Ми підемо купувати продукти зараз.",
+        "en": "We are going to buy groceries now."
       }
     ],
     "cloze": [
       {
-        "nb": "Studenten ___ grønnsaker og brød på tilbud i går kveld.",
+        "nb": "Hun ___ fersk melk i går.",
         "answer": "handlet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "I kveld skal vi dra til kjøpesenteret for å ___ gaver.",
+        "nb": "Liker du å ___ klær?",
         "answer": "handle",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8780,26 +8780,26 @@
     },
     "examples": [
       {
-        "nb": "Kunden kjøper en varm ullgenser til den kalde vinteren.",
-        "ru": "Покупатель покупает тёплый шерстяной свитер для холодной зимы.",
-        "uk": "Покупець купує теплий вовняний светр для холодної зими.",
-        "en": "The customer buys a warm wool sweater for the cold winter."
+        "nb": "Jeg vil kjøpe nytt brød.",
+        "ru": "Я хочу купить свежий хлеб.",
+        "uk": "Я хочу купити свіжий хліб.",
+        "en": "I want to buy fresh bread."
       }
     ],
     "cloze": [
       {
-        "nb": "Paret ___ en ny sofa til stua i forrige uke.",
+        "nb": "Han ___ ei jakke i går.",
         "answer": "kjøpte",
-        "hint_ru": "Прошедшее время (preteritum: kjøpte)",
-        "hint_uk": "Минулий час (preteritum: kjøpte)",
-        "hint_en": "Past tense (preteritum: kjøpte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Hun planlegger å ___ seg en brukt elsykkel til våren.",
+        "nb": "Hva skal du ___ her?",
         "answer": "kjøpe",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8826,26 +8826,26 @@
     },
     "examples": [
       {
-        "nb": "Kunden betaler raskt og greit med mobiltelefonen i kassa.",
-        "ru": "Покупатель быстро и удобно расплачивается телефоном на кассе.",
-        "uk": "Покупець швидко й зручно розплачується телефоном на касі.",
-        "en": "The customer pays quickly and easily with their mobile phone at the checkout."
+        "nb": "Kan jeg betale med kort?",
+        "ru": "Могу я оплатить картой?",
+        "uk": "Чи можу я оплатити карткою?",
+        "en": "Can I pay with card?"
       }
     ],
     "cloze": [
       {
-        "nb": "Gjesten ___ hele hotellregningen med kredittkort.",
+        "nb": "Hun ___ for maten i går.",
         "answer": "betalte",
-        "hint_ru": "Прошедшее время (preteritum: betalte)",
-        "hint_uk": "Минулий час (preteritum: betalte)",
-        "hint_en": "Past tense (preteritum: betalte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Husk å ___ husleia innen den første hver måned.",
+        "nb": "Må vi ___ kontant nå?",
         "answer": "betale",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8872,26 +8872,26 @@
     },
     "examples": [
       {
-        "nb": "Et ferskt brød koster rundt førti kroner i dagligvarebutikken.",
-        "ru": "Свежий хлеб стоит около сорока крон в продуктовом магазине.",
-        "uk": "Свіжий хліб коштує близько сорока крон у продуктовому магазині.",
-        "en": "A fresh loaf costs around forty kroner at the grocery store."
+        "nb": "Hvor mye koster denne jakka?",
+        "ru": "Сколько стоит эта куртка?",
+        "uk": "Скільки коштує ця куртка?",
+        "en": "How much does this jacket cost?"
       }
     ],
     "cloze": [
       {
-        "nb": "Vinterjakken ___ mye mer enn det studenten hadde råd til.",
+        "nb": "Boka ___ femti kroner før.",
         "answer": "kostet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Hvor mye skal billetten ___ hvis jeg kjøper den på forhånd?",
+        "nb": "Det kan ___ litt penger.",
         "answer": "koste",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8918,26 +8918,26 @@
     },
     "examples": [
       {
-        "nb": "Lærlingen sparer et fast beløp på en høyrentekonto hver måned.",
-        "ru": "Стажёр ежемесячно откладывает фиксированную сумму на накопительный счёт.",
-        "uk": "Стажер щомісяця відкладає фіксовану суму на накопичувальний рахунок.",
-        "en": "The apprentice saves a fixed amount into a high-interest account every month."
+        "nb": "Vi prøver å spare penger hver måned.",
+        "ru": "Мы стараемся экономить деньги каждый месяц.",
+        "uk": "Ми намагаємося заощаджувати гроші щомісяця.",
+        "en": "We try to save money each month."
       }
     ],
     "cloze": [
       {
-        "nb": "Paret ___ i tre år for å få nok egenkapital til boligkjøp.",
+        "nb": "Han ___ mange kroner på salget.",
         "answer": "sparte",
-        "hint_ru": "Прошедшее время (preteritum: sparte)",
-        "hint_uk": "Минулий час (preteritum: sparte)",
-        "hint_en": "Past tense (preteritum: sparte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det lønner seg å ___ på strømmen om vinteren.",
+        "nb": "Det er lurt å ___ til ferien.",
         "answer": "spare",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -8964,26 +8964,26 @@
     },
     "examples": [
       {
-        "nb": "Kunden bytter genseren til en mindre størrelse ved serviceskranken.",
-        "ru": "Покупатель меняет свитер на меньший размер у информационной стойки.",
-        "uk": "Покупець міняє светр на менший розмір біля інформаційної стійки.",
-        "en": "The customer exchanges the sweater for a smaller size at the customer service desk."
+        "nb": "Kan jeg bytte denne skjorta i morgen?",
+        "ru": "Могу я обменять эту рубашку завтра?",
+        "uk": "Чи можу я обміняти цю сорочку завтра?",
+        "en": "Can I exchange this shirt tomorrow?"
       }
     ],
     "cloze": [
       {
-        "nb": "Sjåføren ___ til piggfrie vinterdekk før frosten kom.",
+        "nb": "Kunden ___ jakka mot en større størrelse.",
         "answer": "byttet",
         "hint_ru": "Прошедшее время (preteritum)",
         "hint_uk": "Минулий час (preteritum)",
         "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Har du kvitteringen slik at vi kan ___ buksa?",
+        "nb": "Du kan ___ varen med kvittering.",
         "answer": "bytte",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -9010,26 +9010,26 @@
     },
     "examples": [
       {
-        "nb": "Gjesten bestiller en varm kaffe og en nystekt vaffel.",
-        "ru": "Гость заказывает горячий кофе и свежеиспечённую вафлю.",
-        "uk": "Гість замовляє гарячу каву та свіжоспечену вафлю.",
-        "en": "The guest orders a hot coffee and a freshly baked waffle."
+        "nb": "Vi vil bestille et bord.",
+        "ru": "Мы хотим заказать столик.",
+        "uk": "Ми хочемо замовити столик.",
+        "en": "We want to book a table."
       }
     ],
     "cloze": [
       {
-        "nb": "Familien ___ togbilletter til Trondheim i god tid.",
+        "nb": "Kunden ___ to billetter på nett.",
         "answer": "bestilte",
-        "hint_ru": "Прошедшее время (preteritum: bestilte)",
-        "hint_uk": "Минулий час (preteritum: bestilte)",
-        "hint_en": "Past tense (preteritum: bestilte)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Det er lurt å ___ bord på restauranten før fredagskvelden.",
+        "nb": "Vil du ___ mat til oss?",
         "answer": "bestille",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -9056,26 +9056,26 @@
     },
     "examples": [
       {
-        "nb": "Kokken lager velsmakende grønnsakssuppe fra ferske råvarer.",
-        "ru": "Повар готовит вкусный овощной суп из свежих продуктов.",
-        "uk": "Кухар готує смачний овочевий суп зі свіжих продуктів.",
-        "en": "The chef makes tasty vegetable soup from fresh ingredients."
+        "nb": "Han skal lage god middag.",
+        "ru": "Он приготовит хороший ужин.",
+        "uk": "Він приготує гарну вечерю.",
+        "en": "He will make good dinner."
       }
     ],
     "cloze": [
       {
-        "nb": "Mora ___ en nydelig eplekake til søndagskaffen.",
+        "nb": "Far ___ suppe til lunsj.",
         "answer": "lagde",
-        "hint_ru": "Прошедшее время (preteritum: lagde)",
-        "hint_uk": "Минулий час (preteritum: lagde)",
-        "hint_en": "Past tense (preteritum: lagde)"
+        "hint_ru": "Прошедшее время (preteritum)",
+        "hint_uk": "Минулий час (preteritum)",
+        "hint_en": "Past tense (preteritum)"
       },
       {
-        "nb": "Barna liker å hjelpe til med å ___ middag på kjøkkenet.",
+        "nb": "Vi liker å ___ pizza sammen.",
         "answer": "lage",
-        "hint_ru": "Инфинитив глагола",
-        "hint_uk": "Інфінітив дієслова",
-        "hint_en": "Infinitive form"
+        "hint_ru": "Инфинитив",
+        "hint_uk": "Інфінітив",
+        "hint_en": "Infinitive"
       }
     ],
     "status": "draft",
@@ -11799,26 +11799,26 @@
     },
     "examples": [
       {
-        "nb": "Skredderen solgte en dyr jakke i ekte skinn til kunden.",
-        "ru": "Портной продал покупателю дорогую куртку из натуральной кожи.",
-        "uk": "Кравець продав покупцеві дорогу куртку з натуральної шкіри.",
-        "en": "The tailor sold an expensive genuine leather jacket to the customer."
+        "nb": "Denne jakka er for dyr.",
+        "ru": "Эта куртка слишком дорогая.",
+        "uk": "Ця куртка занадто дорога.",
+        "en": "This jacket is too expensive."
       }
     ],
     "cloze": [
       {
-        "nb": "Å leie leilighet i Oslo sentrum er blitt et svært ___ prosjekt.",
+        "nb": "Huset var altfor ___.",
         "answer": "dyrt",
-        "hint_ru": "Форма среднего рода (nøytrum: dyrt)",
-        "hint_uk": "Форма середнього роду (nøytrum: dyrt)",
-        "hint_en": "Neuter form (nøytrum: dyrt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Butikken valgte å sette ned prisene på de mest ___ merkeklærne.",
+        "nb": "Butikken selger bare ___ sko.",
         "answer": "dyre",
-        "hint_ru": "Определённая форма / множественное число (dyre)",
-        "hint_uk": "Означена форма / множина (dyre)",
-        "hint_en": "Definite / plural form (dyre)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11846,26 +11846,26 @@
     },
     "examples": [
       {
-        "nb": "Markedet tilbyr en billig pose med epler fra lokale bønder.",
-        "ru": "Рынок предлагает дешёвый пакет яблок от местных фермеров.",
-        "uk": "Ринок пропонує дешевий пакет яблук від місцевих фермерів.",
-        "en": "The market offers an inexpensive bag of apples from local farmers."
+        "nb": "Eplene er veldig billige i dag.",
+        "ru": "Яблоки очень дешевые сегодня.",
+        "uk": "Яблука дуже дешеві сьогодні.",
+        "en": "The apples are very cheap today."
       }
     ],
     "cloze": [
       {
-        "nb": "Studentene fant et uvanlig ___ måltid i universitetskantina.",
+        "nb": "Brødet var ganske ___.",
         "answer": "billig",
-        "hint_ru": "Форма среднего рода (nøytrum)",
-        "hint_uk": "Форма середнього роду (nøytrum)",
-        "hint_en": "Neuter form (nøytrum)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Kunden så etter de mest ___ varene i lavprisbutikken.",
+        "nb": "De fant to ___ billetter.",
         "answer": "billige",
-        "hint_ru": "Определённая форма / множественное число (billige)",
-        "hint_uk": "Означена форма / множина (billige)",
-        "hint_en": "Definite / plural form (billige)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11893,26 +11893,26 @@
     },
     "examples": [
       {
-        "nb": "Fiskeren la fram en fersk laks på isen i fiskebutikken.",
-        "ru": "Рыбак выложил свежего лосося на лёд в рыбной лавке.",
-        "uk": "Рибалка виклав свіжого лосося на лід у рибній крамниці.",
-        "en": "The fisherman laid out a fresh salmon on the ice in the fish shop."
+        "nb": "Fisken lukter ferskt og godt.",
+        "ru": "Рыба пахнет свежо и приятно.",
+        "uk": "Риба пахне свіжо й приємно.",
+        "en": "The fish smells fresh and good."
       }
     ],
     "cloze": [
       {
-        "nb": "Bakeriet fristet kundene med nystekt og ___ brød hver morgen.",
+        "nb": "Brødet er helt ___ nå.",
         "answer": "ferskt",
-        "hint_ru": "Форма среднего рода (nøytrum: ferskt)",
-        "hint_uk": "Форма середнього роду (nøytrum: ferskt)",
-        "hint_en": "Neuter form (nøytrum: ferskt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Grønnsakshandleren fylte opp kurvene med ___ råvarer.",
+        "nb": "Vi kjøpte to ___ boller.",
         "answer": "ferske",
-        "hint_ru": "Форма множественного числа (flertall: ferske)",
-        "hint_uk": "Форма множини (flertall: ferske)",
-        "hint_en": "Plural form (flertall: ferske)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11940,26 +11940,26 @@
     },
     "examples": [
       {
-        "nb": "Kokken skjenket opp en varm kaffe til gjestene på kafeen.",
-        "ru": "Повар налил гостям в кафе горячий кофе.",
-        "uk": "Кухар налив гостям у кав'ярні гарячу каву.",
-        "en": "The cook poured hot coffee for the guests at the café."
+        "nb": "Solen gjør lufta varm.",
+        "ru": "Солнце делает воздух теплым.",
+        "uk": "Сонце робить повітря теплим.",
+        "en": "The sun makes the air warm."
       }
     ],
     "cloze": [
       {
-        "nb": "Etter skituren smakte det herlig med et rykende ___ måltid.",
+        "nb": "Vannet er for ___ nå.",
         "answer": "varmt",
-        "hint_ru": "Форма среднего рода (nøytrum: varmt)",
-        "hint_uk": "Форма середнього роду (nøytrum: varmt)",
-        "hint_en": "Neuter form (nøytrum: varmt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Barnet kledde på seg tykke og ___ ullsokker før det gikk ut.",
+        "nb": "Barna har ___ votter på.",
         "answer": "varme",
-        "hint_ru": "Форма множественного числа (flertall: varme)",
-        "hint_uk": "Форма множини (flertall: varme)",
-        "hint_en": "Plural form (flertall: varme)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -11987,26 +11987,26 @@
     },
     "examples": [
       {
-        "nb": "I januar feier en kald vind inn fra fjorden over byen.",
-        "ru": "В январе холодный ветер дует с фьорда на город.",
-        "uk": "У січні холодний вітер дме з фіорду на місто.",
-        "en": "In January, a cold wind sweeps in from the fjord over the town."
+        "nb": "Vinden er veldig kald.",
+        "ru": "Ветер очень холодный.",
+        "uk": "Вітер дуже холодний.",
+        "en": "The wind is very cold."
       }
     ],
     "cloze": [
       {
-        "nb": "Kroppen trengte et forfriskende og ___ glass kildevann.",
+        "nb": "Rommet er ganske ___.",
         "answer": "kaldt",
-        "hint_ru": "Форма среднего рода (nøytrum: kaldt)",
-        "hint_uk": "Форма середнього роду (nøytrum: kaldt)",
-        "hint_en": "Neuter form (nøytrum: kaldt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Skiløperen varmet sine stive og ___ fingre foran peisbålet.",
+        "nb": "Han har to ___ hender.",
         "answer": "kalde",
-        "hint_ru": "Форма множественного числа (flertall: kalde)",
-        "hint_uk": "Форма множини (flertall: kalde)",
-        "hint_en": "Plural form (flertall: kalde)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -12034,26 +12034,26 @@
     },
     "examples": [
       {
-        "nb": "Kjøpmannen holder en åpen dør for alle stamkunder i nabolaget.",
-        "ru": "Торговец держит дверь открытой для всех постоянных клиентов по соседству.",
-        "uk": "Торговець тримає двері відчиненими для всіх постійних клієнтів по сусідству.",
-        "en": "The merchant keeps an open door for all regular customers in the neighborhood."
+        "nb": "Butikken er åpen til åtte.",
+        "ru": "Магазин открыт до восьми.",
+        "uk": "Магазин відчинений до восьмої.",
+        "en": "The shop is open until eight."
       }
     ],
     "cloze": [
       {
-        "nb": "Apoteket på hjørnet holder et døgn___ tilbud for akuttpasienter.",
+        "nb": "Vinduet står helt ___ nå.",
         "answer": "åpent",
-        "hint_ru": "Форма среднего рода (nøytrum: åpent)",
-        "hint_uk": "Форма середнього роду (nøytrum: åpent)",
-        "hint_en": "Neuter form (nøytrum: åpent)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       },
       {
-        "nb": "Solen skinte inn gjennom de vid___ vinduene i stua.",
+        "nb": "Dørene til bussen er ___.",
         "answer": "åpne",
-        "hint_ru": "Форма множественного числа (flertall: åpne)",
-        "hint_uk": "Форма множини (flertall: åpne)",
-        "hint_en": "Plural form (flertall: åpne)"
+        "hint_ru": "Форма множественного числа",
+        "hint_uk": "Форма множини",
+        "hint_en": "Plural form"
       }
     ],
     "status": "draft",
@@ -12081,26 +12081,26 @@
     },
     "examples": [
       {
-        "nb": "Politiets veimelding varslet om en stengt veistrekning på fjellet.",
-        "ru": "Сводка полиции предупредила о закрытом участке дороги в горах.",
-        "uk": "Зведення поліції попередило про закриту ділянку дороги в горах.",
-        "en": "The police road traffic report warned of a closed stretch of road in the mountains."
+        "nb": "Museet er stengt på mandager.",
+        "ru": "Музей закрыт по понедельникам.",
+        "uk": "Музей зачинений по понеділках.",
+        "en": "The museum is closed on Mondays."
       }
     ],
     "cloze": [
       {
-        "nb": "Lørdag kveld møtte vi et låst og helt ___ apotek.",
+        "nb": "Døra var helt ___.",
         "answer": "stengt",
-        "hint_ru": "Форма среднего рода (nøytrum: stengt)",
-        "hint_uk": "Форма середнього роду (nøytrum: stengt)",
-        "hint_en": "Neuter form (nøytrum: stengt)"
+        "hint_ru": "Основная форма",
+        "hint_uk": "Основна форма",
+        "hint_en": "Base form"
       },
       {
-        "nb": "Skiltet på døra viste at butikken forble helt ___ på helligdager.",
+        "nb": "Vinduet er også ___ nå.",
         "answer": "stengt",
-        "hint_ru": "Основная форма прилагательного (stengt)",
-        "hint_uk": "Основна форма прикметника (stengt)",
-        "hint_en": "Base form (stengt)"
+        "hint_ru": "Форма среднего рода",
+        "hint_uk": "Форма середнього роду",
+        "hint_en": "Neuter form"
       }
     ],
     "status": "draft",
@@ -13818,26 +13818,26 @@
     },
     "examples": [
       {
-        "nb": "I helgen strømmet mange kunder til det store høstsalget på senteret.",
-        "ru": "На выходных многие покупатели устремились на большую осеннюю распродажу в центре.",
-        "uk": "У вихідні багато покупців попрямували на великий осінній розпродаж у центрі.",
-        "en": "At the weekend, many customers flocked to the big autumn sale at the center."
+        "nb": "Mange folk venter på bussen.",
+        "ru": "Многие люди ждут автобус.",
+        "uk": "Багато людей чекають на автобус.",
+        "en": "Many people wait for the bus."
       }
     ],
     "cloze": [
       {
-        "nb": "Biblioteket har ___ spennende barnebøker til utlån.",
+        "nb": "Det er ___ butikker her.",
         "answer": "mange",
-        "hint_ru": "Количественное местоимение «много» (исчисляемое: mange)",
-        "hint_uk": "Кількісний займенник «багато» (злічуване: mange)",
-        "hint_en": "Quantifier meaning 'many' (countable: mange)"
+        "hint_ru": "Местоимение",
+        "hint_uk": "Займенник",
+        "hint_en": "Pronoun"
       },
       {
-        "nb": "Det møtte opp uventet ___ deltakere til kveldens foredrag.",
+        "nb": "Hun kjøpte ___ røde epler.",
         "answer": "mange",
-        "hint_ru": "Местоимение (mange)",
-        "hint_uk": "Займенник (mange)",
-        "hint_en": "Pronoun (mange)"
+        "hint_ru": "Местоимение",
+        "hint_uk": "Займенник",
+        "hint_en": "Pronoun"
       }
     ],
     "status": "draft",
@@ -13861,26 +13861,26 @@
     },
     "examples": [
       {
-        "nb": "Bonden høstet mye fersk frukt fra frukttrærne i hagen.",
-        "ru": "Фермер собрал много свежих фруктов с фруктовых деревьев в саду.",
-        "uk": "Фермер зібрав багато свіжих фруктів із фруктових дерев у саду.",
-        "en": "The farmer harvested a lot of fresh fruit from the fruit trees in the garden."
+        "nb": "Vi har mye mat hjemme.",
+        "ru": "У нас много еды дома.",
+        "uk": "У нас багато їжі вдома.",
+        "en": "We have a lot of food at home."
       }
     ],
     "cloze": [
       {
-        "nb": "Kaken inneholder altfor ___ sukker etter min smak.",
+        "nb": "Han drikker ___ kald melk.",
         "answer": "mye",
-        "hint_ru": "Количественное местоимение «много» (неисчисляемое: mye)",
-        "hint_uk": "Кількісний займенник «багато» (незлічуване: mye)",
-        "hint_en": "Quantifier meaning 'much/a lot' (uncountable: mye)"
+        "hint_ru": "Местоимение",
+        "hint_uk": "Займенник",
+        "hint_en": "Pronoun"
       },
       {
-        "nb": "Hun brukte uvanlig ___ tid på å forberede seg til intervjuet.",
+        "nb": "Det koster altfor ___ penger.",
         "answer": "mye",
-        "hint_ru": "Местоимение (mye)",
-        "hint_uk": "Займенник (mye)",
-        "hint_en": "Pronoun (mye)"
+        "hint_ru": "Местоимение",
+        "hint_uk": "Займенник",
+        "hint_en": "Pronoun"
       }
     ],
     "status": "draft",

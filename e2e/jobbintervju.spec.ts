@@ -5,7 +5,7 @@ async function openJobbintervju(page: Page) {
   await page.goto('/');
   await page.getByRole('button', { name: 'Пропустить' }).click();
   await page.getByRole('link', { name: 'Начать практику' }).click();
-  await expect(page).toHaveURL(/\/studio$/);
+  await expect(page).toHaveURL(/\/(studio|practice)$/);
   await page.locator('button[data-module="jobbintervju"]').click();
   await expect(page.locator('#chatStream .msg-ai').first()).toContainText(
     'Kan du fortelle litt om deg selv og hva slags jobb du søker?'

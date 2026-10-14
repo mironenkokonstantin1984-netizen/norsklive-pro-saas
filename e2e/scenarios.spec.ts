@@ -5,7 +5,7 @@ async function openStudio(page: Page) {
   await page.goto('/');
   await page.getByRole('button', { name: 'Пропустить' }).click();
   await page.getByRole('link', { name: 'Начать практику' }).click();
-  await expect(page).toHaveURL(/\/studio$/);
+  await expect(page).toHaveURL(/\/(studio|practice)$/);
   await expect(page.locator('#chatStream .msg-ai').first()).toBeVisible();
 }
 

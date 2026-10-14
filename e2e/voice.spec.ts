@@ -18,7 +18,7 @@ async function openStudio(page: Page) {
   await page.goto('/');
   await page.getByRole('button', { name: 'Пропустить' }).click();
   await page.getByRole('link', { name: 'Начать практику' }).click();
-  await expect(page).toHaveURL(/\/studio$/);
+  await expect(page).toHaveURL(/\/(studio|practice)$/);
 }
 
 test('the learner sees the examiner voice and can test it', async ({ page }, testInfo) => {

@@ -36,6 +36,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: '/studio',
+        destination: '/practice',
+        permanent: true
+      },
+      {
         source: '/norsk',
         destination: '/',
         permanent: true

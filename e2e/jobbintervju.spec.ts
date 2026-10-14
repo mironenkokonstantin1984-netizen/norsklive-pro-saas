@@ -5,8 +5,15 @@ async function openJobbintervju(page: Page) {
   await page.goto('/');
   await page.getByRole('button', { name: 'Пропустить' }).click();
   await page.getByRole('link', { name: 'Начать практику' }).click();
-  await expect(page).toHaveURL(/\/studio$/);
-  await page.locator('button[data-module="jobbintervju"]').click();
+  await expect(page).toHaveURL(/\/(studio|practice)$/);
+  await expect(page.locator('#chatStream .msg-ai').first()).toBeVisible();
+  const jobbBtn = page.locator('button[data-module="jobbintervju"]');
+  if (!(await jobbBtn.isVisible())) {
+    await page.locator('.materials-toggle-btn').click();
+  }
+  await expect(jobbBtn).toBeVisible();
+  await jobbBtn.click();
+  await page.locator('.materials-toggle-btn').click();
   await expect(page.locator('#chatStream .msg-ai').first()).toContainText(
     'Kan du fortelle litt om deg selv og hva slags jobb du søker?'
   );
@@ -47,7 +54,7 @@ test('a pasted vacancy starts an interview for that job', async ({ page }, testI
   );
 
   if (!(await page.locator('#userSpeechInput').isVisible())) {
-    await page.locator('.materials-toggle-btn').click();
+    await page.getByRole('button', { name: 'Написать ответ' }).click();
   }
   await page.locator('#userSpeechInput').fill('Jeg heter Anna og jeg liker å jobbe med mennesker.');
   await page.locator('#sendSpeechBtn').click();

@@ -1,0 +1,748 @@
+/* Practice screen styles. Source of truth: docs/DESIGN_SYSTEM.md, docs/UX_REDESIGN.md §5.
+ * Never hardcode colours or px font sizes; use design tokens and rem. */
+
+.practice-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  color: var(--ink);
+  position: relative;
+}
+
+/* Visually hidden utility for accessible h1 without affecting visual design */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* TOP HEADER */
+.practice-header {
+  height: 3.5rem; /* 56 px */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 120;
+  flex-shrink: 0;
+}
+
+.practice-back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--target-min); /* 44 px */
+  min-height: var(--target-min);
+  padding: var(--space-2);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.practice-back-btn:hover {
+  background-color: var(--surface-2);
+}
+
+.practice-back-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.practice-header-center {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 var(--space-2);
+}
+
+.practice-header-title {
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.practice-header-part {
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.practice-header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.practice-header-timer {
+  min-width: var(--target-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.practice-menu-btn {
+  min-width: var(--target-min);
+  min-height: var(--target-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+/* MAIN CONVERSATION COLUMN (640 px max, centered) */
+.practice-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 40rem; /* 640 px */
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) var(--space-6);
+  position: relative;
+  gap: var(--space-3);
+}
+
+/* CONVERSATION HISTORY IN STREAM */
+.practice-stream-history {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.practice-history-msg {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  line-height: 1.4;
+}
+
+.practice-history-msg.msg-user {
+  background-color: var(--primary-soft);
+  color: var(--ink);
+  align-self: flex-end;
+  max-width: 85%;
+}
+
+.practice-history-msg.msg-ai {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  align-self: flex-start;
+  max-width: 85%;
+}
+
+/* COMPANION ORB ROW */
+.practice-companion-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.practice-orb-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--target-min);
+  padding: var(--space-1) var(--space-3);
+}
+
+.practice-orb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--line-strong);
+  transition: transform var(--duration-base) var(--ease-standard),
+              background-color var(--duration-base) var(--ease-standard);
+  flex-shrink: 0;
+}
+
+.practice-orb.listening {
+  background-color: var(--recording);
+  transform: scale(1.15);
+  animation: orbPulse 1.2s infinite ease-in-out;
+}
+
+.practice-orb.thinking {
+  background-color: var(--primary);
+  animation: orbSpin 1s infinite linear;
+}
+
+.practice-orb.speaking {
+  background-color: var(--success);
+  transform: scale(1.1);
+}
+
+/* EXAMINER BLOCK (Single line in .t-speech, no redundant intros) */
+.practice-examiner-block {
+  width: 100%;
+  background-color: var(--surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-height: 50vh;
+  overflow-y: auto;
+  flex-shrink: 1;
+}
+
+.practice-examiner-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.practice-examiner-badge {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.msg-example-label {
+  color: var(--muted);
+  background-color: var(--surface-2);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.practice-examiner-speech {
+  color: var(--ink);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.practice-examiner-translation {
+  color: var(--muted);
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--line);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.practice-examiner-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+}
+
+/* BUTTONS & CONTROLS (≥ 44 px target min) */
+.practice-text-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--target-min); /* 44 px */
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--duration-fast);
+}
+
+.practice-text-btn:hover:not(:disabled) {
+  background-color: var(--primary-soft);
+}
+
+.practice-text-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.practice-text-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* LEARNER BLOCK & DOCK */
+.practice-learner-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.practice-answer-card {
+  width: 100%;
+  background-color: var(--surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  position: relative;
+  z-index: 2;
+}
+
+.practice-answer-input {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  padding: var(--space-3);
+  background-color: var(--bg);
+  color: var(--ink);
+  resize: vertical;
+  line-height: 1.4;
+}
+
+.practice-answer-input:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* The single filled button on the screen */
+.practice-filled-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--target-min);
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-sm);
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: background-color var(--duration-fast);
+}
+
+.practice-filled-btn:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+
+.practice-filled-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.practice-filled-btn:focus,
+.practice-filled-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.practice-outline-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--target-min);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--ink);
+  font-weight: 600;
+  border: 1px solid var(--line-strong);
+  cursor: pointer;
+  transition: background-color var(--duration-fast);
+}
+
+.practice-outline-btn:hover:not(:disabled) {
+  background-color: var(--surface-2);
+}
+
+.practice-outline-btn:focus,
+.practice-outline-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* 72 px MICROPHONE DOCK */
+.practice-dock,
+.practice-shell .voice-dock {
+  position: static;
+  transform: none;
+  left: auto;
+  bottom: auto;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.practice-mic-button {
+  width: 4.5rem; /* 72 px */
+  height: 4.5rem; /* 72 px */
+  border-radius: var(--radius-pill);
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-float);
+  transition: transform var(--duration-fast), background-color var(--duration-fast);
+}
+
+.practice-mic-button:hover:not(:disabled) {
+  transform: scale(1.05);
+  background-color: var(--primary-hover);
+}
+
+.practice-mic-button.is-recording {
+  background-color: var(--recording);
+  animation: micPulse 1.5s infinite ease-in-out;
+}
+
+.practice-mic-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.practice-mic-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+
+.practice-mic-status {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.practice-mic-status-detail {
+  color: var(--muted);
+  text-align: center;
+  display: block;
+}
+
+.practice-mic-live {
+  color: var(--ink);
+  text-align: center;
+  padding: var(--space-1) var(--space-2);
+  background-color: var(--surface-2);
+  border-radius: var(--radius-sm);
+}
+
+/* BOTTOM SHEET FOR HISTORY */
+.practice-sheet-scrim {
+  position: fixed;
+  inset: 0;
+  background-color: var(--scrim);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn var(--duration-base) var(--ease-standard);
+}
+
+.practice-sheet-content {
+  background-color: var(--surface);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 40rem;
+  max-height: 80vh;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-float);
+  animation: slideUp var(--duration-base) var(--ease-standard);
+}
+
+.practice-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: var(--space-2);
+}
+
+/* MATERIALS & SETTINGS DRAWER */
+.practice-materials-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.practice-materials-drawer.is-closed {
+  display: none;
+}
+
+.practice-materials-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--scrim);
+}
+
+.practice-materials-panel {
+  position: relative;
+  width: 100%;
+  max-width: 40rem;
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: var(--surface);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-float);
+}
+
+.practice-materials-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.practice-materials-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.practice-module-tabs {
+  display: flex;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: var(--space-2);
+}
+
+.practice-module-tab {
+  min-height: var(--target-min);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.practice-module-tab.is-active {
+  background-color: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.practice-vacancy-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: var(--surface-2);
+  border-radius: var(--radius-md);
+}
+
+.practice-vacancy-note {
+  color: var(--muted);
+}
+
+.practice-scenario-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.practice-scenario-heading {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.practice-scenario-item {
+  min-height: var(--target-min);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background-color: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.practice-scenario-item:hover {
+  background-color: var(--surface-2);
+}
+
+.practice-scenario-item.is-selected {
+  border-color: var(--primary);
+  background-color: var(--primary-soft);
+}
+
+/* FLOATING SCROLL BUTTON */
+.practice-new-messages-btn {
+  position: fixed;
+  bottom: calc(var(--space-12) + 4rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--target-min);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  background-color: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow-float);
+  cursor: pointer;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes micPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 var(--recording);
+  }
+  50% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+
+@keyframes orbSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes orbPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* PHOTO FOR PART 2 (Bildebeskrivelse) */
+.practice-image-wrap {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: var(--space-2);
+  border: 1px solid var(--line);
+}
+
+.practice-image {
+  width: 100%;
+  height: auto;
+  max-height: 14rem;
+  object-fit: cover;
+  display: block;
+}
+
+/* HISTORY BOTTOM SHEET LIST */
+.practice-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  overflow-y: auto;
+  padding: var(--space-1) 0;
+}
+
+.practice-history-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface-2);
+}
+
+.practice-history-sender {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.practice-history-text {
+  color: var(--ink);
+}
+
+.practice-history-trans {
+  color: var(--muted);
+}
+
+/* STATE / CALM ALERT CARDS */
+.practice-state-card {
+  width: 100%;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.practice-state-card.error {
+  border-color: var(--error);
+  background-color: var(--error-soft);
+}
+
+.practice-state-card.hint {
+  border-color: var(--hint);
+  background-color: var(--hint-soft);
+}
+
+.practice-subtitles-word {
+  border-radius: var(--radius-sm);
+  transition: background-color var(--duration-fast);
+}
+
+.practice-subtitles-word.is-active {
+  background-color: var(--primary-soft);
+}

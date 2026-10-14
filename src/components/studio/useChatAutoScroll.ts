@@ -38,7 +38,9 @@ function combinedScrollTop(stream: HTMLElement | null): number {
 
 function isNearBottom(stream: HTMLElement | null): boolean {
   const doc = document.documentElement;
-  const pageNear = window.innerHeight + window.scrollY >= doc.scrollHeight - NEAR_BOTTOM_PX;
+  const maxScroll = Math.max(0, doc.scrollHeight - window.innerHeight);
+  const threshold = Math.min(NEAR_BOTTOM_PX, maxScroll * 0.5);
+  const pageNear = maxScroll - window.scrollY <= threshold;
   const streamScrollable = !!stream && stream.scrollHeight > stream.clientHeight + 1;
   const streamNear =
     !streamScrollable ||

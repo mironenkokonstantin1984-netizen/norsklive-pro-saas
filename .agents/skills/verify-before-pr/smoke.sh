@@ -50,12 +50,19 @@ if [ "$code_empty" != "400" ]; then
 fi
 echo "OK: POST /api/coach {} -> 400"
 
-code_studio="$(curl -s -o /dev/null -w '%{http_code}' "$BASE_URL/studio")"
-if [ "$code_studio" != "200" ]; then
-  echo "FAIL: GET /studio returned $code_studio (expected 200)"
+code_practice="$(curl -s -o /dev/null -w '%{http_code}' "$BASE_URL/practice")"
+if [ "$code_practice" != "200" ]; then
+  echo "FAIL: GET /practice returned $code_practice (expected 200)"
   exit 1
 fi
-echo "OK: GET /studio -> 200"
+echo "OK: GET /practice -> 200"
+
+code_studio="$(curl -s -o /dev/null -w '%{http_code}' "$BASE_URL/studio")"
+if [ "$code_studio" != "308" ] && [ "$code_studio" != "301" ]; then
+  echo "FAIL: GET /studio returned $code_studio (expected 308 or 301)"
+  exit 1
+fi
+echo "OK: GET /studio -> $code_studio"
 
 code_norsk="$(curl -s -o /dev/null -w '%{http_code}' "$BASE_URL/norsk")"
 if [ "$code_norsk" != "308" ] && [ "$code_norsk" != "301" ]; then

@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Mic, Square, Loader2 } from 'lucide-react';
+import { Mic, Square, Loader2, ArrowDown } from 'lucide-react';
 import './practice.css';
 import {
   useStudioState
 } from '../studio/useStudioState';
 import type { CoachFeedback, Correction } from '../../server/schemas';
+import type { Scenario, ScenarioTopic, ModuleKey } from '../../content/scenarios/types';
 import {
   useSpeechRecognition,
   MIC_MESSAGES,
@@ -15,16 +16,18 @@ import {
 import {
   DEFAULT_PRACTICE_PREFS,
   loadPracticePrefs,
+  savePracticePrefs,
   applyPracticePrefsToDocument,
   type PracticePrefs
 } from '../../lib/prefs';
 import { applyDocumentLang } from '../../lib/documentLang';
 import { VoiceNotice } from '../studio/VoiceNotice';
 import { CorrectionCard } from '../studio/CorrectionCard';
+import { PracticeSettingsSheet } from '../studio/PracticeSettingsSheet';
+import { useChatAutoScroll } from '../studio/useChatAutoScroll';
 import { ScenarioIllustration } from '../../content/scenarios/images';
 
-export const COACH_UNAVAILABLE_MESSAGE =
-  'Сервис проверки сейчас недоступен. Попробуйте повторить через минуту.';
+export const COACH_UNAVAILABLE_MESSAGE = 'Не получилось получить ответ. Ваш ответ сохранён.';
 
 export const NO_SPEECH_SUPPORT_MESSAGE =
   'Распознавание речи не поддерживается в этом браузере. Вы можете отвечать текстом.';
@@ -33,6 +36,25 @@ export const NO_MIC_PERMISSION_MESSAGE =
   'Доступ к микрофону заблокирован. Разрешите его в настройках браузера.';
 
 export const EMPTY_HISTORY_MESSAGE = 'История диалога пуста.';
+
+export const TOPIC_NAMES_RU: Record<ScenarioTopic, string> = {
+  arbeid: 'Работа',
+  bolig: 'Жильё',
+  helse: 'Здоровье',
+  familie: 'Семья',
+  handel: 'Покупки',
+  transport: 'Транспорт',
+  fritid: 'Отдых'
+};
+
+export function getShortTopicName(scenario?: Scenario, module?: ModuleKey): string {
+  if (scenario?.topic && TOPIC_NAMES_RU[scenario.topic]) {
+    return TOPIC_NAMES_RU[scenario.topic];
+  }
+  if (module === 'jobbintervju') return 'Собеседование';
+  if (module === 'pensum') return 'Пенсум';
+  return 'Работа';
+}
 
 export interface PracticeScreenProps {
   authEnabled?: boolean;
@@ -61,7 +83,10 @@ export function PracticeScreen({
     handleUserSubmission,
     dismissLimitCard,
     retryLastSubmission,
-    advanceExamPart
+    advanceExamPart,
+    switchModule,
+    selectScenario,
+    applyVacancy
   } = useStudioState({ authEnabled, showDrafts });
 
   const [prefs, setPrefs] = useState<PracticePrefs>(() => ({ ...DEFAULT_PRACTICE_PREFS }));
@@ -69,19 +94,40 @@ export function PracticeScreen({
   const [showHistory, setShowHistory] = useState(false);
   const [showTextInput, setShowTextInput] = useState(false);
   const [answerText, setAnswerText] = useState('');
+  const [liveText, setLiveText] = useState('');
   const [examListenedCount, setExamListenedCount] = useState(0);
   const [isExamModeState, setIsExamModeState] = useState(false);
-  const historySheetRef = useRef<HTMLDivElement | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [hasDrawerOpened, setHasDrawerOpened] = useState(false);
+  const [comfortOpen, setComfortOpen] = useState(false);
+  const [vacancyText, setVacancyText] = useState('');
 
-  // Check browser speech recognition capability
-  const isSpeechSupported =
-    typeof window !== 'undefined' &&
-    Boolean(
+  const handleToggleDrawer = useCallback(() => {
+    setHasDrawerOpened(true);
+    setDrawerOpen((prev) => !prev);
+  }, []);
+
+  const historySheetRef = useRef<HTMLDivElement | null>(null);
+  const chatStreamRef = useRef<HTMLDivElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const wasRecordingRef = useRef(false);
+
+  // Check browser speech recognition capability after hydration
+  const [isSpeechSupported, setIsSpeechSupported] = useState(true);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const supported = Boolean(
       (window as unknown as { SpeechRecognition?: unknown; webkitSpeechRecognition?: unknown })
         .SpeechRecognition ||
         (window as unknown as { SpeechRecognition?: unknown; webkitSpeechRecognition?: unknown })
           .webkitSpeechRecognition
     );
+    setIsSpeechSupported(supported);
+    if (!supported) {
+      setShowTextInput(true);
+    }
+  }, []);
 
   // Load preferences and set document attributes
   useEffect(() => {
@@ -104,11 +150,25 @@ export function PracticeScreen({
     applyDocumentLang(state.l1Lang);
   }, [state.l1Lang]);
 
+  // Update preferences handler
+  const handleChangePrefs = useCallback(
+    (nextPrefs: PracticePrefs) => {
+      setPrefs(nextPrefs);
+      savePracticePrefs(nextPrefs);
+      applyPracticePrefsToDocument(nextPrefs);
+      setSpeechRate(nextPrefs.tempo);
+    },
+    [setSpeechRate]
+  );
+
   // Speech recognition integration
   const onTranscriptChange = useCallback((text: string) => {
     setAnswerText(text);
     if (text) {
       setShowTextInput(true);
+      setTimeout(() => {
+        textareaRef.current?.focus();
+      }, 0);
     }
   }, []);
 
@@ -144,6 +204,9 @@ export function PracticeScreen({
 
   const onUnsupported = useCallback(() => {
     setShowTextInput(true);
+    setTimeout(() => {
+      textareaRef.current?.focus();
+    }, 0);
   }, []);
 
   const { toggleMic } = useSpeechRecognition({
@@ -153,16 +216,36 @@ export function PracticeScreen({
     onRecordingChange,
     onSpeakingChange,
     onStatusChange,
+    onLiveTextChange: setLiveText,
     onUnsupported,
     autoSend: prefs.autoSend
   });
 
-  // When speech recognition is not supported in the browser, show text input by default
+  // Focus textarea when recording stops so learner can review
   useEffect(() => {
-    if (!isSpeechSupported) {
+    if (wasRecordingRef.current && !state.isRecording) {
+      setShowTextInput(true);
+      setTimeout(() => {
+        textareaRef.current?.focus();
+      }, 0);
+    }
+    wasRecordingRef.current = state.isRecording;
+  }, [state.isRecording]);
+
+  // When speech recognition is not supported or mic permission is denied, show text input
+  useEffect(() => {
+    if (!isSpeechSupported || state.micStatusText === MIC_MESSAGES.notAllowed) {
       setShowTextInput(true);
     }
-  }, [isSpeechSupported]);
+  }, [isSpeechSupported, state.micStatusText]);
+
+  // Auto scroll hook
+  const { showNewMessages, announcement, jumpToNewest } = useChatAutoScroll({
+    streamRef: chatStreamRef,
+    chatHistory: state.chatHistory,
+    limitCardVisible: Boolean(state.quotaExceeded && !state.limitCardDismissed),
+    errorCardVisible: Boolean(state.coachError)
+  });
 
   // Reset exam listen count when new examiner line arrives
   const latestAiReply = useMemo(() => {
@@ -183,6 +266,13 @@ export function PracticeScreen({
     speakWithOrb(latestAiReply.norsk);
   }, [latestAiReply, isExamModeState, examListenedCount, speakWithOrb]);
 
+  const handleOpenTextInput = useCallback(() => {
+    setShowTextInput(true);
+    setTimeout(() => {
+      textareaRef.current?.focus();
+    }, 0);
+  }, []);
+
   // Handle submitting learner's response
   const handleSendAnswer = useCallback(() => {
     const trimmed = answerText.trim();
@@ -193,17 +283,17 @@ export function PracticeScreen({
     setShowTextInput(false);
   }, [answerText, state.isThinking, handleUserSubmission]);
 
-  // Keyboard navigation inside History bottom sheet (Esc to close)
+  // Keyboard navigation inside History bottom sheet and materials drawer (Esc to close)
   useEffect(() => {
-    if (!showHistory) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setShowHistory(false);
+        if (showHistory) setShowHistory(false);
+        if (drawerOpen) setDrawerOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [showHistory]);
+  }, [showHistory, drawerOpen]);
 
   // Determine current exam part name if exam mode
   const examPartName = useMemo(() => {
@@ -212,6 +302,11 @@ export function PracticeScreen({
     if (state.examPart === 3) return 'Часть 3. Разговор';
     return `Часть ${state.examPart}`;
   }, [state.examPart]);
+
+  // Short topic name in header
+  const shortTopicName = useMemo(() => {
+    return getShortTopicName(state.currentScenario, state.currentModule);
+  }, [state.currentScenario, state.currentModule]);
 
   // Nora companion orb status
   const noraStatus = useMemo(() => {
@@ -281,38 +376,56 @@ export function PracticeScreen({
       <h1 className="visually-hidden">Практика</h1>
 
       {/* TOP HEADER */}
-      <header className="practice-header" role="banner">
+      <header className="practice-header topbar" role="banner">
         <a href="/" className="practice-back-btn" aria-label="Назад">
           ‹
         </a>
 
         <div className="practice-header-center">
           <span className="practice-header-title t-callout">
-            {state.currentScenario?.title || 'Практика'} · {isExamModeState ? 'Экзамен' : 'Учёба'}
+            {shortTopicName} · {isExamModeState ? 'Экзамен' : 'Учёба'}
           </span>
           {isExamModeState && (
             <span className="practice-header-part t-caption">{examPartName}</span>
           )}
         </div>
 
-        <div className="practice-header-timer t-caption" aria-label="Таймер">
-          {formatTimer(state.timerSeconds)}
-        </div>
+        <div className="practice-header-right">
+          <div className="practice-header-timer t-caption" aria-label="Таймер">
+            {formatTimer(state.timerSeconds)}
+          </div>
 
-        {isExamModeState && (
           <button
             type="button"
-            className="practice-text-btn t-caption"
-            onClick={advanceExamPart}
-            aria-label="Завершить часть"
+            id="materialsToggleBtn"
+            className="practice-text-btn practice-menu-btn materials-toggle-btn t-callout"
+            onClick={handleToggleDrawer}
+            aria-label="Меню"
+            aria-expanded={drawerOpen}
           >
-            Завершить часть
+            …
           </button>
-        )}
+        </div>
       </header>
 
       {/* MAIN CONVERSATION COLUMN */}
-      <main className="practice-main" role="main" id="chatStream">
+      <main className="practice-main" role="main" id="chatStream" ref={chatStreamRef}>
+        {/* Prior chat history turns (stream continuity & counts for e2e tests) */}
+        <div className="practice-stream-history">
+          {state.chatHistory.map((item, idx) => {
+            if (item === latestAiReply) return null;
+            return (
+              <div
+                key={idx}
+                className={`practice-history-msg ${item.sender === 'ai' ? 'msg-ai' : 'msg-user'}`}
+              >
+                {item.sender === 'ai' && <span className="msg-norsk">{item.norsk}</span>}
+                {item.sender === 'user' && <span className="msg-user-text">{item.norsk}</span>}
+              </div>
+            );
+          })}
+        </div>
+
         {/* Companion Orb Row */}
         <div className="practice-companion-row">
           <div className="practice-orb-wrap" aria-live="polite">
@@ -383,8 +496,8 @@ export function PracticeScreen({
         {/* EXAMINER BLOCK */}
         {latestAiReply && (
           <section className="practice-examiner-block msg-ai" aria-label="Реплика экзаменатора">
-            {/* Exam Part 2 Image illustration if available */}
-            {isExamModeState && state.examPart === 2 && state.currentScenario?.image && (
+            {/* Image illustration if scenario has image */}
+            {state.currentScenario?.image && (!isExamModeState || state.examPart === 2) && (
               <div className="practice-image-wrap" data-testid="scenarioImageWrapper">
                 <ScenarioIllustration
                   src={state.currentScenario.image.src}
@@ -394,7 +507,15 @@ export function PracticeScreen({
               </div>
             )}
 
-            <span className="practice-examiner-badge t-caption">Экзаменатор</span>
+            <div className="practice-examiner-header">
+              <span className="practice-examiner-badge t-caption">Экзаменатор</span>
+              {latestAiReply.isExample && (
+                <span className="msg-example-label t-caption" data-testid="exampleAnswerLabel">
+                  Пример ответа
+                </span>
+              )}
+            </div>
+
             <p className="practice-examiner-speech msg-norsk t-speech" lang="nb">
               «{renderExaminerSpeech(latestAiReply.norsk)}»
             </p>
@@ -467,6 +588,7 @@ export function PracticeScreen({
                 Ваш ответ
               </label>
               <textarea
+                ref={textareaRef}
                 id="userSpeechInput"
                 className="practice-answer-input t-body"
                 value={answerText}
@@ -480,7 +602,7 @@ export function PracticeScreen({
                 id="sendSpeechBtn"
                 className="practice-filled-btn t-callout"
                 onClick={handleSendAnswer}
-                disabled={!answerText.trim() || state.isThinking}
+                disabled={state.isThinking}
               >
                 Отправить
               </button>
@@ -488,7 +610,7 @@ export function PracticeScreen({
           )}
 
           {/* Dock with MicButton (72 px) and text answer toggle */}
-          <div className="practice-dock">
+          <div className="practice-dock voice-dock">
             <button
               type="button"
               id="micToggleBtn"
@@ -506,22 +628,185 @@ export function PracticeScreen({
                 <Mic size={28} aria-hidden="true" />
               )}
             </button>
-            <span id="micStatusText" className="practice-mic-status t-callout">
+            <span id="micButtonLabel" className="practice-mic-status t-callout">
               {micButtonLabel}
             </span>
+            <span id="micStatusText" className="practice-mic-status-detail t-caption">
+              {state.micStatusText}
+            </span>
+
+            {liveText ? (
+              <p id="micLiveText" className="practice-mic-live t-body" lang="nb">
+                {liveText}
+              </p>
+            ) : null}
 
             {!showTextInput && isSpeechSupported && (
               <button
                 type="button"
                 className="practice-text-btn t-callout"
-                onClick={() => setShowTextInput(true)}
+                onClick={handleOpenTextInput}
               >
                 Написать ответ
               </button>
             )}
           </div>
         </section>
+
+        {/* Floating "Новые сообщения" scroll button */}
+        {showNewMessages && (
+          <button
+            type="button"
+            className="chat-scroll-btn practice-new-messages-btn t-callout"
+            onClick={jumpToNewest}
+          >
+            <ArrowDown size={16} strokeWidth={2} aria-hidden="true" />
+            <span>Новые сообщения</span>
+          </button>
+        )}
+        <div className="visually-hidden" aria-live="polite">
+          {announcement}
+        </div>
       </main>
+
+      {/* MATERIALS & SETTINGS DRAWER («…» MENU) */}
+      {hasDrawerOpened && (
+        <div
+          id="materialsDrawer"
+          className={`practice-materials-drawer ${drawerOpen ? 'is-open' : 'is-closed'}`}
+          role="dialog"
+          aria-modal={drawerOpen ? 'true' : 'false'}
+          aria-label="Тема и настройки"
+        >
+          <div
+            className="practice-materials-backdrop"
+            onClick={() => setDrawerOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="practice-materials-panel">
+            <div className="practice-materials-header">
+              <h2 className="t-callout">Тема и настройки</h2>
+              <button
+                type="button"
+                className="practice-text-btn t-callout"
+                onClick={() => setDrawerOpen(false)}
+                aria-label="Закрыть меню"
+              >
+                Закрыть
+              </button>
+            </div>
+
+            <div className="practice-materials-actions">
+              <button
+                type="button"
+                className="practice-outline-btn t-callout"
+                onClick={() => {
+                  setComfortOpen(true);
+                  setDrawerOpen(false);
+                }}
+              >
+                Удобство
+              </button>
+              {isExamModeState && (
+                <button
+                  type="button"
+                  className="practice-outline-btn t-callout"
+                  onClick={() => {
+                    advanceExamPart();
+                    setDrawerOpen(false);
+                  }}
+                >
+                  Завершить часть
+                </button>
+              )}
+            </div>
+
+            <div className="practice-module-tabs">
+              <button
+                type="button"
+                data-module="norskprove"
+                className={`practice-module-tab t-caption ${state.currentModule === 'norskprove' ? 'is-active' : ''}`}
+                onClick={() => switchModule('norskprove')}
+              >
+                Norskprøve
+              </button>
+              <button
+                type="button"
+                data-module="jobbintervju"
+                className={`practice-module-tab t-caption ${state.currentModule === 'jobbintervju' ? 'is-active' : ''}`}
+                onClick={() => switchModule('jobbintervju')}
+              >
+                Jobbintervju
+              </button>
+              <button
+                type="button"
+                data-module="pensum"
+                className={`practice-module-tab t-caption ${state.currentModule === 'pensum' ? 'is-active' : ''}`}
+                onClick={() => switchModule('pensum')}
+              >
+                Pensum
+              </button>
+            </div>
+
+            {state.currentModule === 'jobbintervju' && (
+              <div id="vacancyBox" className="practice-vacancy-box">
+                <label htmlFor="vacancyText" className="t-caption">
+                  Вставьте текст вакансии (по желанию)
+                </label>
+                <textarea
+                  id="vacancyText"
+                  aria-label="Вставьте текст вакансии (по желанию)"
+                  className="practice-answer-input t-body"
+                  rows={3}
+                  value={vacancyText}
+                  onChange={(e) => setVacancyText(e.target.value)}
+                  placeholder="Например: Vi søker en blid og pålitelig medarbeider til butikken vår…"
+                />
+                <p className="t-caption practice-vacancy-note">
+                  Текст не сохраняется на сервере и используется только для этой сессии.
+                </p>
+                <button
+                  type="button"
+                  className="practice-outline-btn t-callout"
+                  onClick={() => {
+                    if (vacancyText.trim()) {
+                      applyVacancy(vacancyText.trim());
+                      setDrawerOpen(false);
+                    }
+                  }}
+                  disabled={!vacancyText.trim()}
+                >
+                  Начать интервью по этой вакансии
+                </button>
+              </div>
+            )}
+
+            <div className="practice-scenario-list">
+              <span className="t-caption practice-scenario-heading">Сценарии</span>
+              {(state.scenarios[state.currentModule] || []).map((sc) => (
+                <button
+                  key={sc.id}
+                  type="button"
+                  className={`scenario-item practice-scenario-item t-callout ${state.currentScenario.id === sc.id ? 'is-selected' : ''}`}
+                  onClick={() => {
+                    selectScenario(sc);
+                  }}
+                >
+                  <span>{sc.title}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* COMFORT / PRACTICE SETTINGS SHEET */}
+      <PracticeSettingsSheet
+        open={comfortOpen}
+        prefs={prefs}
+        onChangePrefs={handleChangePrefs}
+        onClose={() => setComfortOpen(false)}
+      />
 
       {/* HISTORY BOTTOM SHEET */}
       {showHistory && (

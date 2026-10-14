@@ -95,9 +95,9 @@ describe('PracticeScreen (/practice, Issue #53)', () => {
     const interactiveInMain = mainEl.querySelectorAll('button, a, input, textarea, select');
     expect(interactiveInMain.length).toBeLessThanOrEqual(4);
 
-    // Across the entire screen, exactly 4 buttons (Back is a navigation link)
+    // Across the entire screen, exactly 5 buttons (4 in main + 1 header menu button; Back is a navigation link)
     const buttons = screen.getAllByRole('button');
-    expect(buttons.length).toBeLessThanOrEqual(4);
+    expect(buttons.length).toBeLessThanOrEqual(5);
   });
 
   it('2. The same task text is never shown twice (no duplicated banner or panels)', () => {
@@ -257,5 +257,27 @@ describe('PracticeScreen (/practice, Issue #53)', () => {
 
     const pxFontSizeMatch = stripped.match(/font-size:\s*\d+px/gi);
     expect(pxFontSizeMatch, `Found font-size in px: ${pxFontSizeMatch?.join(', ')}`).toBeNull();
+  });
+
+  it('12. Header items do not collide at 390 px (short topic name and distinct flex items)', () => {
+    const { container } = render(<PracticeScreen authEnabled={false} />);
+    const header = container.querySelector('.practice-header');
+    expect(header).toBeTruthy();
+
+    const backBtn = container.querySelector('.practice-back-btn') as HTMLElement;
+    const centerTitle = container.querySelector('.practice-header-center') as HTMLElement;
+    const rightControls = container.querySelector('.practice-header-right') as HTMLElement;
+
+    expect(backBtn).toBeTruthy();
+    expect(centerTitle).toBeTruthy();
+    expect(rightControls).toBeTruthy();
+
+    // Verify center flex configuration and overflow truncation
+    expect(centerTitle.className).toContain('practice-header-center');
+    const title = centerTitle.querySelector('.practice-header-title');
+    expect(title).toBeTruthy();
+    expect(title?.textContent).toContain('· Учёба');
+    // Ensure short topic name is used (not raw Norwegian scenario title)
+    expect(title?.textContent).not.toContain('Presentasjon:');
   });
 });

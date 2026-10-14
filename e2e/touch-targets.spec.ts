@@ -64,7 +64,11 @@ test.describe('touch targets at 390×844', () => {
     await expect(page.locator('#chatStream .msg-ai').first()).toBeVisible();
     expect(await smallControls(page)).toEqual([]);
 
-    await page.locator('#userSpeechInput').fill('Jeg bor i Bergen.');
+    const input = page.locator('#userSpeechInput');
+    if (!(await input.isVisible())) {
+      await page.getByRole('button', { name: 'Написать ответ' }).click();
+    }
+    await input.fill('Jeg bor i Bergen.');
     await page.locator('#sendSpeechBtn').click();
     await expect(page.locator('#chatStream .msg-ai')).toHaveCount(2, { timeout: 15000 });
     expect(await smallControls(page)).toEqual([]);

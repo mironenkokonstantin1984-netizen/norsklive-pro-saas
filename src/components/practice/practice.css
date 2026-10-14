@@ -3,12 +3,10 @@
 
 .practice-shell {
   min-height: 100vh;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: var(--bg);
   color: var(--ink);
-  overflow: hidden;
   position: relative;
 }
 
@@ -34,8 +32,10 @@
   padding: var(--space-2) var(--space-4);
   background-color: var(--surface);
   border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 120;
   flex-shrink: 0;
-  z-index: 20;
 }
 
 .practice-back-btn {
@@ -53,6 +53,7 @@
   cursor: pointer;
   font-size: 1.5rem;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .practice-back-btn:hover {
@@ -65,12 +66,14 @@
 }
 
 .practice-header-center {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  max-width: calc(100% - 6rem);
+  margin: 0 var(--space-2);
 }
 
 .practice-header-title {
@@ -78,6 +81,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .practice-header-part {
@@ -85,6 +89,14 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.practice-header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
 }
 
 .practice-header-timer {
@@ -96,78 +108,184 @@
   color: var(--muted);
 }
 
-/* MAIN CONVERSATION COLUMN (640 px max, centered, fixed viewport) */
+.practice-menu-btn {
+  min-width: var(--target-min);
+  min-height: var(--target-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+/* MAIN CONVERSATION COLUMN (640 px max, centered) */
 .practice-main {
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   max-width: 40rem; /* 640 px */
   width: 100%;
   margin: 0 auto;
-  padding: var(--space-4);
-  overflow: hidden;
-  gap: var(--space-4);
+  padding: var(--space-4) var(--space-4) var(--space-6);
+  position: relative;
+  gap: var(--space-3);
 }
 
-/* EXAMINER BLOCK */
-.practice-examiner-block {
+/* CONVERSATION HISTORY IN STREAM */
+.practice-stream-history {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+}
+
+.practice-history-msg {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  line-height: 1.4;
+}
+
+.practice-history-msg.msg-user {
+  background-color: var(--primary-soft);
+  color: var(--ink);
+  align-self: flex-end;
+  max-width: 85%;
+}
+
+.practice-history-msg.msg-ai {
   background-color: var(--surface);
   border: 1px solid var(--line);
+  color: var(--ink);
+  align-self: flex-start;
+  max-width: 85%;
+}
+
+/* COMPANION ORB ROW */
+.practice-companion-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.practice-orb-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--target-min);
+  padding: var(--space-1) var(--space-3);
+}
+
+.practice-orb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--line-strong);
+  transition: transform var(--duration-base) var(--ease-standard),
+              background-color var(--duration-base) var(--ease-standard);
+  flex-shrink: 0;
+}
+
+.practice-orb.listening {
+  background-color: var(--recording);
+  transform: scale(1.15);
+  animation: orbPulse 1.2s infinite ease-in-out;
+}
+
+.practice-orb.thinking {
+  background-color: var(--primary);
+  animation: orbSpin 1s infinite linear;
+}
+
+.practice-orb.speaking {
+  background-color: var(--success);
+  transform: scale(1.1);
+}
+
+/* EXAMINER BLOCK (Single line in .t-speech, no redundant intros) */
+.practice-examiner-block {
+  width: 100%;
+  background-color: var(--surface);
   border-radius: var(--radius-md);
   padding: var(--space-4);
   box-shadow: var(--shadow-1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-height: 50vh;
   overflow-y: auto;
-  max-height: 45vh;
+  flex-shrink: 1;
+}
+
+.practice-examiner-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .practice-examiner-badge {
-  color: var(--muted);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.msg-example-label {
+  color: var(--muted);
+  background-color: var(--surface-2);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
 }
 
 .practice-examiner-speech {
   color: var(--ink);
+  line-height: 1.4;
+  margin: 0;
 }
 
 .practice-examiner-translation {
   color: var(--muted);
   padding-top: var(--space-2);
-  border-top: 1px solid var(--line);
+  border-top: 1px dashed var(--line);
+  line-height: 1.4;
+  margin: 0;
 }
 
 .practice-examiner-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-  padding-top: var(--space-1);
+  gap: var(--space-3);
+  margin-top: var(--space-1);
 }
 
-/* TEXT BUTTONS (>= 44 px target) */
+/* BUTTONS & CONTROLS (≥ 44 px target min) */
 .practice-text-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  min-height: var(--target-min);
-  min-width: var(--target-min);
+  min-height: var(--target-min); /* 44 px */
   padding: var(--space-2) var(--space-3);
   background: transparent;
   border: none;
-  border-radius: var(--radius-pill);
   color: var(--primary);
+  font-weight: 600;
   cursor: pointer;
-  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--duration-fast);
 }
 
-.practice-text-btn:hover {
+.practice-text-btn:hover:not(:disabled) {
   background-color: var(--primary-soft);
+}
+
+.practice-text-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .practice-text-btn:focus-visible {
@@ -177,156 +295,174 @@
 
 /* LEARNER BLOCK & DOCK */
 .practice-learner-block {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-3);
-  width: 100%;
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .practice-answer-card {
   width: 100%;
   background-color: var(--surface);
-  border: 1px solid var(--line);
   border-radius: var(--radius-md);
   padding: var(--space-4);
+  box-shadow: var(--shadow-1);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  box-shadow: var(--shadow-1);
+  position: relative;
+  z-index: 2;
 }
 
 .practice-answer-input {
   width: 100%;
-  min-height: 4.5rem;
-  padding: var(--space-3);
   border-radius: var(--radius-sm);
   border: 1px solid var(--line);
+  padding: var(--space-3);
   background-color: var(--bg);
   color: var(--ink);
   resize: vertical;
-  font-family: inherit;
+  line-height: 1.4;
 }
 
-.practice-answer-input:focus-visible {
+.practice-answer-input:focus {
   outline: 2px solid var(--primary);
-  border-color: transparent;
+  outline-offset: 2px;
 }
 
-/* FILLED ACTION BUTTON (ONE PER SCREEN) */
+/* The single filled button on the screen */
 .practice-filled-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  min-height: 3rem; /* 48 px */
-  min-width: var(--target-min);
+  min-height: var(--target-min);
   padding: var(--space-2) var(--space-6);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-sm);
   background-color: var(--primary);
   color: var(--on-primary);
+  font-weight: 600;
   border: none;
   cursor: pointer;
-  text-decoration: none;
-  font-weight: 600;
-  transition: transform var(--duration-fast) var(--ease-standard), background-color var(--duration-fast);
+  align-self: flex-end;
+  transition: background-color var(--duration-fast);
 }
 
 .practice-filled-btn:hover:not(:disabled) {
   background-color: var(--primary-hover);
 }
 
-.practice-filled-btn:active:not(:disabled) {
-  transform: scale(0.97);
-}
-
 .practice-filled-btn:disabled {
-  opacity: 0.4;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
+.practice-filled-btn:focus,
 .practice-filled-btn:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
-/* OUTLINE ACTION BUTTON */
 .practice-outline-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  min-height: 3rem;
-  min-width: var(--target-min);
-  padding: var(--space-2) var(--space-5);
-  border-radius: var(--radius-pill);
+  min-height: var(--target-min);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
   background-color: transparent;
   color: var(--ink);
+  font-weight: 600;
   border: 1px solid var(--line-strong);
   cursor: pointer;
-  font-weight: 600;
+  transition: background-color var(--duration-fast);
 }
 
 .practice-outline-btn:hover:not(:disabled) {
   background-color: var(--surface-2);
 }
 
-/* MIC DOCK */
-.practice-dock {
+.practice-outline-btn:focus,
+.practice-outline-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* 72 px MICROPHONE DOCK */
+.practice-dock,
+.practice-shell .voice-dock {
+  position: static;
+  transform: none;
+  left: auto;
+  bottom: auto;
+  z-index: 1;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: var(--space-2);
-  padding: var(--space-2) 0;
   width: 100%;
 }
 
 .practice-mic-button {
   width: 4.5rem; /* 72 px */
-  height: 4.5rem;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
+  height: 4.5rem; /* 72 px */
+  border-radius: var(--radius-pill);
   background-color: var(--primary);
   color: var(--on-primary);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   box-shadow: var(--shadow-float);
-  transition: transform var(--duration-fast) var(--ease-standard), background-color var(--duration-fast);
+  transition: transform var(--duration-fast), background-color var(--duration-fast);
 }
 
 .practice-mic-button:hover:not(:disabled) {
+  transform: scale(1.05);
   background-color: var(--primary-hover);
-}
-
-.practice-mic-button:active:not(:disabled) {
-  transform: scale(0.95);
 }
 
 .practice-mic-button.is-recording {
   background-color: var(--recording);
-  animation: micPulse 1.8s infinite ease-in-out;
+  animation: micPulse 1.5s infinite ease-in-out;
 }
 
-@keyframes micPulse {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 color-mix(in srgb, var(--recording) 40%, transparent); }
-  50% { transform: scale(1.05); box-shadow: 0 0 0 12px color-mix(in srgb, var(--recording) 0%, transparent); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 color-mix(in srgb, var(--recording) 0%, transparent); }
+.practice-mic-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.practice-mic-button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
 }
 
 .practice-mic-status {
   color: var(--muted);
-  text-align: center;
+  font-weight: 500;
 }
 
-/* COMPANION ORB AT TOP */
-.practice-companion-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
+.practice-mic-status-detail {
+  color: var(--muted);
+  text-align: center;
+  display: block;
+}
+
+.practice-mic-live {
+  color: var(--ink);
+  text-align: center;
+  padding: var(--space-1) var(--space-2);
+  background-color: var(--surface-2);
+  border-radius: var(--radius-sm);
 }
 
 /* BOTTOM SHEET FOR HISTORY */
@@ -334,68 +470,195 @@
   position: fixed;
   inset: 0;
   background-color: var(--scrim);
-  z-index: 90;
   display: flex;
-  justify-content: center;
   align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn var(--duration-base) var(--ease-standard);
 }
 
 .practice-sheet-content {
   background-color: var(--surface);
   border-top-left-radius: var(--radius-lg);
   border-top-right-radius: var(--radius-lg);
-  max-width: 40rem;
   width: 100%;
+  max-width: 40rem;
   max-height: 80vh;
+  padding: var(--space-4);
   display: flex;
   flex-direction: column;
-  padding: var(--space-4);
   gap: var(--space-4);
   box-shadow: var(--shadow-float);
-  overflow-y: auto;
+  animation: slideUp var(--duration-base) var(--ease-standard);
 }
 
 .practice-sheet-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: var(--space-2);
 }
 
-/* NORA ORB COMPANION */
-.practice-orb-wrap {
-  display: inline-flex;
+/* MATERIALS & SETTINGS DRAWER */
+.practice-materials-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.practice-materials-drawer.is-closed {
+  display: none;
+}
+
+.practice-materials-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: var(--scrim);
+}
+
+.practice-materials-panel {
+  position: relative;
+  width: 100%;
+  max-width: 40rem;
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: var(--surface);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-float);
+}
+
+.practice-materials-header {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.practice-materials-actions {
+  display: flex;
   gap: var(--space-2);
 }
 
-.practice-orb {
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, var(--success), var(--primary));
-  box-shadow: 0 0 0.5rem color-mix(in srgb, var(--primary) 30%, transparent);
-  transition: transform var(--duration-base) var(--ease-standard);
-  flex-shrink: 0;
+.practice-module-tabs {
+  display: flex;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: var(--space-2);
 }
 
-.practice-orb.listening {
-  animation: orbBreathe 1.8s infinite ease-in-out;
+.practice-module-tab {
+  min-height: var(--target-min);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
 }
 
-.practice-orb.thinking {
-  animation: orbRotate 2s infinite linear;
+.practice-module-tab.is-active {
+  background-color: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 600;
 }
 
-.practice-orb.speaking {
-  animation: orbPulse 1.2s infinite ease-in-out;
+.practice-vacancy-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background-color: var(--surface-2);
+  border-radius: var(--radius-md);
 }
 
-@keyframes orbBreathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+.practice-vacancy-note {
+  color: var(--muted);
 }
 
-@keyframes orbRotate {
+.practice-scenario-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.practice-scenario-heading {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.practice-scenario-item {
+  min-height: var(--target-min);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background-color: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.practice-scenario-item:hover {
+  background-color: var(--surface-2);
+}
+
+.practice-scenario-item.is-selected {
+  border-color: var(--primary);
+  background-color: var(--primary-soft);
+}
+
+/* FLOATING SCROLL BUTTON */
+.practice-new-messages-btn {
+  position: fixed;
+  bottom: calc(var(--space-12) + 4rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--target-min);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  background-color: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow-float);
+  cursor: pointer;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes micPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 var(--recording);
+  }
+  50% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+
+@keyframes orbSpin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
@@ -483,4 +746,3 @@
 .practice-subtitles-word.is-active {
   background-color: var(--primary-soft);
 }
-

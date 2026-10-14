@@ -27,7 +27,11 @@ test('when the coach is unavailable the learner sees an honest card and can retr
   });
 
   await openStudio(page);
-  await page.locator('#userSpeechInput').fill('Jeg bor i Bergen.');
+  const input = page.locator('#userSpeechInput');
+  if (!(await input.isVisible())) {
+    await page.getByRole('button', { name: 'Написать ответ' }).click();
+  }
+  await input.fill('Jeg bor i Bergen.');
   await page.locator('#sendSpeechBtn').click();
 
   const card = page.getByTestId('coachErrorCard');

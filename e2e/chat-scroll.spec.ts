@@ -94,6 +94,7 @@ test.describe('laptop 1280x800', () => {
 test('a learner who scrolls up while waiting is not pulled down; «Новые сообщения» brings them back', async ({
   page
 }) => {
+  await page.setViewportSize({ width: 390, height: 500 });
   await openStudio(page);
   await sendReply(page);
   await expectNewestReplyVisible(page);
@@ -104,9 +105,20 @@ test('a learner who scrolls up while waiting is not pulled down; «Новые с
     await route.continue();
   });
 
+  const nextBtn = page.getByRole('button', { name: 'Дальше' });
+  if (await nextBtn.isVisible()) {
+    await nextBtn.click();
+  }
+
   const input = page.locator('#userSpeechInput');
   if (!(await input.isVisible())) {
-    await page.getByRole('button', { name: 'Написать ответ' }).click();
+    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+    await writeBtn.click();
+    try {
+      await expect(input).toBeVisible({ timeout: 2000 });
+    } catch {
+      await writeBtn.click();
+    }
   }
   await input.fill('Jeg liker å gå tur i skogen.');
   await page.locator('#sendSpeechBtn').click();

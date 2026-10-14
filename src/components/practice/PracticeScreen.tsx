@@ -6,7 +6,7 @@ import './practice.css';
 import {
   useStudioState
 } from '../studio/useStudioState';
-import type { CoachFeedback, Correction } from '../../server/schemas';
+import type { CoachFeedback } from '../../server/schemas';
 import type { Scenario, ScenarioTopic, ModuleKey } from '../../content/scenarios/types';
 import {
   useSpeechRecognition,
@@ -22,10 +22,18 @@ import {
 } from '../../lib/prefs';
 import { applyDocumentLang } from '../../lib/documentLang';
 import { VoiceNotice } from '../studio/VoiceNotice';
-import { CorrectionCard } from '../studio/CorrectionCard';
+import { FeedbackCard } from './FeedbackCard';
 import { PracticeSettingsSheet } from '../studio/PracticeSettingsSheet';
 import { useChatAutoScroll } from '../studio/useChatAutoScroll';
 import { ScenarioIllustration } from '../../content/scenarios/images';
+import {
+  savePracticeResult,
+  calculatePracticeScores,
+  extractImprovements,
+  extractStumbledWords,
+  type PracticeResultData,
+  type PracticeTurnSummary
+} from '../../lib/practice/resultData';
 
 export const COACH_UNAVAILABLE_MESSAGE = 'Не получилось получить ответ. Ваш ответ сохранён.';
 
@@ -83,7 +91,6 @@ export function PracticeScreen({
     handleUserSubmission,
     dismissLimitCard,
     retryLastSubmission,
-    advanceExamPart,
     switchModule,
     selectScenario,
     applyVacancy
@@ -101,6 +108,8 @@ export function PracticeScreen({
   const [hasDrawerOpened, setHasDrawerOpened] = useState(false);
   const [comfortOpen, setComfortOpen] = useState(false);
   const [vacancyText, setVacancyText] = useState('');
+  const [showFeedbackCard, setShowFeedbackCard] = useState(false);
+  const prevCoachingCountRef = useRef(state.coachingHistory.length);
 
   const handleToggleDrawer = useCallback(() => {
     setHasDrawerOpened(true);
@@ -361,14 +370,87 @@ export function PracticeScreen({
     });
   };
 
-  const latestFeedback =
-    state.coachingHistory.length > 0
-      ? state.coachingHistory[state.coachingHistory.length - 1]
-      : null;
+  const latestUserReply = useMemo(() => {
+    return [...state.chatHistory].reverse().find((m) => m.sender === 'user');
+  }, [state.chatHistory]);
 
-  const isCoachFeedback = (
-    c: CoachFeedback | Correction
-  ): c is CoachFeedback => 'status' in c;
+  const latestFeedback =
+    state.coachingHistory.length > 0 ? state.coachingHistory[0] : null;
+
+  const latestCoachFeedback: CoachFeedback | null =
+    latestFeedback && 'status' in latestFeedback ? (latestFeedback as CoachFeedback) : null;
+
+  useEffect(() => {
+    if (state.coachingHistory.length > prevCoachingCountRef.current) {
+      if (!isExamModeState) {
+        setShowFeedbackCard(true);
+      }
+    }
+    prevCoachingCountRef.current = state.coachingHistory.length;
+  }, [state.coachingHistory.length, isExamModeState]);
+
+  const handleNextFeedback = useCallback(() => {
+    setShowFeedbackCard(false);
+  }, []);
+
+  const handleRepeatFeedback = useCallback(() => {
+    setShowFeedbackCard(false);
+    if (latestUserReply?.norsk) {
+      setAnswerText(latestUserReply.norsk);
+    }
+    setShowTextInput(true);
+    setTimeout(() => {
+      textareaRef.current?.focus();
+    }, 0);
+  }, [latestUserReply]);
+
+  const finishSessionAndShowResult = useCallback(() => {
+    const feedbacks: CoachFeedback[] = [];
+    for (const c of state.coachingHistory) {
+      if ('status' in c) {
+        feedbacks.push(c as CoachFeedback);
+      }
+    }
+
+    const learnerTurns = state.chatHistory.filter((m) => m.sender === 'user');
+    const hasEnoughData = learnerTurns.length >= 3;
+
+    const targetWords = state.currentScenario?.targetWords || [];
+    const criteria = calculatePracticeScores(
+      feedbacks,
+      state.usedWords.length,
+      targetWords.length
+    );
+    const improvements = extractImprovements(feedbacks);
+    const stumbledWords = extractStumbledWords(feedbacks, targetWords);
+
+    const turns: PracticeTurnSummary[] = state.chatHistory.map((m) => ({
+      sender: m.sender,
+      text: m.norsk,
+      time: m.time
+    }));
+
+    const resultData: PracticeResultData = {
+      id: `session-${Date.now()}`,
+      scenarioId: state.currentScenario?.id || 'standard',
+      scenarioTitle: state.currentScenario?.title || 'Практика',
+      module: state.currentModule,
+      isExam: isExamModeState,
+      examPart: state.examPart,
+      completedAt: new Date().toISOString(),
+      learnerTurnCount: learnerTurns.length,
+      hasEnoughData,
+      criteria,
+      improvements,
+      stumbledWords,
+      turns
+    };
+
+    savePracticeResult(resultData);
+    if (typeof window !== 'undefined') {
+      window.location.assign('/practice/result');
+    }
+  }, [state, isExamModeState]);
 
   return (
     <div className="practice-shell" data-testid="practiceScreen">
@@ -564,16 +646,6 @@ export function PracticeScreen({
           </section>
         )}
 
-        {/* LEARNING MODE: CORRECTION CARD / FEEDBACK */}
-        {!isExamModeState && latestFeedback && (
-          <CorrectionCard
-            feedback={isCoachFeedback(latestFeedback) ? latestFeedback : undefined}
-            correction={!isCoachFeedback(latestFeedback) ? latestFeedback : undefined}
-            showTry={!isExamModeState}
-            onSpeak={speakWithOrb}
-          />
-        )}
-
         {/* LEARNER BLOCK & DOCK */}
         <section className="practice-learner-block" aria-label="Ваш ответ">
           {/* Live recording status announcement */}
@@ -581,76 +653,90 @@ export function PracticeScreen({
             {state.isRecording ? MIC_RECORDING_HINT : ''}
           </div>
 
-          {/* Editable text response card */}
-          {showTextInput && (
-            <div className="practice-answer-card">
-              <label htmlFor="userSpeechInput" className="practice-examiner-badge t-caption">
-                Ваш ответ
-              </label>
-              <textarea
-                ref={textareaRef}
-                id="userSpeechInput"
-                className="practice-answer-input t-body"
-                value={answerText}
-                onChange={(e) => setAnswerText(e.target.value)}
-                placeholder="Напишите ответ на норвежском..."
-                lang="nb"
-                rows={3}
+          {!isExamModeState && showFeedbackCard && latestCoachFeedback ? (
+            <div className="practice-feedback-dock voice-dock">
+              <FeedbackCard
+                feedback={latestCoachFeedback}
+                learnerText={latestUserReply?.norsk}
+                onNext={handleNextFeedback}
+                onRepeat={handleRepeatFeedback}
+                onSpeak={speakWithOrb}
               />
-              <button
-                type="button"
-                id="sendSpeechBtn"
-                className="practice-filled-btn t-callout"
-                onClick={handleSendAnswer}
-                disabled={state.isThinking}
-              >
-                Отправить
-              </button>
             </div>
-          )}
-
-          {/* Dock with MicButton (72 px) and text answer toggle */}
-          <div className="practice-dock voice-dock">
-            <button
-              type="button"
-              id="micToggleBtn"
-              className={`practice-mic-button ${state.isRecording ? 'is-recording' : ''}`}
-              onClick={toggleMic}
-              disabled={state.isThinking}
-              aria-label={micButtonLabel}
-              aria-pressed={state.isRecording}
-            >
-              {state.isThinking ? (
-                <Loader2 size={28} className="animate-spin" aria-hidden="true" />
-              ) : state.isRecording ? (
-                <Square size={26} aria-hidden="true" />
-              ) : (
-                <Mic size={28} aria-hidden="true" />
+          ) : (
+            <>
+              {/* Editable text response card */}
+              {showTextInput && (
+                <div className="practice-answer-card">
+                  <label htmlFor="userSpeechInput" className="practice-examiner-badge t-caption">
+                    Ваш ответ
+                  </label>
+                  <textarea
+                    ref={textareaRef}
+                    id="userSpeechInput"
+                    className="practice-answer-input t-body"
+                    value={answerText}
+                    onChange={(e) => setAnswerText(e.target.value)}
+                    placeholder="Напишите ответ на норвежском..."
+                    lang="nb"
+                    rows={3}
+                  />
+                  <button
+                    type="button"
+                    id="sendSpeechBtn"
+                    className="practice-filled-btn t-callout"
+                    onClick={handleSendAnswer}
+                    disabled={state.isThinking}
+                  >
+                    Отправить
+                  </button>
+                </div>
               )}
-            </button>
-            <span id="micButtonLabel" className="practice-mic-status t-callout">
-              {micButtonLabel}
-            </span>
-            <span id="micStatusText" className="practice-mic-status-detail t-caption">
-              {state.micStatusText}
-            </span>
 
-            {liveText ? (
-              <p id="micLiveText" className="practice-mic-live t-body" lang="nb">
-                {liveText}
-              </p>
-            ) : null}
+              {/* Dock with MicButton (72 px) and text answer toggle */}
+              <div className="practice-dock voice-dock">
+                <button
+                  type="button"
+                  id="micToggleBtn"
+                  className={`practice-mic-button ${state.isRecording ? 'is-recording' : ''}`}
+                  onClick={toggleMic}
+                  disabled={state.isThinking}
+                  aria-label={micButtonLabel}
+                  aria-pressed={state.isRecording}
+                >
+                  {state.isThinking ? (
+                    <Loader2 size={28} className="animate-spin" aria-hidden="true" />
+                  ) : state.isRecording ? (
+                    <Square size={26} aria-hidden="true" />
+                  ) : (
+                    <Mic size={28} aria-hidden="true" />
+                  )}
+                </button>
+                <span id="micButtonLabel" className="practice-mic-status t-callout">
+                  {micButtonLabel}
+                </span>
+                <span id="micStatusText" className="practice-mic-status-detail t-caption">
+                  {state.micStatusText}
+                </span>
 
-            {!showTextInput && isSpeechSupported && (
-              <button
-                type="button"
-                className="practice-text-btn t-callout"
-                onClick={handleOpenTextInput}
-              >
-                Написать ответ
-              </button>
-            )}
-          </div>
+                {liveText ? (
+                  <p id="micLiveText" className="practice-mic-live t-body" lang="nb">
+                    {liveText}
+                  </p>
+                ) : null}
+
+                {!showTextInput && (
+                  <button
+                    type="button"
+                    className="practice-text-btn t-callout"
+                    onClick={handleOpenTextInput}
+                  >
+                    Написать ответ
+                  </button>
+                )}
+              </div>
+            </>
+          )}
         </section>
 
         {/* Floating "Новые сообщения" scroll button */}
@@ -707,18 +793,16 @@ export function PracticeScreen({
               >
                 Удобство
               </button>
-              {isExamModeState && (
-                <button
-                  type="button"
-                  className="practice-outline-btn t-callout"
-                  onClick={() => {
-                    advanceExamPart();
-                    setDrawerOpen(false);
-                  }}
-                >
-                  Завершить часть
-                </button>
-              )}
+              <button
+                type="button"
+                className="practice-outline-btn t-callout"
+                onClick={() => {
+                  setDrawerOpen(false);
+                  finishSessionAndShowResult();
+                }}
+              >
+                {isExamModeState ? 'Завершить часть' : 'Завершить практику'}
+              </button>
             </div>
 
             <div className="practice-module-tabs">

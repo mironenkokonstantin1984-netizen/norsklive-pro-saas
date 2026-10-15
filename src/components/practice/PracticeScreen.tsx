@@ -121,6 +121,12 @@ export function PracticeScreen({
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const wasRecordingRef = useRef(false);
 
+  // Client hydration flag
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Check browser speech recognition capability after hydration
   const [isSpeechSupported, setIsSpeechSupported] = useState(true);
 
@@ -284,7 +290,8 @@ export function PracticeScreen({
 
   // Handle submitting learner's response
   const handleSendAnswer = useCallback(() => {
-    const trimmed = answerText.trim();
+    const textToSubmit = textareaRef.current?.value || answerText;
+    const trimmed = textToSubmit.trim();
     if (!trimmed || state.isThinking) return;
 
     void handleUserSubmission(trimmed);
@@ -457,6 +464,7 @@ export function PracticeScreen({
     <div
       className={`practice-shell ${!isExamModeState && showFeedbackCard ? 'has-feedback-open' : ''}`}
       data-testid="practiceScreen"
+      data-hydrated={mounted ? 'true' : undefined}
     >
       {/* Accessible h1 */}
       <h1 className="visually-hidden">Практика</h1>

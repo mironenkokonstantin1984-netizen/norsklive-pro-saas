@@ -622,37 +622,15 @@ function createInitialStudioState(base: StudioState): StudioState {
   });
   const defaultSc = pickDefaultScenario(base.userLevel, 'presentation', { showDrafts });
 
-  if (typeof window === 'undefined') {
-    return {
-      ...base,
-      scenarios: {
-        ...base.scenarios,
-        norskprove: visible
-      },
-      currentScenario: defaultSc,
-      hints: [...(defaultSc.hints || [])],
-      chatHistory: createInitialChat(defaultSc, base.l1Lang)
-    };
-  }
-  const prefs = readPathPrefs();
-  const l1Lang: L1Language = prefs.l1 === 'uk' ? 'ua' : prefs.l1 === 'en' ? 'en' : 'ru';
-  const userLevel: CefrLevel =
-    prefs.targetLevel === 'A2' || prefs.targetLevel === 'B1' || prefs.targetLevel === 'B2'
-      ? prefs.targetLevel
-      : base.userLevel;
-  const chosenScenario = pickDefaultScenario(userLevel, 'presentation', { showDrafts });
-
   return {
     ...base,
-    l1Lang,
-    userLevel,
     scenarios: {
       ...base.scenarios,
       norskprove: visible
     },
-    currentScenario: chosenScenario,
-    hints: [...(chosenScenario.hints || [])],
-    chatHistory: createInitialChat(chosenScenario, l1Lang)
+    currentScenario: defaultSc,
+    hints: [...(defaultSc.hints || [])],
+    chatHistory: createInitialChat(defaultSc, base.l1Lang)
   };
 }
 
@@ -743,10 +721,24 @@ export function useStudioState({ authEnabled = false, showDrafts }: UseStudioSta
     });
   }, []);
 
-  // Load saved glossary from localStorage on client mount
+  // Load saved path preferences and glossary from localStorage on client mount
   useEffect(() => {
     if (typeof window === 'undefined') return;
     try {
+      const prefs = readPathPrefs();
+      const l1Lang: L1Language = prefs.l1 === 'uk' ? 'ua' : prefs.l1 === 'en' ? 'en' : 'ru';
+      const userLevel: CefrLevel =
+        prefs.targetLevel === 'A2' || prefs.targetLevel === 'B1' || prefs.targetLevel === 'B2'
+          ? prefs.targetLevel
+          : 'B1';
+
+      if (userLevel !== 'B1') {
+        dispatch({ type: 'SET_USER_LEVEL', userLevel });
+      }
+      if (l1Lang !== 'ru') {
+        dispatch({ type: 'SET_L1_LANG', l1Lang });
+      }
+
       const raw = window.localStorage.getItem('norsklive_glossary');
       if (raw) {
         const parsed = JSON.parse(raw);
@@ -755,7 +747,7 @@ export function useStudioState({ authEnabled = false, showDrafts }: UseStudioSta
         }
       }
     } catch {
-      // Ignore invalid JSON in localStorage
+      // Ignore localStorage errors
     }
   }, []);
 

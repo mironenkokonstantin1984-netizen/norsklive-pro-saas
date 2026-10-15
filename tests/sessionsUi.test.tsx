@@ -203,7 +203,7 @@ describe('M1b-2b-2 UI tests: session restore, daily-limit card, #plans block, an
     expect(micBtn.disabled).toBe(true);
   }, 15000);
 
-  it('renders FirstRun step 1 greeting under Nora and #plans subscription block on PathHome', () => {
+  it('renders FirstRun step 1 greeting under Nora and ensures #plans placeholder is removed on PathHome', () => {
     render(<PathHome />);
 
     // FirstRun step 1 shows greeting under Nora
@@ -211,17 +211,13 @@ describe('M1b-2b-2 UI tests: session restore, daily-limit card, #plans block, an
       screen.getByText('Привет, я Нора. Три коротких вопроса, и начнём.')
     ).toBeTruthy();
 
-    // Skip FirstRun and check #plans block on PathHome
+    // Skip FirstRun and check that placeholder #plans block is removed from PathHome
     writePathPrefs({ onboarded: true });
     cleanup();
     render(<PathHome />);
 
-    const plansSection = document.getElementById('plans');
-    expect(plansSection).toBeTruthy();
-    expect(screen.getByRole('heading', { name: 'Подписка' })).toBeTruthy();
-    expect(
-      screen.getByText('Месяц — 249 kr, 300 ответов в день. Оплата появится скоро.')
-    ).toBeTruthy();
+    expect(document.getElementById('plans')).toBeNull();
+    expect(screen.queryByText(/Оплата появится скоро/)).toBeNull();
   });
 
   it('formats Russian plural forms (реплику/реплики/реплик, ошибку/ошибки/ошибок) for 1, 2, 5, 11, 21 and 22', async () => {

@@ -28,16 +28,14 @@ test('when the coach is unavailable the learner sees an honest card and can retr
 
   await openStudio(page);
   const input = page.locator('#userSpeechInput');
-  if (!(await input.isVisible())) {
-    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
-    await writeBtn.click();
-    try {
-      await expect(input).toBeVisible({ timeout: 2000 });
-    } catch {
+  const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+  await expect(writeBtn).toBeEnabled({ timeout: 10000 });
+  await expect(async () => {
+    if (!(await input.isVisible())) {
       await writeBtn.click();
     }
-  }
-  await expect(input).toBeVisible();
+    await expect(input).toBeVisible({ timeout: 1000 });
+  }).toPass({ timeout: 10000 });
   await input.fill('Jeg bor i Bergen.');
   await page.locator('#sendSpeechBtn').click();
 

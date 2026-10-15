@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { readPracticeResult, type PracticeResultData } from '../../../lib/practice/resultData';
 import { ResultScreen } from '../../../components/practice/ResultScreen';
+import '../../../components/practice/practice.css';
 
 export default function PracticeResultPage() {
   const router = useRouter();

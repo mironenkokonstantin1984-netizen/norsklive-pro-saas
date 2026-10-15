@@ -434,6 +434,7 @@ export function PracticeScreen({
       id: `session-${Date.now()}`,
       scenarioId: state.currentScenario?.id || 'standard',
       scenarioTitle: state.currentScenario?.title || 'Практика',
+      topicTitle: shortTopicName,
       module: state.currentModule,
       isExam: isExamModeState,
       examPart: state.examPart,
@@ -453,7 +454,10 @@ export function PracticeScreen({
   }, [state, isExamModeState]);
 
   return (
-    <div className="practice-shell" data-testid="practiceScreen">
+    <div
+      className={`practice-shell ${!isExamModeState && showFeedbackCard ? 'has-feedback-open' : ''}`}
+      data-testid="practiceScreen"
+    >
       {/* Accessible h1 */}
       <h1 className="visually-hidden">Практика</h1>
 
@@ -577,7 +581,10 @@ export function PracticeScreen({
 
         {/* EXAMINER BLOCK */}
         {latestAiReply && (
-          <section className="practice-examiner-block msg-ai" aria-label="Реплика экзаменатора">
+          <section
+            className={`practice-examiner-block msg-ai ${!isExamModeState && showFeedbackCard ? 'is-collapsed' : ''}`}
+            aria-label="Реплика экзаменатора"
+          >
             {/* Image illustration if scenario has image */}
             {state.currentScenario?.image && (!isExamModeState || state.examPart === 2) && (
               <div className="practice-image-wrap" data-testid="scenarioImageWrapper">

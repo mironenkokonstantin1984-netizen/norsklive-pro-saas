@@ -38,6 +38,7 @@ export interface PracticeResultData {
   id: string;
   scenarioId: string;
   scenarioTitle: string;
+  topicTitle?: string;
   module: string;
   isExam: boolean;
   examPart?: number;

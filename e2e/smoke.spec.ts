@@ -40,15 +40,14 @@ test('main studio flow: skip first-run on /, open /studio via Начать пр�
 
   // 2. Type a Norwegian answer into #userSpeechInput, press #sendSpeechBtn, and wait for a new examiner message
   const input = page.locator('#userSpeechInput');
-  if (!(await input.isVisible())) {
-    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
-    await writeBtn.click();
-    try {
-      await expect(input).toBeVisible({ timeout: 2000 });
-    } catch {
+  const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+  await expect(writeBtn).toBeEnabled({ timeout: 10000 });
+  await expect(async () => {
+    if (!(await input.isVisible())) {
       await writeBtn.click();
     }
-  }
+    await expect(input).toBeVisible({ timeout: 1000 });
+  }).toPass({ timeout: 10000 });
   await expect(input).toBeVisible();
   await input.fill('Jeg mener at hjemmekontor gir bedre balanse i hverdagen.');
   await page.locator('#sendSpeechBtn').click();

@@ -63,7 +63,7 @@ describe('/practice/result page (Issue #54)', () => {
     render(<PracticeResultPage />);
 
     expect(screen.getByTestId('practiceResultScreen')).toBeTruthy();
-    expect(screen.getByText('Интервью · Итог')).toBeTruthy();
+    expect(screen.getByText(/Итог · Работа/)).toBeTruthy();
     expect(mockReplace).not.toHaveBeenCalled();
   });
 });

@@ -25,6 +25,28 @@ function installFakeRecognition() {
   (window as unknown as { SpeechRecognition: unknown }).SpeechRecognition = FakeRecognition;
 }
 
+function fakeSynthesis(voices: Array<{ name: string; lang: string; localService: boolean }>) {
+  Object.defineProperty(window, 'speechSynthesis', {
+    configurable: true,
+    value: {
+      getVoices: () => voices,
+      cancel: () => {},
+      speak: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {}
+    }
+  });
+}
+
+async function setupBrowserWithNorwegianVoice(page: Page) {
+  await page.addInitScript(installFakeRecognition);
+  await page.addInitScript(fakeSynthesis, [
+    { name: 'Nora', lang: 'nb-NO', localService: true },
+    { name: 'Pernille Online', lang: 'nb-NO', localService: false }
+  ]);
+  await page.route('**/favicon.ico', (route) => route.fulfill({ status: 204, body: '' }));
+}
+
 async function takeDarkScreenshot(page: Page, path: string) {
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
@@ -40,7 +62,7 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
     page
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.addInitScript(installFakeRecognition);
+    await setupBrowserWithNorwegianVoice(page);
 
     let callCount = 0;
     await page.route('**/api/coach', async (route) => {
@@ -101,9 +123,15 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
     await expect(page.getByTestId('practiceScreen')).toBeVisible();
 
     // 1. Submit answer that returns error feedback
-    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
-    await writeBtn.click();
     const input = page.locator('#userSpeechInput');
+    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+    await expect(writeBtn).toBeEnabled({ timeout: 10000 });
+    await expect(async () => {
+      if (!(await input.isVisible())) {
+        await writeBtn.click();
+      }
+      await expect(input).toBeVisible({ timeout: 1000 });
+    }).toPass({ timeout: 10000 });
     await input.fill('Jeg bor i Oslo med mine familie.');
     await page.locator('#sendSpeechBtn').click();
 
@@ -111,6 +139,16 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
     const feedbackCard = page.getByTestId('feedbackCard');
     await expect(feedbackCard).toBeVisible({ timeout: 10000 });
     await expect(page.locator('.practice-dock')).toBeHidden();
+
+    // E2E check (Point 3): «Дальше» is in the viewport at 390x844 right after card appears
+    const nextBtn = feedbackCard.getByRole('button', { name: 'Дальше' });
+    await expect(nextBtn).toBeVisible();
+    const nextBox = await nextBtn.boundingBox();
+    expect(nextBox).not.toBeNull();
+    if (nextBox) {
+      expect(nextBox.y).toBeGreaterThanOrEqual(0);
+      expect(nextBox.y + nextBox.height).toBeLessThanOrEqual(844);
+    }
 
     // Check main error, del/ins and rule name
     await expect(feedbackCard.locator('del')).toBeVisible();
@@ -144,6 +182,14 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
     await betterBtn.click();
     await expect(page.getByText('Jeg bor i Oslo sammen med familien min.')).toBeVisible();
 
+    // E2E check (Point 3): when expanded, «Дальше» stays visible in viewport at 390x844
+    const expandedNextBox = await nextBtn.boundingBox();
+    expect(expandedNextBox).not.toBeNull();
+    if (expandedNextBox) {
+      expect(expandedNextBox.y).toBeGreaterThanOrEqual(0);
+      expect(expandedNextBox.y + expandedNextBox.height).toBeLessThanOrEqual(844);
+    }
+
     // Take feedback-390x844-expanded screenshot
     await page.screenshot({ path: 'docs/screenshots/feedback-390x844-expanded.png' });
     await takeDarkScreenshot(page, 'docs/screenshots/feedback-390x844-expanded-dark.png');
@@ -164,7 +210,13 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
 
     // 2. Submit second answer that returns ok feedback
     const writeBtn2 = page.getByRole('button', { name: 'Написать ответ' });
-    await writeBtn2.click();
+    await expect(writeBtn2).toBeEnabled({ timeout: 10000 });
+    await expect(async () => {
+      if (!(await input.isVisible())) {
+        await writeBtn2.click();
+      }
+      await expect(input).toBeVisible({ timeout: 1000 });
+    }).toPass({ timeout: 10000 });
     await input.fill('Jeg trives veldig godt her i Norge.');
     await page.locator('#sendSpeechBtn').click();
 
@@ -174,6 +226,16 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
       feedbackCard.getByText('Отличный порядок слов и точное употребление времен!')
     ).toBeVisible();
 
+    // E2E check (Point 3): on ok card, «Дальше» is visible in viewport at 390x844
+    const okNextBtn = feedbackCard.getByRole('button', { name: 'Дальше' });
+    await expect(okNextBtn).toBeVisible();
+    const okBox = await okNextBtn.boundingBox();
+    expect(okBox).not.toBeNull();
+    if (okBox) {
+      expect(okBox.y).toBeGreaterThanOrEqual(0);
+      expect(okBox.y + okBox.height).toBeLessThanOrEqual(844);
+    }
+
     // Nothing struck out on ok status
     await expect(feedbackCard.locator('del')).toHaveCount(0);
 
@@ -182,7 +244,7 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
     await takeDarkScreenshot(page, 'docs/screenshots/feedback-390x844-ok-dark.png');
 
     // Click «Дальше»
-    await feedbackCard.getByRole('button', { name: 'Дальше' }).click();
+    await okNextBtn.click();
     await expect(feedbackCard).toBeHidden();
   });
 
@@ -190,7 +252,7 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
     page
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.addInitScript(installFakeRecognition);
+    await setupBrowserWithNorwegianVoice(page);
 
     await page.route('**/api/coach', async (route) => {
       await route.fulfill({
@@ -222,11 +284,15 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
 
     // Complete 3 answers to have enough data for criteria scores
     for (let i = 0; i < 3; i++) {
-      const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
-      if (await writeBtn.isVisible()) {
-        await writeBtn.click();
-      }
       const input = page.locator('#userSpeechInput');
+      const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+      await expect(writeBtn).toBeEnabled({ timeout: 10000 });
+      await expect(async () => {
+        if (!(await input.isVisible())) {
+          await writeBtn.click();
+        }
+        await expect(input).toBeVisible({ timeout: 1000 });
+      }).toPass({ timeout: 10000 });
       await input.fill('Jeg liker kaffe og koker mat.');
       await page.locator('#sendSpeechBtn').click();
 
@@ -275,6 +341,25 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
     const primaryBtn = page.locator('.practice-result-primary-btn');
     await expect(primaryBtn).toHaveText('На главную');
 
+    // Point 1 e2e checks: primary button has filled background, main has padding, header has «Итог · <Тема>»
+    const primaryBg = await primaryBtn.evaluate((el) => window.getComputedStyle(el).backgroundColor);
+    expect(primaryBg).not.toBe('rgba(0, 0, 0, 0)');
+    expect(primaryBg).not.toBe('transparent');
+
+    const mainPadding = await page.locator('.practice-result-main').evaluate((el) => {
+      const style = window.getComputedStyle(el);
+      return {
+        top: parseFloat(style.paddingTop),
+        left: parseFloat(style.paddingLeft),
+        bottom: parseFloat(style.paddingBottom),
+        right: parseFloat(style.paddingRight)
+      };
+    });
+    expect(mainPadding.top).toBeGreaterThan(0);
+    expect(mainPadding.left).toBeGreaterThan(0);
+
+    await expect(page.locator('.practice-header-title')).toHaveText(/^Итог · /);
+
     const secondaryBtn = page.locator('.practice-result-secondary-btn');
     await expect(secondaryBtn).toHaveText('Пройти ещё раз');
 
@@ -315,7 +400,7 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
     page
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.addInitScript(installFakeRecognition);
+    await setupBrowserWithNorwegianVoice(page);
 
     await page.route('**/api/coach', async (route) => {
       await route.fulfill({
@@ -346,9 +431,15 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
     await page.goto('/practice?mode=exam');
     await expect(page.getByTestId('practiceScreen')).toBeVisible();
 
-    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
-    await writeBtn.click();
     const input = page.locator('#userSpeechInput');
+    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+    await expect(writeBtn).toBeEnabled({ timeout: 10000 });
+    await expect(async () => {
+      if (!(await input.isVisible())) {
+        await writeBtn.click();
+      }
+      await expect(input).toBeVisible({ timeout: 1000 });
+    }).toPass({ timeout: 10000 });
     await input.fill('Jeg svarer på spørsmålet.');
     await page.locator('#sendSpeechBtn').click();
 
@@ -364,6 +455,6 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
 
     // Opens result screen for exam part
     await expect(page).toHaveURL(/\/practice\/result$/);
-    await expect(page.getByText(/Часть 1 · Итог/)).toBeVisible();
+    await expect(page.locator('.practice-header-title')).toHaveText('Итог · Часть 1');
   });
 });

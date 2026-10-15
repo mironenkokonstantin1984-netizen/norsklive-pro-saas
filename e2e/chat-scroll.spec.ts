@@ -12,15 +12,14 @@ async function openStudio(page: Page) {
 async function sendReply(page: Page) {
   const aiMessages = page.locator('#chatStream .msg-ai');
   const input = page.locator('#userSpeechInput');
-  if (!(await input.isVisible())) {
-    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
-    await writeBtn.click();
-    try {
-      await expect(input).toBeVisible({ timeout: 2000 });
-    } catch {
+  const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+  await expect(writeBtn).toBeEnabled({ timeout: 10000 });
+  await expect(async () => {
+    if (!(await input.isVisible())) {
       await writeBtn.click();
     }
-  }
+    await expect(input).toBeVisible({ timeout: 1000 });
+  }).toPass({ timeout: 10000 });
   await expect(input).toBeVisible();
   await input.fill('Jeg bor i Bergen og jobber på et sykehus.');
   await page.locator('#sendSpeechBtn').click();
@@ -111,15 +110,14 @@ test('a learner who scrolls up while waiting is not pulled down; «Новые с
   }
 
   const input = page.locator('#userSpeechInput');
-  if (!(await input.isVisible())) {
-    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
-    await writeBtn.click();
-    try {
-      await expect(input).toBeVisible({ timeout: 2000 });
-    } catch {
+  const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+  await expect(writeBtn).toBeEnabled({ timeout: 10000 });
+  await expect(async () => {
+    if (!(await input.isVisible())) {
       await writeBtn.click();
     }
-  }
+    await expect(input).toBeVisible({ timeout: 1000 });
+  }).toPass({ timeout: 10000 });
   await input.fill('Jeg liker å gå tur i skogen.');
   await page.locator('#sendSpeechBtn').click();
   await page.waitForTimeout(300);

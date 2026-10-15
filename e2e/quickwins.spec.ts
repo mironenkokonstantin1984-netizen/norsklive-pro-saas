@@ -45,16 +45,14 @@ test('each page has its own title, lang="ru" and one h1', async ({ page }) => {
 test('keyboard focus shows a 2 px ring in the primary colour', async ({ page }, testInfo) => {
   await openStudio(page);
   const input = page.locator('#userSpeechInput');
-  if (!(await input.isVisible())) {
-    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
-    await writeBtn.click();
-    try {
-      await expect(input).toBeVisible({ timeout: 2000 });
-    } catch {
+  const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+  await expect(writeBtn).toBeEnabled({ timeout: 10000 });
+  await expect(async () => {
+    if (!(await input.isVisible())) {
       await writeBtn.click();
     }
-  }
-  await expect(input).toBeVisible();
+    await expect(input).toBeVisible({ timeout: 1000 });
+  }).toPass({ timeout: 10000 });
   await input.focus();
   await page.keyboard.press('Tab');
   const ring = await page.evaluate(() => {
@@ -89,16 +87,14 @@ test('studio at 390×844', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'phone', 'screenshot for the phone only');
   await openStudio(page);
   const input = page.locator('#userSpeechInput');
-  if (!(await input.isVisible())) {
-    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
-    await writeBtn.click();
-    try {
-      await expect(input).toBeVisible({ timeout: 2000 });
-    } catch {
+  const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+  await expect(writeBtn).toBeEnabled({ timeout: 10000 });
+  await expect(async () => {
+    if (!(await input.isVisible())) {
       await writeBtn.click();
     }
-  }
-  await expect(input).toBeVisible();
+    await expect(input).toBeVisible({ timeout: 1000 });
+  }).toPass({ timeout: 10000 });
   await input.fill('Jeg bor i Bergen.');
   await page.locator('#sendSpeechBtn').click();
   await expect(page.locator('#chatStream .msg-ai')).toHaveCount(2, { timeout: 15000 });

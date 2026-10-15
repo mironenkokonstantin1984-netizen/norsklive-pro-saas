@@ -8,6 +8,7 @@ import {
   addWordToDeck,
   buildPracticeResultMarkdown
 } from '../../lib/practice/resultData';
+import './practice.css';
 
 export interface ResultScreenProps {
   result: PracticeResultData;
@@ -15,6 +16,16 @@ export interface ResultScreenProps {
 
 export function ResultScreen({ result }: ResultScreenProps) {
   const [addedWords, setAddedWords] = useState<Set<string>>(new Set());
+
+  const topicName =
+    result.isExam && result.examPart
+      ? `Часть ${result.examPart}`
+      : result.topicTitle ||
+        (result.module === 'jobbintervju'
+          ? 'Собеседование'
+          : result.module === 'pensum'
+            ? 'Пенсум'
+            : 'Работа');
 
   const handleAddWord = useCallback((wordId: string) => {
     addWordToDeck(wordId);
@@ -34,15 +45,13 @@ export function ResultScreen({ result }: ResultScreenProps) {
   return (
     <div className="practice-shell practice-result-shell" data-testid="practiceResultScreen">
       {/* Top Header */}
-      <header className="practice-header" role="banner">
+      <header className="practice-header topbar" role="banner">
         <a href="/" className="practice-back-btn" aria-label="Назад">
           ‹
         </a>
         <div className="practice-header-center">
           <span className="practice-header-title t-callout">
-            {result.isExam && result.examPart
-              ? `Часть ${result.examPart} · Итог`
-              : `${result.scenarioTitle || 'Практика'} · Итог`}
+            Итог · {topicName}
           </span>
         </div>
       </header>

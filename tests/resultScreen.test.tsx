@@ -191,4 +191,9 @@ describe('ResultScreen («Итог» screen, Issue #54)', () => {
     clearPracticeResult();
     expect(readPracticeResult()).toBeNull();
   });
+
+  it('renders header with «Итог · <Тема>» format', () => {
+    render(<ResultScreen result={sampleResultWithData} />);
+    expect(screen.getByText('Итог · Работа')).toBeTruthy();
+  });
 });

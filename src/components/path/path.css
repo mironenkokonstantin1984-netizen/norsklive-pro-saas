@@ -430,10 +430,51 @@
   min-width: 2.75rem;
 }
 
+.firstrun-answer-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+  width: 100%;
+}
+
+.firstrun-voice-dock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  width: 100%;
+}
+
+.firstrun-mic-label {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.firstrun-mic-status {
+  color: var(--muted);
+  text-align: center;
+}
+
+.firstrun-mic-live {
+  margin: 0;
+  color: var(--muted);
+  font-style: italic;
+  text-align: center;
+}
+
+.firstrun-text-toggle-btn {
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  align-self: center;
+}
+
 .firstrun-answer-block {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  width: 100%;
 }
 
 .firstrun-answer-input {
@@ -446,6 +487,10 @@
   font-family: var(--font-sans);
 }
 
+.firstrun-feedback-wrapper {
+  width: 100%;
+}
+
 .firstrun-feedback-card {
   background: var(--success-soft);
   border: 1px solid var(--line);
@@ -454,6 +499,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  width: 100%;
+}
+
+.firstrun-feedback-calm {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
 }
 
 .firstrun-feedback-badge {

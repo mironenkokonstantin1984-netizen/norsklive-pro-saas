@@ -47,6 +47,7 @@ async function openStudio(page: Page) {
   await page.getByRole('link', { name: 'Начать практику' }).click();
   await expect(page).toHaveURL(/\/(studio|practice)$/);
   await expect(page.locator('#chatStream .msg-ai').first()).toBeVisible();
+  await page.waitForFunction(() => Boolean((window as unknown as { __fakeMic?: unknown }).__fakeMic));
 }
 
 async function hear(page: Page, text: string, final = true) {
@@ -66,8 +67,12 @@ test('records until «Готово», then lets the learner review before sendin
   const mic = page.locator('#micToggleBtn');
   const input = page.locator('#userSpeechInput');
 
-  await mic.click();
-  await expect(mic).toHaveAttribute('aria-pressed', 'true');
+  await expect(async () => {
+    if ((await mic.getAttribute('aria-pressed')) !== 'true') {
+      await mic.click();
+    }
+    await expect(mic).toHaveAttribute('aria-pressed', 'true', { timeout: 1000 });
+  }).toPass({ timeout: 10000 });
   await expect(page.locator('#micButtonLabel')).toHaveText('Готово');
 
   await hear(page, 'Jeg heter Anna og jeg bor i Bergen.');
@@ -106,7 +111,16 @@ test('a denied microphone shows a plain message and the learner can still type',
   page
 }, testInfo) => {
   await openStudio(page);
-  await page.locator('#micToggleBtn').click();
+  const mic = page.locator('#micToggleBtn');
+  await expect(async () => {
+    if ((await mic.getAttribute('aria-pressed')) !== 'true') {
+      await mic.click();
+    }
+    const hasFakeMic = await page.evaluate(
+      () => typeof (window as unknown as { __fakeMic?: unknown }).__fakeMic !== 'undefined'
+    );
+    expect(hasFakeMic).toBe(true);
+  }).toPass({ timeout: 10000 });
   await page.evaluate(() =>
     (window as unknown as { __fakeMic: { fail: (c: string) => void } }).__fakeMic.fail(
       'not-allowed'

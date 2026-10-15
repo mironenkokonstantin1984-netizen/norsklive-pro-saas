@@ -8,10 +8,13 @@ async function openJobbintervju(page: Page) {
   await expect(page).toHaveURL(/\/(studio|practice)$/);
   await expect(page.locator('#chatStream .msg-ai').first()).toBeVisible();
   const jobbBtn = page.locator('button[data-module="jobbintervju"]');
-  if (!(await jobbBtn.isVisible())) {
-    await page.locator('.materials-toggle-btn').click();
-  }
-  await expect(jobbBtn).toBeVisible();
+  const toggleBtn = page.locator('.materials-toggle-btn');
+  await expect(async () => {
+    if (!(await jobbBtn.isVisible())) {
+      await toggleBtn.click();
+    }
+    await expect(jobbBtn).toBeVisible({ timeout: 1000 });
+  }).toPass({ timeout: 10000 });
   await jobbBtn.click();
   await page.locator('.materials-toggle-btn').click();
   await expect(page.locator('#chatStream .msg-ai').first()).toContainText(

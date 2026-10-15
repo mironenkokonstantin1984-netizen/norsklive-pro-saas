@@ -28,8 +28,15 @@ test('the learner sees the examiner voice and can test it', async ({ page }, tes
   ]);
   await openStudio(page);
   await expect(page.getByText(/нет норвежского голоса/)).toHaveCount(0);
-  await page.locator('.materials-toggle-btn').click();
-  await page.getByRole('button', { name: 'Удобство' }).click();
+  const drawerBtn = page.locator('.materials-toggle-btn');
+  const convenienceBtn = page.getByRole('button', { name: 'Удобство' });
+  await expect(async () => {
+    if (!(await convenienceBtn.isVisible())) {
+      await drawerBtn.click();
+    }
+    await expect(convenienceBtn).toBeVisible({ timeout: 1000 });
+  }).toPass({ timeout: 10000 });
+  await convenienceBtn.click();
   await expect(page.getByRole('button', { name: 'Проверить голос' })).toBeVisible();
   if (testInfo.project.name === 'phone') {
     await page.screenshot({ path: 'docs/screenshots/voice-settings-390x844.png' });

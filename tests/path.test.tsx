@@ -253,8 +253,8 @@ describe('PathHome & FirstRun Redesign (Issue #55)', () => {
     for (const ev of events) {
       expect(typeof ev.name).toBe('string');
       expect(typeof ev.ts).toBe('number');
-      expect((ev as Record<string, unknown>).userText).toBeUndefined();
-      expect((ev as Record<string, unknown>).email).toBeUndefined();
+      expect((ev as unknown as Record<string, unknown>).userText).toBeUndefined();
+      expect((ev as unknown as Record<string, unknown>).email).toBeUndefined();
     }
   });
 

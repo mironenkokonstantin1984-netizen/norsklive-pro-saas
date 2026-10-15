@@ -40,13 +40,19 @@ export interface VoiceClipItem {
   results: ModelTranscriptionResult[];
 }
 
+import type { TtsVoiceInfo } from '../../../server/tts/types';
+import TtsLabTab from './TtsLabTab';
+
 export interface VoiceLabClientProps {
   configuredModels: string[];
+  ttsVoices?: TtsVoiceInfo[];
 }
 
 export default function VoiceLabClient({
-  configuredModels
+  configuredModels,
+  ttsVoices = []
 }: VoiceLabClientProps) {
+  const [activeTab, setActiveTab] = useState<'stt' | 'tts'>('stt');
   const [clips, setClips] = useState<VoiceClipItem[]>([]);
   const [recording, setRecording] = useState(false);
   const [elapsedSec, setElapsedSec] = useState(0);
@@ -288,36 +294,74 @@ export default function VoiceLabClient({
         <header className={styles.header}>
           <div className={styles.titleGroup}>
             <span className="t-eyebrow">NorskLive Developer Tool</span>
-            <h1 className="t-title">Voice Lab — Norwegian Verbatim STT</h1>
+            <h1 className="t-title">
+              {activeTab === 'tts'
+                ? 'Voice Lab — Синтез речи (TTS Bake-off)'
+                : 'Voice Lab — Norwegian Verbatim STT'}
+            </h1>
             <p className={styles.subtitle}>
-              Models ({configuredModels.length}):{' '}
-              {configuredModels.length > 0
-                ? configuredModels.join(', ')
-                : 'None configured in VOICE_LAB_MODELS'}
+              {activeTab === 'tts'
+                ? `Голоса (${ttsVoices.length}): ${
+                    ttsVoices.length > 0
+                      ? ttsVoices.map((v) => `${v.provider}:${v.voice}`).join(', ')
+                      : 'Только эталон браузера'
+                  }`
+                : `Models (${configuredModels.length}): ${
+                    configuredModels.length > 0
+                      ? configuredModels.join(', ')
+                      : 'None configured in VOICE_LAB_MODELS'
+                  }`}
             </p>
           </div>
-          <button
-            type="button"
-            className={styles.secondaryBtn}
-            onClick={exportJson}
-            disabled={clips.length === 0}
-          >
-            Export JSON
-          </button>
+          {activeTab === 'stt' && (
+            <button
+              type="button"
+              className={styles.secondaryBtn}
+              onClick={exportJson}
+              disabled={clips.length === 0}
+            >
+              Export JSON
+            </button>
+          )}
         </header>
 
-        <section className={styles.recorderBar} aria-label="Audio Recorder">
-          <div className={styles.recorderControls}>
-            {!recording ? (
-              <button
-                type="button"
-                className={styles.primaryBtn}
-                onClick={startRecording}
-              >
-                Record Clip
-              </button>
-            ) : (
-              <button
+        <nav className={styles.tabsContainer} role="tablist" aria-label="Разделы голосовой лаборатории">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === 'stt'}
+            className={`${styles.tabButton} ${activeTab === 'stt' ? styles.tabButtonActive : ''}`}
+            onClick={() => setActiveTab('stt')}
+          >
+            Распознавание речи (STT)
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === 'tts'}
+            className={`${styles.tabButton} ${activeTab === 'tts' ? styles.tabButtonActive : ''}`}
+            onClick={() => setActiveTab('tts')}
+          >
+            Синтез речи (TTS)
+          </button>
+        </nav>
+
+        {activeTab === 'tts' ? (
+          <TtsLabTab ttsVoices={ttsVoices} />
+        ) : (
+          <>
+            <section className={styles.recorderBar} aria-label="Audio Recorder">
+              <div className={styles.recorderControls}>
+                {!recording ? (
+                  <button
+                    type="button"
+                    className={styles.primaryBtn}
+                    onClick={startRecording}
+                  >
+                    Record Clip
+                  </button>
+                ) : (
+                  <button
                 type="button"
                 className={styles.stopBtn}
                 onClick={stopRecording}
@@ -459,6 +503,8 @@ export default function VoiceLabClient({
             </article>
           ))}
         </div>
+          </>
+        )}
       </div>
     </main>
   );

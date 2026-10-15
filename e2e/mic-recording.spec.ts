@@ -47,6 +47,7 @@ async function openStudio(page: Page) {
   await page.getByRole('link', { name: 'Начать практику' }).click();
   await expect(page).toHaveURL(/\/(studio|practice)$/);
   await expect(page.locator('#chatStream .msg-ai').first()).toBeVisible();
+  await page.waitForFunction(() => Boolean((window as unknown as { __fakeMic?: unknown }).__fakeMic));
 }
 
 async function hear(page: Page, text: string, final = true) {

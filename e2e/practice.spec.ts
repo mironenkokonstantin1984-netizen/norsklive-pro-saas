@@ -79,14 +79,15 @@ test.describe('Practice Screen (/practice, Issue #53)', () => {
 
     // 3. Review state (type text answer)
     const input = page.locator('#userSpeechInput');
-    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
     await expect(async () => {
-      if (!(await input.isVisible())) {
-        if (await writeBtn.isVisible()) {
-          await writeBtn.click();
-        }
+      if (await input.isVisible()) {
+        return;
       }
-      await expect(input).toBeVisible({ timeout: 1000 });
+      const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+      if (await writeBtn.isVisible()) {
+        await writeBtn.click();
+      }
+      await expect(input).toBeVisible();
     }).toPass({ timeout: 10000 });
     await input.fill('Jeg liker å lære norsk hver dag.');
 
@@ -169,6 +170,7 @@ test.describe('Practice Screen (/practice, Issue #53)', () => {
 
     const input = page.locator('#userSpeechInput');
     const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+    await expect(writeBtn).toBeEnabled({ timeout: 10000 });
     await expect(async () => {
       if (!(await input.isVisible())) {
         await writeBtn.click();

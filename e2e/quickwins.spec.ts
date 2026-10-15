@@ -46,6 +46,7 @@ test('keyboard focus shows a 2 px ring in the primary colour', async ({ page }, 
   await openStudio(page);
   const input = page.locator('#userSpeechInput');
   const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+  await expect(writeBtn).toBeEnabled({ timeout: 10000 });
   await expect(async () => {
     if (!(await input.isVisible())) {
       await writeBtn.click();
@@ -87,6 +88,7 @@ test('studio at 390×844', async ({ page }, testInfo) => {
   await openStudio(page);
   const input = page.locator('#userSpeechInput');
   const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+  await expect(writeBtn).toBeEnabled({ timeout: 10000 });
   await expect(async () => {
     if (!(await input.isVisible())) {
       await writeBtn.click();

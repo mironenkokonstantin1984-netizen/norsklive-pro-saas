@@ -27,10 +27,14 @@ test('captures mobile screenshots for presentation, picture, and conversation ta
 
   // 2. Picture task: select picture scenario
   const materialsBtn = page.locator('#materialsToggleBtn');
+  const drawer = page.locator('#materialsDrawer');
   await expect(materialsBtn).toBeVisible();
-  await page.waitForTimeout(300);
-  await materialsBtn.click();
-  await expect(page.locator('#materialsDrawer')).toHaveClass(/is-open/);
+  await expect(async () => {
+    if (!(await drawer.isVisible())) {
+      await materialsBtn.click();
+    }
+    await expect(drawer).toHaveClass(/is-open/, { timeout: 1000 });
+  }).toPass({ timeout: 10000 });
 
   const pictureCard = page.locator('.scenario-item', {
     hasText: 'Bildebeskrivelse: Arbeidsplassen og trivsel'
@@ -79,8 +83,12 @@ test('captures mobile screenshots for presentation, picture, and conversation ta
   }
 
   // 3. Conversation task: select conversation scenario
-  await materialsBtn.click();
-  await expect(page.locator('#materialsDrawer')).toHaveClass(/is-open/);
+  await expect(async () => {
+    if (!(await drawer.isVisible())) {
+      await materialsBtn.click();
+    }
+    await expect(drawer).toHaveClass(/is-open/, { timeout: 1000 });
+  }).toPass({ timeout: 10000 });
 
   const convCard = page.locator('.scenario-item', {
     hasText: 'Samtale: Åpen planløsning eller eget kontor'

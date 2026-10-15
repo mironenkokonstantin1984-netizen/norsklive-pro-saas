@@ -79,13 +79,15 @@ test.describe('Practice Screen (/practice, Issue #53)', () => {
 
     // 3. Review state (type text answer)
     const input = page.locator('#userSpeechInput');
-    if (!(await input.isVisible())) {
-      const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
-      if (await writeBtn.isVisible()) {
-        await writeBtn.click();
+    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+    await expect(async () => {
+      if (!(await input.isVisible())) {
+        if (await writeBtn.isVisible()) {
+          await writeBtn.click();
+        }
       }
-    }
-    await expect(input).toBeVisible();
+      await expect(input).toBeVisible({ timeout: 1000 });
+    }).toPass({ timeout: 10000 });
     await input.fill('Jeg liker å lære norsk hver dag.');
 
     await page.screenshot({ path: 'docs/screenshots/practice-390x844-review.png' });
@@ -165,10 +167,14 @@ test.describe('Practice Screen (/practice, Issue #53)', () => {
 
     await page.goto('/practice');
 
-    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
-    await writeBtn.click();
     const input = page.locator('#userSpeechInput');
-    await expect(input).toBeVisible();
+    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+    await expect(async () => {
+      if (!(await input.isVisible())) {
+        await writeBtn.click();
+      }
+      await expect(input).toBeVisible({ timeout: 1000 });
+    }).toPass({ timeout: 10000 });
     await input.fill('Jeg liker kaffe.');
 
     // Click send

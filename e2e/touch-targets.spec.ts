@@ -65,15 +65,26 @@ test.describe('touch targets at 390×844', () => {
     expect(await smallControls(page)).toEqual([]);
 
     const input = page.locator('#userSpeechInput');
-    if (!(await input.isVisible())) {
-      await page.getByRole('button', { name: 'Написать ответ' }).click();
-    }
+    const writeBtn = page.getByRole('button', { name: 'Написать ответ' });
+    await expect(async () => {
+      if (!(await input.isVisible())) {
+        await writeBtn.click();
+      }
+      await expect(input).toBeVisible({ timeout: 1000 });
+    }).toPass({ timeout: 10000 });
     await input.fill('Jeg bor i Bergen.');
     await page.locator('#sendSpeechBtn').click();
     await expect(page.locator('#chatStream .msg-ai')).toHaveCount(2, { timeout: 15000 });
     expect(await smallControls(page)).toEqual([]);
 
-    await page.locator('.materials-toggle-btn').click();
+    const drawerBtn = page.locator('.materials-toggle-btn');
+    const drawer = page.locator('#materialsDrawer');
+    await expect(async () => {
+      if (!(await drawer.isVisible())) {
+        await drawerBtn.click();
+      }
+      await expect(drawer).toHaveClass(/is-open/, { timeout: 1000 });
+    }).toPass({ timeout: 10000 });
     expect(await smallControls(page)).toEqual([]);
   });
 

@@ -267,14 +267,15 @@ describe('TTS Lab Server Route & Adapters (Issue #52)', () => {
     expect(headersObj['xi-api-key']).toBe('eleven-test-key');
   });
 
-  it('never leaks secret keys in error messages', async () => {
-    const keyPrefix = 'AI' + 'za';
-    const SECRET_KEY = `${keyPrefix}SySecretKeyNeverLeakThisToAnyone123`;
+  it('never leaks secret keys in error messages, redacting exact configured key values', async () => {
+    const rawKey = 'my-custom-unformatted-secret-key-xyz';
+    process.env.GOOGLE_TTS_KEY = rawKey;
+
     const mockFetch = vi.fn().mockImplementation(async () => {
-      throw new Error(`Connection failed with key ${SECRET_KEY}`);
+      throw new Error(`Provider returned 401 Unauthorized for key: ${rawKey}`);
     });
 
-    const googleAdapter = new GoogleTtsAdapter(() => SECRET_KEY);
+    const googleAdapter = new GoogleTtsAdapter(() => rawKey);
     const handler = createTtsHandler({
       enabled: () => true,
       adapters: {
@@ -298,8 +299,130 @@ describe('TTS Lab Server Route & Adapters (Issue #52)', () => {
     );
 
     expect(res.status).toBe(502);
-    const bodyText = await res.text();
-    expect(bodyText).not.toContain(SECRET_KEY);
+    const json = (await res.json()) as { error: string };
+    expect(json.error).not.toContain(rawKey);
+    expect(json.error).toContain('[REDACTED]');
+    delete process.env.GOOGLE_TTS_KEY;
+  });
+
+  it('returns 504 when provider fetch times out after 15 seconds', async () => {
+    const mockFetch = vi.fn().mockImplementation(async () => {
+      const err = new Error('The operation was aborted due to timeout');
+      err.name = 'TimeoutError';
+      throw err;
+    });
+
+    const googleAdapter = new GoogleTtsAdapter(() => 'configured-key');
+    const handler = createTtsHandler({
+      enabled: () => true,
+      adapters: {
+        google: googleAdapter,
+        azure: new AzureTtsAdapter(() => ''),
+        elevenlabs: new ElevenLabsTtsAdapter(() => '')
+      },
+      fetchImpl: mockFetch as unknown as typeof fetch
+    });
+
+    const res = await handler(
+      new Request('http://localhost/api/lab/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: 'google',
+          voice: 'nb-NO-Chirp3-HD-Aoede',
+          text: 'Hei'
+        })
+      })
+    );
+
+    expect(res.status).toBe(504);
+    const json = (await res.json()) as { error: string };
+    expect(json.error).toMatch(/тайм-аут|время ожидания/i);
+  });
+
+  it('validates voice string against allowed characters regex', async () => {
+    const handler = createTtsHandler({ enabled: () => true });
+
+    const resBadChars = await handler(
+      new Request('http://localhost/api/lab/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: 'google',
+          voice: 'voice<script>alert(1)</script>',
+          text: 'Hei'
+        })
+      })
+    );
+
+    expect(resBadChars.status).toBe(400);
+    const json = (await resBadChars.json()) as { error: string };
+    expect(json.error).toContain('недопустимые символы');
+  });
+
+  it('enforces whitelist when TTS_LAB_VOICES is set in env', async () => {
+    const prevEnv = process.env.TTS_LAB_VOICES;
+    process.env.TTS_LAB_VOICES = 'google:nb-NO-Chirp3-HD-Aoede,azure:nb-NO-PernilleNeural';
+
+    const googleAdapter = new GoogleTtsAdapter(() => 'configured-key');
+    const handler = createTtsHandler({
+      enabled: () => true,
+      adapters: {
+        google: googleAdapter,
+        azure: new AzureTtsAdapter(() => ''),
+        elevenlabs: new ElevenLabsTtsAdapter(() => '')
+      }
+    });
+
+    const resNotAllowed = await handler(
+      new Request('http://localhost/api/lab/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: 'google',
+          voice: 'nb-NO-UnlistedVoice',
+          text: 'Hei'
+        })
+      })
+    );
+
+    expect(resNotAllowed.status).toBe(400);
+    const json = (await resNotAllowed.json()) as { error: string };
+    expect(json.error).toContain('не разрешён в конфигурации TTS_LAB_VOICES');
+
+    if (prevEnv) process.env.TTS_LAB_VOICES = prevEnv;
+    else delete process.env.TTS_LAB_VOICES;
+  });
+
+  it('validates AZURE_SPEECH_REGION and rejects invalid hostname characters', async () => {
+    const azureAdapter = new AzureTtsAdapter(
+      () => 'azure-key',
+      () => 'invalid_region.example.com'
+    );
+    const handler = createTtsHandler({
+      enabled: () => true,
+      adapters: {
+        google: new GoogleTtsAdapter(() => ''),
+        azure: azureAdapter,
+        elevenlabs: new ElevenLabsTtsAdapter(() => '')
+      }
+    });
+
+    const res = await handler(
+      new Request('http://localhost/api/lab/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: 'azure',
+          voice: 'nb-NO-PernilleNeural',
+          text: 'Hei'
+        })
+      })
+    );
+
+    expect(res.status).toBe(400);
+    const json = (await res.json()) as { error: string };
+    expect(json.error).toContain('Недопустимый регион Azure AI Speech');
   });
 
   it('parses TTS_LAB_VOICES correctly', () => {

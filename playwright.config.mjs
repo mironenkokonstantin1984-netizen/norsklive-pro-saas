@@ -34,6 +34,7 @@ export default defineConfig({
       WORDS_SHOW_DRAFTS: 'true',
       SCENARIOS_SHOW_DRAFTS: 'true',
       NEXT_PUBLIC_SCENARIOS_SHOW_DRAFTS: 'true',
+      VOICE_LAB_ENABLED: 'true',
       // No real AI in e2e: canned example answers, labelled «Пример ответа, ИИ не подключён».
       COACH_ALLOW_FALLBACK: 'true'
     }

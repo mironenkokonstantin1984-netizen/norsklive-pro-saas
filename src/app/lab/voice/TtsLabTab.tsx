@@ -211,11 +211,15 @@ export default function TtsLabTab({ ttsVoices }: TtsLabTabProps) {
           : v.provider === 'azure'
             ? 'Azure AI Speech'
             : 'ElevenLabs';
+      const isUnverified =
+        v.provider === 'elevenlabs' ||
+        v.voice.includes('Chirp3');
+      const unverifiedTag = isUnverified ? ' (не проверено)' : '';
       opts.push({
         key: `${v.provider}:${v.voice}`,
         provider: v.provider,
         voice: v.voice,
-        label: `${provLabel}: ${v.voice}${v.isOutOfEu ? ' (вне ЕС)' : ''}${!v.isConfigured ? ' [ключ не задан]' : ''}`,
+        label: `${provLabel}: ${v.voice}${unverifiedTag}${v.isOutOfEu ? ' (вне ЕС)' : ''}${!v.isConfigured ? ' [ключ не задан]' : ''}`,
         isConfigured: v.isConfigured,
         isOutOfEu: v.isOutOfEu
       });
@@ -437,32 +441,39 @@ export default function TtsLabTab({ ttsVoices }: TtsLabTabProps) {
   // Provider pricing comparison definitions
   const pricingData = [
     {
+      provider: 'Браузер (Web Speech API) — эталон',
+      region: 'Локально на устройстве',
+      pricePerMillionUsd: 0.0,
+      checkedDate: 'Бесплатно (эталон $0)',
+      sourceUrl: 'https://developer.mozilla.org/docs/Web/API/Web_Speech_API'
+    },
+    {
       provider: 'Google Cloud TTS (Chirp 3 HD)',
       region: 'EU (eu-texttospeech.googleapis.com)',
+      pricePerMillionUsd: 30.0,
+      checkedDate: 'Октябрь 2026 (проверено по cloud.google.com/text-to-speech/pricing)',
+      sourceUrl: 'https://cloud.google.com/text-to-speech/pricing'
+    },
+    {
+      provider: 'Google Cloud TTS (Neural2)',
+      region: 'EU (eu-texttospeech.googleapis.com)',
       pricePerMillionUsd: 16.0,
-      checkedDate: 'Октябрь 2026',
+      checkedDate: 'Октябрь 2026 (проверено по cloud.google.com/text-to-speech/pricing)',
       sourceUrl: 'https://cloud.google.com/text-to-speech/pricing'
     },
     {
       provider: 'Azure AI Speech (Neural)',
       region: 'Norway East (norwayeast)',
-      pricePerMillionUsd: 15.0,
-      checkedDate: 'Октябрь 2026',
+      pricePerMillionUsd: 16.0,
+      checkedDate: 'Октябрь 2026 (не проверено: страница требует JS, $16/M ориентировочно)',
       sourceUrl: 'https://azure.microsoft.com/en-us/pricing/details/cognitive-services/speech-services/'
     },
     {
       provider: 'ElevenLabs (Multilingual v2)',
       region: 'US (EU доступен в Enterprise)',
       pricePerMillionUsd: 200.0,
-      checkedDate: 'Октябрь 2026',
+      checkedDate: 'Октябрь 2026 (не проверено: тариф Pro $99/мес за 500k симв. = ~$200/M)',
       sourceUrl: 'https://elevenlabs.io/pricing'
-    },
-    {
-      provider: 'Браузер (Web Speech API)',
-      region: 'Локально на устройстве',
-      pricePerMillionUsd: 0.0,
-      checkedDate: 'Бесплатно',
-      sourceUrl: 'https://developer.mozilla.org/docs/Web/API/Web_Speech_API'
     }
   ];
 
@@ -477,11 +488,11 @@ export default function TtsLabTab({ ttsVoices }: TtsLabTabProps) {
           <p className={styles.noticeBody}>
             Для сравнения нейросетевых голосов задайте переменные в файле <code>.env.local</code>:
             <br />
-            • <code>GOOGLE_TTS_KEY</code> — Google Cloud TTS (EU endpoint)
+            • <code>GOOGLE_TTS_KEY</code> — Google Cloud TTS (EU endpoint, Chirp 3 HD [$30/M] или Neural2 [$16/M]; голоса Chirp 3 HD не проверены в EU)
             <br />
-            • <code>AZURE_SPEECH_KEY</code> и <code>AZURE_SPEECH_REGION=norwayeast</code> — Azure AI Speech
+            • <code>AZURE_SPEECH_KEY</code> и <code>AZURE_SPEECH_REGION=norwayeast</code> — Azure AI Speech ($16/M ориентировочно [не проверено], голоса nb-NO-PernilleNeural, nb-NO-FinnNeural)
             <br />
-            • <code>ELEVENLABS_API_KEY</code> — ElevenLabs
+            • <code>ELEVENLABS_API_KEY</code> — ElevenLabs (~$200/M [не проверено]; обязательно указывать Voice ID, например <code>elevenlabs:21m00Tcm4TlvDq8ikWAM</code> [не проверено], а не текстовое имя)
             <br />
             Сейчас доступен базовый голос браузера (Web Speech API) в качестве эталона для сравнения.
           </p>

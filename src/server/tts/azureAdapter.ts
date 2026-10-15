@@ -50,7 +50,10 @@ export class AzureTtsAdapter implements TtsAdapter {
       throw new Error('Ключ для провайдера Azure AI Speech (AZURE_SPEECH_KEY) не настроен');
     }
 
-    const region = this.getRegion().trim().toLowerCase() || 'norwayeast';
+    const region = (this.getRegion() || 'norwayeast').trim().toLowerCase();
+    if (!/^[a-z0-9]+$/.test(region)) {
+      throw new Error('Недопустимый регион Azure AI Speech (AZURE_SPEECH_REGION)');
+    }
     const endpoint = `https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`;
 
     const startTime = Date.now();
@@ -77,9 +80,13 @@ export class AzureTtsAdapter implements TtsAdapter {
           'User-Agent': 'NorskLive-TTS-Lab',
           'Ocp-Apim-Subscription-Key': apiKey
         },
-        body: ssml
+        body: ssml,
+        signal: AbortSignal.timeout(15000)
       });
     } catch (err) {
+      if (err instanceof Error && (err.name === 'TimeoutError' || err.name === 'AbortError')) {
+        throw new Error('Превышено время ожидания ответа от Azure AI Speech (тайм-аут 15 с)');
+      }
       const message = err instanceof Error ? err.message : 'Сетевая ошибка';
       throw new Error(`Ошибка подключения к Azure AI Speech: ${message}`);
     }

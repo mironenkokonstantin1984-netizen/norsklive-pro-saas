@@ -200,15 +200,17 @@ describe('TTS Lab UI & Ratings (Issue #52)', () => {
     expect(charsInput.value).toBe('1500');
 
     // With 1500 chars:
-    // Google: (1500/1M) * 16 * 10.5 = 0.25 kr
-    expect(screen.getByText('0.25 kr')).toBeDefined();
-    // Azure: (1500/1M) * 15 * 10.5 = 0.24 kr
-    expect(screen.getByText('0.24 kr')).toBeDefined();
+    // Google Chirp 3 HD: (1500/1M) * 30 * 10.5 = 0.47 kr
+    expect(screen.getByText('0.47 kr')).toBeDefined();
+    // Google Neural2 and Azure Neural ($16/M): (1500/1M) * 16 * 10.5 = 0.25 kr
+    expect(screen.getAllByText('0.25 kr')).toHaveLength(2);
 
     // Change chars to 3000
     fireEvent.change(charsInput, { target: { value: '3000' } });
-    // Google: (3000/1M) * 16 * 10.5 = 0.50 kr
-    expect(screen.getByText('0.50 kr')).toBeDefined();
+    // Google Chirp 3 HD: (3000/1M) * 30 * 10.5 = 0.94 kr
+    expect(screen.getByText('0.94 kr')).toBeDefined();
+    // Google Neural2 and Azure: (3000/1M) * 16 * 10.5 = 0.50 kr
+    expect(screen.getAllByText('0.50 kr')).toHaveLength(2);
   });
 
   it('switches between STT and TTS tabs in VoiceLabClient', () => {

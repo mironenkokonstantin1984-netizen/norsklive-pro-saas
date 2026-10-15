@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { createRateLimiter, type RateLimitCheckFn, type RateLimitOptions } from '../rateLimit';
 import { isVoiceLabEnabled } from '../voiceLab';
-import { createDefaultAdapters } from './registry';
+import { createDefaultAdapters, parseTtsLabVoices } from './registry';
 import type { TtsAdapter, TtsProviderName } from './types';
 
 export const MAX_TTS_TEXT_LENGTH = 400;
@@ -14,7 +14,8 @@ export const TtsRequestSchema = z.object({
     .string({ required_error: 'Голос обязателен' })
     .trim()
     .min(1, 'Голос обязателен')
-    .max(120, 'Название голоса слишком длинное'),
+    .max(120, 'Название голоса слишком длинное')
+    .regex(/^[A-Za-z0-9._ -]+$/, 'Название голоса содержит недопустимые символы'),
   text: z
     .string({ required_error: 'Текст не может быть пустым' })
     .trim()
@@ -104,6 +105,19 @@ export function createTtsHandler(deps: TtsHandlerDeps = {}) {
       );
     }
 
+    if (process.env.TTS_LAB_VOICES) {
+      const allowedVoices = parseTtsLabVoices(process.env.TTS_LAB_VOICES, adapters);
+      const isAllowed = allowedVoices.some(
+        (v) => v.provider === provider && v.voice === voice
+      );
+      if (!isAllowed) {
+        return Response.json(
+          { error: `Голос "${voice}" не разрешён в конфигурации TTS_LAB_VOICES для провайдера ${provider}` },
+          { status: 400 }
+        );
+      }
+    }
+
     try {
       const result = await adapter.synthesize({ text, voice, rate }, fetchFn);
 
@@ -121,12 +135,37 @@ export function createTtsHandler(deps: TtsHandlerDeps = {}) {
     } catch (err) {
       const rawMessage = err instanceof Error ? err.message : 'Сбой синтеза речи';
       // Sanitize: ensure no potential API keys or tokens are in message
-      const sanitized = rawMessage
+      let sanitized = rawMessage
         .replace(/AIza[0-9A-Za-z_-]{30,}/g, '[REDACTED]')
         .replace(/[a-f0-9]{32}/gi, '[REDACTED]');
+
+      const keysToRedact = [
+        process.env.GOOGLE_TTS_KEY,
+        process.env.AZURE_SPEECH_KEY,
+        process.env.ELEVENLABS_API_KEY
+      ].filter((k): k is string => Boolean(k && k.trim().length > 0));
+
+      for (const key of keysToRedact) {
+        sanitized = sanitized.replaceAll(key.trim(), '[REDACTED]');
+      }
+
+      const isTimeout =
+        (err instanceof Error &&
+          (err.name === 'TimeoutError' ||
+            err.name === 'AbortError' ||
+            err.message.includes('тайм-аут') ||
+            err.message.includes('время ожидания') ||
+            err.message.includes('timeout'))) || false;
+
+      const isConfigError =
+        (err instanceof Error &&
+          err.message.includes('AZURE_SPEECH_REGION')) || false;
+
+      const status = isConfigError ? 400 : isTimeout ? 504 : 502;
+
       return Response.json(
         { error: sanitized },
-        { status: 502 }
+        { status }
       );
     }
   };

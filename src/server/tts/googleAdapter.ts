@@ -52,9 +52,13 @@ export class GoogleTtsAdapter implements TtsAdapter {
           'Content-Type': 'application/json',
           'X-Goog-Api-Key': apiKey
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(15000)
       });
     } catch (err) {
+      if (err instanceof Error && (err.name === 'TimeoutError' || err.name === 'AbortError')) {
+        throw new Error('Превышено время ожидания ответа от Google TTS (тайм-аут 15 с)');
+      }
       const message = err instanceof Error ? err.message : 'Сетевая ошибка';
       throw new Error(`Ошибка подключения к Google TTS: ${message}`);
     }

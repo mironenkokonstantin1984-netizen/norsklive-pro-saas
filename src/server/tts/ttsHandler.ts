@@ -121,7 +121,9 @@ export function createTtsHandler(deps: TtsHandlerDeps = {}) {
     } catch (err) {
       const rawMessage = err instanceof Error ? err.message : 'Сбой синтеза речи';
       // Sanitize: ensure no potential API keys or tokens are in message
-      const sanitized = rawMessage.replace(/AIza[0-9A-Za-z-_]{35}/g, '[REDACTED]');
+      const sanitized = rawMessage
+        .replace(/AIza[0-9A-Za-z_-]{30,}/g, '[REDACTED]')
+        .replace(/[a-f0-9]{32}/gi, '[REDACTED]');
       return Response.json(
         { error: sanitized },
         { status: 502 }

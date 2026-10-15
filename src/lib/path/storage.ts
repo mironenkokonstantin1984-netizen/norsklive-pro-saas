@@ -8,11 +8,29 @@ export interface PathPrefs {
   targetLevel: TargetCefrLevel;
   l1?: PathL1;
   examDate?: string;
+  introDone?: boolean;
+  introDismissed?: boolean;
+  selectedTopic?: string;
 }
 
 export const PATH_STORAGE_KEY = 'norsklive_path';
 const LEGACY_PATH_STORAGE_KEY = 'norsklive:path';
 export const GLOSSARY_STORAGE_KEY = 'norsklive_glossary';
+export const EVENTS_STORAGE_KEY = 'norsklive_events';
+
+export type PathEventName =
+  | 'firstrun_step_shown'
+  | 'firstrun_step_done'
+  | 'firstrun_skipped'
+  | 'intro_practice_done'
+  | 'practice_started'
+  | 'practice_finished';
+
+export interface PathEvent {
+  name: PathEventName;
+  ts: number;
+  step?: number;
+}
 
 export const DEFAULT_PATH_PREFS: PathPrefs = {
   onboarded: false,
@@ -44,6 +62,14 @@ export function readPathPrefs(): PathPrefs {
           ? 'en'
           : 'ru';
     const onboarded = parsed.onboarded === true;
+    const introDone =
+      typeof parsed.introDone === 'boolean' ? parsed.introDone : undefined;
+    const introDismissed =
+      typeof parsed.introDismissed === 'boolean' ? parsed.introDismissed : undefined;
+    const selectedTopic =
+      typeof parsed.selectedTopic === 'string' && parsed.selectedTopic.length > 0
+        ? parsed.selectedTopic
+        : undefined;
     const examDate =
       typeof parsed.examDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(parsed.examDate)
         ? parsed.examDate
@@ -52,6 +78,9 @@ export function readPathPrefs(): PathPrefs {
       onboarded,
       targetLevel,
       l1,
+      ...(introDone !== undefined ? { introDone } : {}),
+      ...(introDismissed !== undefined ? { introDismissed } : {}),
+      ...(selectedTopic !== undefined ? { selectedTopic } : {}),
       ...(examDate ? { examDate } : {})
     };
   } catch {
@@ -71,6 +100,14 @@ export function writePathPrefs(patch: Partial<PathPrefs>): PathPrefs {
       : current.l1 ?? 'ru';
   const nextOnboarded =
     typeof patch.onboarded === 'boolean' ? patch.onboarded : Boolean(current.onboarded);
+  const nextIntroDone =
+    typeof patch.introDone === 'boolean' ? patch.introDone : current.introDone;
+  const nextIntroDismissed =
+    typeof patch.introDismissed === 'boolean' ? patch.introDismissed : current.introDismissed;
+  const nextSelectedTopic =
+    typeof patch.selectedTopic === 'string' && patch.selectedTopic.length > 0
+      ? patch.selectedTopic
+      : current.selectedTopic;
 
   let nextExamDate = current.examDate;
   if ('examDate' in patch) {
@@ -83,6 +120,9 @@ export function writePathPrefs(patch: Partial<PathPrefs>): PathPrefs {
     onboarded: nextOnboarded,
     targetLevel: nextTargetLevel,
     l1: nextL1,
+    ...(nextIntroDone !== undefined ? { introDone: nextIntroDone } : {}),
+    ...(nextIntroDismissed !== undefined ? { introDismissed: nextIntroDismissed } : {}),
+    ...(nextSelectedTopic !== undefined ? { selectedTopic: nextSelectedTopic } : {}),
     ...(nextExamDate ? { examDate: nextExamDate } : {})
   };
 
@@ -98,6 +138,59 @@ export function writePathPrefs(patch: Partial<PathPrefs>): PathPrefs {
   applyDocumentLang(next.l1);
 
   return next;
+}
+
+const MAX_EVENTS = 50;
+
+export function logPathEvent(name: PathEventName, step?: number): void {
+  if (typeof window === 'undefined') return;
+  try {
+    const existing = readPathEvents();
+    const event: PathEvent = {
+      name,
+      ts: Date.now(),
+      ...(typeof step === 'number' ? { step } : {})
+    };
+    const updated = [...existing, event].slice(-MAX_EVENTS);
+    window.localStorage.setItem(EVENTS_STORAGE_KEY, JSON.stringify(updated));
+  } catch {
+    // Ignore storage quota/security errors
+  }
+}
+
+export function readPathEvents(): PathEvent[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem(EVENTS_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (ev): ev is PathEvent =>
+        typeof ev === 'object' &&
+        ev !== null &&
+        typeof (ev as PathEvent).name === 'string' &&
+        typeof (ev as PathEvent).ts === 'number'
+    );
+  } catch {
+    return [];
+  }
+}
+
+export function clearPathEvents(): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.removeItem(EVENTS_STORAGE_KEY);
+  } catch {
+    // Ignore storage errors
+  }
+}
+
+if (typeof window !== 'undefined') {
+  (window as unknown as { __readNorskLiveEvents?: typeof readPathEvents }).__readNorskLiveEvents =
+    readPathEvents;
+  (window as unknown as { __clearNorskLiveEvents?: typeof clearPathEvents }).__clearNorskLiveEvents =
+    clearPathEvents;
 }
 
 export function writeExamDate(date: string | null): PathPrefs {

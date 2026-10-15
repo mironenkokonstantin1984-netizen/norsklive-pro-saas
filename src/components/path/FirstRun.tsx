@@ -1,7 +1,18 @@
 'use client';
 
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { Mic, Square, CheckCircle2 } from 'lucide-react';
 import { Nora } from '../companion/Nora';
+import { FeedbackCard } from '../practice/FeedbackCard';
+import {
+  useSpeechRecognition,
+  MIC_RECORDING_HINT
+} from '../../lib/useSpeechRecognition';
+import { postCoach } from '../../lib/coachClient';
+import {
+  filterFeedbackErrorsByLearnerText,
+  type CoachFeedback
+} from '../../server/schemas';
 import {
   logPathEvent,
   writePathPrefs,
@@ -11,6 +22,7 @@ import {
 } from '../../lib/path/storage';
 import { speakNorwegian } from '../../lib/speech';
 import { applyDocumentLang } from '../../lib/documentLang';
+import '../practice/practice.css';
 
 export interface FirstRunProps {
   initialPrefs: PathPrefs;
@@ -22,7 +34,6 @@ export interface FirstRunProps {
 interface QuestionDef {
   norsk: string;
   translations: Record<PathL1, string>;
-  praise: Record<PathL1, string>;
 }
 
 const INTRO_QUESTIONS: QuestionDef[] = [
@@ -32,11 +43,6 @@ const INTRO_QUESTIONS: QuestionDef[] = [
       ru: 'Как вас зовут?',
       uk: 'Як вас звати?',
       en: 'What is your name?'
-    },
-    praise: {
-      ru: 'Вы правильно назвали имя. Отличное начало!',
-      uk: 'Ви правильно назвали ім’я. Чудовий початок!',
-      en: 'You correctly stated your name. Great start!'
     }
   },
   {
@@ -45,11 +51,6 @@ const INTRO_QUESTIONS: QuestionDef[] = [
       ru: 'Откуда вы?',
       uk: 'Звідки ви?',
       en: 'Where are you from?'
-    },
-    praise: {
-      ru: 'Правильный порядок слов и предлог fra.',
-      uk: 'Правильний порядок слів і прийменник fra.',
-      en: 'Correct word order and preposition fra.'
     }
   },
   {
@@ -58,11 +59,6 @@ const INTRO_QUESTIONS: QuestionDef[] = [
       ru: 'Кем вы работаете?',
       uk: 'Ким ви працюєте?',
       en: 'What do you do for work?'
-    },
-    praise: {
-      ru: 'Прекрасно! Все три ответа получены.',
-      uk: 'Прекрасно! Усі три відповіді отримано.',
-      en: 'Wonderful! All three answers completed.'
     }
   }
 ];
@@ -91,7 +87,52 @@ export function FirstRun({
   const [answerInput, setAnswerInput] = useState<string>('');
   const [submittedAnswer, setSubmittedAnswer] = useState<string | null>(null);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
+  const [isSpeechSupported, setIsSpeechSupported] = useState<boolean>(true);
+  const [showTextInput, setShowTextInput] = useState<boolean>(false);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [micStatusText, setMicStatusText] = useState<string>('');
+  const [liveText, setLiveText] = useState<string>('');
+  const [isEvaluating, setIsEvaluating] = useState<boolean>(false);
+  const [coachFeedback, setCoachFeedback] = useState<CoachFeedback | null>(null);
+  const [coachDown, setCoachDown] = useState<boolean>(false);
+  const [answersResult, setAnswersResult] = useState<
+    Array<{ status: 'ok' | 'has_errors' | 'unavailable'; text: string }>
+  >([]);
+
   const dialogRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const supported = Boolean(
+      (window as unknown as { SpeechRecognition?: unknown; webkitSpeechRecognition?: unknown })
+        .SpeechRecognition ||
+        (window as unknown as { SpeechRecognition?: unknown; webkitSpeechRecognition?: unknown })
+          .webkitSpeechRecognition
+    );
+    setIsSpeechSupported(supported);
+    if (!supported) {
+      setShowTextInput(true);
+    }
+  }, []);
+
+  const onTranscriptChange = useCallback((text: string) => {
+    setAnswerInput(text);
+    if (text) {
+      setShowTextInput(true);
+    }
+  }, []);
+
+  const { toggleMic } = useSpeechRecognition({
+    inputText: answerInput,
+    onTranscriptChange,
+    onSubmitTranscript: () => {},
+    onRecordingChange: (rec) => setIsRecording(rec),
+    onSpeakingChange: () => {},
+    onStatusChange: (status) => setMicStatusText(status),
+    onLiveTextChange: (txt) => setLiveText(txt),
+    onUnsupported: () => setShowTextInput(true),
+    autoSend: false
+  });
 
   useEffect(() => {
     logPathEvent('firstrun_step_shown', step);
@@ -167,10 +208,35 @@ export function FirstRun({
     });
   };
 
-  const handleSubmitAnswer = () => {
+  const handleSubmitAnswer = async () => {
     const trimmed = answerInput.trim();
-    if (!trimmed) return;
-    setSubmittedAnswer(trimmed);
+    if (!trimmed || isEvaluating) return;
+
+    setIsEvaluating(true);
+    try {
+      const res = await postCoach({
+        module: 'norskprove',
+        scenarioId: 'standard',
+        level: 'A2',
+        l1: l1 === 'uk' ? 'ua' : l1,
+        persona: 'standard',
+        userText: trimmed,
+        history: [],
+        usedWords: []
+      });
+      const filtered = filterFeedbackErrorsByLearnerText(res.feedback, trimmed);
+      setCoachFeedback(filtered);
+      setCoachDown(false);
+      setSubmittedAnswer(trimmed);
+      setAnswersResult((prev) => [...prev, { status: filtered.status, text: trimmed }]);
+    } catch {
+      setCoachFeedback(null);
+      setCoachDown(true);
+      setSubmittedAnswer(trimmed);
+      setAnswersResult((prev) => [...prev, { status: 'unavailable', text: trimmed }]);
+    } finally {
+      setIsEvaluating(false);
+    }
   };
 
   const handleNextQuestion = () => {
@@ -178,11 +244,25 @@ export function FirstRun({
       setQIndex((prev) => prev + 1);
       setAnswerInput('');
       setSubmittedAnswer(null);
+      setCoachFeedback(null);
+      setCoachDown(false);
+      setLiveText('');
+      setMicStatusText('');
+      if (isSpeechSupported) {
+        setShowTextInput(false);
+      }
     } else {
       logPathEvent('intro_practice_done');
       logPathEvent('firstrun_step_done', 3);
       setStep(4);
     }
+  };
+
+  const handleRepeatAnswer = () => {
+    setSubmittedAnswer(null);
+    setCoachFeedback(null);
+    setCoachDown(false);
+    setShowTextInput(true);
   };
 
   // Accessibility & focus management
@@ -200,7 +280,7 @@ export function FirstRun({
       'button:not([disabled]), input:not([disabled]), [href], [tabindex]:not([tabindex="-1"])'
     );
     focusables[0]?.focus();
-  }, [step, qIndex, submittedAnswer]);
+  }, [step, qIndex, submittedAnswer, showTextInput]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Escape') {
@@ -382,7 +462,18 @@ export function FirstRun({
         {step === 3 ? (
           <div className="firstrun-step">
             <div className="firstrun-nora">
-              <Nora state={isSpeaking ? 'speaking' : 'idle'} size="sm" />
+              <Nora
+                state={
+                  isSpeaking
+                    ? 'speaking'
+                    : isEvaluating
+                      ? 'thinking'
+                      : isRecording
+                        ? 'listening'
+                        : 'idle'
+                }
+                size="sm"
+              />
             </div>
 
             <div className="firstrun-step-header">
@@ -409,56 +500,138 @@ export function FirstRun({
             </div>
 
             {submittedAnswer === null ? (
-              <div className="firstrun-answer-block">
-                <label className="sr-only" htmlFor="firstRunAnswerInput">
-                  Ваш ответ
-                </label>
-                <input
-                  id="firstRunAnswerInput"
-                  type="text"
-                  className="firstrun-answer-input t-body"
-                  placeholder={
-                    qIndex === 0
-                      ? 'Jeg heter ...'
-                      : qIndex === 1
-                        ? 'Jeg kommer fra ...'
-                        : 'Jeg jobber som ...'
-                  }
-                  value={answerInput}
-                  onChange={(e) => setAnswerInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      handleSubmitAnswer();
-                    }
-                  }}
-                />
-                <button
-                  type="button"
-                  className="btn-primary firstrun-primary-btn t-callout"
-                  disabled={!answerInput.trim()}
-                  onClick={handleSubmitAnswer}
-                >
-                  Ответить
-                </button>
-              </div>
-            ) : (
-              <div className="firstrun-feedback-card" data-testid="introFeedbackCard">
-                <div className="firstrun-feedback-badge t-callout">Хорошо!</div>
-                <p className="firstrun-feedback-text t-body">
-                  {currentQ.praise[l1]}
-                </p>
-                <div className="firstrun-actions">
+              <div className="firstrun-answer-section">
+                {/* Speech recognition mic dock */}
+                {isSpeechSupported && (
+                  <div className="firstrun-voice-dock">
+                    <button
+                      type="button"
+                      className={`practice-mic-button ${isRecording ? 'is-recording' : ''}`}
+                      onClick={toggleMic}
+                      disabled={isEvaluating}
+                      aria-label={isRecording ? 'Готово' : 'Говорить'}
+                      aria-pressed={isRecording}
+                    >
+                      {isRecording ? (
+                        <Square size={24} aria-hidden="true" />
+                      ) : (
+                        <Mic size={24} aria-hidden="true" />
+                      )}
+                    </button>
+                    <span className="firstrun-mic-label t-callout">
+                      {isRecording ? 'Готово' : 'Говорить'}
+                    </span>
+                    {(isRecording ? MIC_RECORDING_HINT : micStatusText) ? (
+                      <span className="firstrun-mic-status t-caption">
+                        {isRecording ? MIC_RECORDING_HINT : micStatusText}
+                      </span>
+                    ) : null}
+                    {liveText ? (
+                      <p className="firstrun-mic-live t-body" lang="nb">
+                        {liveText}
+                      </p>
+                    ) : null}
+                  </div>
+                )}
+
+                {/* Alternative: Text input */}
+                {!isSpeechSupported || showTextInput ? (
+                  <div className="firstrun-answer-block">
+                    <label className="sr-only" htmlFor="firstRunAnswerInput">
+                      Ваш ответ
+                    </label>
+                    <input
+                      id="firstRunAnswerInput"
+                      type="text"
+                      className="firstrun-answer-input t-body"
+                      placeholder={
+                        qIndex === 0
+                          ? 'Jeg heter ...'
+                          : qIndex === 1
+                            ? 'Jeg kommer fra ...'
+                            : 'Jeg jobber som ...'
+                      }
+                      value={answerInput}
+                      onChange={(e) => setAnswerInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          void handleSubmitAnswer();
+                        }
+                      }}
+                      disabled={isEvaluating}
+                    />
+                    <button
+                      type="button"
+                      className="btn-primary firstrun-primary-btn t-callout"
+                      disabled={!answerInput.trim() || isEvaluating}
+                      onClick={() => void handleSubmitAnswer()}
+                    >
+                      {isEvaluating ? 'Проверяем...' : 'Ответить'}
+                    </button>
+                  </div>
+                ) : (
                   <button
                     type="button"
-                    className="btn-primary firstrun-primary-btn t-callout"
+                    className="btn-text firstrun-text-toggle-btn t-callout"
+                    onClick={() => setShowTextInput(true)}
+                  >
+                    Написать ответ
+                  </button>
+                )}
+              </div>
+            ) : coachDown ? (
+              <div
+                className="practice-feedback-card firstrun-feedback-calm"
+                data-testid="introFeedbackCard"
+                role="region"
+                aria-label="Разбор ответа"
+              >
+                <div className="practice-feedback-header">
+                  <CheckCircle2
+                    size={22}
+                    className="practice-feedback-icon-ok"
+                    aria-hidden="true"
+                  />
+                  <span className="practice-feedback-title t-callout">
+                    {l1 === 'uk'
+                      ? 'Відповідь прийнято'
+                      : l1 === 'en'
+                        ? 'Answer accepted'
+                        : 'Ответ принят'}
+                  </span>
+                </div>
+                <p className="practice-feedback-praise t-body">
+                  {l1 === 'uk'
+                    ? 'Відповідь прийнято. Розбір покажемо, коли сервіс перевірки буде доступний.'
+                    : l1 === 'en'
+                      ? 'Answer accepted. Feedback will be shown when the checking service is available.'
+                      : 'Ответ принят. Разбор покажем, когда сервис проверки будет доступен.'}
+                </p>
+                <div className="practice-feedback-actions">
+                  <button
+                    type="button"
+                    className="practice-filled-btn t-callout"
                     onClick={handleNextQuestion}
+                    aria-label="Дальше"
                   >
                     Дальше
                   </button>
                 </div>
               </div>
-            )}
+            ) : coachFeedback ? (
+              <div className="firstrun-feedback-wrapper" data-testid="introFeedbackCard">
+                <FeedbackCard
+                  feedback={coachFeedback}
+                  learnerText={submittedAnswer}
+                  onNext={handleNextQuestion}
+                  onRepeat={handleRepeatAnswer}
+                  onSpeak={(text) => {
+                    void speakNorwegian(text);
+                  }}
+                />
+              </div>
+            ) : null}
           </div>
         ) : null}
 
@@ -470,17 +643,55 @@ export function FirstRun({
             </div>
 
             <h2 id="firstRunQuestionTitle" className="firstrun-title t-title">
-              Отличное начало!
+              {l1 === 'uk' ? 'Чудовий початок!' : l1 === 'en' ? 'Great start!' : 'Отличное начало!'}
             </h2>
 
             <p className="firstrun-summary-subtitle t-body">
-              Вы сказали три фразы
+              {l1 === 'uk'
+                ? 'Ви сказали три фрази'
+                : l1 === 'en'
+                  ? 'You spoke three phrases'
+                  : 'Вы сказали три фразы'}
             </p>
 
             <ul className="firstrun-summary-list t-body">
-              <li className="firstrun-summary-item">Правильный порядок слов (V2)</li>
-              <li className="firstrun-summary-item">Понятная речь без долгих пауз</li>
-              <li className="firstrun-summary-item">Базовые фразы для экзамена освоены</li>
+              {answersResult.filter((a) => a.status === 'ok').length === 3 && (
+                <li className="firstrun-summary-item">
+                  {l1 === 'uk'
+                    ? 'Усі 3 відповіді прийнято без зауважень'
+                    : l1 === 'en'
+                      ? 'All 3 answers accepted without errors'
+                      : 'Все 3 ответа приняты без замечаний'}
+                </li>
+              )}
+              {answersResult.filter((a) => a.status === 'ok').length > 0 &&
+                answersResult.filter((a) => a.status === 'ok').length < 3 && (
+                  <li className="firstrun-summary-item">
+                    {l1 === 'uk'
+                      ? `${answersResult.filter((a) => a.status === 'ok').length} із 3 відповідей прийнято без зауважень`
+                      : l1 === 'en'
+                        ? `${answersResult.filter((a) => a.status === 'ok').length} of 3 answers accepted without remarks`
+                        : `${answersResult.filter((a) => a.status === 'ok').length} из 3 ответов приняты без замечаний`}
+                  </li>
+                )}
+              {answersResult.some((a) => a.status === 'has_errors') && (
+                <li className="firstrun-summary-item">
+                  {l1 === 'uk'
+                    ? 'Помилки розібрано, ви готові до практики'
+                    : l1 === 'en'
+                      ? 'Errors reviewed, ready for practice'
+                      : 'Ошибки разобраны, вы готовы к практике'}
+                </li>
+              )}
+              {answersResult.some((a) => a.status === 'unavailable') && (
+                <li className="firstrun-summary-item">
+                  {l1 === 'uk'
+                    ? 'Відповіді збережено для перевірки'
+                    : l1 === 'en'
+                      ? 'Answers saved for review'
+                      : 'Ответы сохранены для проверки'}
+                </li>
+              )}
             </ul>
 
             <div className="firstrun-actions">

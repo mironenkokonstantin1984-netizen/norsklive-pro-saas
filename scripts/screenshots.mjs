@@ -68,6 +68,16 @@ const TARGETS = [
     openTopicSheet: true
   },
   {
+    name: 'topic-sheet-custom-390x844.png',
+    width: 390,
+    height: 844,
+    colorScheme: 'light',
+    routePath: '/practice',
+    openTopicSheet: true,
+    expandCustomTopic: true,
+    customTopicText: 'Logistikkmedarbeider til lager i Vestby. Arbeidsoppgaver: varemottak, plukking med truck og pakking.'
+  },
+  {
     name: 'profile-390x844-top.png',
     width: 390,
     height: 844,
@@ -365,7 +375,24 @@ async function run() {
 
       if (target.openTopicSheet) {
         await page.click('.practice-header-title-btn');
-        await page.locator('.topic-sheet').waitFor({ state: 'visible' });
+        const sheet = page.locator('.topic-sheet');
+        await sheet.waitFor({ state: 'visible' });
+        // Wait for sheet slide-up animation to complete
+        await page.waitForTimeout(500);
+        await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished)));
+        await page.waitForTimeout(200);
+
+        if (target.expandCustomTopic) {
+          await page.click('.topic-custom-toggle-btn');
+          const customArea = page.locator('#topicCustomText');
+          await customArea.waitFor({ state: 'visible' });
+          if (target.customTopicText) {
+            await customArea.fill(target.customTopicText);
+          }
+          await page.waitForTimeout(300);
+          await customArea.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+          await page.waitForTimeout(200);
+        }
       }
 
       if (target.scrollToBottom) {

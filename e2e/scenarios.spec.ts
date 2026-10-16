@@ -26,26 +26,7 @@ test('captures mobile screenshots for presentation, picture, and conversation ta
   }
 
   // 2. Picture task: select picture scenario
-  const materialsBtn = page.locator('#materialsToggleBtn');
-  const drawer = page.locator('#materialsDrawer');
-  await expect(materialsBtn).toBeVisible();
-  await expect(async () => {
-    if (!(await drawer.isVisible())) {
-      await materialsBtn.click();
-    }
-    await expect(drawer).toHaveClass(/is-open/, { timeout: 1000 });
-  }).toPass({ timeout: 10000 });
-
-  const pictureCard = page.locator('.scenario-item', {
-    hasText: 'Bildebeskrivelse: Arbeidsplassen og trivsel'
-  });
-  await expect(pictureCard).toBeVisible();
-  await pictureCard.click();
-
-  // Close materials drawer to view the conversation
-  await materialsBtn.click();
-  await expect(page.locator('#materialsDrawer')).toHaveClass(/is-closed/);
-
+  await page.goto('/practice?scenario=np-b1-picture-arbeid');
   await expect(page.locator('[data-testid="scenarioImageWrapper"]')).toBeVisible();
   const svg = page.locator('[data-testid="scenarioImageWrapper"] svg');
   await expect(svg).toBeVisible();
@@ -83,23 +64,7 @@ test('captures mobile screenshots for presentation, picture, and conversation ta
   }
 
   // 3. Conversation task: select conversation scenario
-  await expect(async () => {
-    if (!(await drawer.isVisible())) {
-      await materialsBtn.click();
-    }
-    await expect(drawer).toHaveClass(/is-open/, { timeout: 1000 });
-  }).toPass({ timeout: 10000 });
-
-  const convCard = page.locator('.scenario-item', {
-    hasText: 'Samtale: Åpen planløsning eller eget kontor'
-  });
-  await expect(convCard).toBeVisible();
-  await convCard.click();
-
-  // Close materials drawer to view the conversation
-  await materialsBtn.click();
-  await expect(page.locator('#materialsDrawer')).toHaveClass(/is-closed/);
-
+  await page.goto('/practice?scenario=np-b1-conversation-kontor');
   await expect(page.locator('#chatStream .msg-ai').first()).toBeVisible();
   await expect(page.locator('[data-testid="scenarioImageWrapper"]')).toHaveCount(0);
 

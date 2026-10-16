@@ -1,6 +1,7 @@
 export type TextSizeStep = 'sm' | 'md' | 'lg';
 export type ExaminerTempo = 0.8 | 1.0;
 export type LearnerMood = 'Спокойно' | 'Нормально' | 'Тревожно';
+export type AppTheme = 'light' | 'dark' | 'system';
 
 export interface PracticePrefs {
   textSize: TextSizeStep;
@@ -11,6 +12,7 @@ export interface PracticePrefs {
   autoSend: boolean;
   /** Exam mode: no «Попробуйте» phrase and no answer suggestions, as in the real exam. */
   examMode: boolean;
+  theme?: AppTheme;
   mood?: LearnerMood;
   timestamp?: string;
 }
@@ -23,7 +25,8 @@ export const DEFAULT_PRACTICE_PREFS: PracticePrefs = {
   subtitles: true,
   contrast: false,
   autoSend: false,
-  examMode: false
+  examMode: false,
+  theme: 'system'
 };
 
 export function loadPracticePrefs(): PracticePrefs {
@@ -53,6 +56,10 @@ export function loadPracticePrefs(): PracticePrefs {
       typeof parsed.autoSend === 'boolean' ? parsed.autoSend : DEFAULT_PRACTICE_PREFS.autoSend;
     const examMode =
       typeof parsed.examMode === 'boolean' ? parsed.examMode : DEFAULT_PRACTICE_PREFS.examMode;
+    const theme: AppTheme =
+      parsed.theme === 'light' || parsed.theme === 'dark' || parsed.theme === 'system'
+        ? parsed.theme
+        : 'system';
     const mood =
       parsed.mood === 'Спокойно' || parsed.mood === 'Нормально' || parsed.mood === 'Тревожно'
         ? parsed.mood
@@ -66,6 +73,7 @@ export function loadPracticePrefs(): PracticePrefs {
       contrast,
       autoSend,
       examMode,
+      theme,
       ...(mood ? { mood } : {}),
       ...(timestamp ? { timestamp } : {})
     };
@@ -95,8 +103,17 @@ export function applyPracticePrefsToDocument(prefs: PracticePrefs): void {
   root.classList.add(`text-size-${prefs.textSize}`);
 
   if (prefs.contrast) {
+    root.setAttribute('data-contrast', 'true');
+  } else {
+    root.removeAttribute('data-contrast');
+  }
+
+  if (prefs.theme && prefs.theme !== 'system') {
+    root.setAttribute('data-theme', prefs.theme);
+  } else if (prefs.contrast) {
     root.setAttribute('data-theme', 'contrast');
-  } else if (root.getAttribute('data-theme') === 'contrast') {
+  } else {
     root.removeAttribute('data-theme');
   }
 }
+

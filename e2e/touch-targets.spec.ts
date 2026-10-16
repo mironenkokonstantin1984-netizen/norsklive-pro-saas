@@ -78,14 +78,16 @@ test.describe('touch targets at 390×844', () => {
     await expect(page.locator('#chatStream .msg-ai')).toHaveCount(2, { timeout: 15000 });
     expect(await smallControls(page)).toEqual([]);
 
-    const drawerBtn = page.locator('.materials-toggle-btn');
-    const drawer = page.locator('#materialsDrawer');
-    await expect(async () => {
-      if (!(await drawer.isVisible())) {
-        await drawerBtn.click();
-      }
-      await expect(drawer).toHaveClass(/is-open/, { timeout: 1000 });
-    }).toPass({ timeout: 10000 });
+    const topicBtn = page.locator('.practice-header-title-btn');
+    const topicSheet = page.locator('.topic-sheet');
+    await topicBtn.click();
+    await expect(topicSheet).toBeVisible();
+    expect(await smallControls(page)).toEqual([]);
+  });
+
+  test('/profile has no control under 44 px', async ({ page }) => {
+    await page.goto('/profile');
+    await expect(page.getByRole('heading', { level: 1, name: 'Профиль' })).toBeVisible();
     expect(await smallControls(page)).toEqual([]);
   });
 

@@ -84,6 +84,39 @@
   max-width: 100%;
 }
 
+.practice-header-title-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--target-min);
+  padding: var(--space-1) var(--space-3);
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+}
+
+.practice-header-title-btn:hover {
+  background-color: var(--surface-2);
+  border-color: var(--line);
+}
+
+.practice-header-title-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+
 .practice-header-part {
   color: var(--muted);
   white-space: nowrap;
@@ -519,125 +552,8 @@
   padding-bottom: var(--space-2);
 }
 
-/* MATERIALS & SETTINGS DRAWER */
-.practice-materials-drawer {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.practice-materials-drawer.is-closed {
-  display: none;
-}
-
-.practice-materials-backdrop {
-  position: absolute;
-  inset: 0;
-  background-color: var(--scrim);
-}
-
-.practice-materials-panel {
-  position: relative;
-  width: 100%;
-  max-width: 40rem;
-  max-height: 80vh;
-  overflow-y: auto;
-  background-color: var(--surface);
-  border-top-left-radius: var(--radius-lg);
-  border-top-right-radius: var(--radius-lg);
-  padding: var(--space-4);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  box-shadow: var(--shadow-float);
-}
-
-.practice-materials-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.practice-materials-actions {
-  display: flex;
-  gap: var(--space-2);
-}
-
-.practice-module-tabs {
-  display: flex;
-  gap: var(--space-2);
-  border-bottom: 1px solid var(--line);
-  padding-bottom: var(--space-2);
-}
-
-.practice-module-tab {
-  min-height: var(--target-min);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--line);
-  background: transparent;
-  color: var(--ink);
-  cursor: pointer;
-}
-
-.practice-module-tab.is-active {
-  background-color: var(--primary-soft);
-  border-color: var(--primary);
-  color: var(--primary);
-  font-weight: 600;
-}
-
-.practice-vacancy-box {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-3);
-  background-color: var(--surface-2);
-  border-radius: var(--radius-md);
-}
-
-.practice-vacancy-note {
-  color: var(--muted);
-}
-
-.practice-scenario-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.practice-scenario-heading {
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.practice-scenario-item {
-  min-height: var(--target-min);
-  padding: var(--space-3);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--line);
-  background-color: var(--surface);
-  color: var(--ink);
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.practice-scenario-item:hover {
-  background-color: var(--surface-2);
-}
-
-.practice-scenario-item.is-selected {
-  border-color: var(--primary);
-  background-color: var(--primary-soft);
-}
-
 /* FLOATING SCROLL BUTTON */
+
 .practice-new-messages-btn {
   position: fixed;
   bottom: calc(var(--space-12) + 4rem);

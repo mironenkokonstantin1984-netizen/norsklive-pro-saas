@@ -1,8 +1,9 @@
 // @vitest-environment jsdom
 import React from 'react';
 import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
-import { render, fireEvent, cleanup, waitFor } from '@testing-library/react';
+import { render, fireEvent, cleanup, waitFor, screen } from '@testing-library/react';
 import { StudioPage } from '../src/components/studio/StudioPage';
+import { TopicSheet } from '../src/components/practice/TopicSheet';
 import { PREFS_STORAGE_KEY } from '../src/lib/prefs';
 import { uiLangFromL1 } from '../src/lib/documentLang';
 import { DocumentLang } from '../src/components/app/DocumentLang';
@@ -57,57 +58,46 @@ describe('#48 exam mode hides hints (B9)', () => {
 
   test('learning mode (default) shows «Попробуйте» and the answer suggestions', async () => {
     const { container, getByText } = render(<StudioPage />);
-    expect(container.querySelector('#hintsContainer')).toBeTruthy();
     await answerOnce(container);
     expect(getByText('Попробуйте:')).toBeTruthy();
-    expect(container.querySelector('#hintsContainer')?.textContent).toContain(
-      'Jeg har bodd her i to år.'
-    );
   });
 
   test('exam mode hides «Попробуйте» and the answer suggestions', async () => {
     setExamMode(true);
     const { container, queryByText } = render(<StudioPage />);
-    expect(container.querySelector('#hintsContainer')).toBeNull();
     await answerOnce(container);
     expect(queryByText('Попробуйте:')).toBeNull();
     expect(container.querySelector('[data-testid="correctionTry"]')).toBeNull();
-    expect(container.querySelector('#hintsContainer')).toBeNull();
     // The correction itself is still shown.
     expect(container.querySelector('#latestCorrectionCard')?.textContent).toContain('Всё верно.');
   });
 
-  test('the «Удобство» sheet has an exam mode switch, off by default', () => {
-    const { container } = render(<StudioPage />);
-    fireEvent.click(document.getElementById('comfortSettingsBtn') as HTMLButtonElement);
-    const sw = document.getElementById('examModeSwitch') as HTMLButtonElement;
-    expect(sw.getAttribute('role')).toBe('switch');
-    expect(sw.getAttribute('aria-checked')).toBe('false');
-    fireEvent.click(sw);
-    expect(sw.getAttribute('aria-checked')).toBe('true');
-    expect(container.querySelector('#hintsContainer')).toBeNull();
+  test('the topic sheet has an exam mode control, with study mode on by default', () => {
+    const onChangeMode = vi.fn();
+    render(
+      <TopicSheet
+        open={true}
+        onClose={() => {}}
+        onSelectTopic={() => {}}
+        isExamMode={false}
+        onChangeMode={onChangeMode}
+      />
+    );
+    const studyRadio = screen.getByRole('radio', { name: 'Учёба' });
+    const examRadio = screen.getByRole('radio', { name: 'Экзамен' });
+    expect(studyRadio.getAttribute('aria-checked')).toBe('true');
+    expect(examRadio.getAttribute('aria-checked')).toBe('false');
+    fireEvent.click(examRadio);
+    expect(onChangeMode).toHaveBeenCalledWith(true);
   });
 });
 
 describe('#48 tab names (B4)', () => {
   afterEach(() => cleanup());
 
-  test('each module tab has an accessible name equal to its visible text', () => {
-    const { getAllByRole } = render(<StudioPage />);
-    const tabs = getAllByRole('tab');
-    expect(tabs.map((t) => t.textContent?.trim())).toEqual([
-      'Norskprøve',
-      'Jobbintervju',
-      'Pensum'
-    ]);
-    for (const tab of tabs) {
-      expect(tab.getAttribute('aria-label')).toBe(tab.textContent?.trim());
-      expect(tab.getAttribute('title')).toBeNull();
-    }
-  });
-
-  test('no numbered module labels are left', () => {
+  test('module tabs were removed in favor of exam topics and modes', () => {
     const { container } = render(<StudioPage />);
+    expect(container.querySelector('#moduleTabs')).toBeNull();
     expect(container.textContent).not.toMatch(/[123]\. (Norskprøve|Jobbintervju|CEFR)/);
   });
 });
@@ -140,7 +130,6 @@ describe('#48 accessibility basics (B10)', () => {
     expect(headings).toHaveLength(1);
     expect(headings[0].textContent).toBe('Практика');
     expect(container.querySelector('#chatStream .msg-norsk')?.getAttribute('lang')).toBe('nb');
-    expect(container.querySelector('.vocab-word')?.getAttribute('lang')).toBe('nb');
   });
 
   test('the mic status is a polite status; a mic error becomes an alert', () => {

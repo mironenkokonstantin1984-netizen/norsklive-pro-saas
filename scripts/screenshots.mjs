@@ -1,3 +1,4 @@
+/* global window, document */
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import http from 'node:http';
@@ -12,6 +13,21 @@ const OUT_DIR = path.resolve(process.env.SCREENSHOT_DIR || 'docs/screenshots');
 const MOCK_COACH_RESPONSE = {
   reply_norsk: 'Det er et godt poeng! Hvilke ulemper ser du ved hjemmekontor i lengden?',
   reply_l1: 'Хороший аргумент! Какие минусы удалённой работы ты видишь в долгосрочной перспективе?',
+  feedback: {
+    status: 'has_errors',
+    praise_l1: 'Хороший аргумент! Мысль понятна.',
+    level_estimate: 'B1',
+    errors: [
+      {
+        quote: 'Jeg tror',
+        fix: 'Jeg mener',
+        type: 'grammar',
+        rule_name_l1: 'Выбор глагола',
+        explanation_l1: 'Глагол «mene» звучит убедительнее «tro» при аргументации на экзамене B1/B2.'
+      }
+    ],
+    better_version: 'Jeg mener hjemmekontor er gunstig fordi jeg sparer reisetid.'
+  },
   correction: {
     original: 'Jeg tror hjemmekontor er bra fordi jeg sparer tid.',
     natural_bokmal: 'Jeg mener hjemmekontor er gunstig fordi jeg sparer reisetid.',
@@ -36,11 +52,50 @@ const TARGETS = [
   { name: 'home-390x844-light.png', width: 390, height: 844, colorScheme: 'light' },
   { name: 'home-390x844-dark.png', width: 390, height: 844, colorScheme: 'dark' },
   {
-    name: 'home-390x844-materials.png',
+    name: 'topic-sheet-390x844.png',
     width: 390,
     height: 844,
     colorScheme: 'light',
-    openMaterials: true
+    routePath: '/practice',
+    openTopicSheet: true
+  },
+  {
+    name: 'topic-sheet-390x844-dark.png',
+    width: 390,
+    height: 844,
+    colorScheme: 'dark',
+    routePath: '/practice',
+    openTopicSheet: true
+  },
+  {
+    name: 'profile-390x844-top.png',
+    width: 390,
+    height: 844,
+    colorScheme: 'light',
+    routePath: '/profile'
+  },
+  {
+    name: 'profile-390x844-top-dark.png',
+    width: 390,
+    height: 844,
+    colorScheme: 'dark',
+    routePath: '/profile'
+  },
+  {
+    name: 'profile-390x844-bottom.png',
+    width: 390,
+    height: 844,
+    colorScheme: 'light',
+    routePath: '/profile',
+    scrollToBottom: true
+  },
+  {
+    name: 'profile-390x844-bottom-dark.png',
+    width: 390,
+    height: 844,
+    colorScheme: 'dark',
+    routePath: '/profile',
+    scrollToBottom: true
   },
   { name: 'home-1440x900-light.png', width: 1440, height: 900, colorScheme: 'light' },
   { name: 'home-1440x900-dark.png', width: 1440, height: 900, colorScheme: 'dark' },
@@ -50,13 +105,6 @@ const TARGETS = [
     height: 844,
     colorScheme: 'light',
     submitTurn: true
-  },
-  {
-    name: 'home-390x844-comfort.png',
-    width: 390,
-    height: 844,
-    colorScheme: 'light',
-    openComfort: true
   },
   {
     name: 'home-390x844-dark-correction.png',
@@ -280,17 +328,27 @@ async function run() {
         });
       });
 
-      const targetPath = target.routePath || (target.submitTurn ? '/studio' : '/');
+      const targetPath = target.routePath || (target.submitTurn ? '/practice' : '/');
       const targetUrl = new URL(targetPath, server.url).toString();
       await page.goto(targetUrl, { waitUntil: 'networkidle' });
+      await page.locator('.practice-screen[data-hydrated="true"]').waitFor({ timeout: 10000 }).catch(() => {});
 
       if (target.submitTurn) {
-        await page.fill(
-          '#userSpeechInput',
+        const textBtn = page.getByRole('button', { name: 'Написать ответ' });
+        await textBtn.waitFor({ state: 'visible', timeout: 10000 }).catch(() => {});
+        if (await textBtn.isVisible()) {
+          await textBtn.click();
+        }
+        const input = page.locator('#userSpeechInput');
+        await input.waitFor({ state: 'visible', timeout: 10000 });
+        await input.fill(
           target.inputText || 'Jeg tror hjemmekontor er bra fordi jeg sparer tid.'
         );
-        await page.click('#sendSpeechBtn');
-        await page.locator('#latestCorrectionCard').waitFor({ state: 'visible' });
+        const sendBtn = page.locator('#sendSpeechBtn');
+        await sendBtn.waitFor({ state: 'visible', timeout: 10000 });
+        await sendBtn.click();
+        const cardLocator = page.locator('[data-testid="feedbackCard"]');
+        await cardLocator.waitFor({ state: 'visible', timeout: 15000 });
 
         if (target.openBetter) {
           const betterBtn = page.locator('.correction-better-btn');
@@ -300,24 +358,19 @@ async function run() {
           }
         }
 
-        await page
-          .locator('#latestCorrectionCard')
+        await cardLocator
           .evaluate((el) => el.scrollIntoView({ block: 'center' }));
         await page.waitForTimeout(350);
       }
 
-      if (target.openMaterials) {
-        await page.click('#materialsToggleBtn');
-        await page.locator('#materialsDrawer.is-open').waitFor({ state: 'visible' });
+      if (target.openTopicSheet) {
+        await page.click('.practice-header-title-btn');
+        await page.locator('.topic-sheet').waitFor({ state: 'visible' });
       }
 
-      if (target.openComfort) {
-        await page.click('#materialsToggleBtn');
-        await page.locator('#comfortSettingsBtn').waitFor({ state: 'visible' });
-        await page.click('#comfortSettingsBtn');
-        await page.locator('[role="dialog"][aria-label="Удобство"]').waitFor({
-          state: 'visible'
-        });
+      if (target.scrollToBottom) {
+        await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+        await page.waitForTimeout(300);
       }
 
       const filePath = path.join(OUT_DIR, target.name);

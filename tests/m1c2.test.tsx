@@ -8,6 +8,7 @@ import { CorrectionCard } from '../src/components/studio/CorrectionCard';
 import { ScoreBar, parseCefrLevel } from '../src/components/studio/ScoreBar';
 import { ChatPanel } from '../src/components/studio/ChatPanel';
 import { StudioPage } from '../src/components/studio/StudioPage';
+import { ProfilePage } from '../src/components/profile/ProfilePage';
 import { PREFS_STORAGE_KEY } from '../src/lib/prefs';
 import { speakNorwegian, resetVoiceCache, resetVoiceState } from '../src/lib/speech';
 import type { Correction } from '../src/server/schemas';
@@ -135,8 +136,8 @@ describe('M1c-2 components & flows', () => {
     });
   });
 
-  describe('PracticeSettingsSheet («Удобство»), 3 text-size steps & localStorage resilience', () => {
-    it('sets all three data-text-size values (sm/md/lg) with scale steps 1 / 1.12 / 1.25 (nothing below 13px), updates tempo & switches, persists to norsklive_prefs, and restores focus on Escape', () => {
+  describe('ProfilePage («Вид и голос»), 3 text-size steps & localStorage resilience', () => {
+    it('sets all three data-text-size values (sm/md/lg) with scale steps 1 / 1.12 / 1.25 (nothing below 13px), updates tempo & switches, persists to norsklive_prefs', () => {
       const tokensCss = fs.readFileSync(
         path.resolve(__dirname, '../src/styles/tokens.css'),
         'utf-8'
@@ -146,41 +147,32 @@ describe('M1c-2 components & flows', () => {
       expect(tokensCss).toContain('--text-scale: 1.25;');
       expect(tokensCss).toContain('max(0.8125rem, calc(0.8125rem * var(--text-scale, 1)))');
 
-      render(<StudioPage />);
+      render(<ProfilePage />);
 
       // Default on mount is sm (scale 1)
       expect(document.documentElement.getAttribute('data-text-size')).toBe('sm');
       expect(document.documentElement.classList.contains('text-size-sm')).toBe(true);
 
-      const comfortBtn = document.getElementById('comfortSettingsBtn') as HTMLButtonElement;
-      expect(comfortBtn).toBeTruthy();
-
-      comfortBtn.focus();
-      fireEvent.click(comfortBtn);
-
-      const dialog = screen.getByRole('dialog', { name: 'Удобство' });
-      expect(dialog).toBeTruthy();
-
       // Step 2: md (Крупный -> 1.12)
-      fireEvent.click(screen.getByRole('button', { name: 'Крупный' }));
+      fireEvent.click(screen.getByRole('radio', { name: 'Крупный' }));
       expect(document.documentElement.getAttribute('data-text-size')).toBe('md');
       expect(document.documentElement.classList.contains('text-size-md')).toBe(true);
 
       // Step 3: lg (Очень крупный -> 1.25)
-      fireEvent.click(screen.getByRole('button', { name: 'Очень крупный' }));
+      fireEvent.click(screen.getByRole('radio', { name: 'Очень крупный' }));
       expect(document.documentElement.getAttribute('data-text-size')).toBe('lg');
       expect(document.documentElement.classList.contains('text-size-lg')).toBe(true);
 
       // Step 1: sm (Стандартный -> 1)
-      fireEvent.click(screen.getByRole('button', { name: 'Стандартный' }));
+      fireEvent.click(screen.getByRole('radio', { name: 'Стандартный' }));
       expect(document.documentElement.getAttribute('data-text-size')).toBe('sm');
       expect(document.documentElement.classList.contains('text-size-sm')).toBe(true);
 
       // Switch back to lg to verify persistence
-      fireEvent.click(screen.getByRole('button', { name: 'Очень крупный' }));
+      fireEvent.click(screen.getByRole('radio', { name: 'Очень крупный' }));
 
       // Tempo -> 0.8
-      const slowTempoBtn = screen.getByRole('button', { name: '0.8' });
+      const slowTempoBtn = screen.getByRole('radio', { name: '0.8' });
       fireEvent.click(slowTempoBtn);
 
       // Contrast switch -> on
@@ -195,11 +187,6 @@ describe('M1c-2 components & flows', () => {
       expect(stored.textSize).toBe('lg');
       expect(stored.tempo).toBe(0.8);
       expect(stored.contrast).toBe(true);
-
-      // Escape closes dialog and restores focus to #comfortSettingsBtn
-      fireEvent.keyDown(window, { key: 'Escape' });
-      expect(screen.queryByRole('dialog', { name: 'Удобство' })).toBeNull();
-      expect(document.activeElement).toBe(comfortBtn);
     });
 
     it('does not crash when localStorage throws SecurityError / QuotaExceededError', () => {
@@ -210,10 +197,8 @@ describe('M1c-2 components & flows', () => {
         throw new Error('localStorage disabled');
       });
 
-      expect(() => render(<StudioPage />)).not.toThrow();
-      const comfortBtn = document.getElementById('comfortSettingsBtn') as HTMLButtonElement;
-      fireEvent.click(comfortBtn);
-      const lgBtn = screen.getByRole('button', { name: 'Очень крупный' });
+      expect(() => render(<ProfilePage />)).not.toThrow();
+      const lgBtn = screen.getByRole('radio', { name: 'Очень крупный' });
       expect(() => fireEvent.click(lgBtn)).not.toThrow();
     });
   });

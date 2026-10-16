@@ -37,78 +37,29 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     cleanup();
   });
 
-  test('1. Switching module shows that module’s scenarios', () => {
-    const { container, getByText } = render(<StudioPage />);
-
-    expect(container.querySelector('#leftPanelTitle')?.textContent).toContain('Norskprøve Muntlig');
-    expect(
-      getByText(/Presentasjon: Arbeidserfaring og yrkesvalg/)
-    ).toBeTruthy();
-
-    const jobbTab = container.querySelector(
-      'button[data-module="jobbintervju"]'
-    ) as HTMLButtonElement;
-    fireEvent.click(jobbTab);
-
-    expect(container.querySelector('#leftPanelTitle')?.textContent).toContain(
-      'Jobbintervju på norsk'
-    );
-    expect(
-      getByText(/Intervju: fortell om deg selv og erfaring/)
-    ).toBeTruthy();
-
-    const pensumTab = container.querySelector('button[data-module="pensum"]') as HTMLButtonElement;
-    fireEvent.click(pensumTab);
-
-    expect(container.querySelector('#leftPanelTitle')?.textContent).toContain('CEFR Teleprompter');
-    expect(getByText(/CEFR B1 Modul: Fastlege, egenmelding og helsesystemet/)).toBeTruthy();
-  });
-
-  test('2. Selecting a scenario renders its target words', () => {
-    const { container, getByText } = render(<StudioPage />);
-
-    const scenario2 = getByText(
-      /Bildebeskrivelse: Arbeidsplassen og trivsel/
-    );
-    fireEvent.click(scenario2);
-
-    const bingoText = container.querySelector('#vocabBingoList')?.textContent || '';
-    expect(bingoText).toContain('belysning');
-    expect(bingoText).toContain('utstyr');
-    expect(bingoText).toContain('ergonomi');
-  });
-
-  test('3. Applying custom text of "alpha beta gamma delta" creates target words', () => {
+  test('1. Module tabs and materials drawer are removed in favor of topic sheet (R4)', () => {
     const { container } = render(<StudioPage />);
-
-    const textarea = container.querySelector('#customSourceTextarea') as HTMLTextAreaElement;
-    const applyBtn = container.querySelector('#applyCustomSourceBtn') as HTMLButtonElement;
-
-    fireEvent.change(textarea, { target: { value: 'alpha beta gamma delta' } });
-    fireEvent.click(applyBtn);
-
-    const bingoText = container.querySelector('#vocabBingoList')?.textContent || '';
-    expect(bingoText).toContain('alpha');
-    expect(bingoText).toContain('beta');
-    expect(bingoText).toContain('gamma');
-    expect(bingoText).toContain('delta');
-    expect(container.querySelector('#vocabProgressText')?.textContent).toContain('0 / 4 brukt');
+    expect(container.querySelector('#moduleTabs')).toBeNull();
+    expect(container.querySelector('button[data-module="jobbintervju"]')).toBeNull();
+    expect(container.querySelector('button[data-module="pensum"]')).toBeNull();
+    expect(container.querySelector('#materialsDrawer')).toBeNull();
   });
 
-  test('4. Saving a glossary item writes norsklive_glossary to localStorage', () => {
+  test('2. Target words panel and vocab bingo are removed from studio (R4)', () => {
     const { container } = render(<StudioPage />);
+    expect(container.querySelector('#vocabBingoList')).toBeNull();
+  });
 
-    const firstChip = container.querySelector('#vocabBingoList .vocab-chip') as HTMLElement;
-    expect(firstChip).toBeTruthy();
-    fireEvent.click(firstChip);
+  test('3. Custom source textarea is removed from studio (R4, moved to TopicSheet)', () => {
+    const { container } = render(<StudioPage />);
+    expect(container.querySelector('#customSourceTextarea')).toBeNull();
+    expect(container.querySelector('#applyCustomSourceBtn')).toBeNull();
+  });
 
-    const rawStored = window.localStorage.getItem('norsklive_glossary');
-    expect(rawStored).toBeTruthy();
-    const parsed = JSON.parse(rawStored || '[]');
-    expect(Array.isArray(parsed)).toBe(true);
-    expect(parsed.length).toBe(1);
-    expect(parsed[0].word).toBe('yrkeserfaring');
-    expect(container.querySelector('#savedWordsCount')?.textContent).toBe('1');
+  test('4. Target words glossary chip is removed from studio (R4, moved to /words)', () => {
+    const { container } = render(<StudioPage />);
+    expect(container.querySelector('#vocabBingoList')).toBeNull();
+    expect(container.querySelector('#savedWordsCount')).toBeNull();
   });
 
   test('5 (a). Typing a phrase and pressing "Отправить" posts expected body to /api/coach and renders user bubble, AI bubble, coaching card, and hints', async () => {
@@ -152,14 +103,10 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
       expect(chatText).toContain(MOCK_COACH_RESPONSE.reply_l1);
     });
 
-    const coachingCards = container.querySelectorAll('#coachingCardsList .coaching-card');
+    const coachingCards = container.querySelectorAll('#chatStream .correction-card');
     expect(coachingCards.length).toBe(1);
-    expect(coachingCards[0]?.textContent).toContain('I dag liker jeg kaffe');
+    expect(coachingCards[0]?.textContent).toContain(MOCK_COACH_RESPONSE.correction.grammar_rule_l1);
     expect(coachingCards[0]?.textContent).toContain(MOCK_COACH_RESPONSE.correction.b2_upgrade);
-
-    const hintsText = container.querySelector('#hintsContainer')?.textContent || '';
-    expect(hintsText).toContain('Новая B2-подсказка');
-    expect(hintsText).toContain('På den annen side fremmer dette inkludering.');
   });
 
   test('6 (b). Server error keeps the user bubble and shows the «Повторить» card, with no canned correction', async () => {
@@ -221,53 +168,14 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     expect(container.querySelector('img')).toBeNull();
   });
 
-  test('8 (d). Clicking a hint sends it to /api/coach', async () => {
-    const fetchMock = vi.fn(async () => ({
-      ok: true,
-      status: 200,
-      json: async () => MOCK_COACH_RESPONSE
-    }));
-    globalThis.fetch = fetchMock as unknown as typeof globalThis.fetch;
-
+  test('8 (d). Drawer hints container is removed from studio (R4)', () => {
     const { container } = render(<StudioPage />);
-
-    const firstHint = container.querySelector('#hintsContainer .hint-card') as HTMLElement;
-    expect(firstHint).toBeTruthy();
-    fireEvent.click(firstHint);
-
-    await waitFor(() => {
-      expect(fetchMock).toHaveBeenCalledTimes(1);
-    });
-
-    const [, calledInit] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
-    const sentBody = JSON.parse(String(calledInit.body));
-    expect(sentBody.userText).toContain('Jeg valgte dette yrket fordi jeg liker å ha ansvar');
+    expect(container.querySelector('#hintsContainer')).toBeNull();
   });
 
-  test('9 (e). Saying a target word in the phrase marks it "BRUKT I TALE"', async () => {
-    const fetchMock = vi.fn(async () => ({
-      ok: true,
-      status: 200,
-      json: async () => MOCK_COACH_RESPONSE
-    }));
-    globalThis.fetch = fetchMock as unknown as typeof globalThis.fetch;
-
+  test('9 (e). Vocab bingo list is removed from studio (R4)', () => {
     const { container } = render(<StudioPage />);
-
-    const input = container.querySelector('#userSpeechInput') as HTMLInputElement;
-    const sendBtn = container.querySelector('#sendSpeechBtn') as HTMLButtonElement;
-
-    fireEvent.change(input, {
-      target: { value: 'Jeg har mye yrkeserfaring fra hjemlandet.' }
-    });
-    fireEvent.click(sendBtn);
-
-    await waitFor(() => {
-      const usedChips = container.querySelectorAll('#vocabBingoList .vocab-chip.used');
-      expect(usedChips.length).toBeGreaterThanOrEqual(1);
-      expect(usedChips[0]?.textContent).toContain('yrkeserfaring');
-      expect(usedChips[0]?.textContent).toContain('BRUKT I TALE');
-    });
+    expect(container.querySelector('#vocabBingoList')).toBeNull();
   });
 
   test('10 (M1c-1, #46). MicButton label changes with recording state ("Snakk" -> "Готово" -> "Snakk")', async () => {
@@ -314,24 +222,10 @@ describe('StudioPage (/ and /studio) M1a-3 Full UI, Chat & Voice', () => {
     delete (window as unknown as { SpeechRecognition?: unknown }).SpeechRecognition;
   });
 
-  test('11 (M1c-1). Clicking "Материалы" button toggles materials drawer and aria-expanded', () => {
+  test('11 (M1c-1, R4). Materials toggle button and drawer are removed from studio', () => {
     const { container } = render(<StudioPage />);
-
-    const materialsBtn = container.querySelector('#materialsToggleBtn') as HTMLButtonElement;
-    const drawer = container.querySelector('#materialsDrawer') as HTMLElement;
-
-    expect(materialsBtn).toBeTruthy();
-    expect(drawer).toBeTruthy();
-    expect(materialsBtn.getAttribute('aria-expanded')).toBe('false');
-    expect(drawer.classList.contains('is-closed')).toBe(true);
-
-    fireEvent.click(materialsBtn);
-    expect(materialsBtn.getAttribute('aria-expanded')).toBe('true');
-    expect(drawer.classList.contains('is-open')).toBe(true);
-
-    fireEvent.click(materialsBtn);
-    expect(materialsBtn.getAttribute('aria-expanded')).toBe('false');
-    expect(drawer.classList.contains('is-closed')).toBe(true);
+    expect(container.querySelector('#materialsToggleBtn')).toBeNull();
+    expect(container.querySelector('#materialsDrawer')).toBeNull();
   });
 
   test('12 (M1c-1). src/app/studio/studio.css contains zero hardcoded hex/rgb colors or px font-size declarations', async () => {

@@ -1,14 +1,10 @@
 'use client';
 
 import {
-  BookOpen,
-  Briefcase,
   CheckCircle2,
   Clock,
   Globe,
-  GraduationCap,
   SkipForward,
-  SlidersHorizontal,
   User
 } from 'lucide-react';
 import type { ModuleKey, Scenario } from '../../content/scenarios';
@@ -16,25 +12,21 @@ import { DRAFT_SCENARIO_LABEL } from '../../content/scenarios/visibility';
 import type { AgentPersona, CefrLevel, L1Language } from './useStudioState';
 
 export interface TopBarProps {
-  currentModule: ModuleKey;
+  currentModule?: ModuleKey;
   l1Lang?: L1Language;
   userLevel?: CefrLevel;
   authEnabled?: boolean;
   userEmail?: string | null;
   materialsOpen?: boolean;
   onToggleMaterials?: () => void;
-  onSwitchModule: (module: ModuleKey) => void;
+  onSwitchModule?: (module: ModuleKey) => void;
   onChangeL1Lang?: (l1: L1Language) => void;
   onChangeUserLevel?: (level: CefrLevel) => void;
 }
 
 export function TopBar({
-  currentModule,
   authEnabled = false,
-  userEmail = null,
-  materialsOpen = false,
-  onToggleMaterials,
-  onSwitchModule
+  userEmail = null
 }: TopBarProps) {
   return (
     <header className="topbar">
@@ -47,25 +39,6 @@ export function TopBar({
         </div>
 
         <div className="top-controls">
-          {onToggleMaterials && (
-            <button
-              type="button"
-              id="materialsToggleBtn"
-              className={`pill-btn materials-toggle-btn ${materialsOpen ? 'active' : ''}`}
-              aria-expanded={materialsOpen}
-              aria-controls="materialsDrawer"
-              onClick={onToggleMaterials}
-            >
-              <SlidersHorizontal
-                size={20}
-                strokeWidth={1.75}
-                color="currentColor"
-                aria-hidden="true"
-              />
-              <span>Материалы</span>
-            </button>
-          )}
-
           {authEnabled ? (
             <>
               {userEmail ? (
@@ -82,51 +55,6 @@ export function TopBar({
           ) : null}
         </div>
       </div>
-
-      {/* 3 Core Training Modules — Horizontal Segmented Control */}
-      <nav
-        className="module-tabs segmented-control"
-        id="moduleTabs"
-        role="tablist"
-        aria-label="Модули тренажёра"
-      >
-        <button
-          type="button"
-          role="tab"
-          aria-selected={currentModule === 'norskprove'}
-          aria-label="Norskprøve"
-          className={`module-tab ${currentModule === 'norskprove' ? 'active' : ''}`}
-          data-module="norskprove"
-          onClick={() => onSwitchModule('norskprove')}
-        >
-          <GraduationCap size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
-          <span>Norskprøve</span>
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={currentModule === 'jobbintervju'}
-          aria-label="Jobbintervju"
-          className={`module-tab ${currentModule === 'jobbintervju' ? 'active' : ''}`}
-          data-module="jobbintervju"
-          onClick={() => onSwitchModule('jobbintervju')}
-        >
-          <Briefcase size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
-          <span>Jobbintervju</span>
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={currentModule === 'pensum'}
-          aria-label="Pensum"
-          className={`module-tab ${currentModule === 'pensum' ? 'active' : ''}`}
-          data-module="pensum"
-          onClick={() => onSwitchModule('pensum')}
-        >
-          <BookOpen size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
-          <span>Pensum</span>
-        </button>
-      </nav>
     </header>
   );
 }

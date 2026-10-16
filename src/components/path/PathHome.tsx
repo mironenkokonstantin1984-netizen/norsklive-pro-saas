@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { User } from 'lucide-react';
 import {
   daysUntilExam,
   logPathEvent,
@@ -19,6 +20,7 @@ import {
 } from '../../lib/words/progress';
 import { Nora } from '../companion/Nora';
 import { FirstRun, getLocalizedDatePlaceholder } from './FirstRun';
+import { TopicSheet, getLocalizedTopicTitle } from '../practice/TopicSheet';
 import './path.css';
 
 export interface PathHomeProps {
@@ -39,8 +41,8 @@ export interface ExamTopicOption {
 
 export const EXAM_TOPIC_OPTIONS: readonly ExamTopicOption[] = [
   { id: 'arbeid', titleRu: 'Работа', titleUk: 'Робота', titleEn: 'Work' },
-  { id: 'helse', titleRu: 'Врач', titleUk: 'Лікар', titleEn: 'Doctor' },
   { id: 'bolig', titleRu: 'Жильё', titleUk: 'Житло', titleEn: 'Housing' },
+  { id: 'helse', titleRu: 'Врач', titleUk: 'Лікар', titleEn: 'Doctor' },
   { id: 'familie', titleRu: 'Семья', titleUk: 'Сім’я', titleEn: 'Family' },
   { id: 'handel', titleRu: 'Магазин', titleUk: 'Магазин', titleEn: 'Shop' },
   { id: 'transport', titleRu: 'Транспорт', titleUk: 'Транспорт', titleEn: 'Transport' },
@@ -48,12 +50,9 @@ export const EXAM_TOPIC_OPTIONS: readonly ExamTopicOption[] = [
 ];
 
 export function getTopicTitle(topicId?: string, l1: PathL1 = 'ru'): string {
-  const found = EXAM_TOPIC_OPTIONS.find((t) => t.id === topicId);
-  if (!found) return l1 === 'uk' ? 'Робота' : l1 === 'en' ? 'Work' : 'Работа';
-  if (l1 === 'uk') return found.titleUk;
-  if (l1 === 'en') return found.titleEn;
-  return found.titleRu;
+  return getLocalizedTopicTitle(topicId || 'arbeid', l1);
 }
+
 
 export function extractLearnerFirstName(email?: string | null): string | null {
   if (!email) return null;
@@ -160,16 +159,25 @@ export function PathHome({
       <div className="path-column">
         <div className="path-topbar">
           <span className="path-brand t-callout">NorskLive Pro</span>
-          {(authEnabled && userEmail) || userEmail ? (
-            <div className="path-auth-controls">
-              <span className="path-user-email t-caption">{userEmail}</span>
-              <form method="post" action="/auth/signout">
-                <button type="submit" className="btn-text path-signout-btn t-callout">
-                  Выйти
-                </button>
-              </form>
-            </div>
-          ) : null}
+          <div className="path-topbar-actions">
+            <a
+              href="/profile"
+              className="path-profile-btn"
+              aria-label="Профиль"
+            >
+              <User size={20} strokeWidth={1.75} color="currentColor" aria-hidden="true" />
+            </a>
+            {(authEnabled && userEmail) || userEmail ? (
+              <div className="path-auth-controls">
+                <span className="path-user-email t-caption">{userEmail}</span>
+                <form method="post" action="/auth/signout">
+                  <button type="submit" className="btn-text path-signout-btn t-callout">
+                    Выйти
+                  </button>
+                </form>
+              </div>
+            ) : null}
+          </div>
         </div>
 
         <header className="path-header">
@@ -322,43 +330,26 @@ export function PathHome({
       </div>
 
       {/* Topic selection sheet */}
-      {isTopicSheetOpen ? (
-        <div
-          className="firstrun-backdrop"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="topicSheetTitle"
-        >
-          <div className="firstrun-sheet">
-            <div className="firstrun-top-row">
-              <h2 id="topicSheetTitle" className="firstrun-title t-title">
-                Выбор темы
-              </h2>
-              <button
-                type="button"
-                className="btn-text firstrun-skip-btn t-callout"
-                onClick={() => setIsTopicSheetOpen(false)}
-              >
-                Закрыть
-              </button>
-            </div>
-            <div className="path-topic-list">
-              {EXAM_TOPIC_OPTIONS.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={`path-topic-item-btn t-callout ${
-                    prefs.selectedTopic === item.id ? 'is-selected' : ''
-                  }`}
-                  onClick={() => handleSelectTopic(item.id)}
-                >
-                  {getTopicTitle(item.id, prefs.l1)}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : null}
+      <TopicSheet
+        open={isTopicSheetOpen}
+        onClose={() => setIsTopicSheetOpen(false)}
+        selectedTopic={prefs.selectedTopic || 'arbeid'}
+        onSelectTopic={handleSelectTopic}
+        targetLevel={prefs.targetLevel || 'B1'}
+        l1={prefs.l1 || 'ru'}
+        isExamMode={false}
+        onChangeMode={(examMode) => {
+          if (examMode && typeof window !== 'undefined') {
+            window.location.assign('/practice?mode=exam');
+          }
+        }}
+        onApplyCustomText={(text) => {
+          if (typeof window !== 'undefined') {
+            window.sessionStorage.setItem('norsklive_custom_topic', text);
+            window.location.assign('/practice');
+          }
+        }}
+      />
 
       {/* Date edit sheet */}
       {isDateSheetOpen ? (

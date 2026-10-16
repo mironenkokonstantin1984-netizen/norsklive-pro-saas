@@ -156,8 +156,8 @@ test.describe('Practice Screen (/practice, Issue #53)', () => {
     await page.keyboard.press('Tab'); // Back link
     await expect(page.locator('.practice-back-btn')).toBeFocused();
 
-    await page.keyboard.press('Tab'); // Header menu button «…»
-    await expect(page.locator('#materialsToggleBtn')).toBeFocused();
+    await page.keyboard.press('Tab'); // Header title button (opens TopicSheet)
+    await expect(page.locator('.practice-header-title-btn')).toBeFocused();
 
     await page.keyboard.press('Tab'); // Перевод
     await expect(page.getByRole('button', { name: 'Перевод' })).toBeFocused();

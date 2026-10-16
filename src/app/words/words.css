@@ -318,3 +318,59 @@
   margin: 0;
   color: var(--ink);
 }
+
+/* Saved words section (Min Ordbok) */
+.words-saved-section {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.words-saved-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.words-saved-empty {
+  color: var(--muted);
+}
+
+.words-saved-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.words-saved-chip {
+  min-height: 2.75rem; /* 44px */
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.words-saved-chip:hover {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.words-saved-word {
+  font-weight: 600;
+}
+
+.words-saved-trans {
+  color: var(--muted);
+}
+

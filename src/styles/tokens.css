@@ -134,7 +134,8 @@
   }
 }
 
-:root[data-theme="contrast"] {
+:root[data-theme="contrast"],
+:root[data-contrast="true"] {
   --ink: #000a14;
   --muted: #2f3a47;
   --line: #8a95a3;

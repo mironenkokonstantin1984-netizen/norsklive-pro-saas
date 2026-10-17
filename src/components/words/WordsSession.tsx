@@ -79,6 +79,22 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
   const [newIntroducedCount, setNewIntroducedCount] = useState(0);
   const [reviewedCount, setReviewedCount] = useState(0);
   const [reachedContextCount, setReachedContextCount] = useState(0);
+  const [savedGlossary, setSavedGlossary] = useState<
+    Array<{ word: string; translation: string; example?: string }>
+  >([]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const raw = window.localStorage.getItem('norsklive_glossary');
+        if (raw) {
+          setSavedGlossary(JSON.parse(raw));
+        }
+      } catch {
+        // Ignore storage errors
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const pathPrefs = readPathPrefs();
@@ -97,6 +113,7 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
   }, [catalog, initialLimit]);
 
   const currentEntry = queue[currentIndex] ?? null;
+
 
   const resetCardInteractionState = () => {
     setStage2Revealed(false);
@@ -624,7 +641,45 @@ export function WordsSession({ catalog, showDrafts, initialLimit }: WordsSession
             ) : null}
           </section>
         ) : null}
+
+        {/* Min Ordbok / Saved Words */}
+        <section className="words-saved-section" aria-labelledby="savedWordsHeading">
+          <div className="words-saved-header">
+            <h2 id="savedWordsHeading" className="t-callout">
+              {l1 === 'uk'
+                ? 'Мої збережені слова'
+                : l1 === 'en'
+                  ? 'My Saved Words'
+                  : 'Мой словарь'}{' '}
+              ({savedGlossary.length})
+            </h2>
+          </div>
+          {savedGlossary.length === 0 ? (
+            <p className="t-caption words-saved-empty">
+              {l1 === 'uk'
+                ? 'Збережених слів поки немає. У практиці можна зберігати нові слова.'
+                : l1 === 'en'
+                  ? 'No saved words yet. Save new words during practice.'
+                  : 'Сохранённых слов пока нет. В практике можно сохранять новые слова.'}
+            </p>
+          ) : (
+            <div className="words-saved-list" id="savedGlossaryList">
+              {savedGlossary.map((item) => (
+                <button
+                  key={item.word}
+                  type="button"
+                  className="words-saved-chip t-caption"
+                  onClick={() => speakNorwegian(item.example || item.word)}
+                >
+                  <span className="words-saved-word">{item.word}</span>
+                  <span className="words-saved-trans"> — {item.translation}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </section>
       </div>
     </main>
   );
 }
+

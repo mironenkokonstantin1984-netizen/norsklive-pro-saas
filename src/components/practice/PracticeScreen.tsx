@@ -6,7 +6,7 @@ import './practice.css';
 import {
   useStudioState
 } from '../studio/useStudioState';
-import type { CoachFeedback } from '../../server/schemas';
+import type { CoachFeedback, Correction } from '../../server/schemas';
 import type { Scenario, ScenarioTopic, ModuleKey } from '../../content/scenarios/types';
 import {
   useSpeechRecognition,
@@ -16,14 +16,13 @@ import {
 import {
   DEFAULT_PRACTICE_PREFS,
   loadPracticePrefs,
-  savePracticePrefs,
   applyPracticePrefsToDocument,
   type PracticePrefs
 } from '../../lib/prefs';
 import { applyDocumentLang } from '../../lib/documentLang';
 import { VoiceNotice } from '../studio/VoiceNotice';
 import { FeedbackCard } from './FeedbackCard';
-import { PracticeSettingsSheet } from '../studio/PracticeSettingsSheet';
+import { TopicSheet } from './TopicSheet';
 import { useChatAutoScroll } from '../studio/useChatAutoScroll';
 import { ScenarioIllustration } from '../../content/scenarios/images';
 import {
@@ -56,6 +55,9 @@ export const TOPIC_NAMES_RU: Record<ScenarioTopic, string> = {
 };
 
 export function getShortTopicName(scenario?: Scenario, module?: ModuleKey): string {
+  if (scenario?.id?.startsWith('custom-') || scenario?.avatar === 'custom') {
+    return 'Своя тема';
+  }
   if (scenario?.topic && TOPIC_NAMES_RU[scenario.topic]) {
     return TOPIC_NAMES_RU[scenario.topic];
   }
@@ -91,9 +93,8 @@ export function PracticeScreen({
     handleUserSubmission,
     dismissLimitCard,
     retryLastSubmission,
-    switchModule,
     selectScenario,
-    applyVacancy
+    applyCustomSource
   } = useStudioState({ authEnabled, showDrafts });
 
   const [prefs, setPrefs] = useState<PracticePrefs>(() => ({ ...DEFAULT_PRACTICE_PREFS }));
@@ -104,20 +105,23 @@ export function PracticeScreen({
   const [liveText, setLiveText] = useState('');
   const [examListenedCount, setExamListenedCount] = useState(0);
   const [isExamModeState, setIsExamModeState] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [hasDrawerOpened, setHasDrawerOpened] = useState(false);
-  const [comfortOpen, setComfortOpen] = useState(false);
-  const [vacancyText, setVacancyText] = useState('');
+  const [isTopicSheetOpen, setIsTopicSheetOpen] = useState(false);
   const [showFeedbackCard, setShowFeedbackCard] = useState(false);
   const prevCoachingCountRef = useRef(state.coachingHistory.length);
 
-  const handleToggleDrawer = useCallback(() => {
-    setHasDrawerOpened(true);
-    setDrawerOpen((prev) => !prev);
-  }, []);
+  // Check if learner navigated from home with custom topic
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const custom = window.sessionStorage.getItem('norsklive_custom_topic');
+    if (custom) {
+      window.sessionStorage.removeItem('norsklive_custom_topic');
+      applyCustomSource(custom);
+    }
+  }, [applyCustomSource]);
 
   const historySheetRef = useRef<HTMLDivElement | null>(null);
   const chatStreamRef = useRef<HTMLDivElement | null>(null);
+
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const wasRecordingRef = useRef(false);
 
@@ -157,24 +161,21 @@ export function PracticeScreen({
       if (modeParam === 'exam' || loaded.examMode) {
         setIsExamModeState(true);
       }
+      const scenarioParam = params.get('scenario');
+      if (scenarioParam) {
+        const allScenarios = Object.values(state.scenarios).flat();
+        const match = allScenarios.find((s) => s.id === scenarioParam);
+        if (match) {
+          selectScenario(match);
+        }
+      }
     }
-  }, [setSpeechRate]);
+  }, [setSpeechRate, selectScenario, state.scenarios, state.currentModule]);
 
   // Keep <html lang> synchronized with learner L1
   useEffect(() => {
     applyDocumentLang(state.l1Lang);
   }, [state.l1Lang]);
-
-  // Update preferences handler
-  const handleChangePrefs = useCallback(
-    (nextPrefs: PracticePrefs) => {
-      setPrefs(nextPrefs);
-      savePracticePrefs(nextPrefs);
-      applyPracticePrefsToDocument(nextPrefs);
-      setSpeechRate(nextPrefs.tempo);
-    },
-    [setSpeechRate]
-  );
 
   // Speech recognition integration
   const onTranscriptChange = useCallback((text: string) => {
@@ -304,12 +305,12 @@ export function PracticeScreen({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         if (showHistory) setShowHistory(false);
-        if (drawerOpen) setDrawerOpen(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [showHistory, drawerOpen]);
+  }, [showHistory]);
+
 
   // Determine current exam part name if exam mode
   const examPartName = useMemo(() => {
@@ -384,8 +385,28 @@ export function PracticeScreen({
   const latestFeedback =
     state.coachingHistory.length > 0 ? state.coachingHistory[0] : null;
 
-  const latestCoachFeedback: CoachFeedback | null =
-    latestFeedback && 'status' in latestFeedback ? (latestFeedback as CoachFeedback) : null;
+  const latestCoachFeedback: CoachFeedback | null = useMemo(() => {
+    if (!latestFeedback) return null;
+    if ('status' in latestFeedback) return latestFeedback as CoachFeedback;
+    const corr = latestFeedback as Correction;
+    const level =
+      corr.cefr_estimate === 'A2' || corr.cefr_estimate === 'B2' ? corr.cefr_estimate : 'B1';
+    return {
+      status: 'has_errors',
+      praise_l1: corr.samhandling_status || 'Хороший аргумент!',
+      level_estimate: level,
+      errors: [
+        {
+          quote: corr.original || '',
+          fix: corr.natural_bokmal || '',
+          type: 'other',
+          rule_name_l1: 'Грамматика',
+          explanation_l1: corr.grammar_rule_l1 || ''
+        }
+      ],
+      better_version: corr.b2_upgrade
+    };
+  }, [latestFeedback]);
 
   useEffect(() => {
     if (state.coachingHistory.length > prevCoachingCountRef.current) {
@@ -476,9 +497,16 @@ export function PracticeScreen({
         </a>
 
         <div className="practice-header-center">
-          <span className="practice-header-title t-callout">
+          <button
+            type="button"
+            className="practice-header-title practice-header-title-btn t-callout"
+            onClick={() => setIsTopicSheetOpen(true)}
+            aria-haspopup="dialog"
+            aria-expanded={isTopicSheetOpen}
+            aria-label="Выбор темы"
+          >
             {shortTopicName} · {isExamModeState ? 'Экзамен' : 'Учёба'}
-          </span>
+          </button>
           {isExamModeState && (
             <span className="practice-header-part t-caption">{examPartName}</span>
           )}
@@ -488,19 +516,9 @@ export function PracticeScreen({
           <div className="practice-header-timer t-caption" aria-label="Таймер">
             {formatTimer(state.timerSeconds)}
           </div>
-
-          <button
-            type="button"
-            id="materialsToggleBtn"
-            className="practice-text-btn practice-menu-btn materials-toggle-btn t-callout"
-            onClick={handleToggleDrawer}
-            aria-label="Меню"
-            aria-expanded={drawerOpen}
-          >
-            …
-          </button>
         </div>
       </header>
+
 
       {/* MAIN CONVERSATION COLUMN */}
       <main className="practice-main" role="main" id="chatStream" ref={chatStreamRef}>
@@ -770,142 +788,33 @@ export function PracticeScreen({
         </div>
       </main>
 
-      {/* MATERIALS & SETTINGS DRAWER («…» MENU) */}
-      {hasDrawerOpened && (
-        <div
-          id="materialsDrawer"
-          className={`practice-materials-drawer ${drawerOpen ? 'is-open' : 'is-closed'}`}
-          role="dialog"
-          aria-modal={drawerOpen ? 'true' : 'false'}
-          aria-label="Тема и настройки"
-        >
-          <div
-            className="practice-materials-backdrop"
-            onClick={() => setDrawerOpen(false)}
-            aria-hidden="true"
-          />
-          <div className="practice-materials-panel">
-            <div className="practice-materials-header">
-              <h2 className="t-callout">Тема и настройки</h2>
-              <button
-                type="button"
-                className="practice-text-btn t-callout"
-                onClick={() => setDrawerOpen(false)}
-                aria-label="Закрыть меню"
-              >
-                Закрыть
-              </button>
-            </div>
-
-            <div className="practice-materials-actions">
-              <button
-                type="button"
-                className="practice-outline-btn t-callout"
-                onClick={() => {
-                  setComfortOpen(true);
-                  setDrawerOpen(false);
-                }}
-              >
-                Удобство
-              </button>
-              <button
-                type="button"
-                className="practice-outline-btn t-callout"
-                onClick={() => {
-                  setDrawerOpen(false);
-                  finishSessionAndShowResult();
-                }}
-              >
-                {isExamModeState ? 'Завершить часть' : 'Завершить практику'}
-              </button>
-            </div>
-
-            <div className="practice-module-tabs">
-              <button
-                type="button"
-                data-module="norskprove"
-                className={`practice-module-tab t-caption ${state.currentModule === 'norskprove' ? 'is-active' : ''}`}
-                onClick={() => switchModule('norskprove')}
-              >
-                Norskprøve
-              </button>
-              <button
-                type="button"
-                data-module="jobbintervju"
-                className={`practice-module-tab t-caption ${state.currentModule === 'jobbintervju' ? 'is-active' : ''}`}
-                onClick={() => switchModule('jobbintervju')}
-              >
-                Jobbintervju
-              </button>
-              <button
-                type="button"
-                data-module="pensum"
-                className={`practice-module-tab t-caption ${state.currentModule === 'pensum' ? 'is-active' : ''}`}
-                onClick={() => switchModule('pensum')}
-              >
-                Pensum
-              </button>
-            </div>
-
-            {state.currentModule === 'jobbintervju' && (
-              <div id="vacancyBox" className="practice-vacancy-box">
-                <label htmlFor="vacancyText" className="t-caption">
-                  Вставьте текст вакансии (по желанию)
-                </label>
-                <textarea
-                  id="vacancyText"
-                  aria-label="Вставьте текст вакансии (по желанию)"
-                  className="practice-answer-input t-body"
-                  rows={3}
-                  value={vacancyText}
-                  onChange={(e) => setVacancyText(e.target.value)}
-                  placeholder="Например: Vi søker en blid og pålitelig medarbeider til butikken vår…"
-                />
-                <p className="t-caption practice-vacancy-note">
-                  Текст не сохраняется на сервере и используется только для этой сессии.
-                </p>
-                <button
-                  type="button"
-                  className="practice-outline-btn t-callout"
-                  onClick={() => {
-                    if (vacancyText.trim()) {
-                      applyVacancy(vacancyText.trim());
-                      setDrawerOpen(false);
-                    }
-                  }}
-                  disabled={!vacancyText.trim()}
-                >
-                  Начать интервью по этой вакансии
-                </button>
-              </div>
-            )}
-
-            <div className="practice-scenario-list">
-              <span className="t-caption practice-scenario-heading">Сценарии</span>
-              {(state.scenarios[state.currentModule] || []).map((sc) => (
-                <button
-                  key={sc.id}
-                  type="button"
-                  className={`scenario-item practice-scenario-item t-callout ${state.currentScenario.id === sc.id ? 'is-selected' : ''}`}
-                  onClick={() => {
-                    selectScenario(sc);
-                  }}
-                >
-                  <span>{sc.title}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* COMFORT / PRACTICE SETTINGS SHEET */}
-      <PracticeSettingsSheet
-        open={comfortOpen}
-        prefs={prefs}
-        onChangePrefs={handleChangePrefs}
-        onClose={() => setComfortOpen(false)}
+      {/* TOPIC SELECTION SHEET */}
+      <TopicSheet
+        open={isTopicSheetOpen}
+        onClose={() => setIsTopicSheetOpen(false)}
+        selectedTopic={state.currentScenario?.topic || 'arbeid'}
+        onSelectTopic={(topicId) => {
+          const scs = state.scenarios[state.currentModule] || [];
+          const match =
+            scs.find(
+              (s) => s.topic === topicId && (s.level === state.userLevel || !s.level)
+            ) || scs.find((s) => s.topic === topicId);
+          if (match) {
+            selectScenario(match);
+          }
+        }}
+        targetLevel={state.userLevel === 'A2' ? 'A2' : 'B1'}
+        l1={state.l1Lang === 'ua' ? 'uk' : state.l1Lang}
+        isExamMode={isExamModeState}
+        onChangeMode={(examMode) => {
+          setIsExamModeState(examMode);
+        }}
+        onApplyCustomText={(rawText) => {
+          applyCustomSource(rawText);
+        }}
+        onFinishSession={finishSessionAndShowResult}
       />
+
 
       {/* HISTORY BOTTOM SHEET */}
       {showHistory && (

@@ -82,50 +82,6 @@ body {
   border-radius: var(--radius-pill);
 }
 
-/* SEGMENTED MODULE CONTROL (role="tablist") */
-.module-tabs.segmented-control {
-  display: inline-flex;
-  background: var(--surface-2);
-  padding: var(--space-1);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--line);
-  gap: var(--space-1);
-  flex-wrap: nowrap;
-}
-
-.module-tab {
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--muted);
-  padding: var(--space-1) var(--space-3);
-  min-height: 2.75rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    background-color var(--duration-fast) var(--ease-standard),
-    color var(--duration-fast) var(--ease-standard),
-    border-color var(--duration-fast) var(--ease-standard);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-1);
-  white-space: nowrap;
-}
-
-.module-tab:hover {
-  color: var(--ink);
-  background: var(--surface);
-}
-
-.module-tab.active {
-  background: var(--surface);
-  color: var(--primary);
-  border-color: var(--line);
-  box-shadow: var(--shadow-1);
-}
-
 .top-controls {
   display: flex;
   align-items: center;
@@ -142,14 +98,6 @@ body {
   }
   .topbar-row {
     width: 100%;
-  }
-  .module-tabs.segmented-control {
-    width: 100%;
-  }
-  .module-tab {
-    flex: 1;
-    padding: var(--space-1) var(--space-2);
-    min-height: 2.75rem;
   }
   .studio-layout {
     padding: var(--space-2);
@@ -251,65 +199,10 @@ body {
   overflow: visible;
 }
 
-.materials-drawer {
-  width: 100%;
-  max-width: 40rem;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  padding-bottom: 11.5rem;
-}
-
-.materials-drawer.is-closed {
-  display: none;
-}
-
-.materials-drawer.is-open {
-  display: flex;
-}
-
-.drawer-controls-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-}
-
-@media (max-width: 700px) {
-  .drawer-controls-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.drawer-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  color: var(--muted);
-}
-
-.drawer-action-row {
-  display: flex;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-}
-
 @media (max-width: 1099px) {
   .studio-layout {
     flex-direction: column;
     align-items: center;
-  }
-  .materials-drawer.is-open {
-    order: -1;
-  }
-}
-
-@media (min-width: 1100px) {
-  .studio-layout.materials-open .conversation-column {
-    margin: 0;
-  }
-  .materials-drawer {
-    max-width: 26rem;
-    flex-shrink: 0;
   }
 }
 
@@ -1203,7 +1096,7 @@ body {
 }
 
 /* ==========================================================================
-   M1c-2: CorrectionCard, ScoreBar, PracticeSettingsSheet, Subtitles, Mood
+   M1c-2: CorrectionCard, ScoreBar, Subtitles, Mood
    ========================================================================== */
 
 .user-turn-group {
@@ -1536,137 +1429,6 @@ body {
 
 .mood-option-btn {
   min-height: var(--target-min);
-}
-
-/* «Удобство» bottom sheet */
-.comfort-sheet-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  background: var(--scrim);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: var(--space-3);
-}
-
-.comfort-sheet {
-  width: 100%;
-  max-width: var(--reading-width);
-  background: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-float);
-  padding: var(--space-4);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.comfort-sheet-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-}
-
-.comfort-sheet-title {
-  margin: 0;
-  color: var(--text);
-}
-
-.comfort-sheet-body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.comfort-row,
-.comfort-setting-row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.comfort-row-toggle,
-.comfort-switch-row {
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-}
-
-.comfort-label {
-  color: var(--text);
-}
-
-.comfort-segmented {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr));
-  gap: var(--space-2);
-}
-
-.comfort-seg-btn {
-  min-height: 2.75rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface-2);
-  color: var(--text);
-  padding: var(--space-2) var(--space-3);
-  font-weight: 500;
-}
-
-.comfort-seg-btn.active {
-  background: var(--primary-soft);
-  border-color: var(--primary);
-  color: var(--primary);
-  font-weight: 600;
-}
-
-.comfort-switch {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: 2.75rem;
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
-  background: var(--surface-2);
-  color: var(--text);
-}
-
-.comfort-switch.is-on {
-  background: var(--primary-soft);
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
-.comfort-switch-track {
-  position: relative;
-  width: 2.25rem;
-  height: 1.25rem;
-  border-radius: var(--radius-pill);
-  background: var(--border);
-  display: inline-flex;
-  align-items: center;
-  padding: 2px;
-}
-
-.comfort-switch.is-on .comfort-switch-track {
-  background: var(--primary);
-}
-
-.comfort-switch-thumb {
-  width: 0.95rem;
-  height: 0.95rem;
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  transition: transform var(--duration-fast) var(--ease-standard);
-}
-
-.comfort-switch.is-on .comfort-switch-thumb {
-  transform: translateX(0.95rem);
 }
 
 .daily-limit-card {

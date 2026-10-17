@@ -3,8 +3,7 @@ import React from 'react';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { VoiceNotice } from '../src/components/studio/VoiceNotice';
-import { PracticeSettingsSheet } from '../src/components/studio/PracticeSettingsSheet';
-import { DEFAULT_PRACTICE_PREFS } from '../src/lib/prefs';
+import { ProfilePage } from '../src/components/profile/ProfilePage';
 import { resetVoiceState, VOICE_STORAGE_KEY } from '../src/lib/speech';
 
 function installVoices(voices: unknown[]) {
@@ -54,19 +53,12 @@ describe('#51 voice interface', () => {
     expect(screen.queryByText(/нет норвежского голоса/)).toBeNull();
   });
 
-  test('the settings sheet shows the voice, lets the learner choose and test it', async () => {
+  test('the profile page shows the voice, lets the learner choose and test it', async () => {
     installVoices([
       { name: 'Nora', lang: 'nb-NO', localService: true },
       { name: 'Pernille Online', lang: 'nb-NO', localService: false }
     ]);
-    render(
-      <PracticeSettingsSheet
-        open
-        prefs={DEFAULT_PRACTICE_PREFS}
-        onChangePrefs={vi.fn()}
-        onClose={vi.fn()}
-      />
-    );
+    render(<ProfilePage />);
     await act(async () => {});
     expect(screen.getByRole('button', { name: 'Проверить голос' })).toBeTruthy();
     fireEvent.click(screen.getByRole('radio', { name: 'Nora' }));

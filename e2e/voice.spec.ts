@@ -26,18 +26,10 @@ test('the learner sees the examiner voice and can test it', async ({ page }, tes
     { name: 'Nora', lang: 'nb-NO', localService: true },
     { name: 'Pernille Online', lang: 'nb-NO', localService: false }
   ]);
-  await openStudio(page);
+  await page.goto('/profile');
   await expect(page.getByText(/нет норвежского голоса/)).toHaveCount(0);
-  const drawerBtn = page.locator('.materials-toggle-btn');
-  const convenienceBtn = page.getByRole('button', { name: 'Удобство' });
-  await expect(async () => {
-    if (!(await convenienceBtn.isVisible())) {
-      await drawerBtn.click();
-    }
-    await expect(convenienceBtn).toBeVisible({ timeout: 1000 });
-  }).toPass({ timeout: 10000 });
-  await convenienceBtn.click();
-  await expect(page.getByRole('button', { name: 'Проверить голос' })).toBeVisible();
+  const testVoiceBtn = page.getByRole('button', { name: 'Проверить голос' });
+  await expect(testVoiceBtn).toBeVisible();
   if (testInfo.project.name === 'phone') {
     await page.screenshot({ path: 'docs/screenshots/voice-settings-390x844.png' });
   }

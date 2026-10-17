@@ -115,6 +115,7 @@ export function FeedbackCard({
   return (
     <article
       className="practice-feedback-card"
+      id="latestCorrectionCard"
       data-testid="feedbackCard"
       role="region"
       aria-label="Разбор ответа"

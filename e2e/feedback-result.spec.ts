@@ -302,8 +302,8 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
       await expect(feedbackCard).toBeHidden();
     }
 
-    // Open menu and finish practice
-    await page.locator('#materialsToggleBtn').click();
+    // Open topic sheet and finish practice
+    await page.locator('.practice-header-title-btn').click();
     const finishBtn = page.getByRole('button', { name: 'Завершить практику' });
     await expect(finishBtn).toBeVisible();
     await finishBtn.click();
@@ -381,7 +381,7 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
     await page.goto('/practice');
 
     // Directly finish without 3 turns
-    await page.locator('#materialsToggleBtn').click();
+    await page.locator('.practice-header-title-btn').click();
     await page.getByRole('button', { name: 'Завершить практику' }).click();
 
     await expect(page).toHaveURL(/\/practice\/result$/);
@@ -448,7 +448,7 @@ test.describe('FeedbackCard & ResultScreen (Issue #54)', () => {
     await expect(page.getByTestId('feedbackCard')).toBeHidden();
 
     // Finish exam part
-    await page.locator('#materialsToggleBtn').click();
+    await page.locator('.practice-header-title-btn').click();
     const finishPartBtn = page.getByRole('button', { name: 'Завершить часть' });
     await expect(finishPartBtn).toBeVisible();
     await finishPartBtn.click();

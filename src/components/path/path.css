@@ -27,6 +27,37 @@
   font-weight: 700;
 }
 
+.path-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.path-profile-btn {
+  min-height: 2.75rem; /* 44px */
+  min-width: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.path-profile-btn:hover {
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.path-profile-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 .path-auth-controls {
   display: flex;
   align-items: center;
@@ -41,6 +72,7 @@
   min-height: 2.75rem;
   min-width: 2.75rem;
 }
+
 
 .path-header {
   display: flex;

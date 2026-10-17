@@ -35,4 +35,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number }}
-        run: node scripts/review-gate.mjs
+        run: |
+          if [ ! -f scripts/review-gate.mjs ]; then
+            echo "scripts/review-gate.mjs is not on the default branch yet; skipping."
+            exit 0
+          fi
+          node scripts/review-gate.mjs

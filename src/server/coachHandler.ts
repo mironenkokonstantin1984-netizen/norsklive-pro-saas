@@ -49,6 +49,22 @@ export interface CoachHandlerDeps {
   ) => Promise<void>;
 }
 
+/** Short, non-sensitive reason code for server logs (never contains the key or learner text). */
+function failureReasonOf(err: unknown): string {
+  if (err instanceof Error) {
+    if (err.name === 'TimeoutError' || err.message.toLowerCase().includes('timeout')) {
+      return 'gemini_timeout';
+    }
+    if (err.message.startsWith('gemini_')) {
+      return err.message;
+    }
+    if (err.name === 'SyntaxError' || err.name === 'ZodError') {
+      return 'invalid_model_output';
+    }
+  }
+  return 'gemini_request_failed';
+}
+
 export function createCoachHandler(
   deps: CoachHandlerDeps = {}
 ): (req: Request) => Promise<Response> {
@@ -182,7 +198,10 @@ export function createCoachHandler(
       const apiKey = process.env.GEMINI_API_KEY;
       const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 
+      let failureReason = 'no_api_key';
+
       if (apiKey && apiKey.trim().length > 0) {
+        failureReason = 'no_attempt';
         const payload = buildGeminiCoachPayload({
           scenario,
           level,
@@ -219,7 +238,7 @@ export function createCoachHandler(
             });
 
             if (!response.ok) {
-              throw new Error(`Gemini HTTP ${response.status}`);
+              throw new Error(`gemini_http_${response.status}`);
             }
 
             const data = (await response.json()) as {
@@ -231,7 +250,7 @@ export function createCoachHandler(
             };
             const rawJson = data?.candidates?.[0]?.content?.parts?.[0]?.text;
             if (!rawJson) {
-              throw new Error('Empty Gemini response');
+              throw new Error('gemini_empty_response');
             }
 
             const parsedOutput = JSON.parse(rawJson);
@@ -257,6 +276,7 @@ export function createCoachHandler(
             await persistReply(validated);
             return Response.json(validated, { status: 200 });
           } catch (err) {
+            failureReason = failureReasonOf(err);
             // Do not retry on timeouts or if overall deadline has passed
             const isTimeout =
               err instanceof Error &&
@@ -272,6 +292,8 @@ export function createCoachHandler(
       // Never show canned text as if the AI had answered. The fallback exists only for local
       // development and tests, behind COACH_ALLOW_FALLBACK=true, and is marked as an example.
       if (!fallbackAllowed()) {
+        // Reason code only: never log the key, the request URL or the learner's text.
+        console.error(`coach_unavailable reason=${failureReason}`);
         return Response.json({ error: 'coach_unavailable' }, { status: 503 });
       }
 

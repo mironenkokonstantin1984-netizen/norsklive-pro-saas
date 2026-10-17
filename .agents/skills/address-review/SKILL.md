@@ -22,6 +22,10 @@ description: How to handle review feedback. Use when a PR comment or review star
 ```
 
 Rules:
+- Fix the whole **class** of a problem the reviewer names (every place it occurs), not just the line
+  quoted. Say in the reply how you searched for the other places.
+- Round 3 is the last patch round. If the reviewer still has blocking points after it, stop
+  patching: write a short proposal for a different approach in the PR and wait for the answer.
 - Never ignore a point silently. "Disagree" needs a concrete reason, not an opinion.
 - Do not introduce unrelated changes while fixing review points.
 - Do not start your reply with `@antigravity` (that would re-trigger yourself).

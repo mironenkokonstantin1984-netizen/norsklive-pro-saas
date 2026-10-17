@@ -35,3 +35,5 @@ Repeat until one of the exit conditions below:
 - Never reply to the owner in the IDE chat instead of acting; never ask "should I continue?".
 - Never start your own PR comments with `@antigravity` (that is the reviewer's trigger).
 - Never merge the PR yourself — the owner merges.
+- Do not mark the PR done until the `review-gate` status on your latest commit is green. Any new
+  commit (even a screenshot fix) needs a new `✅ … accepted` from the reviewer.

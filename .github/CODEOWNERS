@@ -1,0 +1,9 @@
+# Высокий риск (docs/REVIEW_POLICY.md): эти пути всегда требуют решения владельца.
+/.github/                       @mironenkokonstantin1984-netizen
+/src/app/api/                   @mironenkokonstantin1984-netizen
+/src/server/                    @mironenkokonstantin1984-netizen
+/supabase/                      @mironenkokonstantin1984-netizen
+/.env.example                   @mironenkokonstantin1984-netizen
+/AGENTS.md                      @mironenkokonstantin1984-netizen
+/REVIEW.md                      @mironenkokonstantin1984-netizen
+/.agents/                       @mironenkokonstantin1984-netizen

@@ -21,6 +21,12 @@ Closes #<issue number>
 ## Verify
 <paste the VERIFY SUMMARY block from verify.sh>
 
+## Risk
+<low / medium / high per docs/REVIEW_POLICY.md, with the reason>
+
+## How to revert
+<one line: what to revert, any migration or env change to undo>
+
 ## New env vars
 <NAME — purpose, or "none">
 

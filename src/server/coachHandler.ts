@@ -196,7 +196,7 @@ export function createCoachHandler(
 
       const scenario = findScenario(module, scenarioId, customScenario);
       const apiKey = process.env.GEMINI_API_KEY;
-      const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+      const modelName = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
 
       let failureReason = 'no_api_key';
 

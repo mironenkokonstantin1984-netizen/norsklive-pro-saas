@@ -4,7 +4,7 @@ import path from 'node:path';
 import process from 'node:process';
 
 const CSV_PATH = path.resolve('docs/golden-set/coach-golden.csv');
-const MODEL_NAME = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+const MODEL_NAME = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
 
 function parseCsv(text) {
   const rows = [];

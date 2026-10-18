@@ -158,3 +158,45 @@ describe('#45 coach unavailable: no silent canned answer', () => {
     await expect(postCoach(BODY)).rejects.toBeInstanceOf(CoachUnavailableError);
   });
 });
+
+describe('coach unavailable: the reason is logged without secrets', () => {
+  let prevKey: string | undefined;
+  let prevAllow: string | undefined;
+
+  beforeEach(() => {
+    prevKey = process.env.GEMINI_API_KEY;
+    prevAllow = process.env.COACH_ALLOW_FALLBACK;
+    delete process.env.COACH_ALLOW_FALLBACK;
+  });
+
+  afterEach(() => {
+    if (prevKey === undefined) delete process.env.GEMINI_API_KEY;
+    else process.env.GEMINI_API_KEY = prevKey;
+    if (prevAllow === undefined) delete process.env.COACH_ALLOW_FALLBACK;
+    else process.env.COACH_ALLOW_FALLBACK = prevAllow;
+    vi.restoreAllMocks();
+  });
+
+  it('logs no_api_key when the key is missing', async () => {
+    delete process.env.GEMINI_API_KEY;
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const res = await createCoachHandler()(request());
+    expect(res.status).toBe(503);
+    expect(spy).toHaveBeenCalledWith('coach_unavailable reason=no_api_key');
+  });
+
+  it('logs the Gemini HTTP status and never the key', async () => {
+    process.env.GEMINI_API_KEY = 'secret-test-key-123';
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const forbidden = (async () =>
+      ({
+        ok: false,
+        status: 403,
+        json: async () => ({})
+      }) as Response) as unknown as typeof globalThis.fetch;
+    const res = await createCoachHandler({ fetchImpl: forbidden })(request());
+    expect(res.status).toBe(503);
+    expect(spy).toHaveBeenCalledWith('coach_unavailable reason=gemini_http_403');
+    expect(JSON.stringify(spy.mock.calls)).not.toContain('secret-test-key-123');
+  });
+});
